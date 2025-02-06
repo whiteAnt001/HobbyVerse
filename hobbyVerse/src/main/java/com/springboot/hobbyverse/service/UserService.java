@@ -23,18 +23,12 @@ public class UserService {
 	
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
-    public User login(String email, String password) throws LoginException {
-        
-        if (userRepository.findByEmail(email).isPresent()) {
-            User user = userRepository.findByEmail(email).get();
-            
-            // 비밀번호 비교 (비밀번호를 암호화 시켰기 때문에 단순비교 불가)
-            if (passwordEncoder.matches(password, user.getPassword())) {
-                return user; // 비밀번호가 일치하면 로그인 성공
-            }
-        }
-        
-        throw new LoginException("로그인중 오류 발생."); // 로그인 실패
+	public User getUser(User user) {
+		return this.myMapper.getUser(user);
+	}
+	// 로그인 시 사용자가 입력한 비밀번호와 DB에 저장된 암호화된 비밀번호를 비교
+    public boolean checkPassword(String rawPassword, String encryptedPassword) {
+        return passwordEncoder.matches(rawPassword, encryptedPassword);
     }
 	
     public Long save(AddUserRequest dto){

@@ -36,28 +36,28 @@ public class LoginController {
 	
 	//로그인을 시도했을 때 빈 칸이 있거나, 정보가 틀렸을 경우 처리 및 로그인 성공시 홈화면 매핑
 	@PostMapping("/loginDo")
-	public ModelAndView loginSuccess(@Valid User loginUser, BindingResult br, String email, String password, HttpSession session) {
+	public ModelAndView loginSuccess(@Valid User user,BindingResult br, String password, HttpSession session) {
 		ModelAndView mav = new ModelAndView("login");
 		if(br.hasErrors()) {
 			mav.getModel().putAll(br.getModel());
 			return mav;
 		}
+		User loginUser = userRepository.findByEmail(user.getEmail());
 		//사용자 정보 조회
-		Optional<User> luser = this.userRepository.findByEmail(email);
+		User luser = this.userService.getUser(loginUser);
 		System.out.println(luser);
-		if(loginUser == null) {
+		if(luser == null) { // 로그인 실패
 			mav.addObject("FAIL", "YES");
-		}else {
-	        try {
-	            // 로그인 성공
-	            User user = userService.login(email, password);
-	            session.setAttribute("loginUser", user); // 로그인한 사용자 정보 세션에 저장
-	            mav.setViewName("redirect:/home");
-	        } catch (LoginException e) {
-	            mav.addObject(e.getMessage()); // 예외처리 : 로그인 실패 시 메시지 전달
+		}else { //로그인 성공
+			 // 암호화된 비밀번호 비교
+	        boolean isPasswordMatch = userService.checkPassword(password, loginUser.getPassword());
+
+	        if (isPasswordMatch) {
+	            mav.setViewName("redirect:/home");  // 로그인 성공
+	        } else {
+	            mav.addObject("FAIL", "YES");  // 비밀번호 불일치
 	        }
 		}
 		return mav;
 	}
-
 }
