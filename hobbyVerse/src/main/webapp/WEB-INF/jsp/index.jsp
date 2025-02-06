@@ -24,37 +24,8 @@
     </style>
 </head>
 <body>
-    <!-- 네비게이션 바 -->
-    <nav class="navbar navbar-expand-lg navbar-dark gradient-bg">
-        <div class="container">
-            <a class="navbar-brand" href="/hobbyverse">HobbyVerse</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/hobbyverse">홈</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">카테고리</a></li>
-                    
-                    <!-- 로그인된 경우 -->
-                    <c:if test="${not empty user}">
-                        <li class="nav-item"><a class="nav-link" href="/myPage">${user.name}님</a></li>
-                        <li class="nav-item">
-                            <form action="/logout" method="post">
-                                <button type="submit" class="btn btn-danger">로그아웃</button>
-                            </form>
-                        </li>
-                    </c:if>
-
-                    <!-- 로그인되지 않은 경우 -->
-                    <c:if test="${empty user}">
-                        <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
-                        <li class="nav-item"><a class="nav-link btn gradient-btn" href="/signup">회원가입</a></li>
-                    </c:if>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- 네비게이션 바 포함 -->
+    <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 
     <!-- 검색 및 필터 -->
     <div class="container mt-4">

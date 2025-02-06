@@ -19,14 +19,9 @@ public class ViewController {
 	
 	@GetMapping("/home")
 	public ModelAndView getHome(HttpSession session) {
-		ModelAndView mav = new ModelAndView("home");
-		return mav;
-	}
-	
-	@GetMapping("index")
-	public ModelAndView loginHome() {
 		ModelAndView mav = new ModelAndView("index");
-		
+		User user = (User)session.getAttribute("loginUser");
+		mav.addObject("user", user);
 		return mav;
 	}
 }

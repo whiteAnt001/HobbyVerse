@@ -33,6 +33,7 @@ public class UserService {
 	
     public Long save(AddUserRequest dto){
         return userRepository.save(User.builder()
+        		.name(dto.getName())
                 .email(dto.getEmail())
                 //패스워드를 저장할 땐 패스워드 인코딩용으로 등록한 빈을 사용해서 암호화 후 저장
                 .password(passwordEncoder.encode(dto.getPassword()))

@@ -45,7 +45,6 @@ public class LoginController {
 		User loginUser = userRepository.findByEmail(user.getEmail());
 		//사용자 정보 조회
 		User luser = this.userService.getUser(loginUser);
-		System.out.println(luser);
 		if(luser == null) { // 로그인 실패
 			mav.addObject("FAIL", "YES");
 		}else { //로그인 성공
@@ -53,6 +52,7 @@ public class LoginController {
 	        boolean isPasswordMatch = userService.checkPassword(password, loginUser.getPassword());
 
 	        if (isPasswordMatch) {
+	        	session.setAttribute("loginUser", luser);
 	            mav.setViewName("redirect:/home");  // 로그인 성공
 	        } else {
 	            mav.addObject("FAIL", "YES");  // 비밀번호 불일치
