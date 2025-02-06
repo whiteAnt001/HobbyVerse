@@ -1,0 +1,6 @@
+2025-02-06 09:55:34.759524+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select id, name, email, password from users where [*]= email=? and password=?"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+select id, name, email, password from users where = email=? and password=? [42001-232]
+2025-02-06 10:04:55.742694+09:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "select id, name, email, password from users where [*]= email=? and password=?"; expected "INTERSECTS (, NOT, EXISTS, UNIQUE, INTERSECTS"; SQL statement:
+select id, name, email, password from users where = email=? and password=? [42001-232]

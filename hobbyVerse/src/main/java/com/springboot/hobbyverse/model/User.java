@@ -13,6 +13,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotEmpty;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,11 +32,11 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본 키 값이 자동으로 증가 (중복 방지)
     @Column(name = "id", updatable = false) //id컬럼과 매핑, 컬럼값 수정 false
     private Long id;
-
     @Column(name = "email", nullable = false, unique = true) // email컬럼과 매핑, not null, unique 제약조건 추가
+    @NotEmpty(message = "이메일(아이디)를 입력하세요")
     private String email;
-
     @Column(name = "password")
+	@NotEmpty(message = "비밀번호를 입력하세요.")
     private String password;
 
     @Builder

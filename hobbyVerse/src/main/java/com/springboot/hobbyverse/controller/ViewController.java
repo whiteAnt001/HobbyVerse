@@ -2,14 +2,13 @@ package com.springboot.hobbyverse.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.service.UserService;
 
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -18,17 +17,16 @@ public class ViewController {
 	@Autowired
 	private UserService userService;
 	
-	@GetMapping("/hobbyverse")
-	public String getHome(Model model) {
-		
-		return "home";
+	@GetMapping("/home")
+	public ModelAndView getHome(HttpSession session) {
+		ModelAndView mav = new ModelAndView("home");
+		return mav;
 	}
 	
-	@PostMapping("/hobbyverse")
-	public ModelAndView loginSuccess() {
+	@GetMapping("index")
+	public ModelAndView loginHome() {
 		ModelAndView mav = new ModelAndView("index");
-		User user = this.userService.getUser();
-		mav.addObject("user", user);
+		
 		return mav;
 	}
 }
