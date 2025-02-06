@@ -23,14 +23,13 @@ public class UserService {
 	
 	private BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 	
+	//유저 정보 찾기
 	public User getUser(User user) {
 		return this.myMapper.getUser(user);
 	}
-	// 로그인 시 사용자가 입력한 비밀번호와 DB에 저장된 암호화된 비밀번호를 비교
-    public boolean checkPassword(String rawPassword, String encryptedPassword) {
-        return passwordEncoder.matches(rawPassword, encryptedPassword);
-    }
 	
+    
+	//유저 정보 저장
     public Long save(AddUserRequest dto){
         return userRepository.save(User.builder()
         		.name(dto.getName())
@@ -40,5 +39,24 @@ public class UserService {
                 .build()).getId();
     }
     
+    // 로그인 시 사용자가 입력한 비밀번호와 DB에 저장된 암호화된 비밀번호를 비교
+    public boolean checkPassword(String rawPassword, String encryptedPassword) {
+    	return passwordEncoder.matches(rawPassword, encryptedPassword);
+    }
+    
+    public boolean changePassword(String email, String currentPassword, String newPassword) {
+    	//유저 정보 검색
+    	 User user = userRepository.findByEmail(email); 
+    	 
+    	// 현재 비밀번호 검증
+        if (!passwordEncoder.matches(currentPassword, user.getPassword())) {
+            return false;
+        }
+
+        // 새 비밀번호 암호화 후 저장
+        user.setPassword(passwordEncoder.encode(newPassword));
+        userRepository.save(user);
+        return true;
+    }
     
 }

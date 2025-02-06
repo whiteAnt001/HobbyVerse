@@ -10,6 +10,8 @@
 <title>마이페이지</title>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet"
+	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 <style>
 /* 그라데이션 스타일 */
 .gradient-bg {
@@ -29,7 +31,7 @@
 </head>
 <body>
 	<!-- 네비게이션 바 포함 -->
-    <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
+	<jsp:include page="/WEB-INF/jsp/navbar.jsp" />
 	<!-- 마이페이지 콘텐츠 -->
 	<div class="container mt-5">
 		<h2 class="text-center mb-4">마이페이지</h2>
@@ -48,28 +50,32 @@
 				</p>
 			</div>
 		</div>
-
-		<!-- 비밀번호 변경 -->
 		<div class="card mb-4">
 			<div class="card-header">
 				<h5 class="card-title">비밀번호 변경</h5>
 			</div>
 			<div class="card-body">
 				<form action="/changePassword" method="post">
-					<div class="mb-3">
+					<div class="mb-3 password-wrapper">
 						<label for="currentPassword" class="form-label">현재 비밀번호</label> <input
 							type="password" class="form-control" id="currentPassword"
-							name="currentPassword" required>
+							name="currentPassword" required> <i
+							class="fa-solid fa-eye eye-icon"
+							onclick="togglePasswordVisibility('currentPassword', this)"></i>
 					</div>
-					<div class="mb-3">
+					<div class="mb-3 password-wrapper">
 						<label for="newPassword" class="form-label">새 비밀번호</label> <input
 							type="password" class="form-control" id="newPassword"
-							name="newPassword" required>
+							name="newPassword" required> <i
+							class="fa-solid fa-eye eye-icon"
+							onclick="togglePasswordVisibility('newPassword', this)"></i>
 					</div>
-					<div class="mb-3">
+					<div class="mb-3 password-wrapper">
 						<label for="confirmPassword" class="form-label">새 비밀번호 확인</label>
 						<input type="password" class="form-control" id="confirmPassword"
-							name="confirmPassword" required>
+							name="confirmPassword" required> <i
+							class="fa-solid fa-eye eye-icon"
+							onclick="togglePasswordVisibility('confirmPassword', this)"></i>
 					</div>
 					<button type="submit" class="btn gradient-btn">비밀번호 변경</button>
 				</form>
@@ -138,8 +144,51 @@
 
 	</div>
 
+	<script>
+    document.querySelector("form").addEventListener("submit", function(event) {
+        event.preventDefault();
+
+        let formData = new FormData(this);
+
+        fetch("/user/changePassword", {
+            method: "POST",
+            body: formData
+        })
+        .then(response => response.text())
+        .then(message => {
+            alert(message);
+            if (message.includes("성공")) {
+                window.location.href = "/mypage"; // 비밀번호 변경 성공 시 마이페이지로 이동
+            }
+        })
+        .catch(error => console.error("Error:", error));
+    });
+	</script>
+
+
+	<!-- Font Awesome 라이브러리 사용 -->
+	<script>
+		function togglePasswordVisibility(inputId, icon) {
+			const input = document.getElementById(inputId);
+			if (input.type === "password") {
+				input.type = "text";
+				icon.classList.remove("fa-eye");
+				icon.classList.add("fa-eye-slash"); // 눈 감은 아이콘으로 변경
+			} else {
+				input.type = "password";
+				icon.classList.remove("fa-eye-slash");
+				icon.classList.add("fa-eye"); // 눈 뜬 아이콘으로 변경
+			}
+		}
+	</script>
+
 	<!-- Bootstrap JS -->
 	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+		
+	</script>
+
+
+
 </body>
 </html>
