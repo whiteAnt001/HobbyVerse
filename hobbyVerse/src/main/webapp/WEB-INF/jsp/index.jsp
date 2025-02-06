@@ -41,7 +41,7 @@
 
     <!-- 인기 모임 목록 -->
     <div class="container mt-5">
-        <h3 class="text-center mb-4">🔥 인기 모임</h3>
+        <h3 class="text-center mb-4">🔥 인기 모임</h3>a
         <div class="row">
             <c:forEach var="meeting" items="${popularMeetings}">
                 <div class="col-md-4 mb-4">
