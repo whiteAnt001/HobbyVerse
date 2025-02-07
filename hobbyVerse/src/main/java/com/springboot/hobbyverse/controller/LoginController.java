@@ -34,6 +34,12 @@ public class LoginController {
 		return mav;		
 	}
 	
+	@PostMapping("/logout")
+	public String logout(HttpSession session) {
+	    session.invalidate(); // 세션 종료
+	    return "redirect:/login"; // 로그인 페이지로 리다이렉트
+	}
+	
 	//로그인을 시도했을 때 빈 칸이 있거나, 정보가 틀렸을 경우 처리 및 로그인 성공시 홈화면 매핑
 	@PostMapping("/loginDo")
 	public ModelAndView loginSuccess(@Valid User user,BindingResult br, String password, HttpSession session) {
