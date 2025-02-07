@@ -131,17 +131,21 @@
             <div class="card-body">
                 <h3 class="text-center mb-4">회원가입</h3>
                 <form action="/register" method="post">
+                	<div class="form-group">
+                		<label for="signup-name">이름</label>
+                		<input type="text" name="name" class="form-control" placeholder="이름을 입력하세요" required>
+            		</div>
                     <div class="form-group">
                         <label for="signup-email">이메일</label>
-                        <input type="email" id="email" name="email" class="form-control" id="signup-email" placeholder="이메일을 입력하세요" required>
+                        <input type="email" name="email" class="form-control" id="signup-email" placeholder="이메일을 입력하세요" required>
                     </div>
                     <div class="form-group">
                         <label for="signup-password">비밀번호</label>
-                        <input type="password" id="password" name="password" class="form-control" id="signup-password" placeholder="비밀번호를 입력하세요" required>
+                        <input type="password"  name="password" class="form-control" id="signup-password" placeholder="비밀번호를 입력하세요" required>
                     </div>
                     <div class="form-group">
                         <label for="signup-password-confirm">비밀번호 확인</label>
-                        <input type="password" id="passwordConfirm" name="passwordConfirm" class="form-control" id="signup-password-confirm" placeholder="비밀번호를 다시 입력하세요" required>
+                        <input type="password"  name="passwordConfirm" class="form-control" id="signup-password-confirm" placeholder="비밀번호를 다시 입력하세요" required>
                     </div>
                     <button type="submit" class="btn-gradient">회원가입</button>
                 </form>
