@@ -33,7 +33,7 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
                     <li class="nav-item"><a class="nav-link" href="/hobbyverse">홈</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">카테고리</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/category/key">카테고리</a></li>
                     <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
                     <li class="nav-item"><a class="nav-link btn gradient-btn" href="/signup">회원가입</a></li>
                 </ul>
