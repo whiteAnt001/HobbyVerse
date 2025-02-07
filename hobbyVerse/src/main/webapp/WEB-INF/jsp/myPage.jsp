@@ -20,7 +20,7 @@
 
 .gradient-btn {
 	background: linear-gradient(135deg, #6a11cb, #2575fc);
-	border: none;
+	border: none;		
 	color: white;
 }
 
@@ -57,6 +57,9 @@
 			<div class="card-body">
 				<form action="/changePassword" method="post">
 					<div class="mb-3 password-wrapper">
+						<c:if test="${not empty message}">
+							<div class="alert alert-info mt-3">${message}</div>
+						</c:if>
 						<label for="currentPassword" class="form-label">현재 비밀번호</label> <input
 							type="password" class="form-control" id="currentPassword"
 							name="currentPassword" required> <i
@@ -143,29 +146,6 @@
 		</div>
 
 	</div>
-
-	<script>
-    document.querySelector("form").addEventListener("submit", function(event) {
-        event.preventDefault();
-
-        let formData = new FormData(this);
-
-        fetch("/user/changePassword", {
-            method: "POST",
-            body: formData
-        })
-        .then(response => response.text())
-        .then(message => {
-            alert(message);
-            if (message.includes("성공")) {
-                window.location.href = "/mypage"; // 비밀번호 변경 성공 시 마이페이지로 이동
-            }
-        })
-        .catch(error => console.error("Error:", error));
-    });
-	</script>
-
-
 	<!-- Font Awesome 라이브러리 사용 -->
 	<script>
 		function togglePasswordVisibility(inputId, icon) {
