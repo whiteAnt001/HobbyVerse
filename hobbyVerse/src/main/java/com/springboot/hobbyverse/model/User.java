@@ -9,6 +9,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -27,7 +29,6 @@ import lombok.Setter;
 @Setter
 public class User implements UserDetails {
 	
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) //기본 키 값이 자동으로 증가 (중복 방지)
     @Column(name = "id", updatable = false) //id컬럼과 매핑, 컬럼값 수정 false
@@ -38,17 +39,20 @@ public class User implements UserDetails {
     @Column(name = "password")
 	@NotEmpty(message = "비밀번호를 입력하세요.")
     private String password;
+    @Column(name = "role")
+    private String  role;
 
     @Builder
-    public User(String email, String password, String name) {
+    public User(String email, String password, String name, String role) {
         this.email = email;
         this.password = password;
         this.name = name;
+        this.role = role;
     }
-
+    
     @Override //권한 반환
     public Collection<? extends GrantedAuthority> getAuthorities(){
-        return List.of(new SimpleGrantedAuthority("user"));
+        return List.of(new SimpleGrantedAuthority(role));
     }
     
     //사용자의 id를 반환(고유한 값)

@@ -10,4 +10,5 @@ public class AddUserRequest {
 	private String name;
     private String email;
     private String password;
+    private String role;
 }

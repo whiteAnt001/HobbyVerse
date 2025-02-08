@@ -46,10 +46,18 @@ public class UserViewController {
 	        return mav;
 	    }
 	    
+	    // 비밀번호 변경 후 메시지 전달
+	    String message = (String) session.getAttribute("message");
+	    if (message != null) {
+	        mav.addObject("message", message); // 메시지를 모델에 추가
+	        session.removeAttribute("message");  // 메시지 처리 후 세션에서 제거
+	    }
+	    
 	    mav.addObject("user", user);
 	    return mav;
 	}
 	
+	//비밀번호 변경 (api로 따로 뺴려고 했으나, 메세지 출력기능으로 인해 컨트롤러 사용)
 	@PostMapping("/changePassword")
 	public ModelAndView changePassword(@RequestParam String currentPassword, @RequestParam String newPassword, @RequestParam String confirmPassword, HttpSession session) {
 	    ModelAndView mav = new ModelAndView("myPage");
@@ -58,6 +66,9 @@ public class UserViewController {
 	    // 비밀번호 일치 여부 확인
 	    if (!newPassword.equals(confirmPassword)) {
 	        mav.addObject("message", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	        return mav;
+	    }else if(user.getPassword().equals(newPassword)) {
+	        mav.addObject("message", "현재 비밀번호와 새 비밀번호가 같습니다.");
 	        return mav;
 	    }
 

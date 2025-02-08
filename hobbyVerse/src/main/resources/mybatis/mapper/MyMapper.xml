@@ -6,8 +6,4 @@
     <select id="getUser" parameterType="com.springboot.hobbyverse.model.User" resultType="com.springboot.hobbyverse.model.User">
         SELECT * FROM users WHERE email = #{email} and password=#{password}
     </select>
-    <!-- 관리자를  -->
-    <select id="getAdmin" parameterType="com.springboot.hobbyverse.model.Admin" resultType="com.springboot.hobbyverse.model.Admin">
-        SELECT * FROM users WHERE email = #{email} and password=#{password}
-    </select>
 </mapper>
