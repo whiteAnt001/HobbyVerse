@@ -55,7 +55,7 @@
 				<h5 class="card-title">비밀번호 변경</h5>
 			</div>
 			<div class="card-body">
-				<form action="/changePassword" method="post">
+				<form action="/myPage/changePassword" method="post">
 					<div class="mb-3 password-wrapper">
 						<c:if test="${not empty message}">
 							<div class="alert alert-info mt-3">${message}</div>

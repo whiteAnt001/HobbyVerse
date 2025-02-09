@@ -4,17 +4,25 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+import com.springboot.hobbyverse.service.CustomOAuth2UserService;
 import com.springboot.hobbyverse.service.UserDetailService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
+	private final CustomOAuth2UserService customOAuth2UserService;
+	private final OAuth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
+	
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    http
@@ -24,9 +32,14 @@ public class SecurityConfig {
 	            .requestMatchers("/h2-console/**", "/**").permitAll()  // 모든 요청 허용
 	            .anyRequest().permitAll()
 	    )
+	    .oauth2Login(oauth2 -> oauth2
+	    	.loginPage("/login")
+	    	.userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+	    	.successHandler(oauth2AuthenticationSuccessHandler)
+	    )
 	    .formLogin(form -> form
 	        .loginPage("/login")  // 로그인 페이지 URL 설정
-	        .defaultSuccessUrl("/home")  // 로그인 성공 후 이동할 URL 설정
+	        .defaultSuccessUrl("/home", true)  // 로그인 성공 후 이동할 URL 설정
 	    )
 	    .logout(logout -> logout  // 로그아웃 설정
 	        .logoutSuccessUrl("/login")  // 로그아웃 성공시 로그인 창으로 변경
@@ -47,6 +60,7 @@ public class SecurityConfig {
         return new ProviderManager(authProvider);
     }
 
+    //비밀번호 암호화
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
