@@ -10,6 +10,7 @@ import com.springboot.hobbyverse.mapper.MyMapper;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repsitory.UserRepository;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -27,18 +28,21 @@ public class UserService {
 		return this.myMapper.getUser(user);
 	}
 	
-    
-	//유저 정보 저장
-    public Long save(AddUserRequest dto){
-        return userRepository.save(User.builder()
-        		.name(dto.getName())
-                .email(dto.getEmail())
-                //패스워드를 저장할 땐 패스워드 인코딩용으로 등록한 빈을 사용해서 암호화 후 저장
-                .password(securityConfig.passwordEncoder().encode(dto.getPassword()))
-                .role("ROLE_USER")
-                .build()).getId();
+    //폼 로그인 사용자 정보 저장
+    @Transactional
+    public User saveUser(AddUserRequest dto) {
+
+        User user = User.builder()
+                        .email(dto.getEmail())
+                        .password(securityConfig.passwordEncoder().encode(dto.getPassword()))//비밀번호를 암호화해서 저장
+                        .name(dto.getName())
+                        .role("ROLE_USER")
+                        .provider(null)  // 폼 로그인에서는 provider가 없으므로 null
+                        .providerId(null)  // 폼 로그인에서는 providerId가 없으므로 null
+                        .build();
+
+        return userRepository.save(user);
     }
-    
     // 로그인 시 사용자가 입력한 비밀번호와 DB에 저장된 암호화된 비밀번호를 비교
     public boolean checkPassword(String rawPassword, String encryptedPassword) {
     	return securityConfig.passwordEncoder().matches(rawPassword, encryptedPassword);

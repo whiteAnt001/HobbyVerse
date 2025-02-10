@@ -31,7 +31,7 @@ public class UserViewController {
 	@PostMapping("/register")
     public ModelAndView signup(AddUserRequest addUserRequest) {
 		ModelAndView mav = new ModelAndView("signupResult");
-        userService.save(addUserRequest); // 회원가입 메서드 호출
+		userService.saveUser(addUserRequest); //폼 로그인 사용자 저장
         return mav; //회원가입이 완려된 이후에 로그인 페이지로 이동
     }
 	
@@ -57,8 +57,8 @@ public class UserViewController {
 	    return mav;
 	}
 	
-	//비밀번호 변경 (api로 따로 뺴려고 했으나, 메세지 출력기능으로 인해 컨트롤러 사용)
-	@PostMapping("/changePassword")
+	//비밀번호 변경 (나중에 api로 따로 빼는게 좋을 듯?)
+	@PostMapping("/myPage/changePassword")
 	public ModelAndView changePassword(@RequestParam String currentPassword, @RequestParam String newPassword, @RequestParam String confirmPassword, HttpSession session) {
 	    ModelAndView mav = new ModelAndView("myPage");
 

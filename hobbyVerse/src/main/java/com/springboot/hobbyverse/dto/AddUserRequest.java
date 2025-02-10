@@ -11,4 +11,10 @@ public class AddUserRequest {
     private String email;
     private String password;
     private String role;
+    private String provider;
+    private String providerId;
+    
+    public boolean isOAuth() { //OAuth 사용자인지 체크
+    	return provider != null && !providerId.isEmpty();
+    }
 }

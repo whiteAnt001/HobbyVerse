@@ -1,9 +1,5 @@
 package com.springboot.hobbyverse.controller;
 
-import java.util.Optional;
-
-import javax.security.auth.login.LoginException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -11,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.springboot.hobbyverse.dto.AddUserRequest;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repsitory.UserRepository;
 import com.springboot.hobbyverse.service.UserService;
@@ -25,6 +22,7 @@ public class LoginController {
 	private UserService userService;
 	@Autowired
 	private UserRepository userRepository;
+	
 	
 	//로그인 창으로 넘어가는 매핑
 	@GetMapping("/login")
@@ -42,7 +40,7 @@ public class LoginController {
 	
 	//로그인을 시도했을 때 빈 칸이 있거나, 정보가 틀렸을 경우 처리 및 로그인 성공시 홈화면 매핑
 	@PostMapping("/loginDo")
-	public ModelAndView loginSuccess(@Valid User user,BindingResult br, String password, HttpSession session) {
+	public ModelAndView loginSuccess(@Valid User user,BindingResult br, String password, HttpSession session, AddUserRequest dto) {
 		ModelAndView mav = new ModelAndView("login");
 		if(br.hasErrors()) {
 			mav.getModel().putAll(br.getModel());
