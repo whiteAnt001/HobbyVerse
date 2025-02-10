@@ -115,9 +115,10 @@
                 <div class="text-center mt-3">
                     <span>소셜 계정으로 로그인</span>
                 </div>
-                <div class="social-login-btn mt-2">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Google_2015_logo.svg" alt="Google">
-                    <span>구글로 로그인</span>
+                <div align="center" class="social-login-btn mt-2">
+                <a href="<c:url value='/oauth2/authorization/google'/>">
+                    <img src="/img/google1.png" alt="Google">
+                </a>
                 </div>
                 <div class="social-login-btn mt-2">
                     <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Facebook_Logo_2023.png" alt="Facebook">
