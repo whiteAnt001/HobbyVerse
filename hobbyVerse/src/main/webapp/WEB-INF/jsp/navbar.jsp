@@ -17,7 +17,7 @@
 				<!-- 로그인된 경우 -->
 				<c:if test="${user != null}">
 					<li class="nav-item"><a class="nav-link btn btn-primary"
-						href="/createGroup">모임 등록하기</a></li>
+						href="/meetup/createGroup.html">모임 등록하기</a></li>
 				</c:if>
 
 				<c:if test="${user != null}">
