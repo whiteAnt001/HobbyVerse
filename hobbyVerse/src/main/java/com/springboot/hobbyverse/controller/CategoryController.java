@@ -24,10 +24,11 @@ public class CategoryController {
 		return mav;
 	}
 	
-	@GetMapping("/category/sport")
-	public ModelAndView sport() {
+	@GetMapping("/category/{item}")
+	public ModelAndView selectcategory(@PathVariable Integer c_key) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("keyDetail");
+		mav.addObject(c_key);
 		return mav;
 	}
 	

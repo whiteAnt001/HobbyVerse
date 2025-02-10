@@ -99,14 +99,15 @@
         <div class="row mt-4">
 
             <!-- 카테고리 예시 -->
+            <a href="/category/${category.c_key }" style="text-decoration: none;">
             <div class="col-md-4 mb-4">
-            <a href="/category/sport" style="text-decoration: none;">
+ 
                 <div class="category-card"> 
                     <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="스포츠">
                     <h5>🏀 스포츠</h5>
                     <p>농구, 축구, 테니스 등 다양한 운동 모임을 찾아보세요.</p>
                 </div>
-                </a>
+                
             </div>
 
             <div class="col-md-4 mb-4">
@@ -148,6 +149,7 @@
                     <p>국내 & 해외 여행을 함께 계획하고 떠나요!</p>
                 </div>
             </div>
+            </a> 
 
         </div>
     </div>
