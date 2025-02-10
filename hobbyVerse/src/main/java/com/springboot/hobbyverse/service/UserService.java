@@ -28,6 +28,18 @@ public class UserService {
 		return this.myMapper.getUser(user);
 	}
 	
+	//사용자의 id를 이용해 email 조회
+    public String getUserIdByUserId(Long userId) {
+        User user = userRepository.findByUserId(userId);
+        return user != null ? user.getEmail() : null; // 사용자가 있으면 ID 반환, 없으면 null
+    }
+    
+    //사용자의 email을 이용해 role 조회
+    public String getUserRole(String email) {
+    	User user = userRepository.findByEmail(email);
+    	return user != null ? user.getRole() : null; //사용자가 있으면 role 반환, 없으면 null
+    }
+	
     //폼 로그인 사용자 정보 저장
     @Transactional
     public User saveUser(AddUserRequest dto) {
@@ -61,5 +73,16 @@ public class UserService {
         user.setPassword(securityConfig.passwordEncoder().encode(newPassword));
         userRepository.save(user);
         return true;
+    }
+    
+    public boolean authenticate(String email, String password) {
+        User user = userRepository.findByEmail(email);
+        
+        if (user == null) {
+            return false; // 사용자가 존재하지 않음
+        }
+        
+        // 비밀번호가 일치하는지 확인
+        return securityConfig.passwordEncoder().matches(password, user.getPassword());
     }
 }

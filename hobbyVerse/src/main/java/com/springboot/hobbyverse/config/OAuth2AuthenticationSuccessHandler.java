@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repsitory.UserRepository;
+import com.springboot.hobbyverse.utils.JwtUtil;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -27,10 +28,19 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
 			Authentication authentication) throws IOException, ServletException {
-		OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal();
+		OAuth2User oauthUser = (OAuth2User) authentication.getPrincipal(); //로그인한 사용자 정보 가져오기
 		//OAuth에서 받아온 사용자 정보
 		String email = oauthUser.getAttribute("email");
 		String name = oauthUser.getAttribute("name");
+		String role = "ROLE_USER";
+		
+        // JWT 생성
+        String accessToken = JwtUtil.generateToken(email, name, role);
+        String refreshToken = JwtUtil.generateRefreshToken(email);
+        
+        // 응답 헤더에 JWT 추가
+        response.setHeader("Authorization", "Bearer " + accessToken);
+        response.setHeader("Refresh-Token", refreshToken);
 		
 		//DB에서 사용자 정보 가져오기'
 		User user = userRepository.findByEmail(email);
@@ -39,6 +49,8 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 		HttpSession session = request.getSession();
 		session.setAttribute("user", user);
 		response.sendRedirect("/home");
+		
+		
 	}
 	
 }

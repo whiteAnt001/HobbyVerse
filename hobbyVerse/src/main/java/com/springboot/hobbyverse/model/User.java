@@ -21,7 +21,7 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 자동 증가
     @Column(name = "id", updatable = false)
-    private Long id;
+    private Long userId;
 
     @Column(name = "email", nullable = false, unique = true)
     @NotEmpty(message = "이메일(아이디)를 입력하세요")
