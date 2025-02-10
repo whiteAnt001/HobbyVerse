@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.Category;
+import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.service.CategoryService;
 
 @Controller
@@ -28,7 +29,6 @@ public class CategoryController {
 	public ModelAndView selectcategory(@PathVariable Integer c_key) {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("keyDetail");
-		mav.addObject(c_key);
 		return mav;
 	}
 	
