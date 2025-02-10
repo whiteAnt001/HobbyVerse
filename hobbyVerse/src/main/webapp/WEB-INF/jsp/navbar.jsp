@@ -12,7 +12,7 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ms-auto">
 				<li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
-				<li class="nav-item"><a class="nav-link" href="#">카테고리</a></li>
+				<li class="nav-item"><a class="nav-link" href="/category/key">카테고리</a></li>
 
 				<!-- 로그인된 경우 -->
 				<c:if test="${user != null}">

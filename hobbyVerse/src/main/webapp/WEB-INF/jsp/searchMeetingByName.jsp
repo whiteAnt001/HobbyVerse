@@ -7,10 +7,74 @@
 <head>
 <meta charset="UTF-8">
 <title>Insert title here</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <style>
+        /* 전체 배경 */
+        body {
+            background: #f4f4f4;
+            color: #333;
+            min-height: 100vh;
+        }
+
+        /* 네비게이션 바 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        }
+
+        /* 헤더 영역 */
+        .category-header {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            color: white;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        /* 모임 카드 */
+        .meeting-card {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .meeting-card:hover {
+            transform: scale(1.05);
+        }
+
+        .meeting-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
+
+        /* 필터 & 정렬 바 */
+        .filter-bar {
+            background: white;
+            padding: 10px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        /* 애니메이션 효과 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
 </head>
 <body>
-<form action="/category/search" method="post">
-    <div class="container mt-4">
+</head>
+<body>
+<div class="container mt-4">
         <div class="row">
             <div class="col-md-8 mx-auto">
                 <div class="filter-bar d-flex justify-content-between align-items-center">
@@ -25,15 +89,25 @@
             </div>
         </div>
     </div>
-    </form>
-
-	<table>
-		<tr><th>모임 아이디</th><th>모임명</th><th>모임 설명</th><th>카테고리</th><th>등록일</th><th>가격</th><th>작성자</th></tr>
-		<c:forEach var="key" items="${keyList }">
-			<tr><td>${key.m_id }</td><td>${key.title }</td><td>${key.info }</td><td>${key.c_key }</td>
-			<td>${key.w_date }</td><td>${key.price }</td><td>${key.w_id }</td></tr>
+   
+<form action="/category/search" method="post">
+<div>
+	<table border="1">
+	<c:forEach var="key" items="${keyList }">
+		<tr><th>모임 아이디</th><td>${key.m_id }</td></tr>
+		<tr><th>모임 이름</th><td>${key.title }</td></tr>
+		<tr><th>모임 설명</th><td>${key.info }</td></tr>
+		<tr><th>카테고리</th><td>${key.c_key }</td></tr>
+		<tr><th>작성일</th><td>${key.w_date }</td></tr>
+		<tr><th>금액</th><td>${key.price }</td></tr>
+		<tr><th>작성자</th><td>${key.w_id }</td></tr>
 		</c:forEach>
 	</table>
+	</div>
+</form>
+
+
+	
 <c:set var="pageCount" value="${pageCount }"/>
 <c:set var="currentPage" value="${ currentPage}"/>
 <c:set var="startPage" 
@@ -45,7 +119,7 @@
 <c:if test="${startPage > 10}">
 	<a href="#" onclick="movePage(${startPage - 1})">[이전]</a>
 </c:if>
-<c:forEach begin="${startPage}" end="${endPage}" var="i">
+<c:forEach begin="1" end="${endPage}" var="i">
 	<c:if test="${currentPage == i}"><font size="6"></c:if>
 	<a href="#" onclick="movePage(${ i })">${ i }</a>
 	<c:if test="${currentPage == i}"></font></c:if>
@@ -61,7 +135,7 @@
 <script type="text/javascript">
 function movePage(page){
 	document.itemfm.PAGE_NUM.value = page;
-	document.itemfm.action = "../item/search.html";
+	document.itemfm.action = "../item/search.jsp";
 	document.itemfm.submit();
 }
 </script>

@@ -13,7 +13,7 @@ public class Meetup {
 	private Integer m_id;
 	private String title;
 	private String info;
-	private Integer category ;
+	private Integer c_key;
 	@Temporal(TemporalType.DATE)
 	private Date w_date;
 	private Integer price;

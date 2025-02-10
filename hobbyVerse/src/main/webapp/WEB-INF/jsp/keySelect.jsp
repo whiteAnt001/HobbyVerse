@@ -100,7 +100,7 @@
 
             <!-- 카테고리 예시 -->
             <div class="col-md-4 mb-4">
-            <a href="/category/sports" style="text-decoration: none;">
+            <a href="/category/sport" style="text-decoration: none;">
                 <div class="category-card"> 
                     <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="스포츠">
                     <h5>🏀 스포츠</h5>

@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -23,7 +24,7 @@ public class CategoryController {
 		return mav;
 	}
 	
-	@GetMapping("/category/sports")
+	@GetMapping("/category/sport")
 	public ModelAndView sport() {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("keyDetail");
@@ -32,22 +33,17 @@ public class CategoryController {
 	
 	@PostMapping("/category/search")
 	public ModelAndView search(String NAME, Integer PAGE_NUM) {
+		ModelAndView mav = new ModelAndView();
 		int currentPage = 1;
 		if(PAGE_NUM != null) currentPage = PAGE_NUM;
-		int start = (currentPage - 1) * 6;
-		int end = ((currentPage - 1) * 6) + 7;
-		List<Category> keyList = this.categoryService.getKeyByName(NAME, PAGE_NUM);
-		Integer totalCount = this.categoryService.getKeyCountByName(NAME);
+		int totalCount = this.categoryService.getKeyCountByName(NAME);
 		int pageCount = totalCount / 5;
 		if(totalCount % 5 != 0) pageCount++;
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("startRow",start); mav.addObject("endRow",end); 
-		mav.addObject("total",totalCount); 
-		mav.addObject("keyList",keyList);
-		mav.addObject("pageCount", pageCount); 
-		mav.addObject("currentPage",currentPage);
-		mav.setViewName("searchMeetingByName");
+		List<Category> keyList = this.categoryService.getKeyByName(NAME, PAGE_NUM);
 		mav.addObject("NAME", NAME);
+		mav.addObject("pageCount", pageCount);
+		mav.setViewName("searchMeetingByName");
+		mav.addObject("keyList",keyList);
 		return mav;
 	}
 
