@@ -24,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Component
 public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccessHandler{
 	private final UserRepository userRepository;
+	private final JwtUtil jwtUtil;	
 
 	@Override
 	public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
@@ -35,8 +36,11 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 		String role = "ROLE_USER";
 		
         // JWT 생성
-        String accessToken = JwtUtil.generateToken(email, name, role);
-        String refreshToken = JwtUtil.generateRefreshToken(email);
+		String accessToken = JwtUtil.generateToken(email, name, role);
+		String refreshToken = JwtUtil.generateRefreshToken(email);
+        
+       //JWT를 쿠키에 저장
+        jwtUtil.addJwtToCookie(response, accessToken);
         
         // 응답 헤더에 JWT 추가
         response.setHeader("Authorization", "Bearer " + accessToken);

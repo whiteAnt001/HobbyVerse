@@ -24,17 +24,18 @@ public class LoginController {
 	private UserRepository userRepository;
 	
 	@GetMapping("/login")
-	public ModelAndView login() {
-		ModelAndView mav = new ModelAndView();
-		mav.addObject("login");
-		return mav;
+	public ModelAndView getLogin(HttpServletRequest request){
+		ModelAndView mav = new ModelAndView("login");
+		request.setAttribute("user", new User());
+		return mav;		
 	}
-	
+
 	@PostMapping("/logout")
 	public String logout(HttpSession session) {
 	    session.invalidate(); // 세션 종료
-	    return "/login"; // 로그인 페이지로 리다이렉트
+	    return "redirect:/login"; // 🔹 올바른 리다이렉트 방식
 	}
+
 	
 	//로그인을 시도했을 때 빈 칸이 있거나, 정보가 틀렸을 경우 처리 및 로그인 성공시 홈화면 매핑
 	@PostMapping("/loginDo")
@@ -54,7 +55,7 @@ public class LoginController {
 	        boolean isPasswordMatch = userService.checkPassword(password, loginUser.getPassword());
 	        if (isPasswordMatch) {
 	        	session.setAttribute("loginUser", luser);
-	            mav.setViewName("redirect:/home");  // 로그인 성공
+	        	mav.setViewName("redirect:/home"); // 🔹 로그인 성공 후 홈 이동
 	        } else {
 	            mav.addObject("FAIL", "YES");  // 비밀번호 불일치
 	        }
