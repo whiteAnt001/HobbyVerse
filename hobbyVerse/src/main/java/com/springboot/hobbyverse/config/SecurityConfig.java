@@ -1,50 +1,53 @@
 package com.springboot.hobbyverse.config;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.ProviderManager;
-import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
-import com.springboot.hobbyverse.service.UserDetailService;
+import com.springboot.hobbyverse.service.CustomOAuth2UserService;
 
+import lombok.RequiredArgsConstructor;
+
+@RequiredArgsConstructor
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig {
-	@Bean
-	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-	    http
-	    .csrf(csrf -> csrf.disable())  // CSRF 비활성화 (실무에선 확성화하는게 좋음)
-	    .headers(headers -> headers.frameOptions(frame -> frame.disable()))  // H2 콘솔 접근 허용
-	    .authorizeHttpRequests(auth -> auth
-	            .requestMatchers("/h2-console/**", "/**").permitAll()  // 모든 요청 허용
-	            .anyRequest().permitAll()
-	    )
-	    .formLogin(form -> form
-	        .loginPage("/login")  // 로그인 페이지 URL 설정
-	        .defaultSuccessUrl("/home")  // 로그인 성공 후 이동할 URL 설정
-	    )
-	    .logout(logout -> logout  // 로그아웃 설정
-	        .logoutSuccessUrl("/login")  // 로그아웃 성공시 로그인 창으로 변경
-	        .invalidateHttpSession(true)  // 로그아웃 이후 세션의 삭제 여부
-	    )
-	    .httpBasic(httpBasic -> httpBasic.disable());  // HTTP Basic 인증 비활성화
+    private final CustomOAuth2UserService customOAuth2UserService;
+    private final OAuth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler;
 
-	    return http.build();
-	}
-
-
-    
     @Bean
-    public AuthenticationManager authenticationManager(HttpSecurity http, BCryptPasswordEncoder bCryptPasswordEncoder, UserDetailService userDetailService) throws Exception {
-        DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
-        authProvider.setUserDetailsService(userDetailService); //사용자 정보 서비스 설정
-        authProvider.setPasswordEncoder(bCryptPasswordEncoder); //비밀번호를 암호화 하기 위한 인코더 설정
-        return new ProviderManager(authProvider);
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http
+            .csrf(csrf -> csrf.disable()) // CSRF 보호 비활성화 (API 사용 시)
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)) // JWT 사용으로 세션 없음
+            .headers(headers -> headers.frameOptions(frame -> frame.disable())) // H2 콘솔 접근 허용
+            .authorizeHttpRequests(auth -> auth
+            	    .requestMatchers("/**").permitAll() 
+            	    .requestMatchers("/login/oauth2/**").permitAll() // OAuth2 관련 요청은 그대로 유지
+            	    .anyRequest().authenticated()
+            	)
+            .oauth2Login(oauth2 -> oauth2
+            	    .loginPage("/login")
+            	    .userInfoEndpoint(userInfo -> userInfo.userService(customOAuth2UserService))
+            	    .successHandler(oauth2AuthenticationSuccessHandler)
+            	    .failureHandler((request, response, exception) -> {
+            	        response.sendRedirect("/login?oauth2error=true"); // OAuth2 로그인 실패 시 일반 로그인으로 유도
+            	    })
+            	)
+
+            .logout(logout -> logout
+                .logoutSuccessUrl("/login") // 로그아웃 후 로그인 페이지로 이동
+                .invalidateHttpSession(true) // 세션 무효화
+            );
+
+        return http.build();
     }
 
     @Bean
@@ -52,4 +55,3 @@ public class SecurityConfig {
         return new BCryptPasswordEncoder();
     }
 }
-
