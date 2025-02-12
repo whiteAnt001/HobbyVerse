@@ -139,9 +139,7 @@
 				<h5 class="card-title">회원 탈퇴</h5>
 			</div>
 			<div class="card-body">
-				<form action="/deleteAccount" method="post">
-					<button type="submit" class="btn btn-danger">회원 탈퇴</button>
-				</form>
+					 <button type="button" class="btn btn-danger" onclick="deleteAccount()">회원 탈퇴</button>
 			</div>
 		</div>
 
@@ -161,6 +159,30 @@
 			}
 		}
 	</script>
+<script>
+    function deleteAccount() {
+        if (confirm("정말 회원을 탈퇴하시겠습니까?")) {
+            fetch('/api/users/delete', {
+                method: 'DELETE',
+                credentials: 'include'  // 세션 쿠키 포함
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message === '유저를 성공적으로 삭제했습니다.') {
+                    alert('회원 탈퇴가 완료되었습니다.');
+                    window.location.href = '/home'; // 홈 페이지로 리다이렉트
+                } else {
+                    alert('탈퇴 실패: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('탈퇴 중 오류가 발생했습니다.');
+            });
+        }
+    }
+</script>
+
 
 	<!-- Bootstrap JS -->
 	<script

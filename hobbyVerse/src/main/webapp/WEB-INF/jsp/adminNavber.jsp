@@ -31,11 +31,11 @@
 		</button>
 		<div class="collapse navbar-collapse" id="adminNavbar">
 			<ul class="navbar-nav ms-auto">
-				<li class="nav-item"><a class="nav-link" href="/admin/dashboard">📊
+				<li class="nav-item"><a class="nav-link" href="/api/admin/dashboard">📊
 						대시보드</a></li>
-				<li class="nav-item"><a class="nav-link" href="/admin/users">👥
+				<li class="nav-item"><a class="nav-link" href="/api/admin/users">👥
 						회원 관리</a></li>
-				<li class="nav-item"><a class="nav-link" href="/admin/meetings">📅
+				<li class="nav-item"><a class="nav-link" href="/api/admin/meetings">📅
 						모임 관리</a></li>
 				<li class="nav-item">
 					<form action="/logout" method="post">

@@ -55,6 +55,9 @@ public class LoginController {
 	        boolean isPasswordMatch = userService.checkPassword(password, loginUser.getPassword());
 	        if (isPasswordMatch) {
 	        	session.setAttribute("loginUser", luser);
+	        	System.out.println("유저아이디" + luser.getUserId());
+	        	System.out.println(luser.getEmail());
+	        	System.out.println(luser.getName());
 	        	mav.setViewName("redirect:/home"); //로그인 성공 후 홈 이동
 	        } else {
 	            mav.addObject("FAIL", "YES");  // 비밀번호 불일치

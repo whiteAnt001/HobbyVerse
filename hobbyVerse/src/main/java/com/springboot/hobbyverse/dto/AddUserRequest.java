@@ -1,8 +1,8 @@
 package com.springboot.hobbyverse.dto;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
-import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -13,6 +13,7 @@ public class AddUserRequest {
 	private String name;
     private String email;
     private String password;
+    private LocalDateTime regDate;
     private String role;
     private String provider;
     private String providerId;
