@@ -13,17 +13,41 @@
 <body>
     <div class="container mt-5">
         <h1>${board.subject}</h1>
+        
         <p><strong>작성자:</strong> ${board.name}</p>
-
-        <!-- ✅ 작성일 표시 -->
         <p><strong>작성일:</strong> ${formattedRegDate}</p>
-
-        <!-- ✅ 조회수 제거 -->
-        <%-- <p><strong>조회수:</strong> ${board.readCount}</p> --%>
-
         <hr>
-        <p>${board.content}</p>
-        <a href="/boards" class="btn btn-primary">목록으로</a>
+
+        <!-- ✅ 수정 가능한 폼 -->
+        <c:if test="${not empty user and user.name == board.name}">
+            <form action="/boards/${board.seq}/update" method="post">
+                <div class="mb-3">
+                    <label class="form-label"><strong>제목:</strong></label>
+                    <input type="text" class="form-control" name="subject" value="${board.subject}" required>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label"><strong>내용:</strong></label>
+                    <textarea class="form-control" name="content" rows="5" required>${board.content}</textarea>
+                </div>
+
+                <!-- ✅ 버튼 구성 (취소 버튼 제거, 목록 버튼 이동) -->
+				<a href="/boards" class="btn btn-secondary">목록으로</a>
+                <button type="submit" class="btn btn-primary">수정 완료</button>
+                
+
+                <form action="/boards/${board.seq}/delete" method="post" style="display: inline;">
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+                </form>
+            </form>
+        </c:if>
+
+        <!-- ✅ 수정 불가능한 경우 내용만 표시 -->
+        <c:if test="${empty user or user.name != board.name}">
+            <p>${board.content}</p>
+            <a href="/boards" class="btn btn-secondary">목록으로</a>
+        </c:if>
+
     </div>
 </body>
 </html>

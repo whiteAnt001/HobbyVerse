@@ -48,6 +48,17 @@ public class BoardService {
         return boardRepository.findById(seq).orElse(null);
     }
 
+    // ✅ 게시글 수정 기능 (제목 & 내용만 수정)
+    @Transactional
+    public void updateBoard(Long seq, String subject, String content) {
+        Board board = boardRepository.findById(seq).orElse(null);
+        if (board != null) {
+            board.setSubject(subject); // 제목 수정
+            board.setContent(content); // 내용 수정
+            boardRepository.save(board); // 변경 내용 저장
+        }
+    }
+
     // ✅ 게시글 삭제 기능
     @Transactional
     public void deleteBoardById(Long seq) {
