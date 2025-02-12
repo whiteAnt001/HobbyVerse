@@ -39,8 +39,7 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 		String accessToken = JwtUtil.generateToken(email, name, role);
 		String refreshToken = JwtUtil.generateRefreshToken(email);
         
-       //JWT를 쿠키에 저장
-        jwtUtil.addJwtToCookie(response, accessToken);
+       
         
         // 응답 헤더에 JWT 추가
         response.setHeader("Authorization", "Bearer " + accessToken);

@@ -1,6 +1,12 @@
 package com.springboot.hobbyverse.service;
 
 
+
+
+import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,7 +33,14 @@ public class UserService {
 	public User getUser(User user) {
 		return this.myMapper.getUser(user);
 	}
-	
+	//모든 유저 찾기
+	public List<User> getUserList(){
+		return this.myMapper.getUserList();
+	}
+	//모든 유저의 수 찾기
+	public Integer getUserCount() {
+		return this.myMapper.getUserCount();
+	}
 	//사용자의 id를 이용해 email 조회
     public String getUserIdByUserId(Long userId) {
         User user = userRepository.findByUserId(userId);
