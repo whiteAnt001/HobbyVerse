@@ -114,10 +114,11 @@ to {
 
 	<div class="container mt-4">
 		<div class="row">
-			<form action="/category/search" method="post">
 				<c:choose>
 					<c:when test="${keyList[0] == null }">
-						<h2>아직 해당 모임이 만들어지지 않았어요</h2>
+						<div align="center">
+							<h2>아직 해당 모임이 만들어지지 않았어요</h2>
+						</div>
 					</c:when>
 					<c:otherwise>
 						<c:forEach var="key" items="${keyList}">
@@ -126,45 +127,48 @@ to {
 
 									<div class="meeting-card">
 										<div clss="p-3">
-									<tr>
-										<th>모임 아이디</th>
-										<td>${key.m_id}</td>
-									</tr>
-									<tr>
-										<th>모임 이름</th>
-										<td>${key.title}</td>
-									</tr>
-									<tr>
-										<th>모임 설명</th>
-										<td>${key.info}</td>
-									</tr>
-									<tr>
-										<th>카테고리</th>
-										<td>${key.c_key}</td>
-									</tr>
-									<tr>
-										<th>작성일</th>
-										<td>${key.w_date}</td>
-									</tr>
-									<tr>
-										<th>금액</th>
-										<td>${key.price}</td>
-									</tr>
-									<tr>
-										<th>작성자</th>
-										<td>${key.w_id}</td>
-									</tr>
-									</div>
+											<tr>
+												<th>모임 아이디</th>
+												<td>${key.m_id}</td>
+											</tr>
+											<tr>
+												<th>모임 이름</th>
+												<td>${key.title}</td>
+											</tr>
+											<tr>
+												<th>작성자</th>
+												<td>${key.w_id}</td>
+											</tr>
+											<tr>
+												<th>모임 설명</th>
+												<td>${key.info}</td>
+											</tr>
+											<tr>
+												<th>카테고리</th>
+												<td>${key.c_key}</td>
+											</tr>
+											<tr>
+												<th>작성일</th>
+												<td>${key.w_date}</td>
+											</tr>
+											<tr>
+												<th>금액</th>
+												<td>${key.price}</td>
+											</tr>
+											<tr>
+												<th><a href="">자세히 보기</a></th>
+											</tr>
+										</div>
 									</div>
 								</table>
 							</div>
 						</c:forEach>
 					</c:otherwise>
 				</c:choose>
-			</form>
 		</div>
 	</div>
 
+	<div align="center">
 	<c:set var="pageCount" value="${pageCount}" />
 	<c:set var="currentPage" value="${currentPage}" />
 	<c:set var="startPage"
@@ -175,36 +179,25 @@ to {
 	</c:if>
 
 	<c:if test="${startPage > 10}">
-		<a href="/category/search?PAGE_NUM=${startPage - 1}">[이전]</a>
+		<a href="/category/search?pageNo=${startPage - 1}">[이전]</a>
 	</c:if>
 
 	<c:forEach begin="${startPage }" end="${endPage}" var="i">
 		<c:if test="${currentPage == i}">
 			<font size="6">
 		</c:if>
-		<a href="/category/search?PAGE_NUM=${i}">${i}</a>
+		<a href="/category/search?pageNo=${i}">${i}</a>
 		<c:if test="${currentPage == i}">
 			</font>
 		</c:if>
 	</c:forEach>
 
 	<c:if test="${endPage < pageCount}">
-		<a href="/category/search?PAGE_NUM=${endPage + 1}">[다음]</a>
+		<a href="/category/search?pageNo=${endPage + 1}">[다음]</a>
 	</c:if>
+	</div>
 
-	<form method="post" name="itemfm">
-		<input type="hidden" name="NAME" value="${NAME}"> <input
-			type="hidden" name="KEY" value="${KEY }"> <input
-			type="hidden" name="PAGE_NUM">
-	</form>
-
-	<script type="text/javascript">
-		function movePage(page) {
-			document.itemfm.PAGE_NUM.value = page;
-			document.itemfm.action = "../item/search.jsp";
-			document.itemfm.submit();
-		}
-	</script>
+	
 
 	<!-- Bootstrap JS -->
 	<script

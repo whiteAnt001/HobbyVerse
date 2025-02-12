@@ -167,6 +167,8 @@ to {
 
 		</div>
 	</div>
+	
+	<jsp:include page="page.jsp"/>
 
 
 	<!-- Bootstrap JS -->

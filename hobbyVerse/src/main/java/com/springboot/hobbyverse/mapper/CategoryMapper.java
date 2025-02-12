@@ -11,7 +11,8 @@ import com.springboot.hobbyverse.model.StartEnd;
 
 @Mapper
 public interface CategoryMapper {
-	List<Meetup> getKeyByName(StartEnd se);
-	Integer getKeyCountByName(SameMeeting sm);
-	List<Meetup> getMeet(Integer c_key);
+	List<Meetup> getKeyByName(StartEnd se);//검색 페이지 처리
+	Integer getKeyCountByName(SameMeeting sm);//검색 개수
+	List<Meetup> getMeet(StartEnd se);//카테고리 별 모임 페이지 처리
+	Integer getMeetCount(Integer c_key);//카테고리별 모임 개수
 }

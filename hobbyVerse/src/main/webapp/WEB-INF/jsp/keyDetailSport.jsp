@@ -105,8 +105,7 @@ to {
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-md-8 mx-auto">
-					<div
-						class="filter-bar d-flex justify-content-between align-items-center">
+					<div class="filter-bar d-flex justify-content-between align-items-center">
 						모임 검색<input type="text" name="NAME" /><input type="hidden"
 							name="KEY" value="${KEY }" /> <input type="submit" value="검색" />
 						<select class="form-select w-auto">
@@ -167,6 +166,8 @@ to {
 
 		</div>
 	</div>
+	
+	<jsp:include page="page.jsp"/>
 
 
 	<!-- Bootstrap JS -->

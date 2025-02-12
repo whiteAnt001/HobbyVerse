@@ -17,10 +17,11 @@ public class CategoryService {
 	@Autowired
 	private CategoryMapper categoryMapper;
 	
+	//검색 페이지 처리
 	public List<Meetup> getKeyByName(String title, Integer pageNo, Integer key) {
 		if(pageNo == null) pageNo = 1;
 		int start = (pageNo - 1) * 6;
-		int end = ((pageNo - 1) * 6) + 5;
+		int end = ((pageNo - 1) * 6) + 7;
 		StartEnd se = new StartEnd();
 		se.setStart(start);
 		se.setEnd(end);
@@ -29,6 +30,7 @@ public class CategoryService {
 		return this.categoryMapper.getKeyByName(se);
 	}
 	
+	//검색 개수
 	public Integer getKeyCountByName(String title, Integer c_key) {
 		SameMeeting sm = new SameMeeting();
 		sm.setTitle(title);
@@ -36,8 +38,21 @@ public class CategoryService {
 		return this.categoryMapper.getKeyCountByName(sm);
 	}
 	
-	public List<Meetup> getMeet(Integer c_key) {
-		return this.categoryMapper.getMeet(c_key);
+	//카테고리 별 모임 페이지 처리
+	public List<Meetup> getMeet(Integer pageNo, Integer c_key) {
+		if(pageNo == null) pageNo = 1;
+		int start = (pageNo - 1) * 6;
+		int end = ((pageNo - 1) * 6) + 7;
+		StartEnd se = new StartEnd();
+		se.setStart(start);
+		se.setEnd(end);
+		se.setC_key(c_key);
+		return this.categoryMapper.getMeet(se);
+	}
+	
+	//카테고리별 모임 리스트 페이지 처리
+	public Integer getMeetCount(Integer c_key) {
+		return this.categoryMapper.getMeetCount(c_key);
 	}
 
 }
