@@ -75,23 +75,8 @@
 </head>
 <body>
 
-    <!-- 네비게이션 바 -->
-    <nav class="navbar navbar-expand-lg navbar-dark gradient-bg">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">HobbyMatch</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
-                    <li class="nav-item"><a class="nav-link active" href="/category/key">카테고리</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#">로그인</a></li>
-                    <li class="nav-item"><a class="nav-link btn gradient-btn" href="#">회원가입</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
+    <!-- 네비게이션 바 포함 -->
+    <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 
     <!-- 카테고리 목록 -->
     <div class="container mt-5">

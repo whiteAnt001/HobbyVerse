@@ -8,16 +8,20 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
+import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.service.CategoryService;
+import com.springboot.hobbyverse.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class CategoryController {
 	@Autowired
 	private CategoryService categoryService;
+	@Autowired
+	private UserService userService;
 	
 	@GetMapping("/category/key")//카테고리 버튼 선택
 	public ModelAndView key() {
