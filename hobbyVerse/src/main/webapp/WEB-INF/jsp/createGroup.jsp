@@ -29,10 +29,11 @@
                 <form:select path="c_key" id="c_key" name="c_key" required="true">
                     <option value="">카테고리를 선택하세요</option>
                     <option value="1">운동</option>
-                    <option value="2">여행</option>
-                    <option value="3">독서</option>
-                    <option value="4">취업</option>
-                    <option value="5">기타</option>
+                    <option value="2">음악</option>
+                    <option value="3">스터디</option>
+                    <option value="4">게임</option>
+                    <option value="5">여행</option>
+                    <option value="6">기타</option>
                 </form:select>
             </div>
 			<div class="mb-3">

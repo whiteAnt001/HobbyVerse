@@ -2,6 +2,9 @@ package com.springboot.hobbyverse.model;
 
 import java.sql.Date;
 
+import org.springframework.web.multipart.MultipartFile;
+
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Getter;
@@ -17,6 +20,11 @@ public class Meetup {
 	@Temporal(TemporalType.DATE)
 	private Date w_date;
 	private Integer price;
+	private String imagename;
 	private String w_id;
 
+	private MultipartFile file;
+	
+	@ManyToOne
+	private Category category;
 }
