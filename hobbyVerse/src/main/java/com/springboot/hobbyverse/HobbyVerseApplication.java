@@ -2,14 +2,12 @@ package com.springboot.hobbyverse;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EntityScan(basePackages = "com.springboot.hobbyverse.model")
+@EnableJpaRepositories(basePackages = "com.springboot.hobbyverse.repository")
 public class HobbyVerseApplication {
-
-	public static void main(String[] args) {
-		SpringApplication.run(HobbyVerseApplication.class, args);
-	}
-
+    public static void main(String[] args) {
+        SpringApplication.run(HobbyVerseApplication.class, args);
+    }
 }

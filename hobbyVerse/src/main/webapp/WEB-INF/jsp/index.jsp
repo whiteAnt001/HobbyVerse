@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>  
+
 <!DOCTYPE html>
 <html lang="UTF-8">
 <head>
@@ -39,25 +41,7 @@
         </div>
     </div>
 
-    <!-- 인기 모임 목록 -->
-    <div class="container mt-5">
-        <h3 class="text-center mb-4">🔥 인기 모임</h3>
-        <div class="row">
-            <c:forEach var="meeting" items="${popularMeetings}">
-                <div class="col-md-4 mb-4">
-                    <div class="card">
-                        <img src="${meeting.imageUrl}" class="card-img-top" alt="모임 이미지">
-                        <div class="card-body">
-                            <h5 class="card-title">${meeting.title}</h5>
-                            <p class="card-text">날짜: ${meeting.date}</p>
-                            <p class="card-text">참가비: ${meeting.price}원</p>
-                            <a href="/meeting/${meeting.id}" class="btn gradient-btn">자세히 보기</a>
-                        </div>
-                    </div>
-                </div>
-            </c:forEach>
-        </div>
-    </div>
+    
 
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

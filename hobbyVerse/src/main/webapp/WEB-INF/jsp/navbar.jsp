@@ -12,6 +12,7 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ms-auto">
 				<li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
+				<li class="nav-item"><a class="nav-link" href="/boards">게시판</a></li> <!-- ✅ 게시판 메뉴 추가 -->
 				<li class="nav-item"><a class="nav-link" href="/category/key">카테고리</a></li>
 
 				<!-- 로그인된 경우 -->
@@ -22,8 +23,7 @@
 				<c:if test="${user != null}">
 					<li class="nav-item"><a class="nav-link" href="/myPage">${user.name}님</a></li>
 					<!-- 로그인 된 계정에 관리자 권한이 있을 경우 -->
-					<c:if
-						test="${user.role == 'ROLE_ADMIN'}">
+					<c:if test="${user.role == 'ROLE_ADMIN'}">
 						<li class="nav-item"><a class="nav-link"
 							href="/admin/dashboard">관리자 페이지</a></li>
 					</c:if>
@@ -33,7 +33,6 @@
 						</form>
 					</li>
 				</c:if>
-
 
 				<!-- 로그인되지 않은 경우 -->
 				<c:if test="${user == null}">
