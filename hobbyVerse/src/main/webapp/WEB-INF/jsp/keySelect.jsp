@@ -75,6 +75,9 @@
 </head>
 <body>
 
+    <!-- 네비게이션 바 포함 -->
+    <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
+
     <!-- 카테고리 목록 -->
     <div class="container mt-5">
         <h2 class="category-title">🎨 다양한 취미 & 스터디 카테고리</h2>
@@ -83,6 +86,7 @@
             <!-- 카테고리 예시 -->
             <div class="col-md-4 mb-4">
             <a href="/category/sports" style="text-decoration: none;">
+ 				<a href="/category/moveSport" style="text-decoration: none;">
                 <div class="category-card"> 
                     <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="스포츠">
                     <h5>🏀 스포츠</h5>
@@ -92,15 +96,18 @@
             </div>
 
             <div class="col-md-4 mb-4">
+            	<a href="/category/moveMusic" style="text-decoration: none;">
                 <div class="category-card">
                     <img src="https://cdn-icons-png.flaticon.com/512/3081/3081897.png" alt="음악">
                     <h5>🎵 음악</h5>
                     <p>밴드, 노래, 악기 연습 등 음악을 즐길 수 있는 모임!</p>
                 </div>
+                </a>
             </div>
 
             <div class="col-md-4 mb-4">
                 <div class="category-card">
+                <a href="/category/moveStudy" style="text-decoration: none;">
                     <img src="https://cdn-icons-png.flaticon.com/512/1055/1055646.png" alt="스터디">
                     <h5>📚 스터디</h5>
                     <p>어학, 코딩, 자격증 등 함께 공부하는 모임을 찾아보세요.</p>
@@ -116,6 +123,11 @@
             </div>
 
             <div class="col-md-4 mb-4">
+            	</a>
+            </div>
+
+            <div class="col-md-4 mb-4">
+            <a href="/category/moveGame" style="text-decoration: none;">
                 <div class="category-card">
                     <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="게임">
                     <h5>🎮 게임</h5>
@@ -124,11 +136,27 @@
             </div>
 
             <div class="col-md-4 mb-4">
+            	</a>
+            </div>
+
+            <div class="col-md-4 mb-4">
+            <a href="/category/moveTravel" style="text-decoration: none;">
                 <div class="category-card">
                     <img src="https://cdn-icons-png.flaticon.com/512/619/619153.png" alt="여행">
                     <h5>✈️ 여행</h5>
                     <p>국내 & 해외 여행을 함께 계획하고 떠나요!</p>
                 </div>
+            	</a>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+            <a href="/category/moveEtc" style="text-decoration: none;">
+                <div class="category-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2333/2333014.png" alt="요리">
+                    <h5>🍳 기타</h5>
+                    <p>새로운 모임들이 있어요</p>
+                </div>
+            	</a>
             </div>
 
         </div>
