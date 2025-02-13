@@ -43,7 +43,7 @@ public class AdminController {
         List<User> users = userRepository.findAll();
         
         // LocalDateTime 포맷터 설정
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss	");
 
         for (User user : users) {
             if (user.getRegDate() != null) {
