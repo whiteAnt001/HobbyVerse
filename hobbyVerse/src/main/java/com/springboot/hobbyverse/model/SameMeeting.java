@@ -5,9 +5,7 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class StartEnd {
+public class SameMeeting {
 	private String title;
-	private int start;
-	private int end;
 	private Integer c_key;
 }
