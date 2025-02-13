@@ -33,7 +33,7 @@ public class MeetingService {
 		return this.meetingMapper.getTotal();
 	}
 	
-	public List<Category> getCategoryList(){//카테고리 목록
+	public List<Category> getCategoryList() {//카테고리 목록
 		return this.meetingMapper.getCategoryList();
 	}
 	public Integer getMaxId() {
@@ -42,6 +42,6 @@ public class MeetingService {
 		return max;
 	}
 	public Meetup getMeetDetail(Integer id) {
-	    return meetingMapper.getMeetDetail(id); //모임상세
+		return this.meetingMapper.getMeetDetail(id);
 	}
 }
