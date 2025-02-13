@@ -11,6 +11,14 @@
 		</button>
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ms-auto">
+				<li class="nav-item"><a class="nav-link" href="/category/key">카테고리</a></li>
+
+				<!-- 로그인된 경우 -->
+				<c:if test="${user != null }">
+					<li class="nav-item"><a class="nav-link" href="/meetup/index.html">홈</a></li>
+				</c:if>
+				<c:if test="${user != null}">
+					<li class="nav-item"><a class="nav-link" href="/meetup/createGroup.html">모임 등록하기</a></li>
 				<li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
 				<li class="nav-item"><a class="nav-link" href="/category/key">카테고리</a></li>
 
@@ -19,9 +27,14 @@
 					<li class="nav-item"><a class="nav-link btn btn-primary"
 						href="/meetup/createGroup.html">모임 등록하기</a></li>
 				</c:if>
-
 				<c:if test="${user != null}">
 					<li class="nav-item"><a class="nav-link" href="/myPage">${user.name}님</a></li>
+					<!-- 로그인 된 계정에 관리자 권한이 있을 경우 -->
+					<c:if
+						test="${user.role == 'ROLE_ADMIN'}">
+						<li class="nav-item"><a class="nav-link"
+							href="/api/admin/dashboard">관리자 페이지</a></li>
+					</c:if>
 					<li class="nav-item">
 						<form action="/logout" method="post">
 							<button type="submit" class="btn btn-danger">로그아웃</button>
@@ -29,7 +42,11 @@
 					</li>
 				</c:if>
 
+
 				<!-- 로그인되지 않은 경우 -->
+				<c:if test="${user == null }">
+					<li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
+				</c:if>
 				<c:if test="${user == null}">
 					<li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
 					<li class="nav-item"><a class="nav-link btn gradient-btn"

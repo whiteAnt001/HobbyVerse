@@ -85,6 +85,7 @@
 
             <!-- 카테고리 예시 -->
             <div class="col-md-4 mb-4">
+            <a href="/category/sports" style="text-decoration: none;">
  				<a href="/category/moveSport" style="text-decoration: none;">
                 <div class="category-card"> 
                     <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="스포츠">
@@ -111,6 +112,17 @@
                     <h5>📚 스터디</h5>
                     <p>어학, 코딩, 자격증 등 함께 공부하는 모임을 찾아보세요.</p>
                 </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
+                <div class="category-card">
+                    <img src="https://cdn-icons-png.flaticon.com/512/2333/2333014.png" alt="요리">
+                    <h5>🍳 요리</h5>
+                    <p>다양한 요리를 배우고 함께 즐기는 쿠킹 모임!</p>
+                </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
             	</a>
             </div>
 
@@ -121,6 +133,9 @@
                     <h5>🎮 게임</h5>
                     <p>보드게임, 온라인 게임 등 취향 맞는 친구들과 즐기세요.</p>
                 </div>
+            </div>
+
+            <div class="col-md-4 mb-4">
             	</a>
             </div>
 

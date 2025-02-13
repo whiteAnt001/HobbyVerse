@@ -31,7 +31,7 @@ public class UserViewController {
 	@PostMapping("/register")
     public ModelAndView signup(AddUserRequest addUserRequest) {
 		ModelAndView mav = new ModelAndView("signupResult");
-        userService.save(addUserRequest); // 회원가입 메서드 호출
+		userService.saveUser(addUserRequest); //폼 로그인 사용자 저장
         return mav; //회원가입이 완려된 이후에 로그인 페이지로 이동
     }
 	
@@ -42,15 +42,23 @@ public class UserViewController {
 
 	    if (user == null) {
 	        // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
-	        mav.setViewName("redirect:/login");
+	        mav.setViewName("/login");
 	        return mav;
+	    }
+	    
+	    // 비밀번호 변경 후 메시지 전달
+	    String message = (String) session.getAttribute("message");
+	    if (message != null) {
+	        mav.addObject("message", message); // 메시지를 모델에 추가
+	        session.removeAttribute("message");  // 메시지 처리 후 세션에서 제거
 	    }
 	    
 	    mav.addObject("user", user);
 	    return mav;
 	}
 	
-	@PostMapping("/changePassword")
+	//비밀번호 변경 (나중에 api로 따로 빼는게 좋을 듯?)
+	@PostMapping("/myPage/changePassword")
 	public ModelAndView changePassword(@RequestParam String currentPassword, @RequestParam String newPassword, @RequestParam String confirmPassword, HttpSession session) {
 	    ModelAndView mav = new ModelAndView("myPage");
 
@@ -58,6 +66,9 @@ public class UserViewController {
 	    // 비밀번호 일치 여부 확인
 	    if (!newPassword.equals(confirmPassword)) {
 	        mav.addObject("message", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
+	        return mav;
+	    }else if(user.getPassword().equals(newPassword)) {
+	        mav.addObject("message", "현재 비밀번호와 새 비밀번호가 같습니다.");
 	        return mav;
 	    }
 
