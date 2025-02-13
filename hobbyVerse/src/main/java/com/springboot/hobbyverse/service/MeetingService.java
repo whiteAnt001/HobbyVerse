@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springboot.hobbyverse.mapper.MeetingMapper;
+import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.StartEnd;
@@ -17,7 +18,6 @@ public class MeetingService {
 	private MeetingMapper meetingMapper;
 	
 	public void putMeeting(Meetup meetup) {//모임 등록
-		meetup.setM_id(this.getMaxId() + 1);
 		this.meetingMapper.putMeeting(meetup);
 	}
 	public List<Meetup> getMeetList(Integer pageNo) {
