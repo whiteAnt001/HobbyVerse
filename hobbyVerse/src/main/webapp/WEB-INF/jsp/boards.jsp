@@ -33,10 +33,10 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <div class="input-group">
-                    <input type="text" class="form-control" placeholder="게시글을 검색하세요...">
-                    <button class="btn gradient-btn">검색</button>
-                </div>
+                <form action="/boards" method="get" class="input-group">
+                    <input type="text" class="form-control" name="keyword" placeholder="게시글을 검색하세요..." value="${keyword}">
+                    <button type="submit" class="btn gradient-btn">검색</button>
+                </form>
             </div>
         </div>
     </div>
@@ -54,56 +54,55 @@
                     <th>조회수</th>
                 </tr>
             </thead>
-			<tbody>
-			    <c:if test="${empty formattedBoards}">
-			        <tr>
-			            <td colspan="5" class="text-center">게시글이 없습니다.</td>
-			        </tr>
-			    </c:if>
+            <tbody>
+                <c:if test="${empty formattedBoards}">
+                    <tr>
+                        <td colspan="5" class="text-center">게시글이 없습니다.</td>
+                    </tr>
+                </c:if>
 
-			    <c:forEach var="board" items="${formattedBoards}">
-			        <tr>
-			            <td>${board.seq}</td>
-						<td><a href="/boards/${board.seq}">${board.subject}</a></td>
-			            <td>${board.name}</td>
-			            <td>${board.formattedRegDate}</td> <!-- ✅ 변환된 날짜 출력 -->
-			            <td>${board.readCount}</td>
-			        </tr>
-			    </c:forEach>
-			</tbody>
+                <c:forEach var="board" items="${formattedBoards}">
+                    <tr>
+                        <td>${board.seq}</td>
+                        <td><a href="/boards/${board.seq}">${board.subject}</a></td>
+                        <td>${board.name}</td>
+                        <td>${board.formattedRegDate}</td> <!-- ✅ 변환된 날짜 출력 -->
+                        <td>${board.readCount}</td>
+                    </tr>
+                </c:forEach>
+            </tbody>
         </table>
 
-		<!-- 페이징 기능 -->
-		<div class="text-center mt-4">
-		    <c:if test="${boardPage.totalPages > 1}">
-		        <nav>
-		            <ul class="pagination justify-content-center">
-						<!-- 이전 페이지 -->
-						<c:if test="${currentPage > 1}">
-						    <li class="page-item">
-						        <a class="page-link" href="/boards?page=${currentPage - 1}">이전</a>
-						    </li>
-						</c:if>
+        <!-- ✅ 페이징 기능 -->
+        <div class="text-center mt-4">
+            <c:if test="${boardPage.totalPages > 1}">
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <!-- 이전 페이지 -->
+                        <c:if test="${currentPage > 1}">
+                            <li class="page-item">
+                                <a class="page-link" href="/boards?page=${currentPage - 1}&keyword=${keyword}">이전</a>
+                            </li>
+                        </c:if>
 
-						<!-- 페이지 번호 -->
-						<c:forEach var="i" begin="1" end="${totalPages}">
-						    <li class="page-item ${i == currentPage ? 'active' : ''}">
-						        <a class="page-link" href="/boards?page=${i}">${i}</a>
-						    </li>
-						</c:forEach>
+                        <!-- 페이지 번호 -->
+                        <c:forEach var="i" begin="1" end="${totalPages}">
+                            <li class="page-item ${i == currentPage ? 'active' : ''}">
+                                <a class="page-link" href="/boards?page=${i}&keyword=${keyword}">${i}</a>
+                            </li>
+                        </c:forEach>
 
-						<!-- 다음 페이지 -->
-						<c:if test="${currentPage < totalPages}">
-						    <li class="page-item">
-						        <a class="page-link" href="/boards?page=${currentPage + 1}">다음</a>
-						    </li>
-						</c:if>
+                        <!-- 다음 페이지 -->
+                        <c:if test="${currentPage < totalPages}">
+                            <li class="page-item">
+                                <a class="page-link" href="/boards?page=${currentPage + 1}&keyword=${keyword}">다음</a>
+                            </li>
+                        </c:if>
 
-		            </ul>
-		        </nav>
-		    </c:if>
-		</div>
-
+                    </ul>
+                </nav>
+            </c:if>
+        </div>
 
         <!-- ✅ 글쓰기 버튼 -->
         <div class="text-end">

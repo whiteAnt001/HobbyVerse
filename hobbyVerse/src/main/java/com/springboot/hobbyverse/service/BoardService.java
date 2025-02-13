@@ -29,6 +29,11 @@ public class BoardService {
         return boardRepository.findAll(pageable);
     }
 
+    // ✅ 제목에 특정 키워드가 포함된 게시글 검색 (페이징 적용)
+    public Page<Board> searchBoards(String keyword, Pageable pageable) {
+        return boardRepository.findBySubjectContaining(keyword, pageable);
+    }
+
     // ✅ 게시글 저장 (INSERT & UPDATE)
     @Transactional
     public Board saveBoard(Board board) {

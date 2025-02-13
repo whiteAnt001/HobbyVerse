@@ -39,29 +39,40 @@ public class BoardController {
         return mav;
     }
 
-    // ✅ 게시판 목록 페이지 (페이징)
+    // ✅ 게시판 목록 페이지 (페이징 + 검색 추가)
     @GetMapping("/boards")
-    public ModelAndView getBoardPage(@RequestParam(defaultValue = "1") int page, HttpSession session) {
-        int pageSize = 10;
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "seq"));
-        Page<Board> boardPage = boardService.getBoardsWithPagination(pageable);
+    public ModelAndView getBoardPage(
+    	    @RequestParam(defaultValue = "1") int page, 
+    	    @RequestParam(required = false) String keyword, 
+    	    HttpSession session) {
 
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        List<Board> formattedBoards = boardPage.getContent().stream().map(board -> {
-            board.setFormattedRegDate(board.getRegDate().format(formatter));
-            return board;
-        }).collect(Collectors.toList());
+    	    int pageSize = 10;
+    	    Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.ASC, "seq"));
+    	    
+    	    Page<Board> boardPage;
+    	    if (keyword != null && !keyword.trim().isEmpty()) {
+    	        boardPage = boardService.searchBoards(keyword, pageable); // 🔥 검색 기능 적용
+    	    } else {
+    	        boardPage = boardService.getBoardsWithPagination(pageable);
+    	    }
 
-        ModelAndView mav = new ModelAndView("boards");
-        mav.addObject("boardPage", boardPage);
-        mav.addObject("formattedBoards", formattedBoards);
-        mav.addObject("currentPage", page);
-        mav.addObject("totalPages", boardPage.getTotalPages());
+    	    DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+    	    List<Board> formattedBoards = boardPage.getContent().stream().map(board -> {
+    	        board.setFormattedRegDate(board.getRegDate().format(formatter));
+    	        return board;
+    	    }).collect(Collectors.toList());
 
-        User user = (User) session.getAttribute("loginUser");
-        mav.addObject("user", user);
+    	    ModelAndView mav = new ModelAndView("boards");
+    	    mav.addObject("boardPage", boardPage);
+    	    mav.addObject("formattedBoards", formattedBoards);
+    	    mav.addObject("currentPage", page);
+    	    mav.addObject("totalPages", boardPage.getTotalPages());
+    	    mav.addObject("keyword", keyword); // 검색어 유지
 
-        return mav;
+    	    User user = (User) session.getAttribute("loginUser");
+    	    mav.addObject("user", user);
+
+    	    return mav;
     }
 
     // ✅ 게시글 작성 페이지 이동
@@ -108,27 +119,12 @@ public class BoardController {
         return mav;
     }
 
-    // ✅ 게시글 수정 페이지 (작성자와 작성일은 수정 불가)
-    @GetMapping("/boards/{seq}/edit")
-    public ModelAndView editBoard(@PathVariable Long seq, HttpSession session) {
-        Board board = boardService.getBoardById(seq);
-
-        ModelAndView mav = new ModelAndView("editBoard");
-        mav.addObject("board", board);
-
-        User user = (User) session.getAttribute("loginUser");
-        mav.addObject("user", user);
-
-        return mav;
-    }
-
- // ✅ 게시글 수정 처리 (제목, 내용만 수정 가능)
+    // ✅ 게시글 수정 처리 (제목, 내용만 수정 가능)
     @PostMapping("/boards/{seq}/update")
     public ModelAndView updateBoard(@PathVariable Long seq, @RequestParam String subject, @RequestParam String content) {
         boardService.updateBoard(seq, subject, content);
         return new ModelAndView("redirect:/boards"); // ✅ 수정 후 게시판 목록으로 이동
     }
-
 
     // ✅ 게시글 삭제 처리
     @PostMapping("/boards/{seq}/delete")
