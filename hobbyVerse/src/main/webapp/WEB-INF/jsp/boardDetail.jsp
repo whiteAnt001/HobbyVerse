@@ -1,4 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
@@ -31,14 +31,17 @@
                     <textarea class="form-control" name="content" rows="5" required>${board.content}</textarea>
                 </div>
 
-                <!-- ✅ 버튼 구성 (취소 버튼 제거, 목록 버튼 이동) -->
-				<a href="/boards" class="btn btn-secondary">목록으로</a>
-                <button type="submit" class="btn btn-primary">수정 완료</button>
-                
+                <!-- ✅ 수정 버튼과 목록으로 버튼 -->
+                <div class="d-flex align-items-center gap-2">
+                    <a href="/boards" class="btn btn-secondary">목록으로</a>
+                    <button type="submit" class="btn btn-primary">수정 완료</button>
+                </div>
+            </form>
 
-                <form action="/boards/${board.seq}/delete" method="post" style="display: inline;">
-                    <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
-                </form>
+            <!-- ✅ 삭제 버튼을 수정 폼 밖으로 이동 -->
+            <form action="/boards/${board.seq}/delete" method="post" class="mt-2"
+                  onsubmit="return confirm('정말 삭제하시겠습니까?');">
+                <button type="submit" class="btn btn-danger">삭제</button>
             </form>
         </c:if>
 
