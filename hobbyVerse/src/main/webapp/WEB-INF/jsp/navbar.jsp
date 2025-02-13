@@ -26,7 +26,7 @@
 					<c:if
 						test="${user.role == 'ROLE_ADMIN'}">
 						<li class="nav-item"><a class="nav-link"
-							href="/admin/dashboard">관리자 페이지</a></li>
+							href="/api/admin/dashboard">관리자 페이지</a></li>
 					</c:if>
 					<li class="nav-item">
 						<form action="/logout" method="post">
