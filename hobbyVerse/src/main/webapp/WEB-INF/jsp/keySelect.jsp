@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -85,7 +86,6 @@
 
             <!-- 카테고리 예시 -->
             <div class="col-md-4 mb-4">
-            <a href="/category/sports" style="text-decoration: none;">
  				<a href="/category/moveSport" style="text-decoration: none;">
                 <div class="category-card"> 
                     <img src="https://cdn-icons-png.flaticon.com/512/1946/1946429.png" alt="스포츠">
@@ -106,24 +106,13 @@
             </div>
 
             <div class="col-md-4 mb-4">
-                <div class="category-card">
                 <a href="/category/moveStudy" style="text-decoration: none;">
+                   <div class="category-card">
                     <img src="https://cdn-icons-png.flaticon.com/512/1055/1055646.png" alt="스터디">
                     <h5>📚 스터디</h5>
                     <p>어학, 코딩, 자격증 등 함께 공부하는 모임을 찾아보세요.</p>
                 </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-                <div class="category-card">
-                    <img src="https://cdn-icons-png.flaticon.com/512/2333/2333014.png" alt="요리">
-                    <h5>🍳 요리</h5>
-                    <p>다양한 요리를 배우고 함께 즐기는 쿠킹 모임!</p>
-                </div>
-            </div>
-
-            <div class="col-md-4 mb-4">
-            	</a>
+                </a>
             </div>
 
             <div class="col-md-4 mb-4">
@@ -133,12 +122,9 @@
                     <h5>🎮 게임</h5>
                     <p>보드게임, 온라인 게임 등 취향 맞는 친구들과 즐기세요.</p>
                 </div>
+                </a>
             </div>
-
-            <div class="col-md-4 mb-4">
-            	</a>
-            </div>
-
+            
             <div class="col-md-4 mb-4">
             <a href="/category/moveTravel" style="text-decoration: none;">
                 <div class="category-card">
