@@ -45,7 +45,7 @@
         <div class="row">
             <!-- EL 표현식과 매핑 부분 -->
             <c:forEach var="meet" items="${meetList}">
-			    <form method="post" action="/meetup/index.html" class="col-md-4 mb-4">
+			    <form method="post" action="/home" class="col-md-4 mb-4">
 			        <div class="card shadow-sm">
 			            <c:if test="${meet.imagename}">
 						    <img src="<c:url value='${pageContext.request.contextPath}/upload/${meet.imagename}'/>" class="card-img-top" alt="모임 이미지">
@@ -68,15 +68,15 @@
 	
 	<div align="center">
 	    <c:if test="${startPage > 1}">
-	        <a href="../meetup/index.html?PAGE_NUM=${startPage - 1}">[이전]</a>
+	        <a href="../home?PAGE_NUM=${startPage - 1}">[이전]</a>
 	    </c:if>
 	    <c:forEach begin="${startPage}" end="${endPage}" var="i">
-	        <a href="../meetup/index.html?PAGE_NUM=${i}" class="${currentPage == i ? 'active-page' : ''}">
+	        <a href="../home?PAGE_NUM=${i}" class="${currentPage == i ? 'active-page' : ''}">
 	            ${i}
 	        </a>
 	    </c:forEach>
 	    <c:if test="${endPage < pageCount}">
-	        <a href="../meetup/index.html?PAGE_NUM=${endPage + 1}">[다음]</a>
+	        <a href="../home?PAGE_NUM=${endPage + 1}">[다음]</a>
 	    </c:if>
 	</div>
 

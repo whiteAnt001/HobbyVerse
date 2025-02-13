@@ -33,7 +33,7 @@ public class LoginController {
 	@PostMapping("/logout")
 	public String logout(HttpSession session) {
 	    session.invalidate(); // 세션 종료
-	    return "redirect:/login"; // 🔹 올바른 리다이렉트 방식
+	    return "redirect:/login";
 	}
 
 	
@@ -55,7 +55,11 @@ public class LoginController {
 	        boolean isPasswordMatch = userService.checkPassword(password, loginUser.getPassword());
 	        if (isPasswordMatch) {
 	        	session.setAttribute("loginUser", luser);
-	        	mav.setViewName("redirect:/home"); // 🔹 로그인 성공 후 홈 이동
+	        	mav.setViewName("index.html"); // 🔹 로그인 성공 후 홈 이동
+	        	System.out.println("유저아이디" + luser.getUserId());
+	        	System.out.println(luser.getEmail());
+	        	System.out.println(luser.getName());
+	        	mav.setViewName("redirect:/home"); //로그인 성공 후 홈 이동
 	        } else {
 	            mav.addObject("FAIL", "YES");  // 비밀번호 불일치
 	        }

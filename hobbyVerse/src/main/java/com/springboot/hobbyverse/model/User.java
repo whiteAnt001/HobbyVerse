@@ -1,15 +1,29 @@
 package com.springboot.hobbyverse.model;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "users")
@@ -33,26 +47,31 @@ public class User implements UserDetails {
     @Column(name = "role")
     private String role;
 
-    @Column(name = "name", unique = true)
+    @Column(name = "name")
     private String name;
-
+    
+    @CreationTimestamp
+    @Column(name = "reg_date", nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime regDate;
+    private String regDateString; //regDate를 문자열로 변환하여 저장하는 변수
+    
     @Column(name = "provider")  // OAuth2 제공자 (google, facebook 등)
     private String provider;
 
     @Column(name = "provider_id", unique = true)  // OAuth2 제공자의 고유 ID
     private String providerId;
-
+    
     @Builder
-    public User(String email, String password, String name, String role, String provider, String providerId) {
-        this.email = email;
+    public User(String email, String password, LocalDateTime regDate, String name, String role, String provider, String providerId) {
+    	this.email = email;
         this.password = password;
+        this.regDate = regDate;
         this.name = name;
         this.role = role;
         this.provider = provider;
         this.providerId = providerId;
     }
-
-    // OAuth2 로그인 시 사용자 정보 업데이트
     public User update(String name) {
         this.name = name;
         return this;
@@ -72,7 +91,6 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
-
     @Override
     public boolean isAccountNonExpired() {
         return true;
