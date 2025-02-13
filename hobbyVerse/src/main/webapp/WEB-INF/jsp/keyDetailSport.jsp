@@ -96,8 +96,8 @@ to {
 
 	<!-- 카테고리 헤더 -->
 	<div class="category-header">
-		<h1>🎵 음악 모임</h1>
-		<p>다양한 악기를 연주하고 함께 즐길 사람들을 찾아보세요!</p>
+		<h1>🏀 스포츠 모임</h1>
+		<p>다양한 스포츠를 즐기고 함께 운동할 사람들을 찾아보세요!</p>
 	</div>
 
 	<!-- 필터 & 정렬 -->
@@ -105,8 +105,7 @@ to {
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-md-8 mx-auto">
-					<div
-						class="filter-bar d-flex justify-content-between align-items-center">
+					<div class="filter-bar d-flex justify-content-between align-items-center">
 						모임 검색<input type="text" name="NAME" /><input type="hidden"
 							name="KEY" value="${KEY }" /> <input type="submit" value="검색" />
 						<select class="form-select w-auto">
@@ -130,35 +129,35 @@ to {
 
 						<div class="meeting-card">
 							<div clss="p-3">
-								<tr>
-									<th>모임 아이디</th>
-									<td>${key.m_id }</td>
-								</tr>
-								<tr>
-									<th>모임 이름</th>
-									<td>${key.title }</td>
-								</tr>
-								<tr>
-									<th>작성자</th>
-									<td>${key.w_id }</td>
-								</tr>
-								<tr>
-									<th>카테고리</th>
-									<td>${key.c_key }</td>
-								</tr>
-								<tr>
-									<th>작성일</th>
-									<td>${key.w_date }</td>
-								</tr>
-								<tr>
-									<th>금액</th>
-									<td>${key.price }</td>
-								</tr>
-								<tr>
-									<th><a href="">자세히보기</a></th>
-								</tr>
+						<tr>
+							<th>모임 아이디</th>
+							<td>${key.m_id }</td>
+						</tr>
+						<tr>
+							<th>모임 이름</th>
+							<td>${key.title }</td>
+						</tr>
+						<tr>
+							<th>작성자</th>
+							<td>${key.w_id }</td>
+						</tr>
+						<tr>
+							<th>카테고리</th>
+							<td>${key.c_key }</td>
+						</tr>
+						<tr>
+							<th>작성일</th>
+							<td>${key.w_date }</td>
+						</tr>
+						<tr>
+							<th>금액</th>
+							<td>${key.price }</td>
+						</tr>
+						<tr>
+							<th><a href="">자세히보기</a></th>
+						</tr>
 
-							</div>
+						</div>
 						</div>
 
 					</table>
@@ -169,6 +168,7 @@ to {
 	</div>
 	
 	<jsp:include page="page.jsp"/>
+
 
 	<!-- Bootstrap JS -->
 	<script
