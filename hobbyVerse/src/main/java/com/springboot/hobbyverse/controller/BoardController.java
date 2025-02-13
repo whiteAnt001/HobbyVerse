@@ -1,7 +1,9 @@
 package com.springboot.hobbyverse.controller;
 
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.data.domain.Page;
@@ -9,11 +11,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.Board;
@@ -42,8 +40,8 @@ public class BoardController {
     // ✅ 게시판 목록 페이지 (페이징 + 검색 추가)
     @GetMapping("/boards")
     public ModelAndView getBoardPage(
-            @RequestParam(defaultValue = "1") int page, 
-            @RequestParam(required = false) String keyword, 
+            @RequestParam(defaultValue = "1") int page,
+            @RequestParam(required = false) String keyword,
             HttpSession session) {
 
         int pageSize = 10;
@@ -51,9 +49,9 @@ public class BoardController {
 
         Page<Board> boardPage;
         if (keyword != null && !keyword.trim().isEmpty()) {
-            boardPage = boardService.searchBoards(keyword, pageable); // 🔥 검색 기능 적용
+            boardPage = boardService.searchBoards(keyword, pageable);
         } else {
-            boardPage = boardService.getAllBoards(pageable); // ✅ 기존 메서드 사용
+            boardPage = boardService.getAllBoards(pageable);
         }
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
@@ -67,7 +65,7 @@ public class BoardController {
         mav.addObject("formattedBoards", formattedBoards);
         mav.addObject("currentPage", page);
         mav.addObject("totalPages", boardPage.getTotalPages());
-        mav.addObject("keyword", keyword); // 검색어 유지
+        mav.addObject("keyword", keyword);
 
         User user = (User) session.getAttribute("loginUser");
         mav.addObject("user", user);
@@ -105,7 +103,7 @@ public class BoardController {
     // ✅ 게시글 상세 페이지 (조회 기능)
     @GetMapping("/boards/{seq}")
     public ModelAndView getBoardDetail(@PathVariable Long seq, HttpSession session) {
-        Board board = boardService.getBoardById(seq); // 🔥 비관적 락 제거 후 조회
+        Board board = boardService.getBoardById(seq);
 
         ModelAndView mav = new ModelAndView("boardDetail");
         mav.addObject("board", board);
@@ -122,8 +120,8 @@ public class BoardController {
     // ✅ 게시글 수정 처리 (제목, 내용만 수정 가능)
     @PostMapping("/boards/{seq}/update")
     public ModelAndView updateBoard(@PathVariable Long seq, @RequestParam String subject, @RequestParam String content) {
-        boardService.updateBoard(seq, subject, content); // 🔥 수정 메서드 수정됨
-        return new ModelAndView("redirect:/boards"); // ✅ 수정 후 게시판 목록으로 이동
+        boardService.updateBoard(seq, subject, content);
+        return new ModelAndView("redirect:/boards");
     }
 
     // ✅ 게시글 삭제 처리
@@ -131,6 +129,32 @@ public class BoardController {
     public ModelAndView deleteBoard(@PathVariable Long seq) {
         boardService.deleteBoardById(seq);
         return new ModelAndView("redirect:/boards");
+    }
+
+    // ✅ 게시글 추천 기능 (AJAX 요청으로 처리)
+    @PostMapping("/boards/{seq}/recommend")
+    @ResponseBody
+    public Map<String, Object> recommendBoard(@PathVariable Long seq, HttpSession session) {
+        User user = (User) session.getAttribute("loginUser");
+        Map<String, Object> response = new HashMap<>();
+
+        if (user == null) {
+            response.put("success", false);
+            response.put("message", "로그인이 필요합니다.");
+            return response;
+        }
+
+        try {
+            boardService.recommendPost(seq, user.getId()); // 🔥 수정된 recommendPost 호출
+            Board updatedBoard = boardService.getBoardById(seq);
+            response.put("success", true);
+            response.put("likes", updatedBoard.getLikes());
+        } catch (RuntimeException e) {
+            response.put("success", false);
+            response.put("message", e.getMessage()); // 하루 1회 제한 메시지 전달
+        }
+
+        return response;
     }
 
     // ✅ [취소 버튼] 클릭 시 게시판 목록으로 이동

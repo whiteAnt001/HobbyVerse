@@ -17,7 +17,8 @@ import lombok.*;
 @Getter
 @Setter
 public class User implements UserDetails {
-    
+	public Long getId() { return id; }
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 자동 증가
     @Column(name = "id", updatable = false)

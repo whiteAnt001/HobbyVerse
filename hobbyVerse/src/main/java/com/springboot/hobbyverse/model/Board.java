@@ -1,7 +1,16 @@
 package com.springboot.hobbyverse.model;
 
 import java.time.LocalDateTime;
-import jakarta.persistence.*;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 
 @Entity
 public class Board {
@@ -23,13 +32,15 @@ public class Board {
 
     private int readCount;
 
-    // ✅ 낙관적 락(Optimistic Locking) 해결을 위한 @Version 기본값 설정
     @Version
     private Long version = 0L;
 
-    // ✅ 변환된 날짜를 저장할 임시 필드 (DB에 저장되지 않음)
     @Transient
     private String formattedRegDate;
+
+    // ✅ 추천 수 추가
+    @Column(nullable = false)
+    private int likes = 0;
 
     public Board() {
         this.regDate = LocalDateTime.now();
@@ -44,6 +55,9 @@ public class Board {
         if (this.version == null) {
             this.version = 0L;
         }
+        if (this.likes == 0) {
+            this.likes = 0;
+        }
     }
 
     // ✅ @PreUpdate로 업데이트 시 기본값 유지
@@ -52,6 +66,11 @@ public class Board {
         if (this.version == null) {
             this.version = 0L;
         }
+    }
+
+    // ✅ 추천 수 증가 메서드
+    public void incrementLikes() {
+        this.likes++;
     }
 
     // Getter & Setter
@@ -78,4 +97,7 @@ public class Board {
 
     public Long getVersion() { return version; }
     public void setVersion(Long version) { this.version = version; }
+
+    public int getLikes() { return likes; } // ✅ 추천 수 Getter 추가
+    public void setLikes(int likes) { this.likes = likes; } // ✅ 추천 수 Setter 추가
 }

@@ -52,12 +52,13 @@
                     <th>작성자</th>
                     <th>작성일</th>
                     <th>조회수</th>
+                    <th>추천</th>  <!-- 🔥 추천 수 추가 -->
                 </tr>
             </thead>
             <tbody>
                 <c:if test="${empty formattedBoards}">
                     <tr>
-                        <td colspan="5" class="text-center">게시글이 없습니다.</td>
+                        <td colspan="6" class="text-center">게시글이 없습니다.</td>
                     </tr>
                 </c:if>
 
@@ -68,6 +69,7 @@
                         <td>${board.name}</td>
                         <td>${board.formattedRegDate}</td> <!-- ✅ 변환된 날짜 출력 -->
                         <td>${board.readCount}</td>
+                        <td>${board.likes}</td> <!-- 🔥 추천 수 표시 -->
                     </tr>
                 </c:forEach>
             </tbody>
