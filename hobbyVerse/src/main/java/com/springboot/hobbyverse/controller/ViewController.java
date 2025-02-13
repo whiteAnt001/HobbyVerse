@@ -24,7 +24,8 @@ public class ViewController {
     private MeetingService meetingService;
 	
 	@GetMapping("/home")
-	public ModelAndView getHome(Integer PAGE_NUM) {
+	public ModelAndView getHome(Integer PAGE_NUM, HttpSession session) {
+		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
         if (PAGE_NUM != null) currentPage = PAGE_NUM;        
         int count = this.meetingService.getTotal();
@@ -40,6 +41,7 @@ public class ViewController {
         }
         List<Meetup> meetList = this.meetingService.getMeetList(PAGE_NUM);
         ModelAndView mav = new ModelAndView("home");
+        mav.addObject("user", user);
 		mav.addObject("START",startRow); 
 		mav.addObject("END", endRow);
 		mav.addObject("TOTAL", count);	
