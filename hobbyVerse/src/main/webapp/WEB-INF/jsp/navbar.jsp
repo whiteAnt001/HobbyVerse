@@ -23,8 +23,7 @@
 				<c:if test="${user != null}">
 					<li class="nav-item"><a class="nav-link" href="/myPage">${user.name}님</a></li>
 					<!-- 로그인 된 계정에 관리자 권한이 있을 경우 -->
-					<c:if
-						test="${user.role == 'ROLE_ADMIN'}">
+					<c:if test="${user.role == 'ROLE_ADMIN'}">
 						<li class="nav-item"><a class="nav-link"
 							href="/api/admin/dashboard">관리자 페이지</a></li>
 					</c:if>
@@ -34,7 +33,6 @@
 						</form>
 					</li>
 				</c:if>
-
 
 				<!-- 로그인되지 않은 경우 -->
 				<c:if test="${user == null }">

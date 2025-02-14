@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repsitory.UserRepository;
 import com.springboot.hobbyverse.utils.JwtUtil;
+import com.springboot.hobbyverse.repository.UserRepository;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

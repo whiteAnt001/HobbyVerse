@@ -1,4 +1,4 @@
-package com.springboot.hobbyverse.repsitory;
+package com.springboot.hobbyverse.repository;
 
 
 import java.util.List;
