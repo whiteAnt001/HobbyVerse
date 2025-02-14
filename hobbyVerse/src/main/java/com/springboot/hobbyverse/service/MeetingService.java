@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springboot.hobbyverse.mapper.MeetingMapper;
+import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.StartEnd;
@@ -21,7 +22,6 @@ public class MeetingService {
 	}
 	
 	public void putMeeting(Meetup meetup) {//모임 등록
-		meetup.setM_id(this.getMaxId() + 1);
 		this.meetingMapper.putMeeting(meetup);
 	}
 	public List<Meetup> getMeetList(Integer pageNo) {
@@ -37,7 +37,7 @@ public class MeetingService {
 		return this.meetingMapper.getTotal();
 	}
 	
-	public List<Category> getCategoryList(){//카테고리 목록
+	public List<Category> getCategoryList() {//카테고리 목록
 		return this.meetingMapper.getCategoryList();
 	}
 	public Integer getMaxId() {
@@ -46,6 +46,6 @@ public class MeetingService {
 		return max;
 	}
 	public Meetup getMeetDetail(Integer id) {
-	    return meetingMapper.getMeetDetail(id); //모임상세
+		return this.meetingMapper.getMeetDetail(id);
 	}
 }
