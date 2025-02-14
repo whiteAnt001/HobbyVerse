@@ -26,7 +26,7 @@
     </style>
 </head>
 <body>
-    <!-- ✅ 네비게이션 바 추가 -->
+    <!-- ✅ 네비게이션 바 -->
     <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 
     <!-- ✅ 검색 및 필터 -->
@@ -41,7 +41,7 @@
         </div>
     </div>
 
-    <!-- ✅ 게시판 섹션 -->
+    <!-- ✅ 게시판 리스트 -->
     <div class="container mt-5">
         <h3 class="text-center mb-4">🔥 게시판</h3>
         <table class="table table-hover">
@@ -52,7 +52,7 @@
                     <th>작성자</th>
                     <th>작성일</th>
                     <th>조회수</th>
-                    <th>추천</th>  <!-- 🔥 추천 수 추가 -->
+                    <th>추천</th>
                 </tr>
             </thead>
             <tbody>
@@ -67,9 +67,9 @@
                         <td>${board.seq}</td>
                         <td><a href="/boards/${board.seq}">${board.subject}</a></td>
                         <td>${board.name}</td>
-                        <td>${board.formattedRegDate}</td> <!-- ✅ 변환된 날짜 출력 -->
+                        <td>${board.formattedRegDate}</td>
                         <td>${board.readCount}</td>
-                        <td>${board.likes}</td> <!-- 🔥 추천 수 표시 -->
+                        <td>${board.likes}</td>
                     </tr>
                 </c:forEach>
             </tbody>
@@ -80,27 +80,23 @@
             <c:if test="${boardPage.totalPages > 1}">
                 <nav>
                     <ul class="pagination justify-content-center">
-                        <!-- 이전 페이지 -->
-                        <c:if test="${currentPage > 1}">
-                            <li class="page-item">
-                                <a class="page-link" href="/boards?page=${currentPage - 1}&keyword=${keyword}">이전</a>
-                            </li>
-                        </c:if>
+                        <!-- 이전 페이지 버튼 -->
+                        <li class="page-item ${currentPage == 1 ? 'disabled' : ''}">
+                            <a class="page-link" href="/boards?page=${currentPage - 1}&size=${pageSize}&keyword=${keyword}">이전</a>
+                        </li>
 
-                        <!-- 페이지 번호 -->
-                        <c:forEach var="i" begin="1" end="${totalPages}">
+                        <!-- 페이지 번호 표시 -->
+                        <c:forEach var="i" begin="${currentPage - 2 > 0 ? currentPage - 2 : 1}" 
+                                   end="${currentPage + 2 < totalPages ? currentPage + 2 : totalPages}">
                             <li class="page-item ${i == currentPage ? 'active' : ''}">
-                                <a class="page-link" href="/boards?page=${i}&keyword=${keyword}">${i}</a>
+                                <a class="page-link" href="/boards?page=${i}&size=${pageSize}&keyword=${keyword}">${i}</a>
                             </li>
                         </c:forEach>
 
-                        <!-- 다음 페이지 -->
-                        <c:if test="${currentPage < totalPages}">
-                            <li class="page-item">
-                                <a class="page-link" href="/boards?page=${currentPage + 1}&keyword=${keyword}">다음</a>
-                            </li>
-                        </c:if>
-
+                        <!-- 다음 페이지 버튼 -->
+                        <li class="page-item ${currentPage == totalPages ? 'disabled' : ''}">
+                            <a class="page-link" href="/boards?page=${currentPage + 1}&size=${pageSize}&keyword=${keyword}">다음</a>
+                        </li>
                     </ul>
                 </nav>
             </c:if>

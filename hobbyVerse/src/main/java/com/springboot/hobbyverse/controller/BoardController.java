@@ -11,7 +11,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.Board;
@@ -41,11 +46,11 @@ public class BoardController {
     @GetMapping("/boards")
     public ModelAndView getBoardPage(
             @RequestParam(defaultValue = "1") int page,
+            @RequestParam(defaultValue = "10") int size,
             @RequestParam(required = false) String keyword,
             HttpSession session) {
 
-        int pageSize = 10;
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "regDate")); // 🔥 최신순 정렬
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by(Sort.Direction.DESC, "seq")); // 최신순 정렬
 
         Page<Board> boardPage;
         if (keyword != null && !keyword.trim().isEmpty()) {
@@ -54,17 +59,22 @@ public class BoardController {
             boardPage = boardService.getAllBoards(pageable);
         }
 
+        // 날짜 포맷 적용
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        List<Board> formattedBoards = boardPage.getContent().stream().map(board -> {
-            board.setFormattedRegDate(board.getRegDate().format(formatter));
-            return board;
-        }).collect(Collectors.toList());
+        List<Board> formattedBoards = boardPage.getContent().stream()
+                .map(board -> {
+                    board.setFormattedRegDate(board.getRegDate().format(formatter));
+                    return board;
+                })
+                .collect(Collectors.toList());
 
         ModelAndView mav = new ModelAndView("boards");
         mav.addObject("boardPage", boardPage);
         mav.addObject("formattedBoards", formattedBoards);
         mav.addObject("currentPage", page);
         mav.addObject("totalPages", boardPage.getTotalPages());
+        mav.addObject("hasPrevious", boardPage.hasPrevious());
+        mav.addObject("hasNext", boardPage.hasNext());
         mav.addObject("keyword", keyword);
 
         User user = (User) session.getAttribute("loginUser");
@@ -145,7 +155,7 @@ public class BoardController {
         }
 
         try {
-            boardService.recommendPost(seq, user.getId()); // 🔥 수정된 recommendPost 호출
+            boardService.recommendPost(seq, user.getId());
             Board updatedBoard = boardService.getBoardById(seq);
             response.put("success", true);
             response.put("likes", updatedBoard.getLikes());
