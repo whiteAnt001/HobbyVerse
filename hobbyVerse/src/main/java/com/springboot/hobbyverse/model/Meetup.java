@@ -4,6 +4,11 @@ import java.sql.Date;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import lombok.Getter;
@@ -12,6 +17,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class Meetup {
+	@Id
 	private Integer m_id;
 	private String title;
 	private String info;

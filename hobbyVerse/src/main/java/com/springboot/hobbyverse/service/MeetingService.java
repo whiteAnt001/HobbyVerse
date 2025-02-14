@@ -16,6 +16,10 @@ public class MeetingService {
 	@Autowired
 	private MeetingMapper meetingMapper;
 	
+	public List<Meetup> getMeetings(){
+		return this.meetingMapper.getMeetings();
+	}
+	
 	public void putMeeting(Meetup meetup) {//모임 등록
 		meetup.setM_id(this.getMaxId() + 1);
 		this.meetingMapper.putMeeting(meetup);
