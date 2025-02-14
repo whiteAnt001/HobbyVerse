@@ -95,4 +95,9 @@
 	        // 비밀번호가 일치하는지 확인
 	        return securityConfig.passwordEncoder().matches(password, user.getPassword());
 	    }
+	    
+	    //유저정보 가져오기
+	    public User getUserInfo(Integer id) {
+	    	return this.myMapper.getUserInfo(id);
+	    }
 	}
