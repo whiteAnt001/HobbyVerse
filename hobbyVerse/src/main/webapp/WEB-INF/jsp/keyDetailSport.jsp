@@ -1,12 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>카테고리 상세 | HobbyMatch</title>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <style>
@@ -73,6 +73,7 @@ to {
 </style>
 </head>
 <body>
+
 	<!-- 네비게이션 바 -->
 	<nav class="navbar navbar-expand-lg navbar-dark gradient-bg">
 		<div class="container">
@@ -93,12 +94,18 @@ to {
 		</div>
 	</nav>
 
+	<!-- 카테고리 헤더 -->
+	<div class="category-header">
+		<h1>🏀 스포츠 모임</h1>
+		<p>다양한 스포츠를 즐기고 함께 운동할 사람들을 찾아보세요!</p>
+	</div>
+
+	<!-- 필터 & 정렬 -->
 	<form action="/category/search" method="post">
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-md-8 mx-auto">
-					<div
-						class="filter-bar d-flex justify-content-between align-items-center">
+					<div class="filter-bar d-flex justify-content-between align-items-center">
 						모임 검색<input type="text" name="NAME" /><input type="hidden"
 							name="KEY" value="${KEY }" /> <input type="submit" value="검색" />
 						<select class="form-select w-auto">
@@ -112,92 +119,56 @@ to {
 		</div>
 	</form>
 
+	<!-- 모임 목록 -->
 	<div class="container mt-4">
 		<div class="row">
-				<c:choose>
-					<c:when test="${keyList[0] == null }">
-						<div align="center">
-							<h2>아직 해당 모임이 만들어지지 않았어요</h2>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="key" items="${keyList}">
-							<div class="col-md-4 mb-4">
-								<table border="1">
 
-									<div class="meeting-card">
-										<div clss="p-3">
-											<tr>
-												<th>모임 아이디</th>
-												<td>${key.m_id}</td>
-											</tr>
-											<tr>
-												<th>모임 이름</th>
-												<td>${key.title}</td>
-											</tr>
-											<tr>
-												<th>작성자</th>
-												<td>${key.w_id}</td>
-											</tr>
-											<tr>
-												<th>모임 설명</th>
-												<td>${key.info}</td>
-											</tr>
-											<tr>
-												<th>카테고리</th>
-												<td>${key.c_key}</td>
-											</tr>
-											<tr>
-												<th>작성일</th>
-												<td>${key.w_date}</td>
-											</tr>
-											<tr>
-												<th>금액</th>
-												<td>${key.price}</td>
-											</tr>
-											<tr>
-												<th><a href="">자세히 보기</a></th>
-											</tr>
-										</div>
-									</div>
-								</table>
-							</div>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
+			<c:forEach var="key" items="${keyCategory }">
+				<div class="col-md-4 mb-4">
+					<table border="1">
+
+						<div class="meeting-card">
+							<div clss="p-3">
+						<tr>
+							<th>모임 아이디</th>
+							<td>${key.m_id }</td>
+						</tr>
+						<tr>
+							<th>모임 이름</th>
+							<td>${key.title }</td>
+						</tr>
+						<tr>
+							<th>작성자</th>
+							<td>${key.w_id }</td>
+						</tr>
+						<tr>
+							<th>카테고리</th>
+							<td>${key.c_key }</td>
+						</tr>
+						<tr>
+							<th>작성일</th>
+							<td>${key.w_date }</td>
+						</tr>
+						<tr>
+							<th>금액</th>
+							<td>${key.price }</td>
+						</tr>
+						<tr>
+							<th><a href="/meetup/detail.html">자세히보기</a></th>
+						</tr>
+
+						</div>
+						</div>
+
+					</table>
+				</div>
+			</c:forEach>
+
 		</div>
 	</div>
-
-	<div align="center">
-	<c:set var="pageCount" value="${pageCount}" />
-	<c:set var="currentPage" value="${currentPage}" />
-	<c:set var="startPage"
-		value="${currentPage - (currentPage % 10 == 0 ? 10 : (currentPage % 10)) + 1}" />
-	<c:set var="endPage" value="${startPage + 9}" />
-	<c:if test="${endPage > pageCount}">
-		<c:set var="endPage" value="${pageCount}" />
-	</c:if>
-
-	<c:if test="${startPage > 10}">
-		<a href="/category/search?pageNo=${startPage - 1}">[이전]</a>
-	</c:if>
-
-	<c:forEach begin="${startPage }" end="${endPage}" var="i">
-		<c:if test="${currentPage == i}">
-			<font size="6">
-		</c:if>
-		<a href="/category/search?pageNo=${i}">${i}</a>
-		<c:if test="${currentPage == i}">
-			</font>
-		</c:if>
-	</c:forEach>
-
-	<c:if test="${endPage < pageCount}">
-		<a href="/category/search?pageNo=${endPage + 1}">[다음]</a>
-	</c:if>
-	</div>
-
 	
+	<jsp:include page="page.jsp"/>
+
 
 	<!-- Bootstrap JS -->
 	<script

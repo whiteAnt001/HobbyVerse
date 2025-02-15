@@ -29,21 +29,19 @@
                     <th>모임 이름</th>
                     <th>주최자</th>
                     <th>날짜</th>
-                    <th>참여 인원</th>
                     <th>관리</th>
                 </tr>
             </thead>
             <tbody>
-                <c:forEach var="meeting" items="${meetings}">
+                <c:forEach var="meeting" items="${meetList}">
                     <tr>
-                        <td>${meeting.id}</td>
+                        <td>${meeting.m_id}</td>
                         <td>${meeting.title}</td>
-                        <td>${meeting.host}</td>
-                        <td>${meeting.date}</td>
-                        <td>${meeting.participants} 명</td>
+                        <td>${meeting.w_id}</td>
+                        <td>${meeting.w_date}</td>
                         <td>
-                            <a href="/admin/meeting/edit/${meeting.id}" class="btn btn-warning btn-sm">✏ 수정</a>
-                            <a href="/admin/meeting/delete/${meeting.id}" class="btn btn-danger btn-sm" onclick="return confirm('삭제할까요?')">🗑 삭제</a>
+                            <a href="/api/admin/meeting/edit/form/${meeting.m_id}" class="btn btn-warning btn-sm">✏ 수정</a>
+                            <a href="/admin/meeting/delete/${meeting.m_id}" class="btn btn-danger btn-sm" onclick="return confirm('삭제할까요?')">🗑 삭제</a>
                         </td>
                     </tr>
                 </c:forEach>

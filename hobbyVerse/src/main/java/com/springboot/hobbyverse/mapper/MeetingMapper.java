@@ -16,6 +16,7 @@ public interface MeetingMapper {
 	
 	void putMeeting(Meetup meetup);//모임 등록	
 	List<Meetup> getMeetList(StartEnd se);//모임 리스트
+	List<Meetup> getMeetings(); //모임 리스트 출력(관리자용)
 	Integer getTotal();//모임 전체 갯수
 	Integer getMaxId();
 	Meetup getMeetDetail(Integer id);//m_id로 모임상세 찾기

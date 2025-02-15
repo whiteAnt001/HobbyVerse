@@ -43,7 +43,7 @@
                         <td>${user.regDateString}</td>
                         <td>${user.role}</td>
                         <td>
-                            <a href="/api/admin/user/edit/${user.email}" class="btn btn-warning btn-sm">✏ 수정</a>
+                            <a href="/api/admin/user/edit/form/${user.userId}" class="btn btn-warning btn-sm">✏ 수정</a>
                             <!-- 삭제 버튼 수정 -->
                            <a class="btn btn-danger btn-sm" title="삭제" onclick="deleteUser(${user.userId})">🗑 삭제</a>
                         </td>

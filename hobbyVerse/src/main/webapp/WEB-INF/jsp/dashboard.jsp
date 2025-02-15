@@ -18,6 +18,11 @@
             border-radius: 10px;
             box-shadow: 3px 3px 15px rgba(0, 0, 0, 0.2);
             text-align: center;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+        .dashboard-card:hover {
+            transform: scale(1.05);
         }
         .emoji {
             font-size: 2rem;
@@ -32,21 +37,21 @@
         <h2 class="text-center">📊 관리자 대시보드</h2>
         <div class="row mt-4">
             <div class="col-md-4">
-                <div class="dashboard-card">
+                <div class="dashboard-card" onclick="location.href='/api/admin/users'">
                     <div class="emoji">👥</div>
                     <h3>총 회원 수</h3>
                     <p>${totalUsers} 명</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="dashboard-card">
+                <div class="dashboard-card" onclick="location.href='/api/admin/meetings'">
                     <div class="emoji">📅</div>
                     <h3>총 모임 수</h3>
-                    <p>${totalMeetings} 개</p>
+                    <p>${totalMeet} 개</p>
                 </div>
             </div>
             <div class="col-md-4">
-                <div class="dashboard-card">
+                <div class="dashboard-card" onclick="location.href='#'">
                     <div class="emoji">📩</div>
                     <h3>문의 사항</h3>
                     <p>${totalInquiries} 건</p>
