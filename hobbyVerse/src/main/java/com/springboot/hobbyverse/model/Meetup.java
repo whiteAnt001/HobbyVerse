@@ -22,5 +22,6 @@ public class Meetup {
 	private String w_id;
 	private String imagename;
 	
+	private String category_name;
 	private MultipartFile file;
 }

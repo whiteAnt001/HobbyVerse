@@ -45,6 +45,8 @@
                 <div class="meeting-detail-card">
                     <img src="${pageContext.request.contextPath}/upload/${meetup.imagename }" alt="">
                     <div class="content">
+                    	<h5>카테고리</h5>
+						<p>${meetup.category_name}</p>
                         <h5>모임 설명</h5>
                         <p>${meetup.info }</p>
                         <h5>모임 일정</h5>
@@ -66,9 +68,19 @@
                         <button class="btn btn-sm btn-outline-secondary">삭제</button>
                     </div>
           	  </div>
-          	<div class="text-center mt-3">
-                    <a href="/meetup/index.html" class="btn btn-secondary btn-sm">이전으로</a>
-           </div>
+          	  <br/>
+          	<div class="d-flex justify-content-center">
+    <a href="/index" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+
+    <c:if test="${loginUser != null && loginUser.email == meetup.w_id}">
+        <form action="/meetup/modify.html" method="get" class="d-flex">
+            <input type="hidden" name="m_id" value="${meetup.m_id}">
+            <input type="submit" value="수정" name="BTN" class="btn btn-sm btn-outline-secondary me-2"> <!-- 수정 버튼 간격 설정 -->
+            <input type="submit" value="삭제" name="BTN" class="btn btn-sm btn-outline-secondary"> <!-- 삭제 버튼 -->
+        </form>
+    </c:if>
+</div>
+
         </div>
     </div>
    </div>

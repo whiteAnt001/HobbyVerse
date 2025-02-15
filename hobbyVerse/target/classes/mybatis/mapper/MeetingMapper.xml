@@ -24,13 +24,23 @@
 	</select><!-- 모임목록 -->
 	<select id="getTotal" resultType="Integer">
 		select count(*) from meetup
-	</select>
+	</select><!-- 모임 전체갯수 찾기	 -->
 	<select id="getMaxId" resultType="Integer">
 		select max(m_id) from meetup
-	</select>
+	</select><!-- 모임번호 찾기 -->
 	<select id="getMeetDetail" resultType="com.springboot.hobbyverse.model.Meetup" parameterType="Integer">
-	    select m_id,title,info,to_char(w_date,'YYYY-MM-DD') as w_date,price,w_id,imagename 
-	    from meetup
-    	where m_id=#{id}
+	    select m.*, 
+	           (select c.name from category c where c.c_key = m.c_key) as category_name
+	    from meetup m
+	    where m.m_id = #{id}
 	</select><!-- 모임 상세보기 -->
+	
+	<!-- 모임 삭제,수정 -->
+	<delete id="deleteMeeting" parameterType="Integer">
+		delete from meetup where m_id = #{m_id}
+	</delete>
+	<update id="updateMeeting" parameterType="com.springboot.hobbyverse.model.Meetup">
+		update meetup set title=#{title}, info=#{info}, c_key=#{c_key}, price=#{price}, w_date=#{w_date}, imagename=#{imagename}
+		where m_id=#{m_id}
+	</update>
 </mapper>
