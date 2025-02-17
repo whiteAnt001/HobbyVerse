@@ -35,9 +35,9 @@ public class MeetingController {
     @Autowired 
     private MeetingService meetingService;
 
-    @GetMapping(value = "/index")
-    public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
-    	User user = (User)session.getAttribute("loginUser");
+	@GetMapping("/home")
+	public ModelAndView getHome(Integer PAGE_NUM, HttpSession session) {
+		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
         if (PAGE_NUM != null) currentPage = PAGE_NUM;
         int count = this.meetingService.getTotal();
@@ -51,7 +51,7 @@ public class MeetingController {
         }
         List<Meetup> meetList = this.meetingService.getMeetList(PAGE_NUM);
         ModelAndView mav = new ModelAndView("index");
-        mav.addObject("user",user);
+        mav.addObject("user", user);
 		mav.addObject("START",startRow); 
 		mav.addObject("END", endRow);
 		mav.addObject("TOTAL", count);	
@@ -60,7 +60,7 @@ public class MeetingController {
 		mav.addObject("pageCount",totalPageCount);
         mav.addObject("meetList", meetList);
         return mav;
-    }//모임목록,페이지처리
+	}
 
     @GetMapping(value = "/meetup/createGroup.html")
     public ModelAndView entry(HttpSession session) {

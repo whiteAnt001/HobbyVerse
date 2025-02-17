@@ -48,7 +48,7 @@ public class MeetingService {
 	}
 	
 	public void deleteMeeting(Integer m_id) {
-		this.meetingMapper.deleteMeeting(m_id);
+		this.meetingMapper.deleteById(m_id);
 	}
 	public void updateMeeting(Meetup meetup) {
 		this.meetingMapper.updateMeeting(meetup);
@@ -58,5 +58,8 @@ public class MeetingService {
 	}
 	public Integer deleteById(Integer id) {
 		return this.meetingMapper.deleteById(id);
+	}
+	public List<Meetup> getMeetings(){
+		return this.meetingMapper.getMeetings();
 	}
 }
