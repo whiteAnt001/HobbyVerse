@@ -2,6 +2,7 @@ package com.springboot.hobbyverse.controller;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -33,9 +35,9 @@ public class MeetingController {
     @Autowired 
     private MeetingService meetingService;
 
-	@GetMapping("/home")
-	public ModelAndView getHome(Integer PAGE_NUM, HttpSession session) {
-		User user = (User)session.getAttribute("loginUser");
+    @GetMapping(value = "/index")
+    public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
+    	User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
         if (PAGE_NUM != null) currentPage = PAGE_NUM;
         int count = this.meetingService.getTotal();
@@ -49,7 +51,7 @@ public class MeetingController {
         }
         List<Meetup> meetList = this.meetingService.getMeetList(PAGE_NUM);
         ModelAndView mav = new ModelAndView("index");
-        mav.addObject("user", user);
+        mav.addObject("user",user);
 		mav.addObject("START",startRow); 
 		mav.addObject("END", endRow);
 		mav.addObject("TOTAL", count);	
@@ -58,39 +60,13 @@ public class MeetingController {
 		mav.addObject("pageCount",totalPageCount);
         mav.addObject("meetList", meetList);
         return mav;
-	}
-
-    @PostMapping(value = "/meetup/search.html")
-    public ModelAndView search(String title, Integer pageNo, HttpSession session) {
-        int currentPage = 1;
-        if (pageNo != null) currentPage = pageNo;
-        int start = (currentPage - 1) * 6; 
-        int end = start + 7;
-        List<Meetup> meetList = this.meetingService.getMeetByTitle(title, currentPage);
-        Integer totalCount = this.meetingService.getMeetCountByTitle(title);
-        User user = (User) session.getAttribute("loginUser");
-        int pageCount = totalCount / 5;
-        if(totalCount % 5 != 0) pageCount++;
-        ModelAndView mav = new ModelAndView("searchGroupList");
-        mav.addObject("user", user);
-        mav.addObject("START", start);
-        mav.addObject("END", end);
-        mav.addObject("TOTAL", totalCount);
-        mav.addObject("LIST",meetList); 
-        mav.addObject("meetList", meetList);
-        mav.addObject("pageCount", pageCount);
-        mav.addObject("currentPage", currentPage);
-        mav.addObject("title", title);
-        return mav;
-    }//모임제목으로 모임 검색
+    }//모임목록,페이지처리
 
     @GetMapping(value = "/meetup/createGroup.html")
-    public ModelAndView entry(HttpSession session) {
-        ModelAndView mav = new ModelAndView("createGroup");
+    public ModelAndView entry() {
         List<Category> categoryList = meetingService.getCategoryList();
-        User user = (User)session.getAttribute("loginUser");
+        ModelAndView mav = new ModelAndView("createGroup");
         mav.addObject(new Meetup());
-        mav.addObject("user", user);
         mav.addObject("categoryList", categoryList);
         return mav;
     }//모임등록창
@@ -145,16 +121,18 @@ public class MeetingController {
         mav.addObject("meetup", meetup);
         return mav;
     }//모임 상세보기
-
+    
     @GetMapping("/meetup/modify.html")
     public ModelAndView modify(Integer m_id, String BTN) {
         ModelAndView mav = new ModelAndView();
+
         if ("수정".equals(BTN)) {
             // 수정 버튼 클릭 시
             Meetup meetup = this.meetingService.getMeetDetail(m_id); // 모임 정보 가져오기
             List<Category> categoryList = meetingService.getCategoryList(); // 카테고리 리스트 가져오기
+
             mav.setViewName("updateGroup"); // 수정 화면으로 이동
-            mav.addObject("meetup", meetup);// 수정할 모임 정보 전달
+            mav.addObject("meetup", meetup); // 수정할 모임 정보 전달
             mav.addObject("categoryList", categoryList); // 카테고리 리스트 전달
         } else if ("삭제".equals(BTN)) {
             // 삭제 버튼 클릭 시
@@ -162,19 +140,24 @@ public class MeetingController {
             mav.setViewName("deleteGroupSuccess"); // 삭제 완료 화면으로 이동
             mav.addObject("message", "삭제되었습니다."); // 삭제 메시지 전달
         }
+
         return mav;
     }
+
+
 
     @PostMapping("/meetup/update.html")
     public ModelAndView update(Meetup meetup, HttpSession session) {
     	ModelAndView mav = new ModelAndView();
-        MultipartFile multiFile = meetup.getFile();      
+        MultipartFile multiFile = meetup.getFile();
+      
         if (! multiFile.getOriginalFilename().equals("")) {
         	String fileName = null; String path = null; OutputStream os = null;
         	fileName = multiFile.getOriginalFilename();
         	ServletContext ctx = session.getServletContext();
         	path = ctx.getRealPath("/upload/"+fileName);
         	System.out.println("변경된 이미지 경로:"+path);
+            
             try {
             	os = new FileOutputStream(path);
             	BufferedInputStream bis = 

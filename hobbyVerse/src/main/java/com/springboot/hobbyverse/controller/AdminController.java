@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.User;
-import com.springboot.hobbyverse.repsitory.UserRepository;
+import com.springboot.hobbyverse.repository.UserRepository;
 import com.springboot.hobbyverse.service.UserService;
 
 @RestController

@@ -16,6 +16,14 @@
         .gradient-btn {background: linear-gradient(135deg, #6a11cb, #2575fc);
 	            border: none; color: white;}
         .gradient-btn:hover { background: linear-gradient(135deg, #2575fc, #6a11cb);}
+        
+        /* 찜하기 버튼 */
+        .heart-btn { background-color: transparent; border: none; font-size: 24px;
+       			 color: #ccc; position: absolute; bottom: 10px; right: 10px; cursor: pointer;}
+
+    	.heart-btn.liked i { color: red; }
+
+    	.card {position: relative; }
     </style>
 </head>
 <body>
@@ -49,12 +57,23 @@
 			                <p class="card-text">날짜: ${meet.w_date}</p>
 			                <!-- 일반 버튼으로 수정 -->
 			                <a href="/meetup/detail.html?id=${meet.m_id }" class="btn btn-primary">자세히 보기</a>
+			           		<button type="button" class="btn heart-btn" onclick="toggleHeart(this)">
+                            	<i class="fa fa-heart"></i>
+                        	</button>
 			            </div>
 			        </div>
 			    </form>
 			</c:forEach>
         </div>
 	</div>
+	<script>
+    function toggleHeart(button) {
+        // 하트 버튼 클릭 시, 빨간색으로 채워지는 효과
+        button.classList.toggle('liked');
+    }
+	</script>
+
+	<!-- 페이지처리 -->
 	<c:set var="startPage" value="${currentPage - (currentPage - 1) % 10}" />
 	<c:set var="endPage" value="${startPage + 9}" />
 	<c:set var="endPage" value="${endPage > pageCount ? pageCount : endPage}" />
