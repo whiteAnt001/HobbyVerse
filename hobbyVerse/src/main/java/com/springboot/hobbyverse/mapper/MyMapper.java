@@ -13,5 +13,5 @@ public interface MyMapper {
 	User getUser(User user); // 회원가입시 사용하는 메서드
 	List<User> getUserList(); // 모든 유저를 찾는 메서드
 	Integer getUserCount(); // 총 유저수를 찾는 메서드
-	User getUserInfo(Integer id);//유저의 정보를 가져오는 매퍼
+	User getUserInfo(String name);//이름(닉네임)으로 유저 정보 가져오는 매퍼
 }

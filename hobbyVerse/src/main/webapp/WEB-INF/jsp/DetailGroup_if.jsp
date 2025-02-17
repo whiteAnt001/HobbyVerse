@@ -53,9 +53,8 @@
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
 
-						<form:form action="/register/register" method="POST">
-						<input type="hidden" name="m_id" value="${meetup.m_id }">
-                        <input type="submit" value="참가신청" class="btn btn-gradient w-100" onsubmit="return check()">
+						<form:form>
+                        <input type="submit" value="참가신청" name="ENTER" class="btn btn-gradient w-100" onsubmit="return check()">
                     	</form:form>
                     </div>
                     
@@ -67,22 +66,16 @@
                 	}
                 </script>
 
-<!--
                 <div class="participants-list">
                     <h5>참가자 목록 (3명)</h5>
-                    <table border="1">
-                    <c:forEach var="user" items="${userInfo }">
                     <div class="participant">
                         <div class="d-flex align-items-center">
                             <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="참가자 1">
-                           
+                            <p>홍길동</p>
                         </div>
                         <button class="btn btn-sm btn-outline-secondary">삭제</button>
                     </div>
-                    </c:forEach>
-                    </table>
           	  </div>
--->
           	<div class="text-center mt-3">
                     <a href="/meetup/index.html" class="btn btn-secondary btn-sm">이전으로</a>
            </div>

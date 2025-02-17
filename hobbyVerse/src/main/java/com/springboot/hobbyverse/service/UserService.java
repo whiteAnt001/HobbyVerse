@@ -6,8 +6,9 @@
 	import java.time.LocalDateTime;
 	import java.util.Date;
 	import java.util.List;
-	
-	import org.springframework.beans.factory.annotation.Autowired;
+
+import org.antlr.v4.runtime.misc.TestRig;
+import org.springframework.beans.factory.annotation.Autowired;
 	import org.springframework.stereotype.Service;
 	
 	import com.springboot.hobbyverse.config.SecurityConfig;
@@ -96,8 +97,7 @@
 	        return securityConfig.passwordEncoder().matches(password, user.getPassword());
 	    }
 	    
-	    //유저정보 가져오기
-	    public User getUserInfo(Integer id) {
-	    	return this.myMapper.getUserInfo(id);
+	    public User getUserInfo(String name) {
+	    	return this.myMapper.getUserInfo(name);
 	    }
 	}

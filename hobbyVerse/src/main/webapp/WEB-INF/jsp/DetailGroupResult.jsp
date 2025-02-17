@@ -53,36 +53,32 @@
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
 
-						<form:form action="/register/register" method="POST">
-						<input type="hidden" name="m_id" value="${meetup.m_id }">
-                        <input type="submit" value="참가신청" class="btn btn-gradient w-100" onsubmit="return check()">
+						<form:form>
+                        <input type="submit" value="참가 취소" class="btn btn-gradient w-100">
                     	</form:form>
                     </div>
                     
                 </div>
-                
-                <script type="text/javascript">
-                	function check() {
-                		if(! confirm("정말로 신청하시겠습니까?")) return false;
-                	}
-                </script>
-
-<!--
+     
                 <div class="participants-list">
                     <h5>참가자 목록 (3명)</h5>
                     <table border="1">
-                    <c:forEach var="user" items="${userInfo }">
+                    
                     <div class="participant">
                         <div class="d-flex align-items-center">
                             <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="참가자 1">
-                           
+                            <table>
+                            <tr><th>닉네임</th><th>이메일</th></tr>
+                            <c:forEach var="meet" items="${MEETLIST }">
+                            <tr><td>${meet.name }</td><td>${meet.email }</td></tr>
+                        	</c:forEach>
+                        	</table>
                         </div>
                         <button class="btn btn-sm btn-outline-secondary">삭제</button>
                     </div>
-                    </c:forEach>
+                    
                     </table>
           	  </div>
--->
           	<div class="text-center mt-3">
                     <a href="/meetup/index.html" class="btn btn-secondary btn-sm">이전으로</a>
            </div>

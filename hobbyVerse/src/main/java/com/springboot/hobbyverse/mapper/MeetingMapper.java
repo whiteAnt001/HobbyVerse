@@ -17,4 +17,5 @@ public interface MeetingMapper {
 	Integer getTotal();//모임 전체 갯수
 	Integer getMaxId();
 	Meetup getMeetDetail(Integer id);//id로 모임상세 찾기
+	Meetup getMeet(Integer m_id);//모임 아이디로 모임 찾기
 }

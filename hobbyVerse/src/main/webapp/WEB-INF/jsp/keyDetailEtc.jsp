@@ -155,7 +155,7 @@ to {
 									<td>${key.price }</td>
 								</tr>
 								<tr>
-									<th><a href="">자세히보기</a></th>
+									<th><a href="/meetup/detail.html">자세히보기</a></th>
 								</tr>
 							</div>
 						</div>
