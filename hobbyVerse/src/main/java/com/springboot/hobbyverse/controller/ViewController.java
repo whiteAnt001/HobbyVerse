@@ -67,7 +67,7 @@ public class ViewController {
             if (endRow > count) endRow = count;
         }
         List<Meetup> meetList = this.meetingService.getMeetList(PAGE_NUM);
-        ModelAndView mav = new ModelAndView("home");
+        ModelAndView mav = new ModelAndView("index");
         mav.addObject("user", user);
 		mav.addObject("START",startRow); 
 		mav.addObject("END", endRow);

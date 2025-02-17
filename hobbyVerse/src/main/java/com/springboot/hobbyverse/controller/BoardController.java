@@ -27,16 +27,6 @@ public class BoardController {
     public BoardController(BoardService boardService) {
         this.boardService = boardService;
     }
-
-    // ✅ 홈 페이지
-    @GetMapping("/home")
-    public ModelAndView getHomePage(HttpSession session) {
-        ModelAndView mav = new ModelAndView("index");
-        User user = (User) session.getAttribute("loginUser");
-        mav.addObject("user", user);
-        return mav;
-    }
-
     // ✅ 게시판 목록 페이지 (페이징 + 검색 추가)
     @GetMapping("/boards")
     public ModelAndView getBoardPage(
@@ -145,7 +135,7 @@ public class BoardController {
         }
 
         try {
-            boardService.recommendPost(seq, user.getId()); // 🔥 수정된 recommendPost 호출
+            boardService.recommendPost(seq, user.getUserId()); // 🔥 수정된 recommendPost 호출
             Board updatedBoard = boardService.getBoardById(seq);
             response.put("success", true);
             response.put("likes", updatedBoard.getLikes());

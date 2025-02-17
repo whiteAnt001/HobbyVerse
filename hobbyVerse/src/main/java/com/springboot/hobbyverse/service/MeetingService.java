@@ -48,4 +48,10 @@ public class MeetingService {
 	public Meetup getMeetDetail(Integer id) {
 		return this.meetingMapper.getMeetDetail(id);
 	}
+	public List<Meetup> getMeetingByUser(String email){
+		return this.meetingMapper.getMeetingByUser(email);
+	}
+	public Integer deleteById(Integer id) {
+		return this.meetingMapper.deleteById(id);
+	}
 }

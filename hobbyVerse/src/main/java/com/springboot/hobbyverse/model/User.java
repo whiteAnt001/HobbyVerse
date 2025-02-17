@@ -31,7 +31,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class User implements UserDetails {
-	public Long getId() { return id; }
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 자동 증가
@@ -55,6 +54,7 @@ public class User implements UserDetails {
     @Column(name = "reg_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime regDate;
+    
     private String regDateString; //regDate를 문자열로 변환하여 저장하는 변수
     
     @Column(name = "provider")  // OAuth2 제공자 (google, facebook 등)
@@ -64,10 +64,12 @@ public class User implements UserDetails {
     private String providerId;
     
     @Builder
-    public User(String email, String password, LocalDateTime regDate, String name, String role, String provider, String providerId) {
+    public User(Long userId, String email, String password, LocalDateTime regDate, String regDateString, String name, String role, String provider, String providerId) {
+    	this.userId = userId;
     	this.email = email;
         this.password = password;
         this.regDate = regDate;
+        this.regDateString = regDateString;
         this.name = name;
         this.role = role;
         this.provider = provider;

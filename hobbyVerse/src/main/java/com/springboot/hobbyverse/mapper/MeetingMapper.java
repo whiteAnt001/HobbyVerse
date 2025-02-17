@@ -18,4 +18,6 @@ public interface MeetingMapper {
 	Integer getTotal();//모임 전체 갯수
 	Integer getMaxId();
 	Meetup getMeetDetail(Integer id);//id로 모임상세 찾기
+	List<Meetup> getMeetingByUser(String email); // 특정 유저가 만든 모임 찾기
+	Integer deleteById(Integer id); //m_id로 게시글 삭제
 }

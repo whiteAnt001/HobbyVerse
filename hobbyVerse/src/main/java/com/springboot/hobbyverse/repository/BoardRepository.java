@@ -1,5 +1,7 @@
 package com.springboot.hobbyverse.repository;
 
+import java.util.List;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -27,4 +29,6 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     // ✅ 번호(SEQ) 기준 내림차순 정렬 (기존 방식 유지)
     Page<Board> findAllByOrderBySeqDesc(Pageable pageable);
+
+	List<Board> findByName(String name);
 }

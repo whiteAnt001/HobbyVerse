@@ -63,10 +63,12 @@ public class MeetingController {
     }
 
     @GetMapping(value = "/meetup/createGroup.html")
-    public ModelAndView entry() {
-        List<Category> categoryList = meetingService.getCategoryList();
+    public ModelAndView entry(HttpSession session) {
         ModelAndView mav = new ModelAndView("createGroup");
+        List<Category> categoryList = meetingService.getCategoryList();
+        User user = (User)session.getAttribute("loginUser");
         mav.addObject(new Meetup());
+        mav.addObject("user", user);
         mav.addObject("categoryList", categoryList);
         return mav;
     }

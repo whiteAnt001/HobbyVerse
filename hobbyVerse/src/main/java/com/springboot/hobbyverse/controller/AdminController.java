@@ -22,7 +22,7 @@ import com.springboot.hobbyverse.config.SecurityConfig;
 import com.springboot.hobbyverse.dto.UpdateUserRequest;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
-import com.springboot.hobbyverse.repsitory.UserRepository;
+import com.springboot.hobbyverse.repository.UserRepository;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.UserService;
 
@@ -108,29 +108,20 @@ public class AdminController {
     	return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     
-    //이름 중복 체크 API
-//    @GetMapping("/user/check-name")
-//    public ResponseEntity<?> checkUserName(@RequestParam String name) {
-//        boolean exists = userRepository.existsByName(name);
-//        if (exists) {
-//            return ResponseEntity.badRequest().body("{\"message\": \"중복된 이름입니다.\"}");
+//    //이름 중복 체크 API 
+//    @GetMapping("/user/nameCheck")
+//    public ResponseEntity<Map<String, String>> checkUserName(@RequestParam String name) {
+//        Map<String, String> response = new HashMap<>();
+//
+//        // 정확히 동일한 이름만 중복 체크
+//        if (userRepository.existsByName(name)) {
+//            response.put("message", "이미 존재하는 이름입니다.");
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 //        }
-//        return ResponseEntity.ok("{\"message\": \"사용 가능한 이름입니다.\"}");
+//
+//        response.put("message", "사용 가능한 이름입니다.");
+//        return ResponseEntity.status(HttpStatus.OK).body(response);
 //    }
-    
-    @GetMapping("/user/nameCheck")
-    public ResponseEntity<Map<String, String>> checkUserName(@RequestParam String name) {
-        Map<String, String> response = new HashMap<>();
-
-        // 정확히 동일한 이름만 중복 체크
-        if (userRepository.existsByName(name)) {
-            response.put("message", "이미 존재하는 이름입니다.");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
-
-        response.put("message", "사용 가능한 이름입니다.");
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
 
     
     //유저 삭제API
@@ -161,7 +152,7 @@ public class AdminController {
     
     //모임 수정 폼 페이지
     @GetMapping("/meeting/edit/form/{id}")
-    public ModelAndView editMeetForm(@PathVariable Integer id) {
+    public ModelAndView editMeetingForm(@PathVariable Integer id) {
     	ModelAndView mav = new ModelAndView("meeting_modify");
     	Meetup meet = meetingService.getMeetDetail(id);
         if (meet == null) {
@@ -171,4 +162,24 @@ public class AdminController {
         mav.addObject("meeting", meet);
         return mav;
     }
+    
+    //TODO 모임 수정
+    
+    
+    //모임 삭제
+    @DeleteMapping("/meeting/delete/{id}")
+    public ResponseEntity<Map<String, String>> deleteMeeting(@PathVariable Integer id){
+    	Map<String, String> response = new HashMap<>();
+    	
+    	Integer meetingId = this.meetingService.deleteById(id);
+    	
+    	if(meetingId == null) {
+        	response.put("message", "모임을 찾을 수 없습니다.");
+        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    	}
+    	
+        response.put("message", "모임을 성공적으로 삭제했습니다.");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+    
 }
