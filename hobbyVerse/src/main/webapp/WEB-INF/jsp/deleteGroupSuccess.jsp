@@ -8,12 +8,16 @@
 </head>
 <body>
 <script type="text/javascript">
-    // 삭제 여부 확인 
-    if ("정말로 삭제하시겠습니까?") {//이거 안뜸
+    if (confirm("정말로 삭제하시겠습니까?")) {
+        // "확인"을 클릭했을 경우
         alert("${message}"); // 컨트롤러에서 전달한 메시지 출력
-        setTimeout(function(){ window.location.href = "/index";},200);// 확인 후 페이지 이동
+        setTimeout(function() {
+            window.location.href = "/index"; // 확인 후 페이지 이동
+        }, 200);
     } else {
-        setTimeout(function() { window.location.href = "/index";},100);}
+        // "취소"를 클릭했을 경우
+        window.location.href = "/meetup/detail.html?id=${meet.m_id }"; // 상세보기 페이지로 돌아가기
+    }
 </script>
 </body>
 </html>

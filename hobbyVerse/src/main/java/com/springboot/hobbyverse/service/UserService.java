@@ -95,9 +95,4 @@
 	        // 비밀번호가 일치하는지 확인
 	        return securityConfig.passwordEncoder().matches(password, user.getPassword());
 	    }
-	    
-	    // 이름 중복 검사
-	    public boolean isNameDuplicate(String name) {
-	        return userRepository.existsByName(name);
-	    }
 	}

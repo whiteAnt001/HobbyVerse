@@ -10,17 +10,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         /* 그라데이션 스타일 */
-        .gradient-bg {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-        }
-        .gradient-btn {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            border: none;
-            color: white;
-        }
-        .gradient-btn:hover {
-            background: linear-gradient(135deg, #2575fc, #6a11cb);
-        }
+        .gradient-bg {background: linear-gradient(135deg, #6a11cb, #2575fc);}
+        .gradient-btn {background: linear-gradient(135deg, #6a11cb, #2575fc);
+	            border: none; color: white;}
+        .gradient-btn:hover { background: linear-gradient(135deg, #2575fc, #6a11cb);}
     </style>
 </head>
 <body>
@@ -31,10 +24,12 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-8 mx-auto">
+            <form action="/meetup/search.html" method="post">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="관심 있는 모임을 검색하세요...">
+                	<input type="text" name="title" class="form-control" placeholder="관심 있는 모임을 검색하세요...">
                     <button class="btn gradient-btn">검색</button>
                 </div>
+            </form>
             </div>
         </div>
     </div>
@@ -47,10 +42,6 @@
             <c:forEach var="meet" items="${meetList}">
 			    <form method="post" action="/index" class="col-md-4 mb-4">
 			        <div class="card shadow-sm">
-			            <c:if test="${meet.imagename}">
-						    <img src="<c:url value='${pageContext.request.contextPath}/upload/${meet.imagename}'/>" class="card-img-top" alt="모임 이미지">
-						</c:if>
-
 			            <div class="card-body">
 			                <h5 class="card-title">${meet.title}</h5>
 			                <p class="card-text">날짜: ${meet.w_date}</p>
@@ -79,9 +70,8 @@
 	        <a href="../index?PAGE_NUM=${endPage + 1}">[다음]</a>
 	    </c:if>
 	</div>
-
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+                        

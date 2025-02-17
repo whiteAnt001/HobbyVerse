@@ -11,19 +11,12 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.springboot.hobbyverse.config.SecurityConfig;
-import com.springboot.hobbyverse.dto.UpdateUserRequest;
-import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repsitory.UserRepository;
-import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.UserService;
 
 @RestController
@@ -33,19 +26,13 @@ public class AdminController {
     private UserService userService;
     @Autowired
     private UserRepository userRepository;
-    @Autowired
-    private MeetingService meetingService;
-    @Autowired
-    private SecurityConfig securityConfig;
     
     //관리자 전용 대시보드 경로
     @GetMapping("/dashboard")
     public ModelAndView dashboard() { // "deshboard" 오타 수정
         ModelAndView mav = new ModelAndView("dashboard");
-        Integer totalUser = this.userService.getUserCount(); //총 유저 수
-        Integer totalMeet = this.meetingService.getTotal(); //총 모임 수
-        mav.addObject("totalUsers", totalUser);
-        mav.addObject("totalMeet", totalMeet);
+        Integer userCount = this.userService.getUserCount();
+        mav.addObject("totalUsers", userCount);
         return mav;
     }
     
@@ -56,7 +43,7 @@ public class AdminController {
         List<User> users = userRepository.findAll();
         
         // LocalDateTime 포맷터 설정
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss	");
 
         for (User user : users) {
             if (user.getRegDate() != null) {
@@ -71,69 +58,7 @@ public class AdminController {
         return mav;
     }
     
-    // 유저 수정 폼 페이지
-    @GetMapping("/user/edit/form/{id}")
-    public ModelAndView editUserForm(@PathVariable Long id) {
-        ModelAndView mav = new ModelAndView("user_modify"); // edit_user.jsp로 연결
-        User user = userRepository.findById(id).orElse(null);
-        if (user == null) {
-            mav.addObject("error", "유저를 찾을 수 없습니다.");
-            return mav;
-        }
-        mav.addObject("user", user);
-        return mav;
-    }
-
-    //유저 수정API
-    @PutMapping("/user/edit/{id}")
-    public ResponseEntity<Map<String, String>> updateUserByAdmin(@PathVariable Long id, @RequestBody UpdateUserRequest updateRequest){
-    	Map<String, String> response = new HashMap<>();
-    	
-    	if(!userRepository.existsById(id)) {
-    		response.put("message", "유저를 찾을 수 없습니다.");
-        	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-    	}
-    	//유저 정보 수정
-    	User user = userRepository.findByUserId(id);
-    	user.setName(updateRequest.getName());
-    	
-    	if(updateRequest.getPassword() != null && !updateRequest.getPassword().isEmpty()) {
-    		user.setPassword(securityConfig.passwordEncoder().encode(updateRequest.getPassword()));
-    	}
-    	user.setRole(updateRequest.getRole());
-    	
-    	userRepository.save(user);
-    	
-    	response.put("message", "유저 정보가 성공적으로 수정되었습니다.");
-    	return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-    
-    //이름 중복 체크 API
-//    @GetMapping("/user/check-name")
-//    public ResponseEntity<?> checkUserName(@RequestParam String name) {
-//        boolean exists = userRepository.existsByName(name);
-//        if (exists) {
-//            return ResponseEntity.badRequest().body("{\"message\": \"중복된 이름입니다.\"}");
-//        }
-//        return ResponseEntity.ok("{\"message\": \"사용 가능한 이름입니다.\"}");
-//    }
-    
-    @GetMapping("/user/nameCheck")
-    public ResponseEntity<Map<String, String>> checkUserName(@RequestParam String name) {
-        Map<String, String> response = new HashMap<>();
-
-        // 정확히 동일한 이름만 중복 체크
-        if (userRepository.existsByName(name)) {
-            response.put("message", "이미 존재하는 이름입니다.");
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
-        }
-
-        response.put("message", "사용 가능한 이름입니다.");
-        return ResponseEntity.status(HttpStatus.OK).body(response);
-    }
-
-    
-    //유저 삭제API
+    //유저 삭제
     @DeleteMapping("/users/delete/{id}")
     public ResponseEntity<Map<String, String>> deleteUserByAdmin(@PathVariable Long id) {
     	Map<String, String> response = new HashMap<>();
@@ -154,21 +79,6 @@ public class AdminController {
     @GetMapping("/meetings")
     public ModelAndView meetingManagement() {
         ModelAndView mav = new ModelAndView("meeting_management");
-        List<Meetup> meetList = this.meetingService.getMeetings();
-        mav.addObject("meetList", meetList);
-        return mav;
-    }
-    
-    //모임 수정 폼 페이지
-    @GetMapping("/meeting/edit/form/{id}")
-    public ModelAndView editMeetForm(@PathVariable Integer id) {
-    	ModelAndView mav = new ModelAndView("meeting_modify");
-    	Meetup meet = meetingService.getMeetDetail(id);
-        if (meet == null) {
-            mav.addObject("error", "모임을 찾을 수 없습니다.");
-            return mav;
-        }
-        mav.addObject("meeting", meet);
         return mav;
     }
 }
