@@ -11,8 +11,8 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 import org.springframework.stereotype.Component;
 
 import com.springboot.hobbyverse.model.User;
-import com.springboot.hobbyverse.repsitory.UserRepository;
 import com.springboot.hobbyverse.utils.JwtUtil;
+import com.springboot.hobbyverse.repository.UserRepository;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,10 +50,8 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 		
 		//세션에 사용자 정보 저장
 		HttpSession session = request.getSession();
-		session.setAttribute("user", user);
+		session.setAttribute("loginUser", user);
 		response.sendRedirect("/home");
-		
-		
 	}
 	
 }

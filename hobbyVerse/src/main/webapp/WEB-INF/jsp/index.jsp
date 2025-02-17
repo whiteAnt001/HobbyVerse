@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>  
+
 <!DOCTYPE html>
 <html lang="UTF-8">
 <head>
@@ -59,15 +61,15 @@
 	
 	<div align="center">
 	    <c:if test="${startPage > 1}">
-	        <a href="../index?PAGE_NUM=${startPage - 1}">[이전]</a>
+	        <a href="../home?PAGE_NUM=${startPage - 1}">[이전]</a>
 	    </c:if>
 	    <c:forEach begin="${startPage}" end="${endPage}" var="i">
-	        <a href="../index?PAGE_NUM=${i}" class="${currentPage == i ? 'active-page' : ''}">
+	        <a href="../home?PAGE_NUM=${i}" class="${currentPage == i ? 'active-page' : ''}">
 	            ${i}
 	        </a>
 	    </c:forEach>
 	    <c:if test="${endPage < pageCount}">
-	        <a href="../index?PAGE_NUM=${endPage + 1}">[다음]</a>
+	        <a href="../home?PAGE_NUM=${endPage + 1}">[다음]</a>
 	    </c:if>
 	</div>
     <!-- Bootstrap JS -->

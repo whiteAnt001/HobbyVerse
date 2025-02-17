@@ -41,13 +41,51 @@
                         <td>${meeting.w_date}</td>
                         <td>
                             <a href="/api/admin/meeting/edit/form/${meeting.m_id}" class="btn btn-warning btn-sm">✏ 수정</a>
-                            <a href="/admin/meeting/delete/${meeting.m_id}" class="btn btn-danger btn-sm" onclick="return confirm('삭제할까요?')">🗑 삭제</a>
+                            <a href="/api/admin/meeting/delete/${meeting.m_id}" class="btn btn-danger btn-sm" onclick="deleteMeeting(${meeting.m_id})">🗑 삭제</a>
                         </td>
                     </tr>
                 </c:forEach>
             </tbody>
         </table>
     </div>
+    <script type="text/javascript">
+    function deleteMeeting(meetingId) {
+        // 사용자에게 삭제 확인 메시지 표시
+        if (confirm('정말로 이 모임을 삭제하시겠습니까?')) {
+            // 확인 버튼을 클릭하면 DELETE 요청 실행
+            const url = `/api/admin/meeting/delete/` + meetingId;  // URL에 meetingId 넣기
+
+            fetch(url, {
+                method: 'DELETE',  // DELETE 메서드로 요청
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else {
+                    throw new Error('Failed to delete user. Status code: ' + response.status);
+                }
+            })
+            .then(data => {
+                console.log("Response:", data);
+                if (data.message === '모임을 성공적으로 삭제했습니다.') {
+                    alert('모임을 성공적으로 삭제했습니다.');
+                    window.location.href = '/api/admin/meetings';  // 모임 관리 페이지로 리디렉션
+                } else {
+                    alert('Error: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to delete user: ' + error.message);
+            });
+        } else {
+            // 취소를 클릭하면 아무 동작도 하지 않음
+            window.location.href = '/api/admin/meetings';
+            return;  // 함수 종료
+        }
+    }
+
+</script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

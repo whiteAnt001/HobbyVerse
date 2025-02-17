@@ -5,7 +5,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import com.springboot.hobbyverse.model.User;
-import com.springboot.hobbyverse.repsitory.UserRepository;
+import com.springboot.hobbyverse.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 

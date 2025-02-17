@@ -14,6 +14,7 @@ public class AddUserRequest {
     private String email;
     private String password;
     private LocalDateTime regDate;
+    private String regDateString;
     private String role;
     private String provider;
     private String providerId;

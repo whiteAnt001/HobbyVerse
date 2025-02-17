@@ -32,6 +32,14 @@
             font-size: 14px; /* 버튼 크기 */
             padding: 8px 16px; /* 버튼 여백 */
         }
+        /* 네비게이션 바 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        }
+        .container-lg {
+			max-width: 900px; /* container-lg의 최대 너비를 더 넓게 설정 */
+			margin-top: 50px;
+		}
 
         /* 전체 레이아웃 조정 */
         body {
@@ -42,6 +50,10 @@
 </head>
 
 <body>
+
+    <!-- 네비게이션 바 포함 -->
+    <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
+    
     <div class="container mt-5">
         <h2 class="mb-4">모임 등록</h2>
         <form:form action="/meetup/register.html" method="post" modelAttribute="meetup" enctype="multipart/form-data">

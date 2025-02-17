@@ -24,8 +24,10 @@ public class CategoryController {
 	private UserService userService;
 	
 	@GetMapping("/category/key")//카테고리 버튼 선택
-	public ModelAndView key() {
+	public ModelAndView key(HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
+		mav.addObject("user", user);
 		mav.setViewName("keySelect");
 		return mav;
 	}
@@ -34,6 +36,7 @@ public class CategoryController {
 	@GetMapping("/category/moveSport")//카테고리 필터 선택
 	public ModelAndView getSport(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
 		if(pageNo != null) currentPage = pageNo;
 		c_key = 1;
@@ -42,6 +45,7 @@ public class CategoryController {
 		int pageCount = totalCount / 6;
 		if(totalCount % 6 != 0) pageCount++;
 		session.setAttribute("c_key", c_key);
+		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("currentPage", currentPage);

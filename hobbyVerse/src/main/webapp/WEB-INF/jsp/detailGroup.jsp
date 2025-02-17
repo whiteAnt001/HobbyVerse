@@ -80,7 +80,7 @@
           	  </div>
           	  <br/>
           	<div class="d-flex justify-content-center">
-    <a href="/index" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+    <a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
 
     <c:if test="${loginUser != null && loginUser.email == meetup.w_id}">
         <form action="/meetup/modify.html" method="get" class="d-flex">
