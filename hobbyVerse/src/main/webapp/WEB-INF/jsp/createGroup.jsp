@@ -84,7 +84,7 @@
             	<small class="text-muted">참가비는 0 이상 숫자로 입력하세요.</small>
             </div>
             <div class="mb-3">
-                <label for="w_date" class="form-label">모임 날짜</label>
+                <label for="w_date" class="form-label">모임 일정</label>
                 <form:input path="w_date" type="date" class="form-control" id="w_date" name="w_date" required="true"/>
             </div>
 
@@ -96,7 +96,7 @@
 		    </div>
 		<div align="center">
 			<button type="submit" class="btn btn-primary">등록하기</button>
-            <a href="../meetup/index.html" class="btn btn-secondary">취소</a>
+            <a href="/index" class="btn btn-secondary">취소</a>
 		</div>
         </form:form>
     </div>

@@ -52,18 +52,15 @@ public class ViewController {
 	
 	@GetMapping("/home")
 	public ModelAndView getHome(Integer PAGE_NUM, HttpSession session) {
-		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
-        if (PAGE_NUM != null) currentPage = PAGE_NUM;        
+        if (PAGE_NUM != null) currentPage = PAGE_NUM;
         int count = this.meetingService.getTotal();
-        int startRow = 0;
-        int endRow = 0;
-        int totalPageCount = 0;
+        int startRow = 0; int endRow = 0; int totalPageCount = 0;
         if (count > 0) {
             totalPageCount = count / 6;
             if (count % 6 != 0) totalPageCount++;           
             startRow = (currentPage - 1) * 6;
-            endRow = startRow + 6;           
+            endRow = ((currentPage - 1) * 6) + 6;           
             if (endRow > count) endRow = count;
         }
         List<Meetup> meetList = this.meetingService.getMeetList(PAGE_NUM);
