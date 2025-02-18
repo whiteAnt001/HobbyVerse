@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.hobbyverse.config.CustomOAuth2User;
 import com.springboot.hobbyverse.model.User;
-import com.springboot.hobbyverse.repsitory.UserRepository;
+import com.springboot.hobbyverse.repository.UserRepository;
 
 @Service
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {

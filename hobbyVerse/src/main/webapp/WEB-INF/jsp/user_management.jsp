@@ -43,7 +43,7 @@
                         <td>${user.regDateString}</td>
                         <td>${user.role}</td>
                         <td>
-                            <a href="/api/admin/user/edit/${user.email}" class="btn btn-warning btn-sm">✏ 수정</a>
+                            <a href="/api/admin/user/edit/form/${user.userId}" class="btn btn-warning btn-sm">✏ 수정</a>
                             <!-- 삭제 버튼 수정 -->
                            <a class="btn btn-danger btn-sm" title="삭제" onclick="deleteUser(${user.userId})">🗑 삭제</a>
                         </td>
@@ -56,8 +56,6 @@
     function deleteUser(userId) {
         if (confirm('정말로 이 사용자를 삭제하시겠습니까?')) {
             const url = `/api/admin/users/delete/` + userId;  // url에 userId 넣기
-            console.log("Request URL:", url);  // 생성된 URL을 출력해서 확인
-
             fetch(url, {
                 method: 'DELETE',
                 headers: {
@@ -66,7 +64,6 @@
                 }
             })
             .then(response => {
-                console.log("Response status:", response.status);  // 상태 코드 로그
                 if (response.ok) {
                     return response.json();
                 } else {

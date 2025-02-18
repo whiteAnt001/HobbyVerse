@@ -96,7 +96,7 @@
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title text-center">로그인</h3>
-                <form:form modelAttribute="user" action="/loginDo">
+                <form:form modelAttribute="user" action="/loginDo" method="post">
                     <div class="mb-3">
                         <label for="email" class="form-label">아이디</label>
                         <form:input path="email" class="form-control" placeholder="아이디를 입력하세요"/>
@@ -112,17 +112,14 @@
                 <div class="footer-link">
                     <p>아직 회원이 아니신가요? <a href="/signup">회원 가입</a></p>
                 </div>
-                <div class="text-center mt-3">
-                    <span>소셜 계정으로 로그인</span>
-                </div>
                 <div align="center" class="social-login-btn mt-2">
                 <a href="<c:url value='/oauth2/authorization/google'/>">
                     <img src="/img/google1.png" alt="Google">
                 </a>
                 </div>
-                <div class="social-login-btn mt-2">
-                    <img src="https://upload.wikimedia.org/wikipedia/commons/6/69/Facebook_Logo_2023.png" alt="Facebook">
-                    <span>페이스북으로 로그인</span>
+                <div class="social-login-btn mt-2" align="center">
+                <a href="#"/>
+                    <img src="/img/kakao.png" alt="kakao">
                 </div>
             </div>
         </div>

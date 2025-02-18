@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>  
+
 <!DOCTYPE html>
 <html lang="UTF-8">
 <head>
@@ -10,17 +12,18 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <style>
         /* 그라데이션 스타일 */
-        .gradient-bg {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-        }
-        .gradient-btn {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            border: none;
-            color: white;
-        }
-        .gradient-btn:hover {
-            background: linear-gradient(135deg, #2575fc, #6a11cb);
-        }
+        .gradient-bg {background: linear-gradient(135deg, #6a11cb, #2575fc);}
+        .gradient-btn {background: linear-gradient(135deg, #6a11cb, #2575fc);
+	            border: none; color: white;}
+        .gradient-btn:hover { background: linear-gradient(135deg, #2575fc, #6a11cb);}
+        
+        /* 찜하기 버튼 */
+        .heart-btn { background-color: transparent; border: none; font-size: 24px;
+       			 color: #ccc; position: absolute; bottom: 10px; right: 10px; cursor: pointer;}
+
+    	.heart-btn.liked i { color: red; }
+
+    	.card {position: relative; }
     </style>
 </head>
 <body>
@@ -31,10 +34,12 @@
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-8 mx-auto">
+            <form action="/meetup/search.html" method="post">
                 <div class="input-group">
-                    <input type="text" class="form-control" placeholder="관심 있는 모임을 검색하세요...">
+                	<input type="text" name="title" class="form-control" placeholder="관심 있는 모임을 검색하세요...">
                     <button class="btn gradient-btn">검색</button>
                 </div>
+            </form>
             </div>
         </div>
     </div>
@@ -45,42 +50,49 @@
         <div class="row">
             <!-- EL 표현식과 매핑 부분 -->
             <c:forEach var="meet" items="${meetList}">
-			    <form method="post" action="/meetup/index.html" class="col-md-4 mb-4">
+			    <form method="post" action="/index" class="col-md-4 mb-4">
 			        <div class="card shadow-sm">
-			            <c:if test="${meet.imagename}">
-						    <img src="<c:url value='${pageContext.request.contextPath}/upload/${meet.imagename}'/>" class="card-img-top" alt="모임 이미지">
-						</c:if>
-
 			            <div class="card-body">
 			                <h5 class="card-title">${meet.title}</h5>
 			                <p class="card-text">날짜: ${meet.w_date}</p>
 			                <!-- 일반 버튼으로 수정 -->
 			                <a href="/meetup/detail.html?id=${meet.m_id }" class="btn btn-primary">자세히 보기</a>
+			           		<button type="button" class="btn heart-btn" onclick="toggleHeart(this)">
+                            	<i class="fa fa-heart"></i>
+                        	</button>
 			            </div>
 			        </div>
 			    </form>
 			</c:forEach>
         </div>
 	</div>
+	<script>
+    function toggleHeart(button) {
+        // 하트 버튼 클릭 시, 빨간색으로 채워지는 효과
+        button.classList.toggle('liked');
+    }
+	</script>
+
+	<!-- 페이지처리 -->
 	<c:set var="startPage" value="${currentPage - (currentPage - 1) % 10}" />
 	<c:set var="endPage" value="${startPage + 9}" />
 	<c:set var="endPage" value="${endPage > pageCount ? pageCount : endPage}" />
 	
 	<div align="center">
 	    <c:if test="${startPage > 1}">
-	        <a href="../meetup/index.html?PAGE_NUM=${startPage - 1}">[이전]</a>
+	        <a href="../home?PAGE_NUM=${startPage - 1}">[이전]</a>
 	    </c:if>
 	    <c:forEach begin="${startPage}" end="${endPage}" var="i">
-	        <a href="../meetup/index.html?PAGE_NUM=${i}" class="${currentPage == i ? 'active-page' : ''}">
+	        <a href="../home?PAGE_NUM=${i}" class="${currentPage == i ? 'active-page' : ''}">
 	            ${i}
 	        </a>
 	    </c:forEach>
 	    <c:if test="${endPage < pageCount}">
-	        <a href="../meetup/index.html?PAGE_NUM=${endPage + 1}">[다음]</a>
+	        <a href="../home?PAGE_NUM=${endPage + 1}">[다음]</a>
 	    </c:if>
 	</div>
-
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+                        

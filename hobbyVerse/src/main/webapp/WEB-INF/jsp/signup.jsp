@@ -155,6 +155,14 @@
             </div>
         </div>
     </div>
+    <script type="text/javascript">
+    	window.onload = function() {
+        	var errorMessage = "<%= request.getAttribute("errorMessage") %>";
+        	if (errorMessage && errorMessage !== "null") {
+            	alert(errorMessage);
+        	}
+    	};
+    </script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
