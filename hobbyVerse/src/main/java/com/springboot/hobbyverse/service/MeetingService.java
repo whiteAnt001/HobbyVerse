@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.springboot.hobbyverse.mapper.MeetingMapper;
-import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.StartEnd;

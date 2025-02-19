@@ -60,25 +60,28 @@
                     
                 </div>
      
-                <div class="participants-list">
+                <!--<div class="participants-list">
                     <h5>참가자 목록 (3명)</h5>
                     <table border="1">
-                    
+                    <c:forEach var="apply" items="${meetingApply }">
                     <div class="participant">
                         <div class="d-flex align-items-center">
                             <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="참가자 1">
                             <table>
-                            <tr><th>닉네임</th><th>이메일</th></tr>
-                            <c:forEach var="meet" items="${MEETLIST }">
-                            <tr><td>${meet.name }</td><td>${meet.email }</td></tr>
-                        	</c:forEach>
-                        	</table>
+                            	<tr>
+                            		<th><h6>모임 신청이 성공적으로 완료되었습니다!</h6><th>
+   						 			<td><p>신청자: ${apply.id}</p></td>
+   						 			<td><p>이메일: ${apply.email }</p></td>
+   									<td><p>신청 날짜: ${apply.apply_date}</p></td>
+    								<td><a href="/myPage">마이 페이지 이동하기</a></td>
+    							</tr>
+    						</table>
                         </div>
                         <button class="btn btn-sm btn-outline-secondary">삭제</button>
                     </div>
-                    
+                    </c:forEach>
                     </table>
-          	  </div>
+          	  </div> -->
           	<div class="text-center mt-3">
                     <a href="/meetup/index.html" class="btn btn-secondary btn-sm">이전으로</a>
            </div>
