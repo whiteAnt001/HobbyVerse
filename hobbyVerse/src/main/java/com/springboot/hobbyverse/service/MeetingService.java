@@ -15,7 +15,7 @@ import com.springboot.hobbyverse.model.StartEnd;
 public class MeetingService {
 	@Autowired
 	private MeetingMapper meetingMapper;
-	
+		
 	public List<Category> getCategoryList(){//카테고리 목록
 		return this.meetingMapper.getCategoryList();
 	}
@@ -44,8 +44,12 @@ public class MeetingService {
 	    return meetingMapper.getMeetDetail(id); //모임상세
 	}
 	
+	public List<Meetup> getMeetingByUser(String email) {
+		return this.meetingMapper.getMeetingByUser(email);
+	}
+	
 	public void deleteMeeting(Integer m_id) {
-		this.meetingMapper.deleteMeeting(m_id);
+		this.meetingMapper.deleteById(m_id);
 	}
 	public void updateMeeting(Meetup meetup) {
 		this.meetingMapper.updateMeeting(meetup);

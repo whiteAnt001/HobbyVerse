@@ -109,42 +109,22 @@ to {
 
 			<c:forEach var="key" items="${keyCategory }">
 				<div class="col-md-4 mb-4">
-					<table border="1">
 
 						<div class="meeting-card">
-							<div clss="p-3">
-								<tr>
-									<th>모임 아이디</th>
-									<td>${key.m_id }</td>
-								</tr>
-								<tr>
-									<th>모임 이름</th>
-									<td>${key.title }</td>
-								</tr>
-								<tr>
-									<th>작성자</th>
-									<td>${key.w_id }</td>
-								</tr>
-								<tr>
-									<th>카테고리</th>
-									<td>${key.c_key }</td>
-								</tr>
-								<tr>
-									<th>작성일</th>
-									<td>${key.w_date }</td>
-								</tr>
-								<tr>
-									<th>금액</th>
-									<td>${key.price }</td>
-								</tr>
-								<tr>
-									<th><a href="/meetup/detail.html">자세히보기</a></th>
-								</tr>
+							<div class="p-3">
+									<!-- <th>모임 아이디</th> -->
+									${key.m_id }
+									
+									<!-- <th>모임 이름</th> -->
+									<h5 class="card-title">${key.title }</h5>
 
+									<!-- <th>작성일</th> -->
+									<p class="card-text">날짜: ${key.w_date }</p>
+
+									<a href="/meetup/detail.html" class="btn btn-primary">자세히보기</a>
 							</div>
 						</div>
 
-					</table>
 				</div>
 			</c:forEach>
 

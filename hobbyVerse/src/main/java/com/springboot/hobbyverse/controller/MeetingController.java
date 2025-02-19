@@ -35,7 +35,7 @@ public class MeetingController {
     @Autowired 
     private MeetingService meetingService;
 
-    @GetMapping(value = "/index")
+    @GetMapping(value = "/home")
     public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
     	User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
