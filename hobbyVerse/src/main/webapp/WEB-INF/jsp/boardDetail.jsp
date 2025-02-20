@@ -46,8 +46,8 @@
         </div>
         <hr>
 
-        <!-- ✅ 수정 가능한 폼 -->
-        <c:if test="${not empty user and user.name == board.name}">
+        <!-- ✅ 게시글 수정 / 삭제 (로그인한 사용자의 이메일이 게시글 이메일과 같을 때만 가능 / 관리자 권한을 가진 사람도 가능) -->
+        <c:if test="${not empty user and user.email == board.email || user.role == 'ROLE_ADMIN'}">
             <form action="/boards/${board.seq}/update" method="post">
                 <div class="mb-3">
                     <label class="form-label"><strong>제목:</strong></label>
@@ -66,15 +66,15 @@
                 </div>
             </form>
 
-            <!-- ✅ 삭제 버튼을 수정 폼 밖으로 이동 -->
+            <!-- ✅ 삭제 버튼 -->
             <form action="/boards/${board.seq}/delete" method="post" class="mt-2"
                   onsubmit="return confirm('정말 삭제하시겠습니까?');">
                 <button type="submit" class="btn btn-danger">삭제</button>
             </form>
         </c:if>
 
-        <!-- ✅ 수정 불가능한 경우 내용만 표시 -->
-        <c:if test="${empty user or user.name != board.name}">
+        <!-- ✅ 수정/삭제 권한이 없는 경우 -->
+        <c:if test="${empty user or user.email != board.email}">
             <p>${board.content}</p>
             <a href="/boards" class="btn btn-secondary">목록으로</a>
         </c:if>
@@ -85,7 +85,7 @@
         <c:if test="${not empty user}">
             <button id="recommendButton" class="btn btn-success"
                     onclick="recommendPost(${board.seq})"
-                    <c:if test="${not empty recommendedToday and recommendedToday}">disabled</c:if>>
+                    <c:if test="${not empty recommendedToday and recommendedToday}">disabled</c:if> >
                 추천 👍
             </button>
         </c:if>
@@ -94,6 +94,45 @@
         <c:if test="${not empty errorMessage}">
             <div class="alert alert-warning mt-3">${errorMessage}</div>
         </c:if>
+
+        <hr>
+        <!-- 댓글 달기 -->
+        <c:if test="${not empty user}">
+        <form id="commentForm" action="/comments/create" method="post">
+            <input type="hidden" name="boardId" value="${board.seq}"/>
+            <input type="hidden" name="userName" value="${user.name}"/>
+            <input type="hidden" name="userEmail" value="${user.email}"/>
+            <input type="hidden" name="parentId" value="${parentCommentId}"/>
+                <Strong>${user.name}</Strong>
+            <div class="mb-3">
+                <textarea name="content" class="form-control" placeholder="댓글을 작성해주세요." rows="3"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">댓글 작성</button>
+        </form>
+		</c:if>
+        <hr>
+
+        <!-- 댓글 목록 표시 -->
+        <div id="commentList">
+            <h2>댓글목록</h2>
+            <c:forEach var="comment" items="${comments}">
+                <div class="card mb-3 shadow-sm">
+                    <div class="card-body">
+                    <form action="/comments/delete/${comment.id}" method="post">
+                        <h5 class="card-title">${comment.userName}</h5>
+                        <p class="card-text">${comment.content}</p>
+                        <!-- 삭제 및 수정버튼은 댓글 작성자와 현재 로그인한 사용자가 동일하면 표시 -->
+                        <c:if test="${user.email == comment.userEmail}">
+                        <input type="submit" value="삭제">
+                        </c:if>
+                    </form>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <small>작성일: ${comment.createdAt}</small>
+                    </div>
+                </div>
+            </c:forEach>
+        </div>
     </div>
 </body>
 </html>

@@ -1,103 +1,79 @@
 package com.springboot.hobbyverse.model;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.PrePersist;
-import jakarta.persistence.PreUpdate;
-import jakarta.persistence.Transient;
-import jakarta.persistence.Version;
+import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Board {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long seq;
 
-    @Column(nullable = false)
-    private String subject;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long seq; // board_id 역할 (PK)
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    private String content;
+	@Column(nullable = false)
+	private String subject;
 
-    @Column(nullable = false)
-    private String name;
+	@Column(nullable = false, columnDefinition = "TEXT")
+	private String content;
 
-    @Column(nullable = false)
-    private LocalDateTime regDate;
+	@Column(nullable = false)
+	private String name;
 
-    private int readCount;
+	@Column(nullable = false)
+	private LocalDateTime regDate;
 
-    @Version
-    private Long version = 0L;
+	private int readCount;
 
-    @Transient
-    private String formattedRegDate;
+	@Version
+	private Long version = 0L;
 
-    // ✅ 추천 수 추가
-    @Column(nullable = false)
-    private int likes = 0;
+	@Transient
+	private String formattedRegDate;
 
-    public Board() {
-        this.regDate = LocalDateTime.now();
-    }
+	@Column(nullable = false)
+	private int likes = 0;
 
-    // ✅ @PrePersist로 기본값 자동 설정
-    @PrePersist
-    public void prePersist() {
-        if (this.regDate == null) {
-            this.regDate = LocalDateTime.now();
-        }
-        if (this.version == null) {
-            this.version = 0L;
-        }
-        if (this.likes == 0) {
-            this.likes = 0;
-        }
-    }
+	@Column(nullable = false)
+	private String email = "unknown@example.com";
 
-    // ✅ @PreUpdate로 업데이트 시 기본값 유지
-    @PreUpdate
-    public void preUpdate() {
-        if (this.version == null) {
-            this.version = 0L;
-        }
-    }
+	// ✅ 댓글 리스트 추가 (게시글 삭제 시 댓글도 삭제됨)
+	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Comment> comments;
 
-    // ✅ 추천 수 증가 메서드
-    public void incrementLikes() {
-        this.likes++;
-    }
+	public Board() {
+		this.regDate = LocalDateTime.now();
+	}
 
-    // Getter & Setter
-    public Long getSeq() { return seq; }
-    public void setSeq(Long seq) { this.seq = seq; }
+	@PrePersist
+	public void prePersist() {
+		if (this.regDate == null) {
+			this.regDate = LocalDateTime.now();
+		}
+		if (this.version == null) {
+			this.version = 0L;
+		}
+		if (this.likes == 0) {
+			this.likes = 0;
+		}
+		if (this.email == null) {
+			this.email = "unknown@example.com";
+		}
+	}
 
-    public String getSubject() { return subject; }
-    public void setSubject(String subject) { this.subject = subject; }
+	@PreUpdate
+	public void preUpdate() {
+		if (this.version == null) {
+			this.version = 0L;
+		}
+	}
 
-    public String getContent() { return content; }
-    public void setContent(String content) { this.content = content; }
-
-    public String getName() { return name; }
-    public void setName(String name) { this.name = name; }
-
-    public LocalDateTime getRegDate() { return regDate; }
-    public void setRegDate(LocalDateTime regDate) { this.regDate = regDate; }
-
-    public int getReadCount() { return readCount; }
-    public void setReadCount(int readCount) { this.readCount = readCount; }
-
-    public String getFormattedRegDate() { return formattedRegDate; }
-    public void setFormattedRegDate(String formattedRegDate) { this.formattedRegDate = formattedRegDate; }
-
-    public Long getVersion() { return version; }
-    public void setVersion(Long version) { this.version = version; }
-
-    public int getLikes() { return likes; } // ✅ 추천 수 Getter 추가
-    public void setLikes(int likes) { this.likes = likes; } // ✅ 추천 수 Setter 추가
+	public void incrementLikes() {
+		this.likes++;
+	}
 }

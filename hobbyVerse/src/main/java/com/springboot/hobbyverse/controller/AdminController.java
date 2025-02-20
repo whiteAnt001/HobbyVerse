@@ -20,6 +20,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.config.SecurityConfig;
 import com.springboot.hobbyverse.dto.UpdateUserRequest;
+import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.UserRepository;
@@ -150,21 +151,21 @@ public class AdminController {
         return mav;
     }
     
-    //모임 수정 폼 페이지
     @GetMapping("/meeting/edit/form/{id}")
-    public ModelAndView editMeetingForm(@PathVariable Integer id) {
-    	ModelAndView mav = new ModelAndView("meeting_modify");
-    	Meetup meet = meetingService.getMeetDetail(id);
-        if (meet == null) {
-            mav.addObject("error", "모임을 찾을 수 없습니다.");
+    public ModelAndView editMeeting(@PathVariable Integer id) {
+    	ModelAndView mav = new ModelAndView("updateGroup");
+    	
+        if (meetingService.getMeetingById(id) == null) {
+            mav.addObject("error", "유저를 찾을 수 없습니다.");
             return mav;
         }
-        mav.addObject("meeting", meet);
-        return mav;
+        Meetup meetup = this.meetingService.getMeetDetail(id); // 모임 정보 가져오기
+        List<Category> categoryList = meetingService.getCategoryList(); // 카테고리 리스트 가져오기
+        
+        mav.addObject("meetup", meetup); // 수정할 모임 정보 전달
+        mav.addObject("categoryList", categoryList); // 카테고리 리스트 전달
+    	return mav;
     }
-    
-    //TODO 모임 수정
-    
     
     //모임 삭제
     @DeleteMapping("/meeting/delete/{id}")
