@@ -57,26 +57,16 @@
 		from meetup
 		where m_id=#{id}
 	</select><!-- 모임 상세보기 -->
-
-	<delete id="deleteById" parameterType="Integer">
-		m_id = #{id}
-		delete from meetup where
-	</delete>
+	
 
 	<update id="updateMeeting"
-		update meetup set title=#{title}, info=#{info},
 		parameterType="com.springboot.hobbyverse.model.Meetup">
+		update meetup set title=#{title}, info=#{info},
 		c_key=#{c_key},
 		price=#{price}, w_date=#{w_date},
 		imagename=#{imagename}
 		where m_id=#{m_id}
 	</update>
-
-	<select id="getMeetingByUser" parameterType="String"
-		resultType="com.springboot.hobbyverse.model.Meetup">
-		select * from meetup where w_id = #{id}
-	</select>
-
 
 	<!-- 모임 아이디로 모임 찾기 -->
 	<select id="getMeet" parameterType="Integer"

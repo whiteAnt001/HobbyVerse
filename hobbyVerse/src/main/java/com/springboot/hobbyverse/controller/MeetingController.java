@@ -63,10 +63,12 @@ public class MeetingController {
     }//모임목록,페이지처리
 
     @GetMapping(value = "/meetup/createGroup.html")
-    public ModelAndView entry() {
+    public ModelAndView entry(HttpSession session) {
         List<Category> categoryList = meetingService.getCategoryList();
         ModelAndView mav = new ModelAndView("createGroup");
+        User user = (User)session.getAttribute("loginUser");
         mav.addObject(new Meetup());
+        mav.addObject("user", user);
         mav.addObject("categoryList", categoryList);
         return mav;
     }//모임등록창
@@ -136,7 +138,7 @@ public class MeetingController {
             mav.addObject("categoryList", categoryList); // 카테고리 리스트 전달
         } else if ("삭제".equals(BTN)) {
             // 삭제 버튼 클릭 시
-            this.meetingService.deleteMeeting(m_id); // 모임 삭제
+            this.meetingService.deleteById(m_id); // 모임 삭제
             mav.setViewName("deleteGroupSuccess"); // 삭제 완료 화면으로 이동
             mav.addObject("message", "삭제되었습니다."); // 삭제 메시지 전달
         }

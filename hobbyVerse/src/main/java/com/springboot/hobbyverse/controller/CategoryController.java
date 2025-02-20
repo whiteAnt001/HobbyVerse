@@ -60,6 +60,7 @@ public class CategoryController {
 	@GetMapping("/category/moveMusic")//카테고리 필터 선택
 	public ModelAndView getMusic(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
 		if(pageNo != null) currentPage = pageNo;
 		c_key = 2;
@@ -68,6 +69,7 @@ public class CategoryController {
 		int pageCount = totalCount / 6;
 		if(totalCount % 6 != 0) pageCount++;
 		session.setAttribute("c_key", c_key);
+		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("currentPage", currentPage);
@@ -79,6 +81,7 @@ public class CategoryController {
 	@GetMapping("/category/moveStudy")//카테고리 필터 선택
 	public ModelAndView getStudy(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
 		if(pageNo != null) currentPage = pageNo;
 		c_key = 3;
@@ -87,6 +90,7 @@ public class CategoryController {
 		int pageCount = totalCount / 6;
 		if(totalCount % 6 != 0) pageCount++;
 		session.setAttribute("c_key", c_key);
+		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("currentPage", currentPage);
@@ -98,6 +102,7 @@ public class CategoryController {
 	@GetMapping("/category/moveGame")//카테고리 필터 선택
 	public ModelAndView getGame(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
 		if(pageNo != null) currentPage = pageNo;
 		c_key = 4;
@@ -106,6 +111,7 @@ public class CategoryController {
 		int pageCount = totalCount / 6;
 		if(totalCount % 6 != 0) pageCount++;
 		session.setAttribute("c_key", c_key);
+		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("currentPage", currentPage);
@@ -117,6 +123,7 @@ public class CategoryController {
 	@GetMapping("/category/moveTravel")//카테고리 필터 선택
 	public ModelAndView getTravel(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
 		if(pageNo != null) currentPage = pageNo;
 		c_key = 5;
@@ -125,6 +132,7 @@ public class CategoryController {
 		int pageCount = totalCount / 6;
 		if(totalCount % 6 != 0) pageCount++;
 		session.setAttribute("c_key", c_key);
+		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("currentPage", currentPage);
@@ -136,6 +144,7 @@ public class CategoryController {
 	@GetMapping("/category/moveEtc")//카테고리 필터 선택
 	public ModelAndView getEtc(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
 		if(pageNo != null) currentPage = pageNo;
 		c_key = 6;
@@ -144,6 +153,7 @@ public class CategoryController {
 		int pageCount = totalCount / 6;
 		if(totalCount % 6 != 0) pageCount++;
 		session.setAttribute("c_key", c_key);
+		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("currentPage", currentPage);
@@ -155,6 +165,7 @@ public class CategoryController {
     @PostMapping("/category/search") // 모임 이름으로 모임 검색
     public ModelAndView searchPOST(String NAME, Integer pageNo, Integer KEY, HttpSession session) {
         ModelAndView mav = new ModelAndView();
+        User user = (User)session.getAttribute("loginUser");
         int currentPage = 1;
         if (pageNo != null) currentPage = pageNo;
         session.setAttribute("name", NAME);
@@ -164,6 +175,7 @@ public class CategoryController {
         int pageCount = totalCount / 6;
         if (totalCount % 6 != 0) pageCount++;
         mav.addObject("keyList", keyList);
+        mav.addObject("user", user);
         mav.addObject("NAME", NAME);
         mav.addObject("KEY", KEY);
         mav.addObject("pageCount", pageCount);
@@ -175,6 +187,7 @@ public class CategoryController {
     @GetMapping("/category/search") // 모임 이름으로 모임 검색
     public ModelAndView searchGET(String NAME, Integer pageNo, Integer KEY, HttpSession session) {
         ModelAndView mav = new ModelAndView();
+        User user = (User)session.getAttribute("loginUser");
         int currentPage = 1;
         if (pageNo != null) currentPage = pageNo;
         NAME = (String)session.getAttribute("name"); 
@@ -184,6 +197,7 @@ public class CategoryController {
         int pageCount = totalCount / 6;
         if (totalCount % 6 != 0) pageCount++;
         mav.addObject("keyList", keyList);
+        mav.addObject("user", user);
         mav.addObject("NAME", NAME);
         mav.addObject("KEY", KEY);
         mav.addObject("pageCount", pageCount);

@@ -21,15 +21,18 @@ import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.UserRepository;
+import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.UserService;
 
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {
-    @Autowired
-    private UserService userService;
-    @Autowired
-    private UserRepository userRepository;
+    private final UserService userService;
+    private final UserRepository userRepository;
+    private final MeetingService meetingService;
+    
     
     //관리자 전용 대시보드 경로
     @GetMapping("/dashboard")

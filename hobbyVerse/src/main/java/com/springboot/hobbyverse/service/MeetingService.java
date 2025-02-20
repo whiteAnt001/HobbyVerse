@@ -48,8 +48,8 @@ public class MeetingService {
 		return this.meetingMapper.getMeetingByUser(email);
 	}
 	
-	public void deleteMeeting(Integer m_id) {
-		this.meetingMapper.deleteById(m_id);
+	public Integer deleteById(Integer id) {
+		return this.meetingMapper.deleteById(id);
 	}
 	public void updateMeeting(Meetup meetup) {
 		this.meetingMapper.updateMeeting(meetup);
