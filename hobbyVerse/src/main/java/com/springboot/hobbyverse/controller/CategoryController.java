@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.service.CategoryService;
+import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.UserService;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,8 @@ public class CategoryController {
 	private CategoryService categoryService;
 	@Autowired
 	private UserService userService;
+	@Autowired
+	private MeetingService meetingService;
 	
 	@GetMapping("/category/key")//카테고리 버튼 선택
 	public ModelAndView key(HttpSession session) {

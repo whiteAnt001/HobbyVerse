@@ -18,39 +18,75 @@
 	<select id="getCategoryList" resultType="com.springboot.hobbyverse.model.Category">
 		select * from category
 	</select><!-- 카테고리 목록 -->
-	
-	<insert id="putMeeting" parameterType="com.springboot.hobbyverse.model.Meetup">
-		insert into meetup values((select coalesce(max(m_id),0)+1 from meetup),
-			#{title},#{info},#{c_key},#{w_date}, #{price},#{w_id},#{imagename})
+
+	<insert id="putMeeting"
+		parameterType="com.springboot.hobbyverse.model.Meetup">
+		insert into meetup values((select
+		coalesce(max(m_id),0)+1 from meetup),
+		#{title},#{info},#{c_key},#{w_date}, #{price},#{w_id},#{imagename})
 	</insert><!-- 모임등록 -->
-	<select id="getMeetList" resultType="com.springboot.hobbyverse.model.Meetup" parameterType="com.springboot.hobbyverse.model.StartEnd">
-	    select m_id, title, to_char(w_date, 'YYYY-MM-DD') as "w_date", imagename
-	    from (
-	        select rownum rn, a.*
-	        from (
-	            select m.m_id, m.title, m.w_date, m.imagename
-	            from meetup m
-	            order by m.m_id desc
-	        ) a
-	    )
-	    where rn > #{start} and rn <![CDATA[<]]> #{end}
+	<select id="getMeetList"
+		resultType="com.springboot.hobbyverse.model.Meetup"
+		parameterType="com.springboot.hobbyverse.model.StartEnd">
+		select m_id, title, to_char(w_date, 'YYYY-MM-DD') as "w_date",
+		imagename
+		from (
+		select rownum rn, a.*
+		from (
+		select m.m_id, m.title,
+		m.w_date, m.imagename
+		from meetup m
+		order by m.m_id desc
+		) a
+		)
+		where rn >
+		#{start} and rn <![CDATA[<]]>
+		#{end}
 	</select><!-- 모임목록 -->
 	<select id="getTotal" resultType="Integer">
 		select count(*) from meetup
-	</select><!-- 모임 전체갯수 찾기	 -->
+	</select>
 	<select id="getMaxId" resultType="Integer">
 		select max(m_id) from meetup
-	</select><!-- 모임번호 찾기 -->
-	<select id="getMeetDetail" resultType="com.springboot.hobbyverse.model.Meetup" parameterType="Integer">
-	    select m.*, 
-	           (select c.name from category c where c.c_key = m.c_key) as category_name
-	    from meetup m
-	    where m.m_id = #{id}
+	</select>
+	<select id="getMeetDetail"
+		resultType="com.springboot.hobbyverse.model.Meetup"
+		parameterType="Integer">
+		select m_id,title,info,to_char(w_date,'YYYY-MM-DD') as
+		w_date,price,w_id,imagename
+		from meetup
+		where m_id=#{id}
 	</select><!-- 모임 상세보기 -->
 	
 	<!-- 모임 수정 -->
 	<update id="updateMeeting" parameterType="com.springboot.hobbyverse.model.Meetup">
 		update meetup set title=#{title}, info=#{info}, c_key=#{c_key}, price=#{price}, w_date=#{w_date}, imagename=#{imagename}
+
+	<delete id="deleteById" parameterType="Integer">
+		delete from meetup where
+		m_id = #{id}
+	</delete>
+
+	<update id="updateMeeting"
+		parameterType="com.springboot.hobbyverse.model.Meetup">
+		update meetup set title=#{title}, info=#{info},
+		c_key=#{c_key},
+		price=#{price}, w_date=#{w_date},
+		imagename=#{imagename}
 		where m_id=#{m_id}
 	</update>
+
+	<select id="getMeetingByUser" parameterType="String"
+		resultType="com.springboot.hobbyverse.model.Meetup">
+		select * from meetup where w_id = #{id}
+	</select>
+
+
+	<!-- 모임 아이디로 모임 찾기 -->
+	<select id="getMeet" parameterType="Integer"
+		resultType="com.springboot.hobbyverse.model.Meetup">
+		select m_id, title, info, c_key, w_date, price, w_id,
+		imagename
+		from meetup where m_id = #{m_id}
+	</select>
 </mapper>

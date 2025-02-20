@@ -31,7 +31,7 @@ public class MyPageService {
 	//내가 만든 모임 조회
 	public List<Meetup> getCreateMeetings(String email){
 		return meetingService.getMeetingByUser(email);
-	}
+	}	
 	
 	//내가 쓴 게시글 조회
 	public List<Board> getMyPosts(String name){

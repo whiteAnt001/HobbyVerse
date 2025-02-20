@@ -15,13 +15,10 @@ import com.springboot.hobbyverse.model.StartEnd;
 public class MeetingService {
 	@Autowired
 	private MeetingMapper meetingMapper;
-	
+		
 	public List<Category> getCategoryList(){//카테고리 목록
 		return this.meetingMapper.getCategoryList();
 	}
-//	public Category getCategoryByName(String name) {
-//		return this.meetingMapper.getCategoryByName(name);
-//	}
 	
 	public void putMeeting(Meetup meetup) {//모임 등록
 		meetup.setM_id(this.getMaxId() + 1);
@@ -47,20 +44,19 @@ public class MeetingService {
 	    return meetingMapper.getMeetDetail(id); //모임상세
 	}
 	
+	public List<Meetup> getMeetingByUser(String email) {
+		return this.meetingMapper.getMeetingByUser(email);
+	}
+	
 	public void deleteMeeting(Integer m_id) {
 		this.meetingMapper.deleteById(m_id);
 	}
 	public void updateMeeting(Meetup meetup) {
 		this.meetingMapper.updateMeeting(meetup);
 	}
-	public List<Meetup> getMeetingByUser(String email){
-		return this.meetingMapper.getMeetingByUser(email);
-	}
-	public Integer deleteById(Integer id) {
-		return this.meetingMapper.deleteById(id);
-	}
-	public List<Meetup> getMeetings(){
-		return this.meetingMapper.getMeetings();
+	
+	public Meetup getMeet(Integer m_id) {
+		return this.meetingMapper.getMeet(m_id);
 	}
 	public Meetup getMeetingById(Integer id) {
 		return this.meetingMapper.getMeetingById(id);

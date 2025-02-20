@@ -15,8 +15,9 @@
         select * from users where email = #{email} and password=#{password}
     </select>
     
-    <!-- 유저의 정보를 가져오는 매퍼 -->
-    <select id="getUserInfo" resultType="com.springboot.hobbyverse.model.User" parameterType="Integer">
-    	select name, email from users where id=#{id}
+    <!-- 이름(닉네임)으로 유저 정보 가져오는 매퍼 -->
+    <select id="getUserInfo" parameterType="String" resultType="com.springboot.hobbyverse.model.User">
+    	select id, email, password, role, name, reg_date, reg_date_string, provider, provider_id
+    	from users where name = #{name}
     </select>
 </mapper>
