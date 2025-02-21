@@ -70,8 +70,6 @@
 	<!-- 모임 아이디로 모임 찾기 -->
 	<select id="getMeet" parameterType="Integer"
 		resultType="com.springboot.hobbyverse.model.Meetup">
-		select m_id, title, info, c_key, w_date, price, w_id,
-		imagename
-		from meetup where m_id = #{m_id}
+		select * from meetup where m_id = #{m_id}
 	</select>
 </mapper>

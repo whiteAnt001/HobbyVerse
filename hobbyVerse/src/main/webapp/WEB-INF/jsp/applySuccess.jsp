@@ -59,29 +59,33 @@
                     </div>
                     
                 </div>
+                <c:if test="${not empty alertError }">
+                	<script type="text/javascript">
+                		alert("${alertError}");
+                	</script>
+                </c:if>
      
-                <!--<div class="participants-list">
+                <div class="participants-list">
                     <h5>참가자 목록 (3명)</h5>
-                    <table border="1">
-                    <c:forEach var="apply" items="${meetingApply }">
+                    <c:forEach var="apply" items="${meetingApplies }">
                     <div class="participant">
                         <div class="d-flex align-items-center">
                             <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="참가자 1">
-                            <table>
-                            	<tr>
-                            		<th><h6>모임 신청이 성공적으로 완료되었습니다!</h6><th>
-   						 			<td><p>신청자: ${apply.id}</p></td>
-   						 			<td><p>이메일: ${apply.email }</p></td>
-   									<td><p>신청 날짜: ${apply.apply_date}</p></td>
-    								<td><a href="/myPage">마이 페이지 이동하기</a></td>
-    							</tr>
-    						</table>
+                            		<!--<h3>모임 신청이 성공적으로 완료되었습니다!</h3>  -->
+                            		<!--<c:if test="${not empty alertSuccess }">
+                            			<script type="text/javascript">
+                            				alert("${alertSuccess}");
+                            			</script>
+                            		</c:if>-->
+   						 			<p>신청자: ${apply.id}</p>
+   						 			<p>닉네임: ${apply.name }</p>
+   									<p>신청 날짜: ${apply.apply_date}</p>
+    								<a href="/myPage">마이 페이지 이동하기</a>
                         </div>
                         <button class="btn btn-sm btn-outline-secondary">삭제</button>
                     </div>
                     </c:forEach>
-                    </table>
-          	  </div> -->
+          	  </div>
           	<div class="text-center mt-3">
                     <a href="/meetup/index.html" class="btn btn-secondary btn-sm">이전으로</a>
            </div>

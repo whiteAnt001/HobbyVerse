@@ -7,5 +7,6 @@ import com.springboot.hobbyverse.model.MeetingApply;
 
 @Mapper
 public interface MeetingApplyMapper {
-	public MeetingApply findByMeetingId(Integer m_id);
+	//참가 정보 추가
+	void insertMeetInfo(MeetingApply meetingApply);
 }

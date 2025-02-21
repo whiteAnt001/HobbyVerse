@@ -2,7 +2,5 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.springboot.hobbyverse.mapper.MeetingApplyMapper">
-	<select id="findByMeetingId" parameterType="Integer" resultType="com.springboot.hobbyverse.model.MeetingApply">
-		select m_id, id, apply_date, email from meetingapply from m_id=#{m_id}
-	</select>
+
 </mapper>

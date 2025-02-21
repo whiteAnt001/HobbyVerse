@@ -91,7 +91,9 @@ import lombok.RequiredArgsConstructor;
 	        return securityConfig.passwordEncoder().matches(password, user.getPassword());
 	    }
 	    
-	    public User getUserInfo(String name) {
-	    	return this.myMapper.getUserInfo(name);
+	    
+	    //계정으로 유저정보 가져오기
+	    public User getUserInfo(Long id) {
+	    	return this.myMapper.getUserInfo(id);
 	    }
 	}

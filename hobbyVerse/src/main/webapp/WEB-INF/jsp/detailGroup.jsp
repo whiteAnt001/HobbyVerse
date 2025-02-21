@@ -53,7 +53,7 @@
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
 
-						<form:form action="/applyMeeting" method="GET">
+						<form:form action="/applyMeeting" method="POST">
 						<input type="hidden" name="m_id" value="${meetup.m_id }">
                         <input type="submit" value="참가신청" class="btn btn-gradient w-100" onsubmit="return check()">
                     	</form:form>

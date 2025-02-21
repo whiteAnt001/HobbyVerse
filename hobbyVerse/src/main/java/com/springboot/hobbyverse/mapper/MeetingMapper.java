@@ -22,5 +22,6 @@ public interface MeetingMapper {
 	List<Meetup> getMeetingByUser(String email); // 특정 유저가 만든 모임 찾기
 	Integer deleteById(Integer id); // m_id로 게시글 삭제
 	void updateMeeting(Meetup meetup);// 모임수정
+	
 	Meetup getMeet(Integer m_id);// 모임 아이디로 모임 찾기
 }
