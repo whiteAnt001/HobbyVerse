@@ -9,7 +9,7 @@
 <body>
 <script type="text/javascript">
 	alert("${message}");  // 컨트롤러에서 전달한 메시지를 출력
-    window.location.href = "/index";  // 이후 이동할 페이지 설정
+    window.location.href = "/home";  // 이후 이동할 페이지 설정
 </script>
 </body>
 </html>

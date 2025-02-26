@@ -35,9 +35,9 @@ public class MeetingController {
     @Autowired 
     private MeetingService meetingService;
 
-    @GetMapping(value = "/home")
-    public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
-    	User user = (User)session.getAttribute("loginUser");
+	@GetMapping("/home")
+	public ModelAndView getHome(Integer PAGE_NUM, HttpSession session) {
+		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
         if (PAGE_NUM != null) currentPage = PAGE_NUM;
         int count = this.meetingService.getTotal();
@@ -51,7 +51,7 @@ public class MeetingController {
         }
         List<Meetup> meetList = this.meetingService.getMeetList(PAGE_NUM);
         ModelAndView mav = new ModelAndView("index");
-        mav.addObject("user",user);
+        mav.addObject("user", user);
 		mav.addObject("START",startRow); 
 		mav.addObject("END", endRow);
 		mav.addObject("TOTAL", count);	
@@ -60,13 +60,15 @@ public class MeetingController {
 		mav.addObject("pageCount",totalPageCount);
         mav.addObject("meetList", meetList);
         return mav;
-    }//모임목록,페이지처리
+	}
 
     @GetMapping(value = "/meetup/createGroup.html")
-    public ModelAndView entry() {
-        List<Category> categoryList = meetingService.getCategoryList();
+    public ModelAndView entry(HttpSession session) {
         ModelAndView mav = new ModelAndView("createGroup");
+        List<Category> categoryList = meetingService.getCategoryList();
+        User user = (User)session.getAttribute("loginUser");
         mav.addObject(new Meetup());
+        mav.addObject("user", user);
         mav.addObject("categoryList", categoryList);
         return mav;
     }//모임등록창
@@ -136,7 +138,7 @@ public class MeetingController {
             mav.addObject("categoryList", categoryList); // 카테고리 리스트 전달
         } else if ("삭제".equals(BTN)) {
             // 삭제 버튼 클릭 시
-            this.meetingService.deleteMeeting(m_id); // 모임 삭제
+            this.meetingService.deleteById(m_id); // 모임 삭제
             mav.setViewName("deleteGroupSuccess"); // 삭제 완료 화면으로 이동
             mav.addObject("message", "삭제되었습니다."); // 삭제 메시지 전달
         }

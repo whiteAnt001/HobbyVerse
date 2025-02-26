@@ -11,22 +11,30 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.Board;
+import com.springboot.hobbyverse.model.Comment;
 import com.springboot.hobbyverse.model.User;
+import com.springboot.hobbyverse.repository.CommentRepository;
 import com.springboot.hobbyverse.service.BoardService;
+import com.springboot.hobbyverse.service.CommentService;
 
 import jakarta.servlet.http.HttpSession;
-
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @Controller
 public class BoardController {
     private final BoardService boardService;
-
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-    }
+    private final CommentService commentService;
+    private final CommentRepository commentRepository;
+    
     // ✅ 게시판 목록 페이지 (페이징 + 검색 추가)
     @GetMapping("/boards")
     public ModelAndView getBoardPage(
@@ -81,7 +89,8 @@ public class BoardController {
         User user = (User) session.getAttribute("loginUser");
 
         if (user != null) {
-            board.setName(user.getName());
+            board.setName(user.getName());  //  이름 저장
+            board.setEmail(user.getEmail()); // 이메일 저장
         } else {
             return new ModelAndView("redirect:/login");
         }
@@ -90,13 +99,15 @@ public class BoardController {
         return new ModelAndView("redirect:/boards");
     }
 
+
     // ✅ 게시글 상세 페이지 (조회 기능)
     @GetMapping("/boards/{seq}")
-    public ModelAndView getBoardDetail(@PathVariable Long seq, HttpSession session) {
+    public ModelAndView getBoardDetail(@PathVariable Long seq, HttpSession session, Board boardSeq) {
         Board board = boardService.getBoardById(seq);
-
+        List<Comment> comments = commentRepository.findByBoardAndStatus(boardSeq, 1);
         ModelAndView mav = new ModelAndView("boardDetail");
         mav.addObject("board", board);
+        mav.addObject("comments", comments);
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         mav.addObject("formattedRegDate", board.getRegDate().format(formatter));
@@ -153,3 +164,4 @@ public class BoardController {
         return new ModelAndView("redirect:/boards");
     }
 }
+   

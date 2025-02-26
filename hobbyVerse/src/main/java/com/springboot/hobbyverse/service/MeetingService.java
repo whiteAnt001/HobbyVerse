@@ -48,8 +48,8 @@ public class MeetingService {
 		return this.meetingMapper.getMeetingByUser(email);
 	}
 	
-	public void deleteMeeting(Integer m_id) {
-		this.meetingMapper.deleteById(m_id);
+	public Integer deleteById(Integer id) {
+		return this.meetingMapper.deleteById(id);
 	}
 	public void updateMeeting(Meetup meetup) {
 		this.meetingMapper.updateMeeting(meetup);
@@ -58,5 +58,12 @@ public class MeetingService {
 	//모임 아이디로 모임 찾기
 	public Meetup getMeet(Integer m_id) {
 		return this.meetingMapper.getMeet(m_id);
+	}
+	public Meetup getMeetingById(Integer id) {
+		return this.meetingMapper.getMeetingById(id);
+	}
+	
+	public List<Meetup> getMeetings(){
+		return this.meetingMapper.getMeetings();
 	}
 }

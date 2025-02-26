@@ -66,10 +66,6 @@
                     </div>
                     
                 </div>
-                
-               
-
-<!--
                 <div class="participants-list">
                     <h5>참가자 목록 (3명)</h5>
                     <table border="1">
@@ -84,10 +80,19 @@
                     </c:forEach>
                     </table>
           	  </div>
--->
-          	<div class="text-center mt-3">
-                    <a href="/meetup/index.html" class="btn btn-secondary btn-sm">이전으로</a>
-           </div>
+          	  <br/>
+          	<div class="d-flex justify-content-center">
+    <a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+
+    <c:if test="${loginUser != null && loginUser.email == meetup.w_id || user.role == 'ROLE_ADMIN'}">
+        <form action="/meetup/modify.html" method="get" class="d-flex">
+            <input type="hidden" name="m_id" value="${meetup.m_id}">
+            <input type="submit" value="수정" name="BTN" class="btn btn-sm btn-outline-secondary me-2"> <!-- 수정 버튼 간격 설정 -->
+            <input type="submit" value="삭제" name="BTN" class="btn btn-sm btn-outline-secondary"> <!-- 삭제 버튼 -->
+        </form>
+    </c:if>
+</div>
+
         </div>
     </div>
    </div>

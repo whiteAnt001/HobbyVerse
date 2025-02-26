@@ -5,7 +5,7 @@
 //public class PasswordEncoderUtil {
 //    public static void main(String[] args) {
 //        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-//        String rawPassword = "";  // 원본 비밀번호
+//        String rawPassword = "admin";  // 원본 비밀번호
 //        String encodedPassword = encoder.encode(rawPassword);
 //        System.out.println("암호화된 비밀번호: " + encodedPassword);
 //    }

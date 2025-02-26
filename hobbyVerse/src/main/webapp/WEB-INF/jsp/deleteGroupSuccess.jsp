@@ -12,7 +12,7 @@
         // "확인"을 클릭했을 경우
         alert("${message}"); // 컨트롤러에서 전달한 메시지 출력
         setTimeout(function() {
-            window.location.href = "/index"; // 확인 후 페이지 이동
+            window.location.href = "/home"; // 확인 후 페이지 이동
         }, 200);
     } else {
         // "취소"를 클릭했을 경우
