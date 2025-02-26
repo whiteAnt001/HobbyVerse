@@ -2,7 +2,6 @@ package com.springboot.hobbyverse.controller;
 
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.io.OutputStream;
 import java.util.List;
 
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -116,13 +114,23 @@ public class MeetingController {
     
     @GetMapping(value = "/meetup/detail.html")
     public ModelAndView detail(Integer id, HttpSession session) {
-    	ModelAndView mav = new ModelAndView("detailGroup");
+        ModelAndView mav = new ModelAndView("detailGroup");
         Meetup meetup = this.meetingService.getMeetDetail(id);
+        
+        // 조회수 증가 처리
+        this.meetingService.incrementViews(id);
+        
+        // 최신 조회수 가져오기
+        Integer views = this.meetingService.getViews(id);
+        
         User user = (User) session.getAttribute("loginUser");
+        
         mav.addObject("user", user);
         mav.addObject("meetup", meetup);
+        mav.addObject("views", views); // 조회수 추가
+        
         return mav;
-    }//모임 상세보기
+    }
     
     @GetMapping("/meetup/modify.html")
     public ModelAndView modify(Integer m_id, String BTN) {

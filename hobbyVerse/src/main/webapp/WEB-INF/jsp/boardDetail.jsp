@@ -54,17 +54,17 @@
                     <input type="text" class="form-control" name="subject" value="${board.subject}" required>
                 </div>
 
-                <div class="mb-3">
-                    <label class="form-label"><strong>내용:</strong></label>
-                    <textarea class="form-control" name="content" rows="5" required>${board.content}</textarea>
-                </div>
+                    <div class="mb-3">
+                        <label class="form-label"><strong>내용:</strong></label>
+                        <textarea class="form-control" name="content" rows="5" required>${board.content}</textarea>
+                    </div>
 
-                <!-- ✅ 수정 버튼과 목록으로 버튼 -->
-                <div class="d-flex align-items-center gap-2">
-                    <a href="/boards" class="btn btn-secondary">목록으로</a>
-                    <button type="submit" class="btn btn-primary">수정 완료</button>
-                </div>
-            </form>
+                    <!-- 🔹 수정 버튼과 목록으로 버튼 -->
+                    <div class="d-flex align-items-center gap-2">
+                        <a href="/boards" class="btn btn-secondary">목록으로</a>
+                        <button type="submit" class="btn btn-primary">수정 완료</button>
+                    </div>
+                </form>
 
             <!-- ✅ 삭제 버튼 -->
             <form action="/boards/${board.seq}/delete" method="post" class="mt-2"

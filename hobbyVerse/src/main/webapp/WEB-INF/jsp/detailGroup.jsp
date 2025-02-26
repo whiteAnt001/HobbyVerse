@@ -52,10 +52,10 @@
                         <p>📅 ${meetup.w_date }</p>
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
-
-						<form:form action="/applyMeeting" method="GET">
-						<input type="hidden" name="m_id" value="${meetup.m_id }">
-                        <input type="submit" value="참가신청" class="btn btn-gradient w-100" onsubmit="return check()">
+						<h5>조회수</h5>
+						<p>👁️ ${meetup.views}</p> <!-- 조회수 표시 추가 -->
+						<form:form>
+                        <input type="submit" value="참가신청" name="ENTER" class="btn btn-gradient w-100" onsubmit="return check()">
                     	</form:form>
                     	
                     	 <script type="text/javascript">

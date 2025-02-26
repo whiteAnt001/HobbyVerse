@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <nav class="navbar navbar-expand-lg navbar-dark gradient-bg">
@@ -12,8 +11,9 @@
 		<div class="collapse navbar-collapse" id="navbarNav">
 			<ul class="navbar-nav ms-auto">
 				<li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
-				<li class="nav-item"><a class="nav-link" href="/boards">게시판</a></li> <!-- ✅ 게시판 메뉴 추가 -->
+				<li class="nav-item"><a class="nav-link" href="/boards">게시판</a></li>
 				<li class="nav-item"><a class="nav-link" href="/category/key">카테고리</a></li>
+				<li class="nav-item"><a class="nav-link" href="/inquiries">문의사항</a></li>
 
 				<!-- 로그인된 경우 -->
 				<c:if test="${user != null}">

@@ -23,7 +23,8 @@ public class Meetup {
 	private Integer price;
 	private String w_id;
 	private String imagename;
-	
+	private Integer views; // 조회수 필드 추가
+
 	private String category_name;
 	private MultipartFile file;
 }
