@@ -66,10 +66,6 @@
                     </div>
                     
                 </div>
-                
-               
-
-<!--
                 <div class="participants-list">
                     <h5>참가자 목록 (3명)</h5>
                     <table border="1">

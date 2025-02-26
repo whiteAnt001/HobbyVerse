@@ -60,6 +60,14 @@ public class CommentService {
         }
         return commentRepository.save(comment);
     }
+    
+    // 댓글 수정
+    public Comment updateComment(Long id, String content) {
+    	Comment comment = commentRepository.findById(id)
+    			.orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
+    	comment.setContent(content);
+    	return commentRepository.save(comment);
+    }
 
     // 댓글 삭제
     public void deleteComment(Long commentId) {

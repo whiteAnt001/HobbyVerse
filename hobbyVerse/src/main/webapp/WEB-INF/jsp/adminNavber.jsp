@@ -32,7 +32,7 @@
 		<div class="collapse navbar-collapse" id="adminNavbar">
 			<ul class="navbar-nav ms-auto">
 				<li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
-				<li class="nav-item"><a class="nav-link" href="/boards">게시판</a></li> <!-- ✅ 게시판 메뉴 추가 -->
+				<li class="nav-item"><a class="nav-link" href="/boards">게시판</a></li>
 				<li class="nav-item"><a class="nav-link" href="/category/key">카테고리</a></li>
 				<li class="nav-item"><a class="nav-link" href="/api/admin/dashboard">대시보드</a></li>
 				<li class="nav-item"><a class="nav-link" href="/api/admin/users">회원 관리</a></li>

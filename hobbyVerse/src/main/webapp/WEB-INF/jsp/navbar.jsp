@@ -20,13 +20,13 @@
 					<li class="nav-item"><a class="nav-link btn btn-primary"
 						href="/meetup/createGroup.html">모임 등록하기</a></li>
 				</c:if>
-				<c:if test="${user != null}">
-					<li class="nav-item"><a class="nav-link" href="/myPage">${user.name}님</a></li>
 					<!-- 로그인 된 계정에 관리자 권한이 있을 경우 -->
 					<c:if test="${user.role == 'ROLE_ADMIN'}">
 						<li class="nav-item"><a class="nav-link"
 							href="/api/admin/dashboard">관리자 페이지</a></li>
 					</c:if>
+				<c:if test="${user != null}">
+					<li class="nav-item"><a class="nav-link" href="/myPage">${user.name}님</a></li>
 					<li class="nav-item">
 						<form action="/logout" method="post">
 							<button type="submit" class="btn btn-danger">로그아웃</button>

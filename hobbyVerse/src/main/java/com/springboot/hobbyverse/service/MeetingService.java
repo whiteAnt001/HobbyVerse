@@ -61,4 +61,8 @@ public class MeetingService {
 	public Meetup getMeetingById(Integer id) {
 		return this.meetingMapper.getMeetingById(id);
 	}
+	
+	public List<Meetup> getMeetings(){
+		return this.meetingMapper.getMeetings();
+	}
 }
