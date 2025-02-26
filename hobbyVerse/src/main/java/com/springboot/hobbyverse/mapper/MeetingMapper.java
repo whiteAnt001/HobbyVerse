@@ -3,6 +3,8 @@ package com.springboot.hobbyverse.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
@@ -23,4 +25,12 @@ public interface MeetingMapper {
 	List<Meetup> getMeetingByUser(String email); // 특정 유저가 만든 모임 찾기
 	Integer deleteById(Integer id); //m_id로 게시글 삭제
 	void updateMeeting(Meetup meetup);//모임수정
+	
+	// 조회수 증가
+    @Update("UPDATE MEETUP SET VIEWS = VIEWS + 1 WHERE M_ID = #{id}")
+    void incrementViews(Integer id);
+
+    // 조회수 가져오기
+    @Select("SELECT VIEWS FROM MEETUP WHERE M_ID = #{id}")
+    Integer getViews(Integer id);
 }

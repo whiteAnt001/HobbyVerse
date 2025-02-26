@@ -50,12 +50,13 @@
                     <p>${totalMeet} 개</p>
                 </div>
             </div>
-            <div class="col-md-4">
-                <div class="dashboard-card" onclick="location.href='#'">
-                    <div class="emoji">📩</div>
-                    <h3>문의 사항</h3>
-                    <p>${totalInquiries} 건</p>
-                </div>
+			<div class="col-md-4">
+			    <div class="dashboard-card" onclick="location.href='/api/admin/inquiries'">
+			        <div class="emoji">📩</div>
+			        <h3>문의 사항</h3>
+			        <p>${totalInquiries} 건</p>
+			    </div>
+			</div>
             </div>
         </div>
     </div>

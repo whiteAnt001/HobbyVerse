@@ -42,11 +42,14 @@ public class Board {
     @Column(nullable = false)
     private int likes = 0;
 
+    // ✅ 이메일 필드 추가
+    @Column(nullable = false)
+    private String email = "unknown@example.com";  // 기본값 설정 (기존 데이터 처리)
+
     public Board() {
         this.regDate = LocalDateTime.now();
     }
 
-    // ✅ @PrePersist로 기본값 자동 설정
     @PrePersist
     public void prePersist() {
         if (this.regDate == null) {
@@ -58,9 +61,11 @@ public class Board {
         if (this.likes == 0) {
             this.likes = 0;
         }
+        if (this.email == null) {
+            this.email = "unknown@example.com";  // ✅ 기존 데이터 문제 방지
+        }
     }
 
-    // ✅ @PreUpdate로 업데이트 시 기본값 유지
     @PreUpdate
     public void preUpdate() {
         if (this.version == null) {
@@ -68,7 +73,6 @@ public class Board {
         }
     }
 
-    // ✅ 추천 수 증가 메서드
     public void incrementLikes() {
         this.likes++;
     }
@@ -98,6 +102,9 @@ public class Board {
     public Long getVersion() { return version; }
     public void setVersion(Long version) { this.version = version; }
 
-    public int getLikes() { return likes; } // ✅ 추천 수 Getter 추가
-    public void setLikes(int likes) { this.likes = likes; } // ✅ 추천 수 Setter 추가
+    public int getLikes() { return likes; }
+    public void setLikes(int likes) { this.likes = likes; }
+
+    public String getEmail() { return email; }  
+    public void setEmail(String email) { this.email = email; }  
 }

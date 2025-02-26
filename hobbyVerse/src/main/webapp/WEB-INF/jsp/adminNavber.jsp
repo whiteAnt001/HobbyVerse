@@ -37,6 +37,8 @@
 						회원 관리</a></li>
 				<li class="nav-item"><a class="nav-link" href="/api/admin/meetings">📅
 						모임 관리</a></li>
+				<li class="nav-item"><a class="nav-link" href="/api/admin/inquiries">🔥
+						문의사항 관리</a></li>
 				<li class="nav-item">
 					<form action="/logout" method="post">
 						<button type="submit" class="btn btn-danger">🚪 로그아웃</button>

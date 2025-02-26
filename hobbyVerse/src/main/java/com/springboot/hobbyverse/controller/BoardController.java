@@ -11,7 +11,12 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.Board;
@@ -27,6 +32,7 @@ public class BoardController {
     public BoardController(BoardService boardService) {
         this.boardService = boardService;
     }
+
     // ✅ 게시판 목록 페이지 (페이징 + 검색 추가)
     @GetMapping("/boards")
     public ModelAndView getBoardPage(
@@ -35,7 +41,7 @@ public class BoardController {
             HttpSession session) {
 
         int pageSize = 10;
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "regDate")); // 🔥 최신순 정렬
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "regDate"));
 
         Page<Board> boardPage;
         if (keyword != null && !keyword.trim().isEmpty()) {
@@ -82,6 +88,7 @@ public class BoardController {
 
         if (user != null) {
             board.setName(user.getName());
+            board.setEmail(user.getEmail());
         } else {
             return new ModelAndView("redirect:/login");
         }
@@ -93,6 +100,7 @@ public class BoardController {
     // ✅ 게시글 상세 페이지 (조회 기능)
     @GetMapping("/boards/{seq}")
     public ModelAndView getBoardDetail(@PathVariable Long seq, HttpSession session) {
+        boardService.incrementViews(seq);
         Board board = boardService.getBoardById(seq);
 
         ModelAndView mav = new ModelAndView("boardDetail");
@@ -109,15 +117,15 @@ public class BoardController {
 
     // ✅ 게시글 수정 처리 (제목, 내용만 수정 가능)
     @PostMapping("/boards/{seq}/update")
-    public ModelAndView updateBoard(@PathVariable Long seq, @RequestParam String subject, @RequestParam String content) {
+    public String updateBoard(@PathVariable Long seq, @RequestParam String subject, @RequestParam String content) {
         boardService.updateBoard(seq, subject, content);
-        return new ModelAndView("redirect:/boards");
+        return "redirect:/boards"; // ✅ 수정 후 게시판 목록으로 이동
     }
 
     // ✅ 게시글 삭제 처리
     @PostMapping("/boards/{seq}/delete")
     public ModelAndView deleteBoard(@PathVariable Long seq) {
-        boardService.deleteBoardById(seq);
+        boardService.deleteBoard(seq);
         return new ModelAndView("redirect:/boards");
     }
 
@@ -135,13 +143,13 @@ public class BoardController {
         }
 
         try {
-            boardService.recommendPost(seq, user.getUserId()); // 🔥 수정된 recommendPost 호출
+            boardService.recommendPost(seq, user.getUserId());
             Board updatedBoard = boardService.getBoardById(seq);
             response.put("success", true);
             response.put("likes", updatedBoard.getLikes());
         } catch (RuntimeException e) {
             response.put("success", false);
-            response.put("message", e.getMessage()); // 하루 1회 제한 메시지 전달
+            response.put("message", e.getMessage());
         }
 
         return response;
@@ -151,5 +159,27 @@ public class BoardController {
     @GetMapping("/boards/cancel")
     public ModelAndView cancelEditBoard() {
         return new ModelAndView("redirect:/boards");
+    }
+
+    // ✅ 관리자 게시글 수정 처리
+    @PostMapping("/boards/{seq}/admin-update")
+    public String adminUpdateBoard(@PathVariable("seq") Long seq,
+                                   @RequestParam("subject") String subject,
+                                   @RequestParam("content") String content,
+                                   HttpSession session) {
+        User user = (User) session.getAttribute("loginUser");
+
+        if (user == null || !"ROLE_ADMIN".equals(user.getRole())) {
+            return "redirect:/boards?error=Unauthorized";
+        }
+
+        Board board = boardService.getBoardById(seq);
+        if (board == null) {
+            return "redirect:/boards?error=NotFound";
+        }
+
+        boardService.updateBoard(seq, subject, content);
+
+        return "redirect:/boards"; // ✅ 수정 후 무조건 boards 목록으로 이동
     }
 }
