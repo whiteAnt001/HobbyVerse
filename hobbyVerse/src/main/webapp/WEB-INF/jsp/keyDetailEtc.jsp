@@ -121,7 +121,7 @@ to {
 									<!-- <th>작성일</th> -->
 									<p class="card-text">날짜: ${key.w_date }</p>
 
-									<a href="/meetup/detail.html" class="btn btn-primary">자세히보기</a>
+									<a href="/meetup/detail.html?id=${key.m_id }" class="btn btn-primary">자세히보기</a>
 							</div>
 						</div>
 

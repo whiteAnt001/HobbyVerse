@@ -84,8 +84,8 @@
             	<small class="text-muted">참가비는 0 이상 숫자로 입력하세요.</small>
             </div>
             <div class="mb-3">
-                <label for="w_date" class="form-label">모임 일정</label>
-                <form:input path="w_date" type="date" class="form-control" id="w_date" name="w_date" required="true"/>
+                <label for="m_date" class="form-label">모임 일정</label>
+                <form:input path="m_date" type="date" class="form-control" id="m_date" name="m_date" required="true"/>
             </div>
 
             <div class="mb-3">

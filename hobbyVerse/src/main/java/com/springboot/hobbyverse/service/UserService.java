@@ -1,18 +1,20 @@
 	package com.springboot.hobbyverse.service;
-	
+
 	import java.time.LocalDateTime;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import com.springboot.hobbyverse.config.SecurityConfig;
-import com.springboot.hobbyverse.dto.AddUserRequest;
-import com.springboot.hobbyverse.mapper.MyMapper;
-import com.springboot.hobbyverse.model.User;
+	import java.util.Date;
+	import java.util.List;
+	
+	import org.springframework.beans.factory.annotation.Autowired;
+	import org.springframework.stereotype.Service;
+	
+	import com.springboot.hobbyverse.config.SecurityConfig;
+	import com.springboot.hobbyverse.dto.AddUserRequest;
+	import com.springboot.hobbyverse.mapper.MyMapper;
+	import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+	import lombok.RequiredArgsConstructor;
 	
 	@RequiredArgsConstructor
 	@Service
@@ -89,9 +91,5 @@ import lombok.RequiredArgsConstructor;
 	        
 	        // 비밀번호가 일치하는지 확인
 	        return securityConfig.passwordEncoder().matches(password, user.getPassword());
-	    }
-	    
-	    public User getUserInfo(String name) {
-	    	return this.myMapper.getUserInfo(name);
 	    }
 	}

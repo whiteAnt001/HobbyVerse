@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import jakarta.persistence.Id;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -19,12 +20,15 @@ public class Meetup {
 	private String info;
 	private Integer c_key;
 	@Temporal(TemporalType.DATE)
-	private Date w_date;
+	private Date m_date;//모임날짜
 	private Integer price;
 	private String w_id;
 	private String imagename;
-	private Integer views; // 조회수 필드 추가
-
+	@Temporal(TemporalType.DATE)
+	private Date w_date;//등록날짜
+	
 	private String category_name;
 	private MultipartFile file;
+	private Integer recommend;
+	private Integer views; // 조회수 필드 추가
 }

@@ -1,5 +1,7 @@
 package com.springboot.hobbyverse.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,14 +19,24 @@ public class MeetingApplyService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	public MeetingApply findByMeetingId(Integer m_id) {
-		return this.meetingApplyMapper.findByMeetingId(m_id);
+//	//참가 정보 추가
+//	public void insertMeetingInfo(MeetingApply meetingApply) {
+//		this.meetingApplyMapper.insertMeetInfo(meetingApply);
+//	}
+	
+//	public void save(MeetingApply meetingApply) {
+////		 if (meetingApply.getApply_id() == null) {
+////	            meetingApply.setApply_id(1); // 적절한 값을 설정
+////	        }
+//		 entityManager.persist(meetingApply); // DB에 MeetingApply 객체 저장
+//    }
+	
+	public List<MeetingApply> joinedUser(Integer m_id) {
+		return this.meetingApplyMapper.joinedUser(m_id);
 	}
-	public void save(MeetingApply meetingApply) {
-//		 if (meetingApply.getApply_id() == null) {
-//	            meetingApply.setApply_id(1); // 적절한 값을 설정
-//	        }
-		 entityManager.persist(meetingApply); // DB에 MeetingApply 객체 저장
-    }
+	
+	public List<MeetingApply> meetingList(Long id) {
+		return this.meetingApplyMapper.meetingList(id);
+	}
 	
 }
