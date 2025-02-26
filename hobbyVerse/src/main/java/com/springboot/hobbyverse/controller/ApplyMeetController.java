@@ -4,6 +4,8 @@ import java.lang.ProcessBuilder.Redirect;
 import java.sql.Date;
 import java.util.List;
 
+import javax.swing.border.TitledBorder;
+
 import org.eclipse.tags.shaded.org.apache.bcel.generic.NEW;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.MeetingApply;
+import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.MeetingApplyRepsotory;
 import com.springboot.hobbyverse.service.MeetingApplyService;
@@ -35,7 +38,7 @@ public class ApplyMeetController {
 	private final MeetingApplyRepsotory meetingApplyRepsotory;
 	
 	@PostMapping("/applyMeeting")
-	public ModelAndView apply(Integer m_id, HttpSession session,Long user_id) {
+	public ModelAndView apply(Integer m_id, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		
 		mav.setViewName("forward:/success?m_id=" + m_id);
@@ -64,25 +67,25 @@ public class ApplyMeetController {
 		meetingApply.setApply_date(java.sql.Date.valueOf(java.time.LocalDate.now()));
 			
 		//DB 저장
-		if(! existMeet) {
-			
-			//모임 아이디끼리 비교 (이미 가입한 모임, 새로 가입할 모임) 쿼리를 사용해서 비교하기
+		if(! existMeet) {//존재하지 않는 모임일 경우
 			meetingApplyRepsotory.save(meetingApply);	
-			mav.addObject("alertSuccess","신청 완료했습니다. " );
-		} else {
-			List<MeetingApply> meetingApplies = this.meetingApplyRepsotory.findAll();
-			
-			//mav.addObject("alertError", "이미 신청된 모임입니다. ");
+			mav.addObject("alertSuccess","신청 완료했습니다." );
+		} else {//이미 존재하는 모임일 경우
+			List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
+			List<MeetingApply> meetingList = this.meetingApplyService.meetingList(user_id);
+ 			
+			mav.addObject("alertError", "이미 신청된 모임입니다. ");
 			mav.setViewName("applySuccess");
 			mav.addObject("meetingApplies", meetingApplies);
+			mav.addObject("meetingLlist", meetingList);
 			return mav;
 		}
-			
-		List<MeetingApply> meetingApplies = this.meetingApplyRepsotory.findAll();
+		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
+		List<MeetingApply> meetingList = this.meetingApplyService.meetingList(user_id);
 			
 		mav.setViewName("applySuccess");
 		mav.addObject("meetingApplies", meetingApplies);
-		System.out.println("로그인한 계정 : " + user_id);
+		mav.addObject("meetingList", meetingList);
 		return mav;
 	}
 

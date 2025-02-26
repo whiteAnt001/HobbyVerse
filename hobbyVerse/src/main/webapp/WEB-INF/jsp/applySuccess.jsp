@@ -71,16 +71,14 @@
                     <div class="participant">
                         <div class="d-flex align-items-center">
                             <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="참가자 1">
-                            		<!--<h3>모임 신청이 성공적으로 완료되었습니다!</h3>  -->
-                            		<!--<c:if test="${not empty alertSuccess }">
-                            			<script type="text/javascript">
-                            				alert("${alertSuccess}");
-                            			</script>
-                            		</c:if>-->
-   						 			<p>신청자: ${apply.id}</p>
-   						 			<p>닉네임: ${apply.name }</p>
-   									<p>신청 날짜: ${apply.apply_date}</p>
-    								<a href="/myPage">마이 페이지 이동하기</a>
+                            	<div align="center">
+                            	<table>
+                            		<tr><th>신청자:</th><td>${apply.id}</td></tr>
+                            		<tr><th>닉네임:</th><td>${apply.name }</td></tr>
+                            		<tr><th>신청 날짜:</th><td>${apply.apply_date}</td></tr>
+                            		<tr><th><a href="/myPage">마이 페이지 이동하기</a></th></tr>
+                            	</table>
+                            	</div>	
                         </div>
                         <button class="btn btn-sm btn-outline-secondary">삭제</button>
                     </div>

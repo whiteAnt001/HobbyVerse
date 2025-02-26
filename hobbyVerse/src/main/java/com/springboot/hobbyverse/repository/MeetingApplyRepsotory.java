@@ -10,7 +10,6 @@ import com.springboot.hobbyverse.model.MeetingApply;
 
 public interface MeetingApplyRepsotory extends JpaRepository<MeetingApply, Long>{
 	//참가 신청한 모임인지 확인
-	boolean existsByIdAndMid(Long id, Integer m_id);
-	//사용자가 신청한 모임 가져오기
-	//Optional<MeetingApply> findById(Long id);
+	boolean existsByIdAndMid(Long user_id, Integer m_id);
+	
 }

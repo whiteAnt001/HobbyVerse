@@ -19,10 +19,10 @@ public class MeetingApplyService {
 	@PersistenceContext
 	private EntityManager entityManager;
 	
-	//참가 정보 추가
-	public void insertMeetingInfo(MeetingApply meetingApply) {
-		this.meetingApplyMapper.insertMeetInfo(meetingApply);
-	}
+//	//참가 정보 추가
+//	public void insertMeetingInfo(MeetingApply meetingApply) {
+//		this.meetingApplyMapper.insertMeetInfo(meetingApply);
+//	}
 	
 //	public void save(MeetingApply meetingApply) {
 ////		 if (meetingApply.getApply_id() == null) {
@@ -30,5 +30,13 @@ public class MeetingApplyService {
 ////	        }
 //		 entityManager.persist(meetingApply); // DB에 MeetingApply 객체 저장
 //    }
+	
+	public List<MeetingApply> joinedUser(Integer m_id) {
+		return this.meetingApplyMapper.joinedUser(m_id);
+	}
+	
+	public List<MeetingApply> meetingList(Long id) {
+		return this.meetingApplyMapper.meetingList(id);
+	}
 	
 }
