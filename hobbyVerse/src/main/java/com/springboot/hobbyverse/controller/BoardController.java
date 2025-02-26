@@ -36,10 +36,6 @@ public class BoardController {
     private final CommentRepository commentRepository;
     
 
-    public BoardController(BoardService boardService) {
-        this.boardService = boardService;
-    }
-
     // ✅ 게시판 목록 페이지 (페이징 + 검색 추가)
     @GetMapping("/boards")
     public ModelAndView getBoardPage(
