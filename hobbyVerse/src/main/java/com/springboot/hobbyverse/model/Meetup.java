@@ -26,4 +26,6 @@ public class Meetup {
 	
 	private String category_name;
 	private MultipartFile file;
+	private Integer recommend;
+	private Integer views; // 조회수 필드 추가
 }

@@ -8,6 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>취미/스터디 매칭 플랫폼</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <!-- FontAwesome CDN 추가 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         .gradient-bg { background: linear-gradient(135deg, #6a11cb, #2575fc); }
         .gradient-btn { background: linear-gradient(135deg, #6a11cb, #2575fc); border: none; color: white; }
@@ -31,21 +33,39 @@
     </div>
 
     <div class="container mt-5">
-        <h3 class="text-center mb-4">🔥 인기 모임</h3>
-        <div class="row">
-            <c:forEach var="meet" items="${meetList}">
-                <div class="col-md-4 mb-4">
-                    <div class="card shadow-sm">               
-                        <div class="card-body">
-                            <h5 class="card-title">${meet.title}</h5>
-                            <p class="card-text">날짜: ${meet.w_date}</p>
-                            <a href="/meetup/detail.html?id=${meet.m_id}" class="btn btn-primary">자세히 보기</a>
+    <h3 class="text-center mb-4">🔍 검색 결과</h3>
+    <c:choose>
+        <c:when test="${empty meetList}">
+            <p class="text-center text-muted">검색 결과가 존재하지 않습니다.</p>
+        </c:when>
+        <c:otherwise>
+            <div class="row">
+                <c:forEach var="meet" items="${meetList}">
+                    <div class="col-md-4 mb-4">
+                        <div class="card shadow-sm">
+                            <div class="card-body">
+                                <h5 class="card-title">${meet.title}</h5>
+                                <p class="card-text">날짜: ${meet.w_date}</p>
+                                <p class="card-text" style="font-size: 13px;">👍${meet.recommend }</p>
+                                <a href="/meetup/detail.html?id=${meet.m_id}" class="btn btn-primary">자세히 보기</a>
+                            </div>
                         </div>
                     </div>
-                </div>
-            </c:forEach>
-        </div>
-    </div>
+                </c:forEach>
+            </div>
+        </c:otherwise>
+    </c:choose>
+</div>
+<div align="center">
+    <!-- 페이지네이션 계산 -->
+    <c:set var="pageCount" value="${pageCount}" />
+    <c:set var="currentPage" value="${currentPage}" />
+    
+    <!-- 페이지 범위 계산: 페이지당 6개씩 표시 -->
+    <c:set var="totalPages" value="${(pageCount / 6) + (pageCount % 6 > 0 ? 1 : 0)}" />
+
+    <!-- 페이지네이션 표시 -->
+</div>
 <div align="center">
  <!-- 페이지네이션 계산 -->
     <c:set var="pageCount" value="${pageCount}" />
@@ -88,7 +108,7 @@
             document.meetfrm.submit();
         }
     </script>
-</div>
+ </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

@@ -2,24 +2,37 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.springboot.hobbyverse.mapper.MeetingMapper">
-
-	<delete id="deleteById" parameterType="Integer">
-		delete from meetup where m_id = #{id}
-	</delete>
-	<select id="getMeetingByUser"  parameterType="String" resultType="com.springboot.hobbyverse.model.Meetup">
-		select * from meetup where w_id = #{id}
-	</select>
+	<select id="getRecommendCheck" resultType="Integer">
+		select count(*) from recommend 
+		where m_id=#{m_id} and email=#{email}
+	</select><!-- 중복 추천 방지 -->
+	<select id="getRecommend" resultType="com.springboot.hobbyverse.model.Recommend">
+		select r.r_id, m.m_id, u.email
+		from recommend r
+		inner join meetup m on m.m_id = r.m_id
+		inner join users u on u.email = r.email
+	</select><!-- 추천확인 -->
+	<insert id="putRecommend" parameterType="com.springboot.hobbyverse.model.Recommend">
+		insert into recommend(m_id, email) values(#{m_id}, #{email})
+	</insert><!-- 추천하기 -->
+	
+	<select id="getMeetingById" parameterType="Integer" resultType="com.springboot.hobbyverse.model.Meetup">
+      select * from meetup where m_id = #{id}
+   </select>
 	<select id="getMeetings" resultType="com.springboot.hobbyverse.model.Meetup">
 		select * from meetup
 	</select><!-- 관리자용 모임 목록 -->
+	<select id="getMeetingByUser"  parameterType="String" resultType="com.springboot.hobbyverse.model.Meetup">
+		select * from meetup where w_id = #{id}
+	</select>
 	
 	<select id="getCategoryList" resultType="com.springboot.hobbyverse.model.Category">
 		select * from category
 	</select><!-- 카테고리 목록 -->
 	
 	<insert id="putMeeting" parameterType="com.springboot.hobbyverse.model.Meetup">
-		insert into meetup values((select coalesce(max(m_id),0)+1 from meetup),
-			#{title},#{info},#{c_key},#{w_date}, #{price},#{w_id},#{imagename})
+		insert into meetup(m_id, title, info, c_key, w_date, price, w_id, imagename) 
+			values((select coalesce(max(m_id),0)+1 from meetup), #{title},#{info},#{c_key},#{w_date}, #{price},#{w_id},#{imagename})
 	</insert><!-- 모임등록 -->
 	
 	<select id="getMeetCountByTitle" parameterType="String" resultType="Integer">
@@ -44,14 +57,15 @@
 	
 	<select id="getMeetList" resultType="com.springboot.hobbyverse.model.Meetup" 
 		parameterType="com.springboot.hobbyverse.model.StartEnd">
-	    select m_id, title, to_char(w_date, 'YYYY-MM-DD') as "w_date", imagename
+	    select m_id, title, to_char(w_date, 'YYYY-MM-DD') as "w_date", imagename, recommend
 	    from (
 	        select rownum rn, a.*
 	        from (
-	            select m.m_id, m.title, m.w_date, m.imagename
+	            select m.m_id, m.title, m.w_date, m.imagename, 
+	                   (select count(*) from recommend r where r.m_id = m.m_id) as recommend	                   
 	            from meetup m
-	            order by m.m_id desc
-	        ) a
+				order by (select count(*) from recommend r where r.m_id = m.m_id) desc	        
+			) a
 	    )
 	    where rn > #{start} and rn <![CDATA[<]]> #{end}
 	</select><!-- 모임목록 -->
@@ -68,9 +82,10 @@
 	    where m.m_id = #{id}
 	</select><!-- 모임 상세보기 -->
 	
-	<!-- 모임 삭제,수정 -->
-	<delete id="deleteMeeting" parameterType="Integer">
-		delete from meetup where m_id = #{m_id}
+	<!-- 모임 삭제,수정-->
+	<delete id="deleteById" parameterType="Integer">
+		delete from recommend WHERE m_id = #{m_id};
+		delete from meetup where m_id = #{id}
 	</delete>
 	<update id="updateMeeting" parameterType="com.springboot.hobbyverse.model.Meetup">
 		update meetup set title=#{title}, info=#{info}, c_key=#{c_key}, price=#{price}, w_date=#{w_date}, imagename=#{imagename}

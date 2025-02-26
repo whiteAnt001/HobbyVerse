@@ -54,14 +54,23 @@
                         <p>📅 ${meetup.w_date }</p>
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
-
-						<form:form>
-                        <input type="submit" value="참가신청" name="ENTER" class="btn btn-gradient w-100" onsubmit="return check()">
-                    	</form:form>
-                    </div>
-                    
+                        <h5>조회수</h5>
+                  		<p>👁️ ${meetup.views}</p> <!-- 조회수 표시 추가 -->
+                        
+						<div align="center" class="d-flex gap-2 align-items-stretch">
+						    <!-- 참가신청 버튼 (길게) -->
+						    <form style="flex-grow: 1;">
+						        <input type="submit" value="참가신청" name="ENTER" class="btn btn-gradient w-100 h-100" onsubmit="return check()">
+						    </form>
+						    
+						    <!-- 추천(좋아요) 버튼 (작게) -->
+						    <form action="/meetup/recommend.html" class="d-flex align-items-stretch">
+						        <input type="hidden" name="m_id" value="${meetup.m_id}">
+						        <button type="submit" class="btn btn-outline-primary btn-sm h-100">👍추천</button>
+						    </form>
+						</div>
+	          		</div>
                 </div>
-                
                 <script type="text/javascript">
                 	function check() {
                 		if(! confirm("정말로 신청하시겠습니까?")) return false;
@@ -77,24 +86,30 @@
                         </div>
                         <button class="btn btn-sm btn-outline-secondary">삭제</button>
                     </div>
-          	  </div>
+          	 	</div>
           	  <br/>
           	<div class="d-flex justify-content-center">
-    <a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
-
-    <c:if test="${loginUser != null && loginUser.email == meetup.w_id}">
-        <form action="/meetup/modify.html" method="get" class="d-flex">
-            <input type="hidden" name="m_id" value="${meetup.m_id}">
-            <input type="submit" value="수정" name="BTN" class="btn btn-sm btn-outline-secondary me-2"> <!-- 수정 버튼 간격 설정 -->
-            <input type="submit" value="삭제" name="BTN" class="btn btn-sm btn-outline-secondary"> <!-- 삭제 버튼 -->
-        </form>
-    </c:if>
-</div>
-
-        </div>
+		    <a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+		
+		    <c:if test="${loginUser != null && loginUser.email == meetup.w_id}">
+		        <form action="/meetup/modify.html" class="d-flex">
+		            <input type="hidden" name="m_id" value="${meetup.m_id}">
+		            <input type="submit" value="수정" name="BTN" class="btn btn-sm btn-outline-secondary me-2"> <!-- 수정 버튼 간격 설정 -->
+		        </form>
+		        <form action="/meetup/modify.html" onsubmit="return check()">
+					<input type="hidden" name="m_id" value="${meetup.m_id}">
+				    <input type="submit" value="삭제" name="BTN" class="btn btn-sm btn-outline-secondary">
+			    </form>
+		    </c:if>
+		    <script type="text/javascript">
+		        function check(frm){
+		        	if( ! confirm("정말로 삭제하시겠습니까?")) return false;
+		        }
+		        </script>
+		    </div>
+		</div>
     </div>
-   </div>
-	<br/>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</div><br/>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

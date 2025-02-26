@@ -96,7 +96,7 @@
 		    </div>
 		<div align="center">
 			<button type="submit" class="btn btn-primary">등록하기</button>
-            <a href="/index" class="btn btn-secondary">취소</a>
+            <a href="/home" class="btn btn-secondary">취소</a>
 		</div>
         </form:form>
     </div>

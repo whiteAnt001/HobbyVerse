@@ -1,8 +1,5 @@
 	package com.springboot.hobbyverse.service;
-	
-	
-	
-	
+
 	import java.time.LocalDateTime;
 	import java.util.Date;
 	import java.util.List;
@@ -14,9 +11,9 @@
 	import com.springboot.hobbyverse.dto.AddUserRequest;
 	import com.springboot.hobbyverse.mapper.MyMapper;
 	import com.springboot.hobbyverse.model.User;
-	import com.springboot.hobbyverse.repsitory.UserRepository;
-	
-	import jakarta.transaction.Transactional;
+import com.springboot.hobbyverse.repository.UserRepository;
+
+import jakarta.transaction.Transactional;
 	import lombok.RequiredArgsConstructor;
 	
 	@RequiredArgsConstructor
