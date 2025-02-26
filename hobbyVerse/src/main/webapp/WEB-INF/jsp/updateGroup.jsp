@@ -67,8 +67,8 @@
                             </div>
                             
                             <div class="mb-3">
-                                <label for="w_date" class="form-label">모임 날짜</label>
-                                <input type="date" class="form-control" id="w_date" name="w_date" value="${meetup.w_date}" required/>
+                                <label for="m_date" class="form-label">모임 날짜</label>
+                                <input type="date" class="form-control" id="m_date" name="m_date" value="${meetup.m_date}" required/>
                             </div>
                             
                             <div class="mb-3">

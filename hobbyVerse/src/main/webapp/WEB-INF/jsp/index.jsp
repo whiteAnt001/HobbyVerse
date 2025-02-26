@@ -47,7 +47,7 @@
                     <div class="card shadow-sm">
                         <div class="card-body">
                             <h5 class="card-title">${meet.title}</h5>
-                            <p class="card-text">날짜: ${meet.w_date}</p>
+                            <p class="card-text">날짜: ${meet.m_date}</p>
                             <p class="card-text" style="font-size: 13px;">👍${meet.recommend }</p>
                             <!-- 일반 버튼으로 수정 -->
                             <a href="/meetup/detail.html?id=${meet.m_id }" class="btn btn-primary">자세히 보기</a>

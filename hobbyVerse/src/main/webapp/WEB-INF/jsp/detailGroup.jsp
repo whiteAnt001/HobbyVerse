@@ -51,7 +51,7 @@
                         <h5>모임 설명</h5>
                         <p>${meetup.info }</p>
                         <h5>모임 일정</h5>
-                        <p>📅 ${meetup.w_date }</p>
+                        <p>📅 ${meetup.m_date }</p>
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
                         <h5>조회수</h5>
