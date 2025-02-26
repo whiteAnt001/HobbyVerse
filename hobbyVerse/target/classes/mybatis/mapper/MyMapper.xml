@@ -14,4 +14,9 @@
     <select id="getUser" parameterType="com.springboot.hobbyverse.model.User" resultType="com.springboot.hobbyverse.model.User">
         select * from users where email = #{email} and password=#{password}
     </select>
+    
+    <!-- 계정으로 유저 정보 가져오는 매퍼 -->
+    <select id="getUserInfo" parameterType="Long" resultType="com.springboot.hobbyverse.model.User">
+    	select * from users where id=#{id}
+    </select>
 </mapper>

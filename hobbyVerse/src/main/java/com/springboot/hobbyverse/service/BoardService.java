@@ -1,5 +1,10 @@
 package com.springboot.hobbyverse.service;
 
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -10,31 +15,28 @@ import org.springframework.retry.annotation.Retryable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.springboot.hobbyverse.model.Board;
+import com.springboot.hobbyverse.model.Comment;
+import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.BoardRepository;
+
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
-
-import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.Map;
-
+import lombok.RequiredArgsConstructor;
+@RequiredArgsConstructor
 @Service
 public class BoardService {
 
     private static final Logger logger = LoggerFactory.getLogger(BoardService.class);
     private final BoardRepository boardRepository;
-
     @PersistenceContext
     private EntityManager entityManager;
 
     // ✅ 유저별 추천 내역 저장 (임시 저장, 실제 운영에서는 DB 사용 추천)
     private final Map<Long, Map<Long, LocalDate>> userRecommendations = new HashMap<>();
 
-    public BoardService(BoardRepository boardRepository) {
-        this.boardRepository = boardRepository;
-    }
 
     // ✅ 최신순으로 게시글 조회 (번호 기준 내림차순 정렬)
     public Page<Board> getAllBoards(Pageable pageable) {

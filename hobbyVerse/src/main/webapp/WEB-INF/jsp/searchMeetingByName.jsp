@@ -73,25 +73,7 @@ to {
 </style>
 </head>
 <body>
-	<!-- 네비게이션 바 -->
-	<nav class="navbar navbar-expand-lg navbar-dark gradient-bg">
-		<div class="container">
-			<a class="navbar-brand" href="index.html">HobbyMatch</a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarNav">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse" id="navbarNav">
-				<ul class="navbar-nav ms-auto">
-					<li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
-					<li class="nav-item"><a class="nav-link" href="/category/key">카테고리</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">로그인</a></li>
-					<li class="nav-item"><a class="nav-link btn gradient-btn"
-						href="#">회원가입</a></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	    <jsp:include page="/WEB-INF/jsp/navbar.jsp" />
 
 	<form action="/category/search" method="post">
 		<div class="container mt-4">
@@ -114,90 +96,74 @@ to {
 
 	<div class="container mt-4">
 		<div class="row">
-				<c:choose>
-					<c:when test="${keyList[0] == null }">
-						<div align="center">
-							<h2>아직 해당 모임이 만들어지지 않았어요</h2>
-						</div>
-					</c:when>
-					<c:otherwise>
-						<c:forEach var="key" items="${keyList}">
-							<div class="col-md-4 mb-4">
-								<table border="1">
+			<c:choose>
+				<c:when test="${keyList[0] == null }">
+					<div align="center">
+						<h2>아직 해당 모임이 만들어지지 않았어요</h2>
+					</div>
+				</c:when>
+				<c:otherwise>
+					<c:forEach var="key" items="${keyList}">
+						<div class="col-md-4 mb-4">
+							<table border="1">
 
-									<div class="meeting-card">
-										<div clss="p-3">
-											<tr>
-												<th>모임 아이디</th>
-												<td>${key.m_id}</td>
-											</tr>
-											<tr>
-												<th>모임 이름</th>
-												<td>${key.title}</td>
-											</tr>
-											<tr>
-												<th>작성자</th>
-												<td>${key.w_id}</td>
-											</tr>
-											<tr>
-												<th>모임 설명</th>
-												<td>${key.info}</td>
-											</tr>
-											<tr>
-												<th>카테고리</th>
-												<td>${key.c_key}</td>
-											</tr>
-											<tr>
-												<th>작성일</th>
-												<td>${key.w_date}</td>
-											</tr>
-											<tr>
-												<th>금액</th>
-												<td>${key.price}</td>
-											</tr>
-											<tr>
-												<th><a href="">자세히 보기</a></th>
-											</tr>
+								<div class="meeting-card">
+									<div clss="p-3">
+										<div class="meeting-card">
+											<div class="p-3">
+												<!-- <th>모임 아이디</th> -->
+												${key.m_id }
+
+												<!-- <th>모임 이름</th> -->
+												<h5 class="card-title">${key.title }</h5>
+
+												<!-- <th>작성일</th> -->
+												<p class="card-text">날짜: ${key.w_date }</p>
+
+												<a href="/meetup/detail.html?id=${key.m_id }"
+													class="btn btn-primary">자세히보기</a>
+											</div>
 										</div>
 									</div>
-								</table>
-							</div>
-						</c:forEach>
-					</c:otherwise>
-				</c:choose>
+								</div>
+							</table>
+						</div>
+					</c:forEach>
+				</c:otherwise>
+			</c:choose>
 		</div>
 	</div>
 
 	<div align="center">
-	<c:set var="pageCount" value="${pageCount}" />
-	<c:set var="currentPage" value="${currentPage}" />
-	<c:set var="startPage"
-		value="${currentPage - (currentPage % 10 == 0 ? 10 : (currentPage % 10)) + 1}" />
-	<c:set var="endPage" value="${startPage + 9}" />
-	<c:if test="${endPage > pageCount}">
-		<c:set var="endPage" value="${pageCount}" />
-	</c:if>
-
-	<c:if test="${startPage > 10}">
-		<a href="/category/search?pageNo=${startPage - 1}">[이전]</a>
-	</c:if>
-
-	<c:forEach begin="${startPage }" end="${endPage}" var="i">
-		<c:if test="${currentPage == i}">
-			<font size="6">
+		<c:set var="pageCount" value="${pageCount}" />
+		<c:set var="currentPage" value="${currentPage}" />
+		<c:set var="startPage"
+			value="${currentPage - (currentPage % 10 == 0 ? 10 : (currentPage % 10)) + 1}" />
+		<c:set var="endPage" value="${startPage + 9}" />
+		<c:if test="${endPage > pageCount}">
+			<c:set var="endPage" value="${pageCount}" />
 		</c:if>
-		<a href="/category/search?pageNo=${i}">${i}</a>
-		<c:if test="${currentPage == i}">
-			</font>
-		</c:if>
-	</c:forEach>
 
-	<c:if test="${endPage < pageCount}">
-		<a href="/category/search?pageNo=${endPage + 1}">[다음]</a>
-	</c:if>
+		<c:if test="${startPage > 10}">
+			<a href="/category/search?pageNo=${startPage - 1}">[이전]</a>
+		</c:if>
+
+		<c:forEach begin="${startPage }" end="${endPage}" var="i">
+			<c:if test="${currentPage == i}">
+				<font size="6">
+			</c:if>
+			<a href="/category/search?pageNo=${i}">${i}</a>
+			<c:if test="${currentPage == i}">
+				</font>
+			</c:if>
+		</c:forEach>
+
+		<c:if test="${endPage < pageCount}">
+			<a href="/category/search?pageNo=${endPage + 1}">[다음]</a>
+		</c:if>
 	</div>
 
-	
+
 
 	<!-- Bootstrap JS -->
 	<script
