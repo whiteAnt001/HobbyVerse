@@ -24,4 +24,5 @@ public interface MeetingMapper {
 	void updateMeeting(Meetup meetup);// 모임수정
 	
 	Meetup getMeet(Integer m_id);// 모임 아이디로 모임 찾기
+	Meetup getMeetTitle(Integer m_id);//모임 아이디로 모임 이름 찾기
 }

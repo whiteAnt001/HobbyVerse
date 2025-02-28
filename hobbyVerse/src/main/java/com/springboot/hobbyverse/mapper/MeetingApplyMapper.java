@@ -12,5 +12,4 @@ public interface MeetingApplyMapper {
 //	//참가 정보 추가
 //	void insertMeetInfo(MeetingApply meetingApply);
 	List<MeetingApply> joinedUser(Integer m_id);
-	List<MeetingApply> meetingList(Long id);
 }

@@ -119,6 +119,7 @@ public class MeetingController {
     	ModelAndView mav = new ModelAndView("detailGroup");
         Meetup meetup = this.meetingService.getMeetDetail(id);
         User user = (User) session.getAttribute("loginUser");
+        
         mav.addObject("user", user);
         mav.addObject("meetup", meetup);
         return mav;

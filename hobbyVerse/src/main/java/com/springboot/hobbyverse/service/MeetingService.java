@@ -66,4 +66,5 @@ public class MeetingService {
 	public List<Meetup> getMeetings(){
 		return this.meetingMapper.getMeetings();
 	}
+
 }

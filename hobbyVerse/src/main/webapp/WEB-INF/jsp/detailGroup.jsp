@@ -58,29 +58,10 @@
                         <input type="submit" value="참가신청" class="btn btn-gradient w-100" onsubmit="return check()">
                     	</form:form>
                     	
-                    	 <script type="text/javascript">
-                			function check() {
-                			if(! confirm("정말로 신청하시겠습니까?")) return false;
-                			}
-                		</script>
+                    	
                     </div>
-                    
+
                 </div>
-                <div class="participants-list">
-                    <h5>참가자 목록 (3명)</h5>
-                    <table border="1">
-                    <c:forEach var="user" items="${userInfo }">
-                    <div class="participant">
-                        <div class="d-flex align-items-center">
-                            <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="참가자 1">
-                           
-                        </div>
-                        <button class="btn btn-sm btn-outline-secondary">삭제</button>
-                    </div>
-                    </c:forEach>
-                    </table>
-          	  </div>
-          	  <br/>
           	<div class="d-flex justify-content-center">
     <a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
 
@@ -96,7 +77,8 @@
         </div>
     </div>
    </div>
-	<br/>
+   
+   
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
