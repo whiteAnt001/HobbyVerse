@@ -70,7 +70,6 @@
     function deleteMeeting(meetingId) {
         // 사용자에게 삭제 확인 메시지 표시
         if (confirm('정말로 이 모임을 삭제하시겠습니까?')) {
-        	alert('삭제 모임 ok');
             // 확인 버튼을 클릭하면 DELETE 요청 실행
             const url = `/api/admin/meeting/delete/` + meetingId;  // URL에 meetingId 넣기
 
