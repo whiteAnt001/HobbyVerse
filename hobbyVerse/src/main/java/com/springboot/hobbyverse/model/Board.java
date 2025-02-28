@@ -1,79 +1,110 @@
 package com.springboot.hobbyverse.model;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
 
 @Entity
-@Getter
-@Setter
 public class Board {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long seq;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long seq; // board_id 역할 (PK)
+    @Column(nullable = false)
+    private String subject;
 
-	@Column(nullable = false)
-	private String subject;
+    @Column(nullable = false, columnDefinition = "TEXT")
+    private String content;
 
-	@Column(nullable = false, columnDefinition = "TEXT")
-	private String content;
+    @Column(nullable = false)
+    private String name;
 
-	@Column(nullable = false)
-	private String name;
+    @Column(nullable = false)
+    private LocalDateTime regDate;
 
-	@Column(nullable = false)
-	private LocalDateTime regDate;
+    private int readCount;
 
-	private int readCount;
+    @Version
+    private Long version = 0L;
 
-	@Version
-	private Long version = 0L;
+    @Transient
+    private String formattedRegDate;
 
-	@Transient
-	private String formattedRegDate;
+    // ✅ 추천 수 추가
+    @Column(nullable = false)
+    private int likes = 0;
 
-	@Column(nullable = false)
-	private int likes = 0;
+    // ✅ 이메일 필드 추가
+    @Column(nullable = false)
+    private String email = "unknown@example.com";  // 기본값 설정 (기존 데이터 처리)
 
-	@Column(nullable = false)
-	private String email = "unknown@example.com";
+    public Board() {
+        this.regDate = LocalDateTime.now();
+    }
 
-	// ✅ 댓글 리스트 추가 (게시글 삭제 시 댓글도 삭제됨)
-	@OneToMany(mappedBy = "board", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Comment> comments;
+    @PrePersist
+    public void prePersist() {
+        if (this.regDate == null) {
+            this.regDate = LocalDateTime.now();
+        }
+        if (this.version == null) {
+            this.version = 0L;
+        }
+        if (this.likes == 0) {
+            this.likes = 0;
+        }
+        if (this.email == null) {
+            this.email = "unknown@example.com";  // ✅ 기존 데이터 문제 방지
+        }
+    }
 
-	public Board() {
-		this.regDate = LocalDateTime.now();
-	}
+    @PreUpdate
+    public void preUpdate() {
+        if (this.version == null) {
+            this.version = 0L;
+        }
+    }
 
-	@PrePersist
-	public void prePersist() {
-		if (this.regDate == null) {
-			this.regDate = LocalDateTime.now();
-		}
-		if (this.version == null) {
-			this.version = 0L;
-		}
-		if (this.likes == 0) {
-			this.likes = 0;
-		}
-		if (this.email == null) {
-			this.email = "unknown@example.com";
-		}
-	}
+    public void incrementLikes() {
+        this.likes++;
+    }
 
-	@PreUpdate
-	public void preUpdate() {
-		if (this.version == null) {
-			this.version = 0L;
-		}
-	}
+    // Getter & Setter
+    public Long getSeq() { return seq; }
+    public void setSeq(Long seq) { this.seq = seq; }
 
-	public void incrementLikes() {
-		this.likes++;
-	}
+    public String getSubject() { return subject; }
+    public void setSubject(String subject) { this.subject = subject; }
+
+    public String getContent() { return content; }
+    public void setContent(String content) { this.content = content; }
+
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
+
+    public LocalDateTime getRegDate() { return regDate; }
+    public void setRegDate(LocalDateTime regDate) { this.regDate = regDate; }
+
+    public int getReadCount() { return readCount; }
+    public void setReadCount(int readCount) { this.readCount = readCount; }
+
+    public String getFormattedRegDate() { return formattedRegDate; }
+    public void setFormattedRegDate(String formattedRegDate) { this.formattedRegDate = formattedRegDate; }
+
+    public Long getVersion() { return version; }
+    public void setVersion(Long version) { this.version = version; }
+
+    public int getLikes() { return likes; }
+    public void setLikes(int likes) { this.likes = likes; }
+
+    public String getEmail() { return email; }  
+    public void setEmail(String email) { this.email = email; }  
 }

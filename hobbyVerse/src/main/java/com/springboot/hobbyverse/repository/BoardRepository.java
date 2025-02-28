@@ -1,6 +1,7 @@
 package com.springboot.hobbyverse.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -9,11 +10,15 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
 import com.springboot.hobbyverse.model.Board;
 
 @Repository
 public interface BoardRepository extends JpaRepository<Board, Long> {
+	Optional<Board> findBySeq(Long seq);
+	    List<Board> findByEmail(String email); // 특정 유저가 작성한 게시글 조회 (필요한 경우)
 
+	    void deleteBySeq(Long seq);
     // ✅ 기존 모든 게시글의 SEQ 값을 +1 증가 (새로운 게시글이 1번이 되도록)
     @Modifying
     @Transactional

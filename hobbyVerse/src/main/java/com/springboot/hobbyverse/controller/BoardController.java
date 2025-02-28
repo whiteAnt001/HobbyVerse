@@ -35,6 +35,7 @@ public class BoardController {
     private final CommentService commentService;
     private final CommentRepository commentRepository;
     
+
     // ✅ 게시판 목록 페이지 (페이징 + 검색 추가)
     @GetMapping("/boards")
     public ModelAndView getBoardPage(
@@ -43,7 +44,7 @@ public class BoardController {
             HttpSession session) {
 
         int pageSize = 10;
-        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "regDate")); // 🔥 최신순 정렬
+        Pageable pageable = PageRequest.of(page - 1, pageSize, Sort.by(Sort.Direction.DESC, "regDate"));
 
         Page<Board> boardPage;
         if (keyword != null && !keyword.trim().isEmpty()) {
@@ -120,15 +121,15 @@ public class BoardController {
 
     // ✅ 게시글 수정 처리 (제목, 내용만 수정 가능)
     @PostMapping("/boards/{seq}/update")
-    public ModelAndView updateBoard(@PathVariable Long seq, @RequestParam String subject, @RequestParam String content) {
+    public String updateBoard(@PathVariable Long seq, @RequestParam String subject, @RequestParam String content) {
         boardService.updateBoard(seq, subject, content);
-        return new ModelAndView("redirect:/boards");
+        return "redirect:/boards"; // ✅ 수정 후 게시판 목록으로 이동
     }
 
     // ✅ 게시글 삭제 처리
     @PostMapping("/boards/{seq}/delete")
     public ModelAndView deleteBoard(@PathVariable Long seq) {
-        boardService.deleteBoardById(seq);
+        boardService.deleteBoard(seq);
         return new ModelAndView("redirect:/boards");
     }
 
@@ -146,13 +147,13 @@ public class BoardController {
         }
 
         try {
-            boardService.recommendPost(seq, user.getUserId()); // 🔥 수정된 recommendPost 호출
+            boardService.recommendPost(seq, user.getUserId());
             Board updatedBoard = boardService.getBoardById(seq);
             response.put("success", true);
             response.put("likes", updatedBoard.getLikes());
         } catch (RuntimeException e) {
             response.put("success", false);
-            response.put("message", e.getMessage()); // 하루 1회 제한 메시지 전달
+            response.put("message", e.getMessage());
         }
 
         return response;
@@ -162,6 +163,28 @@ public class BoardController {
     @GetMapping("/boards/cancel")
     public ModelAndView cancelEditBoard() {
         return new ModelAndView("redirect:/boards");
+    }
+
+    // ✅ 관리자 게시글 수정 처리
+    @PostMapping("/boards/{seq}/admin-update")
+    public String adminUpdateBoard(@PathVariable("seq") Long seq,
+                                   @RequestParam("subject") String subject,
+                                   @RequestParam("content") String content,
+                                   HttpSession session) {
+        User user = (User) session.getAttribute("loginUser");
+
+        if (user == null || !"ROLE_ADMIN".equals(user.getRole())) {
+            return "redirect:/boards?error=Unauthorized";
+        }
+
+        Board board = boardService.getBoardById(seq);
+        if (board == null) {
+            return "redirect:/boards?error=NotFound";
+        }
+
+        boardService.updateBoard(seq, subject, content);
+
+        return "redirect:/boards"; // ✅ 수정 후 무조건 boards 목록으로 이동
     }
 }
    

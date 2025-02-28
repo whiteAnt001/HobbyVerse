@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -48,7 +49,7 @@ public class BoardService {
         return boardRepository.findBySubjectContaining(keyword, pageable);
     }
 
-    // ✅ 게시글 저장
+    // ✅ 게시글 저장 (새 게시글 등록 및 수정)
     @Retryable(
         value = ObjectOptimisticLockingFailureException.class,
         maxAttempts = 3,
@@ -68,19 +69,25 @@ public class BoardService {
         }
     }
 
-    // ✅ 특정 게시글 조회 (조회수 증가)
-    @Transactional
+    // ✅ 특정 게시글 조회 (조회수 증가 X)
+    @Transactional(readOnly = true)
     public Board getBoardById(Long seq) {
-        logger.info("게시글 조회: seq={}", seq);
+        logger.info("게시글 조회 (조회수 증가 X): seq={}", seq);
+        return boardRepository.findById(seq).orElse(null);
+    }
 
-        Board board = entityManager.find(Board.class, seq, LockModeType.NONE);
-        if (board == null) {
-            throw new RuntimeException("게시글을 찾을 수 없습니다.");
+    // ✅ 조회수 증가 기능 추가
+    @Transactional
+    public void incrementViews(Long seq) {
+        logger.info("게시글 조회수 증가: seq={}", seq);
+        Board board = boardRepository.findById(seq).orElse(null);
+        if (board != null) {
+            board.setReadCount(board.getReadCount() + 1);
+            boardRepository.save(board);
+            logger.info("조회수 증가 완료: seq={}, 조회수={}", seq, board.getReadCount());
+        } else {
+            logger.warn("조회수 증가 실패: 게시글을 찾을 수 없음 seq={}", seq);
         }
-
-        board.setReadCount(board.getReadCount() + 1); // 조회수 증가
-        boardRepository.save(board);
-        return board;
     }
 
     // ✅ 게시글 수정 (제목 & 내용)
@@ -93,16 +100,10 @@ public class BoardService {
     public void updateBoard(Long seq, String subject, String content) {
         try {
             logger.info("게시글 수정 시도: seq={}, subject={}, content={}", seq, subject, content);
-
-            Board board = entityManager.find(Board.class, seq, LockModeType.NONE);
-            if (board == null) {
-                throw new RuntimeException("게시글을 찾을 수 없습니다.");
-            }
-
+            Board board = boardRepository.findById(seq).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
             board.setSubject(subject);
             board.setContent(content);
             boardRepository.save(board);
-
             logger.info("게시글 수정 완료: {}", board);
         } catch (ObjectOptimisticLockingFailureException e) {
             logger.error("게시글 수정 중 충돌 발생", e);
@@ -117,16 +118,10 @@ public class BoardService {
         backoff = @Backoff(delay = 500)
     )
     @Transactional(propagation = Propagation.REQUIRES_NEW)
-    public void deleteBoardById(Long seq) {
+    public void deleteBoard(Long seq) {
         try {
             logger.info("게시글 삭제 시도: seq={}", seq);
-
-            Board board = entityManager.find(Board.class, seq, LockModeType.NONE);
-            if (board == null) {
-                throw new RuntimeException("게시글을 찾을 수 없습니다.");
-            }
-
-            boardRepository.deleteById(seq);
+            boardRepository.deleteBySeq(seq);  // ✅ 변경된 deleteBySeq(seq) 호출
             logger.info("게시글 삭제 완료: seq={}", seq);
         } catch (ObjectOptimisticLockingFailureException e) {
             logger.error("게시글 삭제 중 충돌 발생", e);
@@ -139,13 +134,12 @@ public class BoardService {
     public synchronized void recommendPost(Long seq, Long userId) {
         logger.info("게시글 추천 시도: seq={}, userId={}", seq, userId);
 
-        Board board = entityManager.find(Board.class, seq, LockModeType.NONE);
-        if (board == null) {
-            throw new RuntimeException("게시글을 찾을 수 없습니다.");
-        }
+        Board board = boardRepository.findById(seq).orElseThrow(() -> new RuntimeException("게시글을 찾을 수 없습니다."));
 
         // 유저의 추천 기록 가져오기
-        Map<Long, LocalDate> userRecommendationsForUser = userRecommendations.getOrDefault(userId, new HashMap<>());
+        userRecommendations.putIfAbsent(userId, new HashMap<>());
+        Map<Long, LocalDate> userRecommendationsForUser = userRecommendations.get(userId);
+
         LocalDate lastRecommendedDate = userRecommendationsForUser.get(seq);
         LocalDate today = LocalDate.now();
 
@@ -155,12 +149,10 @@ public class BoardService {
 
         // 추천 수 증가
         board.setLikes(board.getLikes() + 1);
-        entityManager.merge(board); // 🔥 변경 사항 즉시 DB에 반영
+        boardRepository.save(board);
 
         // 추천 기록 저장
         userRecommendationsForUser.put(seq, today);
-        userRecommendations.put(userId, userRecommendationsForUser);
-
         logger.info("게시글 추천 완료: seq={}, userId={}, 추천수={}", seq, userId, board.getLikes());
     }
 }

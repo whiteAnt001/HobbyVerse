@@ -36,9 +36,8 @@ public class Comment {
     @Column(name = "group_id", nullable = false)
     private Long groupId;
     
-    @ManyToOne
-    @JoinColumn(name = "parent_id")
-    private Comment parent; // 대댓글을 위한 부모 댓글
+    @Column(name = "parent_id")
+    private Long parentId; // 부모 댓글의 ID를 저장할 필드
 	
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
@@ -61,8 +60,8 @@ public class Comment {
     private String userName;
 
     @Column(name = "status", nullable = false)
-    private Integer status; // 0: 삭제됨, 1: 등록됨
-    
+    private Integer status = 1;  // 기본값 1 설정
+
     @PrePersist
     public void prePersist() {
     	if(this.groupId == null) {
@@ -77,7 +76,7 @@ public class Comment {
     	
     	Comment reply = new Comment();
     	reply.setBoard(parentComment.board);
-    	reply.setParent(parentComment);
+    	reply.setParentId(parentComment.id);
     	reply.setContent(content);
     	reply.setDepth(parentComment.depth);
     	reply.setUserEmail(userEmail);
