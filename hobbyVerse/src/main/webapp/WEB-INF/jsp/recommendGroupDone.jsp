@@ -11,7 +11,7 @@
    <script type="text/javascript">
         window.onload = function() {
             alert("${message}");  // 메시지 출력
-            window.location.href = "${redirectUrl}";  // 해당 URL로 이동
+            window.location.href = "/home";  // 해당 URL로 이동
         };
     </script>
 </body>

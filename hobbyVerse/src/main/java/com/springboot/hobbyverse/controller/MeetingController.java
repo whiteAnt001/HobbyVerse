@@ -160,7 +160,6 @@ public class MeetingController {
         	mav.addObject("message", "추천이 완료되었습니다.");
         }
         mav.setViewName("recommendGroupDone");
-        mav.addObject("redirectUrl","/home");
         mav.addObject("recommend", recommend);
         mav.addObject("user", user);
         return mav;
@@ -180,7 +179,7 @@ public class MeetingController {
         mav.addObject("views", views); // 조회수 추가       
         return mav;
     }//모임 상세보기
-
+    
     @GetMapping("/meetup/modify.html")
     public ModelAndView modify(Integer m_id, String BTN) {
         ModelAndView mav = new ModelAndView();
@@ -201,6 +200,7 @@ public class MeetingController {
         }
         return mav;
     }
+    
     @PostMapping("/meetup/update.html")
     public ModelAndView update(Meetup meetup, HttpSession session) {
         ModelAndView mav = new ModelAndView();

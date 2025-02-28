@@ -13,13 +13,13 @@
         body {background: #f4f4f4; color: #333; min-height: 100vh;}
         .gradient-bg {background: linear-gradient(135deg, #6a11cb, #2575fc);}
         .meeting-header {background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; 
-        			padding: 20px 10px; text-align: center; border-radius: 0 0 15px 15px;}
+                 padding: 20px 10px; text-align: center; border-radius: 0 0 15px 15px;}
         .meeting-header h1 {font-size: 1.5rem;}
         .meeting-header h4 {font-size: 1rem;}
         .meeting-detail-card {background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin-top: 20px;}
         .meeting-detail-card img {width: 100%; height: 300px; object-fit: cover; border-radius: 8px 8px 0 0;}
         .meeting-detail-card .content {padding: 20px;}
- 	    .meeting-detail-card h3 {font-size: 1.4rem;}
+        .meeting-detail-card h3 {font-size: 1.4rem;}
         .meeting-detail-card p {font-size: 0.9rem; color: #555;}
         .participants-list { background: #fff; padding: 10px; margin-top: 15px;
             border-radius: 8px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);}
@@ -56,20 +56,20 @@
 						<form:form action="/cancelMeeting" method="POST">
 						<input type="hidden" name="m_id" value="${meetup.m_id }">
                         <input type="submit" value="참가 취소" class="btn btn-gradient w-100">
-                    	</form:form>
+                       </form:form>
                     </div>
                     
                 </div>
                    <c:if test="${not empty alertSuccess }">
-                	<script type="text/javascript">
-                		alert("${alertSuccess}");
-                	</script>
+                   <script type="text/javascript">
+                      alert("${alertSuccess}");
+                   </script>
                 </c:if>
                 
                 <c:if test="${not empty alertError }">
-                	<script type="text/javascript">
-                		alert("${alertError}");
-                	</script>
+                   <script type="text/javascript">
+                      alert("${alertError}");
+                   </script>
                 </c:if>
      
                 <div class="participants-list">
@@ -88,14 +88,14 @@
                         </div>
                     </div>
                     </c:forEach>
-          	  </div>
-          	<div class="text-center mt-3">
-                    <a href="/meetup/index.html" class="btn btn-secondary btn-sm">이전으로</a>
+               </div>
+             <div class="text-center mt-3">
+                    <a href="/home" class="btn btn-secondary btn-sm">이전으로</a>
            </div>
         </div>
     </div>
    </div>
-	<br/>
+   <br/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
