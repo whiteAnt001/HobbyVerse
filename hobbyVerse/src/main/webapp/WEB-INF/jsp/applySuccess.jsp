@@ -86,7 +86,6 @@
                             	</table>
                             	</div>	
                         </div>
-                        <button class="btn btn-sm btn-outline-secondary">삭제</button>
                     </div>
                     </c:forEach>
           	  </div>
