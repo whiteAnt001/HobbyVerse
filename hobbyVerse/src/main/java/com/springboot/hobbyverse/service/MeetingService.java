@@ -106,9 +106,8 @@ public class MeetingService {
 	}
 	
 	//모임 아이디로 모임 찾기
-	   public Meetup getMeet(Integer m_id) {
-	      return this.meetingMapper.getMeet(m_id);
-	   }
-	   
+	public Meetup getMeet(Integer m_id) {
+		return this.meetingMapper.getMeet(m_id);
+	}
 
 }
