@@ -53,7 +53,8 @@
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
 
-                  <form:form>
+						<form:form action="/cancelMeeting" method="POST">
+						<input type="hidden" name="m_id" value="${meetup.m_id }">
                         <input type="submit" value="참가 취소" class="btn btn-gradient w-100">
                        </form:form>
                     </div>
@@ -72,24 +73,24 @@
                 </c:if>
      
                 <div class="participants-list">
-                    <h5>참가자 목록 (3명)</h5>
+                    <h5>참가자 목록</h5>
                     <c:forEach var="apply" items="${meetingApplies }">
                     <div class="participant">
                         <div class="d-flex align-items-center">
                             <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="참가자 1">
-                               <div align="center">
-                               <table>
-                                  <tr><th>신청자:</th><td>${apply.id}</td></tr>
-                                  <tr><th>닉네임:</th><td>${apply.name }</td></tr>
-                                  <tr><th>신청 날짜:</th><td>${apply.apply_date}</td></tr>
-                               </table>
-                               </div>   
+                            	<div align="center">
+                            	<table>
+                            		<tr><th>신청자:</th><td>${apply.id}</td></tr>
+                            		<tr><th>닉네임:</th><td>${apply.name }</td></tr>
+                            		<tr><th>신청 날짜:</th><td>${apply.apply_date}</td></tr>
+                            	</table>
+                            	</div>	
                         </div>
                     </div>
                     </c:forEach>
                </div>
              <div class="text-center mt-3">
-                    <a href="/meetup/index.html" class="btn btn-secondary btn-sm">이전으로</a>
+                    <a href="/home" class="btn btn-secondary btn-sm">이전으로</a>
            </div>
         </div>
     </div>
