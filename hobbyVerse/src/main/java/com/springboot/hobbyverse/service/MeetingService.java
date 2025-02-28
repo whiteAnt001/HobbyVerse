@@ -56,8 +56,13 @@ public class MeetingService {
 		return this.meetingMapper.getMeetingByUser(email);
 	}
 	
-	public List<Meetup> getMeetings(){
-	    return this.meetingMapper.getMeetings();
+	public List<Meetup> getMeetings(Integer pageNo){ //관리자용 모임목록
+		if(pageNo == null) pageNo = 1;
+		int start = (pageNo - 1) * 10;
+		int end = ((pageNo - 1) * 10) + 11;
+		StartEnd se = new StartEnd();
+		se.setStart(start); se.setEnd(end);
+	    return this.meetingMapper.getMeetings(se);
 	}
 	public Meetup getMeetingById(Integer id) {
 	    return this.meetingMapper.getMeetingById(id);
@@ -87,8 +92,6 @@ public class MeetingService {
 		return this.meetingMapper.getRecommendCheck(m_id,email);
 	}
 	
-	//찜
-	
 	// 조회수 가져오기
 	public Integer getViews(Integer id) {
 		return meetingMapper.getViews(id);
@@ -98,7 +101,7 @@ public class MeetingService {
 		if (id == null) {
 		    System.out.println("🚨 ERROR: ID is null in incrementViews()");
 		    return;
-		}       
-	   this.meetingMapper.incrementViews(id);
+	    }       
+	    this.meetingMapper.incrementViews(id);
 	}
 }

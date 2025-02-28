@@ -1,20 +1,23 @@
 	package com.springboot.hobbyverse.service;
 
 	import java.time.LocalDateTime;
-	import java.util.Date;
-	import java.util.List;
-	
-	import org.springframework.beans.factory.annotation.Autowired;
-	import org.springframework.stereotype.Service;
-	
-	import com.springboot.hobbyverse.config.SecurityConfig;
-	import com.springboot.hobbyverse.dto.AddUserRequest;
-	import com.springboot.hobbyverse.mapper.MyMapper;
-	import com.springboot.hobbyverse.model.User;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+
+import com.springboot.hobbyverse.config.SecurityConfig;
+import com.springboot.hobbyverse.dto.AddUserRequest;
+import com.springboot.hobbyverse.mapper.MyMapper;
+import com.springboot.hobbyverse.model.StartEnd;
+import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.UserRepository;
 
 import jakarta.transaction.Transactional;
-	import lombok.RequiredArgsConstructor;
+import lombok.RequiredArgsConstructor;
 	
 	@RequiredArgsConstructor
 	@Service
@@ -33,6 +36,15 @@ import jakarta.transaction.Transactional;
 		//모든 유저의 수 찾기
 		public Integer getUserCount() {
 			return this.myMapper.getUserCount();
+		}
+		//페이지처리
+		public List<User> getUserList(Integer pageNo){
+			if(pageNo == null) pageNo = 1;
+			int start = (pageNo - 1) * 5;
+			int end = ((pageNo - 1) * 5) + 6;
+			StartEnd se = new StartEnd();
+			se.setStart(start); se.setEnd(end);
+			return this.myMapper.getUserList(se);
 		}
 		//사용자의 id를 이용해 email 조회
 	    public String getUserIdByUserId(Long userId) {
