@@ -31,21 +31,92 @@
     </script>
     
     <style type="text/css">
-            /* 네비게이션 바 */
-        .gradient-bg {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-        }
-        .container-lg {
-			max-width: 900px; /* container-lg의 최대 너비를 더 넓게 설정 */
-			margin-top: 50px;
+    /* 네비게이션 바 */
+		.gradient-bg {background: linear-gradient(135deg, #6a11cb, #2575fc);} /* 배경에 그라데이션 효과 적용 */
+		
+		/* 큰 컨테이너 스타일 */
+		.container-lg {max-width: 900px; margin-top: 50px;}
+		
+		/* 전체 레이아웃 및 배경 스타일 */
+		body {background-color: #f8f9fa; font-family: Arial, sans-serif;}
+		
+		/* 댓글 작성 버튼의 여백 */
+		#writebutton {margin-top: 5px;}
+		
+		/* 댓글 목록 컨테이너 스타일 */
+		#commentList {max-width: 900px; margin: 0 auto; /* 중앙 정렬 */ font-family: Arial, sans-serif;}
+		
+		/* 각 댓글 스타일 */
+		.comment {background-color: #f9f9f9; border: 1px solid #ddd;
+		    border-radius: 10px; /* 댓글 모서리를 둥글게 */
+		    margin-bottom: 10px; /* 댓글 사이 간격 */
+		    padding: 10px 10px; /* 댓글 내용에 여백 추가 */
+		    position: relative; /* 댓글 내부 요소들을 위치시킬 수 있도록 설정 */
 		}
-
-        /* 전체 레이아웃 조정 */
-        body {
-            background-color: #f8f9fa; /* 배경색 변경 */
-            font-family: Arial, sans-serif; /* 폰트 변경 */
-        }
-        
+		
+		/* 댓글 헤더 부분 (작성자, 날짜 등) 스타일 */
+		.comment-header {
+		    display: flex; /* 플렉스 박스를 이용하여 아이템들을 정렬 */
+		    justify-content: space-between; /* 작성자와 날짜를 양쪽 끝에 배치 */
+		    font-size: 14px; color: #555;
+		}
+		
+		/* 댓글 작성자 이름 스타일 */
+		.comment-user {font-weight: bold;}
+		
+		/* 댓글 작성일 스타일 */
+		.comment-date {font-size: 12px; color: #999;}
+		
+		/* 댓글 내 버튼들 스타일 */
+		.comment .btn {font-size: 12px;
+		    padding: 4px 8px; /* 버튼 내 여백 */
+		    margin-right: 5px; /* 버튼들 사이 여백 */
+		}
+		
+		/* 대댓글 목록 스타일 */
+		.reply-list {
+		    margin-left: 30px; /* 왼쪽 여백 추가 */
+		    margin-top: 10px; /* 상단 여백 추가 */
+		    max-height: 300px; /* 대댓글 목록의 최대 높이 설정 */
+		    overflow-y: auto; /* 세로 스크롤 가능하도록 설정 */
+		    padding-right: 10px; /* 스크롤바를 위한 공간 확보 */
+		    padding-bottom: 10px; /* 하단 여백 추가 */
+		}
+		
+		/* 댓글 내용과 버튼을 구분하여 배치하는 스타일 */
+		.comment-content-container {
+		    display: flex; /* 플렉스 박스를 사용하여 좌측 내용과 우측 버튼을 분리 */
+		    justify-content: space-between; /* 내용과 버튼을 양쪽 끝으로 배치 */
+		    align-items: center; /* 세로 중앙 정렬 */
+		}
+		
+		/* 댓글 내용 스타일 */
+		.comment-content {
+		    margin-right: 10px; /* 버튼과 내용 사이 여백 */
+		    flex-grow: 1; /* 내용이 가능한 공간을 차지하도록 설정 */
+		}
+		
+		/* 댓글 내 액션 버튼들을 오른쪽 정렬 */
+		.comment-actions {
+		    text-align: right;
+		}
+		
+		/* 댓글 내 액션 버튼 스타일 */
+		.comment-actions button {
+		    margin-left: 5px;
+		}
+		
+		/* 대댓글 작성 스타일 */
+		.reply {
+		    background-color: #f1f1f1; /* 대댓글 배경색 */
+		    border: 1px solid #ccc; /* 테두리 색상 */
+		    padding: 12px; /* 대댓글 내용에 여백 추가 */
+		    border-radius: 8px; /* 대댓글 모서리 둥글게 설정 */
+		    margin-top: 10px; /* 대댓글 위에 여백 추가 */
+		}
+		
+		/* 텍스트 영역 스타일 */
+		textarea {width: 100%; font-size: 14px;}	      
     </style>
 </head>
 <body>
@@ -126,43 +197,39 @@
     			<input type="hidden" id="userName" value="${user.name}"/>
     			<input type="hidden" id="userEmail" value="${user.email}"/>
     			<textarea id="content" class="form-control" rows="3"></textarea>
-    			<button type="button" class="btn btn-primary" onclick="submitComment()">댓글 작성</button>
+    			<button type="button" id="writebutton" class="btn btn-primary" onclick="submitComment()">댓글 작성</button>
 			</form>
 		</c:if>
         <hr>
-
+</div>
        <!-- 댓글 목록 표시 -->
 <div id="commentList">
-    <h2>댓글 목록</h2>
-    
+    <h3>댓글 목록</h3>
+
     <c:forEach var="comment" items="${comments}">
-        <!-- 부모 댓글만 먼저 출력 (parentId가 없는 댓글) -->
         <c:if test="${empty comment.parentId}">
-            <div class="card mb-3 shadow-sm" id="comment-${comment.id}">
-                <div class="card-body">
-                    <h5 class="card-title">${comment.userName}</h5>
-                    <p id="comment-content-${comment.id}" class="card-text">${comment.content}</p>
-
-                    <!-- 수정 및 삭제 버튼 (작성자만 가능) -->
-                    <c:if test="${user.email == comment.userEmail}">
-                        <button type="button" class="btn btn-warning btn-sm" onclick="toggleEditForm(${comment.id})">수정</button>
-                        <button type="button" class="btn btn-danger btn-sm" onclick="deleteComment(${comment.id})">삭제</button>
-                    </c:if>
-
-                    <!-- 답글 버튼 -->
-                    <button type="button" class="btn btn-secondary btn-sm" onclick="toggleReplyForm(${comment.id})">답글</button>
+            <div class="comment" id="comment-${comment.id}">
+                <div class="comment-header">
+                    <span class="comment-user">${comment.userName}</span>
+                    <span class="comment-date">${comment.createdAt}</span>
                 </div>
-                <div class="card-footer text-muted">
-                    <small>작성일: ${comment.createdAt}</small>
-                </div>
+                <p class="comment-content">${comment.content}</p>
 
-                
-				<!-- 댓글 수정 폼 (숨김 처리) -->
-				<div id="edit-form-${comment.id}" style="display: none;">
-    				<textarea id="edit-input-${comment.id}" class="form-control" rows="3">${comment.content}</textarea>
-    				<button type="button" class="btn btn-primary btn-sm mt-1" onclick="updateComment(${comment.id})">수정 완료</button>
-    				<button type="button" class="btn btn-secondary btn-sm mt-1" onclick="toggleEditForm(${comment.id})">취소</button>
-				</div>
+                <!-- 수정 및 삭제 버튼 (작성자만 가능) -->
+                <c:if test="${user.email == comment.userEmail}">
+                    <button type="button" class="btn btn-warning btn-sm" onclick="toggleEditForm(${comment.id})">수정</button>
+                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteComment(${comment.id})">삭제</button>
+                </c:if>
+
+                <!-- 답글 버튼 -->
+                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleReplyForm(${comment.id})">답글</button>
+
+                <!-- 댓글 수정 폼 (숨김 처리) -->
+                <div id="edit-form-${comment.id}" style="display: none;">
+                    <textarea id="edit-input-${comment.id}" class="form-control" rows="3">${comment.content}</textarea>
+                    <button type="button" class="btn btn-primary btn-sm mt-1" onclick="updateComment(${comment.id})">수정 완료</button>
+                    <button type="button" class="btn btn-secondary btn-sm mt-1" onclick="toggleEditForm(${comment.id})">취소</button>
+                </div>
 
                 <!-- 답글 입력 폼 (숨김 처리) -->
                 <div id="reply-form-${comment.id}" style="display: none; margin-left: 30px;">
@@ -170,41 +237,42 @@
                     <button type="button" class="btn btn-success btn-sm mt-1" onclick="createReplyComment(${comment.id})">작성 완료</button>
                     <button type="button" class="btn btn-secondary btn-sm mt-1" onclick="toggleReplyForm(${comment.id})">취소</button>
                 </div>
-                
 
-                <!-- 대댓글 리스트 (부모 댓글 아래에 대댓글 표시) -->
-                <c:forEach var="reply" items="${comments}">
-                    <c:if test="${reply.parentId == comment.id}">
-                        <div class="card mb-3 shadow-sm" id="comment-${reply.id}" style="margin-left: 30px;">
-                            <div class="card-body">
-                                <h5 class="card-title">${reply.userName}</h5>
-                                <p id="comment-content-${reply.id}" class="card-text">${reply.content}</p>
-
-                                <!-- 대댓글 삭제 버튼 (작성자만 가능) -->
-                                <c:if test="${user.email == reply.userEmail}">
-                                    <button type="button" class="btn btn-warning btn-sm" onclick="replyToggleEditForm(${reply.id})">수정</button>
-                                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteComment(${reply.id})">삭제</button>
-                                </c:if>
-                            </div>
-                            <div class="card-footer text-muted">
-                                <small>작성일: ${reply.createdAt}</small>
-                            </div>
-                        </div>
-                    </c:if>
-                    
-			<!-- 대댓글 수정 폼 -->
-			<div id="reply-edit-form-${reply.id}" style="display: none;">
-    			<textarea id="reply-edit-input-${reply.id}" class="form-control" rows="3">${reply.content}</textarea>
-    			<button type="button" class="btn btn-primary btn-sm mt-1" onclick="replyUpdateComment(${reply.id})">수정 완료</button>
-    			<button type="button" class="btn btn-secondary btn-sm mt-1" onclick="replyToggleEditForm(${reply.id})">취소</button>
-			</div>
-                </c:forEach>
+                <!-- 대댓글 리스트 -->
+				<div class="reply-list">
+				    <c:forEach var="reply" items="${comments}">
+				        <c:if test="${reply.parentId == comment.id}">
+				            <div class="comment reply" id="comment-${reply.id}">
+				                <div class="comment-header">
+				                    <span class="comment-user">${reply.userName}</span>
+				                    <span class="comment-date">${reply.createdAt}</span>
+				                </div>
+				                <div class="comment-content-container">
+				                    <p class="comment-content">${reply.content}</p>
+				                    <!-- 대댓글 수정 및 삭제 버튼 (내용 오른쪽에 위치) -->
+				                    <c:if test="${user.email == reply.userEmail}">
+				                        <div class="comment-actions">
+				                            <button type="button" class="btn btn-warning btn-sm" onclick="replyToggleEditForm(${reply.id})">수정</button>
+				                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteComment(${reply.id})">삭제</button>
+				                        </div>
+				                    </c:if>
+				                </div>
+				            </div>
+				
+				            <!-- 대댓글 수정 폼 -->
+				            <div id="reply-edit-form-${reply.id}" style="display: none;">
+				                <textarea id="reply-edit-input-${reply.id}" class="form-control" rows="3">${reply.content}</textarea>
+				                <button type="button" class="btn btn-primary btn-sm mt-1" onclick="replyUpdateComment(${reply.id})">수정 완료</button>
+				                <button type="button" class="btn btn-secondary btn-sm mt-1" onclick="replyToggleEditForm(${reply.id})">취소</button>
+				            </div>
+				        </c:if>
+				    </c:forEach>
+				</div>
             </div>
         </c:if>
     </c:forEach>
 </div>
-
-    
+<br/>
 	<script>
 	//댓글 작성하기
     function submitComment() {
