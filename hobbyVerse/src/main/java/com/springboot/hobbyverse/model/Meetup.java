@@ -26,9 +26,9 @@ public class Meetup {
 	private String imagename;
 	@Temporal(TemporalType.DATE)
 	private Date w_date;//등록날짜
+	private Integer views; // 조회수 필드 추가
 	
 	private String category_name;
 	private MultipartFile file;
 	private Integer recommend;
-	private Integer views; // 조회수 필드 추가
 }

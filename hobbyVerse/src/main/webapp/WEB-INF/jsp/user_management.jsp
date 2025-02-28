@@ -52,6 +52,24 @@
             </tbody>
         </table>
     </div>
+    <!-- 페이지처리 -->
+    <c:set var="startPage" value="${currentPage - (currentPage - 1) % 10}" />
+    <c:set var="endPage" value="${startPage + 9}" />
+    <c:set var="endPage" value="${endPage > pageCount ? pageCount : endPage}" />
+    <div align="center">
+        <c:if test="${startPage > 1}">
+            <a href="/api/admin/users?PAGE_NUM=${startPage - 1}">[이전]</a>
+        </c:if>
+        <c:forEach begin="${startPage}" end="${endPage}" var="i">
+            <a href="/api/admin/users?PAGE_NUM=${i}" class="${currentPage == i ? 'active-page' : ''}">
+                ${i}
+            </a>
+        </c:forEach>
+        <c:if test="${endPage < pageCount}">
+            <a href="/api/admin/users?PAGE_NUM=${endPage + 1}">[다음]</a>
+        </c:if>
+    </div>
+    
 <script type="text/javascript">
     function deleteUser(userId) {
         if (confirm('정말로 이 사용자를 삭제하시겠습니까?')) {

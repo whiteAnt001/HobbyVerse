@@ -19,9 +19,18 @@
 	<select id="getMeetingById" parameterType="Integer" resultType="com.springboot.hobbyverse.model.Meetup">
       select * from meetup where m_id = #{id}
    </select>
-	<select id="getMeetings" resultType="com.springboot.hobbyverse.model.Meetup">
-		select * from meetup
+	<select id="getMeetings" resultType="com.springboot.hobbyverse.model.Meetup" parameterType="com.springboot.hobbyverse.model.StartEnd">
+		select * 
+		from (
+		    select rownum rn, m.* 
+		    from (
+		        select * from meetup 
+		        order by m_id asc
+		    ) m
+		) 
+		where rn > #{start} and rn <![CDATA[<]]> #{end}
 	</select><!-- 관리자용 모임 목록 -->
+	
 	<select id="getMeetingByUser"  parameterType="String" resultType="com.springboot.hobbyverse.model.Meetup">
 		select * from meetup where w_id = #{id}
 	</select>
@@ -41,17 +50,20 @@
 	</select><!-- 모임제목으로 모임 갯수 검색 -->
 	<select id="getMeetByTitle" parameterType="com.springboot.hobbyverse.model.StartEnd" 
 			resultType="com.springboot.hobbyverse.model.Meetup">
-		select m_id, title, info, c_key, m_date, price, w_id, imagename
-	    from (
-	        select m.*, row_number() over (order by w_date desc) as rank
-	        from (
-	            select m_id, title, info, c_key, to_char(m_date, 'yyyy-mm-dd') as m_date, price, w_id, imagename
-	            from meetup
-	            where title like '%' || #{title} || '%'
-	            order by w_date desc
-	        ) m
-	    ) 
-	    where rank > #{start} and rank <![CDATA[<]]> #{end}
+		select m_id, title, info, c_key, m_date, price, w_id, imagename, recommend
+		from (
+		    select m.*, rownum rn
+		    from (
+		        select m.m_id, m.title, m.info, m.c_key, 
+		               to_char(m.m_date, 'yyyy-mm-dd') as m_date, 
+		               m.price, m.w_id, m.imagename, 
+		               (select count(*) from recommend r where r.m_id = m.m_id) as recommend
+		        from meetup m
+		        where m.title like '%' || #{title} || '%'
+		        order by recommend desc
+		    ) m
+		)
+		where rn > #{start} and rn <![CDATA[<]]> #{end}
 	</select><!-- 모임제목으로 모임 검색 -->
 	
 	<select id="getMeetList" resultType="com.springboot.hobbyverse.model.Meetup" 
@@ -75,7 +87,7 @@
 		select max(m_id) from meetup
 	</select><!-- 모임번호 찾기 -->
 	<select id="getMeetDetail" resultType="com.springboot.hobbyverse.model.Meetup" parameterType="Integer">
-	    select  m_id, title, info, c_key, m_date, price, w_id, imagename, 
+	    select  m_id, title, info, c_key, m_date, price, w_id, imagename,
 	           (select c.name from category c where c.c_key = m.c_key) as category_name
 	    from meetup m
 	    where m.m_id = #{id}

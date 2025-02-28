@@ -7,9 +7,18 @@
 		select count(*) from users
 	</select>
 	<!-- 모든 유저를 찾는 메퍼 -->
-	<select id="getUserList" resultType="com.springboot.hobbyverse.model.User">
-		select id, email, name, role, reg_date from users
+	<select id="getUserList" resultType="com.springboot.hobbyverse.model.User" parameterType="com.springboot.hobbyverse.model.StartEnd">
+		select id as userId, email, name, role, reg_date as regDate
+		from (
+		    select rownum rn, u.* 
+		    from (
+		        select * from users 
+		        order by id asc
+		    ) u
+		) 
+		where rn > #{start} and rn <![CDATA[<]]> #{end}
 	</select>
+	
 	<!-- 유저를 찾는 메퍼 -->
     <select id="getUser" parameterType="com.springboot.hobbyverse.model.User" resultType="com.springboot.hobbyverse.model.User">
         select * from users where email = #{email} and password=#{password}

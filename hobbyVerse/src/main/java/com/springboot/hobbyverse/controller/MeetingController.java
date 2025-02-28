@@ -169,20 +169,15 @@ public class MeetingController {
     @GetMapping(value = "/meetup/detail.html")
     public ModelAndView detail(Integer id, HttpSession session) {
         ModelAndView mav = new ModelAndView("detailGroup");
-        Meetup meetup = this.meetingService.getMeetDetail(id);
-        
+        Meetup meetup = this.meetingService.getMeetDetail(id);     
         // 조회수 증가 처리
-        this.meetingService.incrementViews(id);
-        
+        this.meetingService.incrementViews(id);       
         // 최신 조회수 가져오기
-        Integer views = this.meetingService.getViews(id);
-        
-        User user = (User) session.getAttribute("loginUser");
-        
+        Integer views = this.meetingService.getViews(id);         
+        User user = (User) session.getAttribute("loginUser");       
         mav.addObject("user", user);
         mav.addObject("meetup", meetup);
-        mav.addObject("views", views); // 조회수 추가
-       
+        mav.addObject("views", views); // 조회수 추가       
         return mav;
     }//모임 상세보기
 
