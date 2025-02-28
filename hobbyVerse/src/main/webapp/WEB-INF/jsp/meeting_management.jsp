@@ -41,7 +41,7 @@
                         <td>${meeting.m_date}</td>
                         <td>
                             <a href="/api/admin/meeting/edit/form/${meeting.m_id }" class="btn btn-warning btn-sm">✏ 수정</a>
-                            <a href="/api/admin/meeting/delete/${meeting.m_id}" class="btn btn-danger btn-sm" onclick="deleteMeeting(${meeting.m_id})">🗑 삭제</a>
+                            <a class="btn btn-danger btn-sm" onclick="deleteMeeting(${meeting.m_id})">🗑 삭제</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -96,9 +96,6 @@
                 console.error('Error:', error);
                 alert('Failed to delete user: ' + error.message);
             });
-        } else {
-            // 취소를 클릭하면 삭제 요청을 하지 않고 종료
-            return;  // 함수 종료
         }
     }
 </script>
