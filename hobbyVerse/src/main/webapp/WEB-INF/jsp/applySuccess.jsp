@@ -13,13 +13,13 @@
         body {background: #f4f4f4; color: #333; min-height: 100vh;}
         .gradient-bg {background: linear-gradient(135deg, #6a11cb, #2575fc);}
         .meeting-header {background: linear-gradient(135deg, #6a11cb, #2575fc); color: white; 
-        			padding: 20px 10px; text-align: center; border-radius: 0 0 15px 15px;}
+                 padding: 20px 10px; text-align: center; border-radius: 0 0 15px 15px;}
         .meeting-header h1 {font-size: 1.5rem;}
         .meeting-header h4 {font-size: 1rem;}
         .meeting-detail-card {background: white; border-radius: 8px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin-top: 20px;}
         .meeting-detail-card img {width: 100%; height: 300px; object-fit: cover; border-radius: 8px 8px 0 0;}
         .meeting-detail-card .content {padding: 20px;}
- 	    .meeting-detail-card h3 {font-size: 1.4rem;}
+        .meeting-detail-card h3 {font-size: 1.4rem;}
         .meeting-detail-card p {font-size: 0.9rem; color: #555;}
         .participants-list { background: #fff; padding: 10px; margin-top: 15px;
             border-radius: 8px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);}
@@ -53,16 +53,22 @@
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
 
-						<form:form>
+                  <form:form>
                         <input type="submit" value="참가 취소" class="btn btn-gradient w-100">
-                    	</form:form>
+                       </form:form>
                     </div>
                     
                 </div>
+                   <c:if test="${not empty alertSuccess }">
+                   <script type="text/javascript">
+                      alert("${alertSuccess}");
+                   </script>
+                </c:if>
+                
                 <c:if test="${not empty alertError }">
-                	<script type="text/javascript">
-                		alert("${alertError}");
-                	</script>
+                   <script type="text/javascript">
+                      alert("${alertError}");
+                   </script>
                 </c:if>
      
                 <div class="participants-list">
@@ -71,26 +77,24 @@
                     <div class="participant">
                         <div class="d-flex align-items-center">
                             <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="참가자 1">
-                            	<div align="center">
-                            	<table>
-                            		<tr><th>신청자:</th><td>${apply.id}</td></tr>
-                            		<tr><th>닉네임:</th><td>${apply.name }</td></tr>
-                            		<tr><th>신청 날짜:</th><td>${apply.apply_date}</td></tr>
-                            		<tr><th><a href="/myPage">마이 페이지 이동하기</a></th></tr>
-                            	</table>
-                            	</div>	
+                               <div align="center">
+                               <table>
+                                  <tr><th>신청자:</th><td>${apply.id}</td></tr>
+                                  <tr><th>닉네임:</th><td>${apply.name }</td></tr>
+                                  <tr><th>신청 날짜:</th><td>${apply.apply_date}</td></tr>
+                               </table>
+                               </div>   
                         </div>
-                        <button class="btn btn-sm btn-outline-secondary">삭제</button>
                     </div>
                     </c:forEach>
-          	  </div>
-          	<div class="text-center mt-3">
+               </div>
+             <div class="text-center mt-3">
                     <a href="/meetup/index.html" class="btn btn-secondary btn-sm">이전으로</a>
            </div>
         </div>
     </div>
    </div>
-	<br/>
+   <br/>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

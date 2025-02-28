@@ -5,7 +5,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.springboot.hobbyverse.mapper.MyMapper;
 import com.springboot.hobbyverse.model.Board;
+import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.BoardRepository;
@@ -19,6 +21,8 @@ public class MyPageService {
 	private MeetingService meetingService;
 	@Autowired
 	private BoardRepository boardRepository;
+	@Autowired
+	private MyMapper myMapper;
 	
 	public User getUserInfo(String email) {
 		User user = userRepository.findByEmail(email);
@@ -36,5 +40,9 @@ public class MyPageService {
 	//내가 쓴 게시글 조회
 	public List<Board> getMyPosts(String name){
 		return boardRepository.findByName(name);
+	}
+	
+	public List<MeetingApply> meetingList(Long user_id) {
+		return this.myMapper.meetingList(user_id);
 	}
 }

@@ -155,12 +155,12 @@
 
                     <!-- 🔹 수정 버튼과 목록으로 버튼 -->
                     <div class="d-flex align-items-center gap-2">
-                        <a href="/boards" class="btn btn-secondary">목록으로</a>
                         <button type="submit" class="btn btn-primary">수정 완료</button>
+                        <a href="/boards" class="btn btn-secondary">목록으로</a>
                     </div>
                 </form>
-
-            <!-- ✅ 삭제 버튼 -->
+                
+                <!-- ✅ 삭제 버튼 -->
             <form action="/boards/${board.seq}/delete" method="post" class="mt-2"
                   onsubmit="return confirm('정말 삭제하시겠습니까?');">
                 <button type="submit" class="btn btn-danger">삭제</button>
@@ -168,8 +168,8 @@
         </c:if>
 
         <!-- ✅ 수정/삭제 권한이 없는 경우 -->
-        <c:if test="${empty user or user.email != board.email}">
-            <p>${board.content}</p>
+        <c:if test="${empty user or user.email != board.email and user.email == board.email || user.role == 'ROLE_ADMIN'}">
+        <p>${board.content}</p>
             <a href="/boards" class="btn btn-secondary">목록으로</a>
         </c:if>
 
