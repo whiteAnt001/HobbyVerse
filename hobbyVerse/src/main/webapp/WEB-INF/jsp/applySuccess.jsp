@@ -82,7 +82,6 @@
                             		<tr><th>신청자:</th><td>${apply.id}</td></tr>
                             		<tr><th>닉네임:</th><td>${apply.name }</td></tr>
                             		<tr><th>신청 날짜:</th><td>${apply.apply_date}</td></tr>
-                            		<tr><th>모임 이름:</th><td>${apply.title}</td></tr>
                             	</table>
                             	</div>	
                         </div>

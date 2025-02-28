@@ -102,4 +102,10 @@
 		update meetup set title=#{title}, info=#{info}, c_key=#{c_key}, price=#{price}, m_date=#{m_date}, imagename=#{imagename}
 		where m_id=#{m_id}
 	</update>
+	
+	<!-- 모임 아이디로 모임 찾기 -->
+	<select id="getMeet" parameterType="Integer"
+		resultType="com.springboot.hobbyverse.model.Meetup">
+		select * from meetup where m_id = #{m_id}
+	</select>
 </mapper>
