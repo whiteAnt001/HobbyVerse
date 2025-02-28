@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내가 쓴 게시글</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
 /* 전체 배경 */
 body {
@@ -44,7 +45,7 @@ body {
                 <c:forEach var="post" items="${myPosts}">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
                         ${post.subject} - ${post.regDate}
-                        <a href="/post/${post.seq}" class="btn btn-info btn-sm">게시글 보기</a>
+                        <a href="/boards/${post.seq}" class="btn btn-info btn-sm">게시글 보기</a>
                     </li>
                 </c:forEach>
             </ul>

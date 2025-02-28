@@ -208,46 +208,6 @@ public class MeetingController {
         return mav;
     }//추천하기
 
-    @GetMapping(value = "/meetup/detail.html")
-    public ModelAndView detail(Integer id, HttpSession session) {
-        ModelAndView mav = new ModelAndView("detailGroup");
-        Meetup meetup = this.meetingService.getMeetDetail(id);
-        
-        // 조회수 증가 처리
-        this.meetingService.incrementViews(id);
-        
-        // 최신 조회수 가져오기
-        Integer views = this.meetingService.getViews(id);
-        
-        User user = (User) session.getAttribute("loginUser");
-        
-        mav.addObject("user", user);
-        mav.addObject("meetup", meetup);
-        mav.addObject("views", views); // 조회수 추가
-       
-        return mav;
-    }//모임 상세보기
-
-    @GetMapping("/meetup/modify.html")
-    public ModelAndView modify(Integer m_id, String BTN) {
-        ModelAndView mav = new ModelAndView();
-        Meetup meetup = this.meetingService.getMeetDetail(m_id);
-        List<Category> categoryList = meetingService.getCategoryList();
-        if ("수정".equals(BTN)) {
-            // 수정 버튼 클릭 시 updateGroup.jsp(수정 폼)로 이동
-            mav.setViewName("updateGroup"); // updateGroup.jsp
-            mav.addObject("meetup", meetup);
-            mav.addObject("categoryList", categoryList);
-            mav.addObject("BTN", "수정");
-        } else if ("삭제".equals(BTN)) {
-            // 삭제 버튼 클릭 시 삭제 확인 페이지(modifyDone.jsp)로 이동
-            this.meetingService.deleteById(m_id);
-            mav.setViewName("deleteGroupDone");
-            mav.addObject("meetup", meetup);
-            mav.addObject("BTN", "삭제");
-        }
-        return mav;
-    }
     @PostMapping("/meetup/update.html")
     public ModelAndView update(Meetup meetup, HttpSession session) {
         ModelAndView mav = new ModelAndView();

@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <nav class="navbar navbar-expand-lg navbar-dark gradient-bg">
-	<div class="container">
+	<div class="container-fluid">
 		<a class="navbar-brand" href="/home">HobbyVerse</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarNav">
@@ -17,7 +17,7 @@
 
 				<!-- 로그인된 경우 -->
 				<c:if test="${user != null}">
-					<li class="nav-item"><a class="nav-link btn btn-primary"
+					<li class="nav-item"><a class="nav-link"
 						href="/meetup/createGroup.html">모임 등록하기</a></li>
 				</c:if>
 					<!-- 로그인 된 계정에 관리자 권한이 있을 경우 -->

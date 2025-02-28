@@ -6,24 +6,31 @@
     <meta charset="UTF-8">
     <title>문의사항 작성</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         .container {
             max-width: 600px;
             margin-top: 50px;
         }
-        .gradient-btn {
+        /* 네비게이션 바 */
+        .gradient-bg {
             background: linear-gradient(135deg, #6a11cb, #2575fc);
-            border: none;
-            color: white;
-            padding: 10px 20px;
-            border-radius: 5px;
         }
-        .gradient-btn:hover {
-            background: linear-gradient(135deg, #2575fc, #6a11cb);
-        }
+        .container-lg {
+			max-width: 900px; /* container-lg의 최대 너비를 더 넓게 설정 */
+			margin-top: 50px;
+		}
+
+        /* 전체 레이아웃 조정 */
+        body {
+            background-color: #f8f9fa; /* 배경색 변경 */
+            font-family: Arial, sans-serif; /* 폰트 변경 */
+        } 
     </style>
 </head>
 <body>
+    <!-- 네비게이션 바 포함 -->
+    <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 
     <div class="container">
         <h2 class="text-center mb-4">문의사항 작성</h2>

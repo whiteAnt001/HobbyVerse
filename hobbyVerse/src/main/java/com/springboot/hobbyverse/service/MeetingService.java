@@ -101,16 +101,4 @@ public class MeetingService {
 		}       
 	   this.meetingMapper.incrementViews(id);
 	}
-	// 조회수 가져오기
-	public Integer getViews(Integer id) {
-	    return meetingMapper.getViews(id);
-	}
-	// 조회수 증가 메서드 추가
-	public void incrementViews(Integer id) {
-	    if (id == null) {
-	        System.out.println("🚨 ERROR: ID is null in incrementViews()");
-	        return;
-	    }	    
-	    this.meetingMapper.incrementViews(id);
-	}
 }

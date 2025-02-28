@@ -8,6 +8,7 @@
     <meta charset="UTF-8">
     <title>문의사항 수정</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 <body>
     <!-- 관리자 네비게이션 바 포함 -->
