@@ -154,25 +154,12 @@ body {
 						</div>
 					</div>
 				</div>
-				<script type="text/javascript">
-					function check() {
-						if (!confirm("정말로 신청하시겠습니까?"))
-							return false;
-					}
-				</script>
-
-				<div class="participants-list">
-					<h5>참가자 목록 (3명)</h5>
-					<div class="participant">
-						<div class="d-flex align-items-center">
-							<img src="https://randomuser.me/api/portraits/men/1.jpg"
-								alt="참가자 1">
-							<p>홍길동</p>
-						</div>
-						<button class="btn btn-sm btn-outline-secondary">삭제</button>
-					</div>
-				</div>
-				<br />
+				
+			  <c:if test="${not empty alertCancel }">
+                	<script type="text/javascript">
+                		alert("${alertCancel}");
+                	</script>
+                </c:if>
 
 			</div>
 			<div class="d-flex justify-content-center">

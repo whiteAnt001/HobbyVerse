@@ -53,7 +53,8 @@
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
 
-						<form:form>
+						<form:form action="/cancelMeeting" method="POST">
+						<input type="hidden" name="m_id" value="${meetup.m_id }">
                         <input type="submit" value="참가 취소" class="btn btn-gradient w-100">
                     	</form:form>
                     </div>
@@ -72,7 +73,7 @@
                 </c:if>
      
                 <div class="participants-list">
-                    <h5>참가자 목록 (3명)</h5>
+                    <h5>참가자 목록</h5>
                     <c:forEach var="apply" items="${meetingApplies }">
                     <div class="participant">
                         <div class="d-flex align-items-center">

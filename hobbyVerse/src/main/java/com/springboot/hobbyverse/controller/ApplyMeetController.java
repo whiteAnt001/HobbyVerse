@@ -77,7 +77,7 @@ public class ApplyMeetController {
 			
 		} else {//이미 존재하는 모임일 경우
 			List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
-			
+			mav.addObject("user", user);
  			
 			mav.addObject("alertError", "이미 신청된 모임입니다. ");
 			mav.setViewName("applySuccess");
@@ -90,17 +90,20 @@ public class ApplyMeetController {
 			
 		mav.setViewName("applySuccess");
 		mav.addObject("meetingApplies", meetingApplies);
+		mav.addObject("user", user);
 		mav.addObject("meetup", meetup);
 		return mav;
 	}
 	
 	@GetMapping("/applyDetail")
-	public ModelAndView applyDetail(Integer m_id) {
+	public ModelAndView applyDetail(Integer m_id, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
 		Meetup meetup = this.meetingService.getMeet(m_id);
 		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
 		
 		mav.addObject("meetup", meetup);
+		mav.addObject("user", user);
 		mav.addObject("meetingApplies", meetingApplies);
 		mav.setViewName("applySuccess");
 		return mav;
