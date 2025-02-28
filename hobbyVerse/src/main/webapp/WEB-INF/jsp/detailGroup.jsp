@@ -129,11 +129,8 @@ body {
 						<p>📅 ${meetup.m_date }</p>
 						<h5>참가비</h5>
 						<p>💰 ${meetup.price }원</p>
-
-
-
 						<h5>조회수</h5>
-						<p>👁️ ${meetup.views}</p>
+						<p>👁️ ${views}</p> 
 						<!-- 조회수 표시 추가 -->
 
 						<div align="center" class="d-flex gap-2 align-items-stretch">

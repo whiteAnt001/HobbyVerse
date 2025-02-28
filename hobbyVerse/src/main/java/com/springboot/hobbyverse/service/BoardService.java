@@ -69,10 +69,10 @@ public class BoardService {
         }
     }
 
-    // ✅ 특정 게시글 조회 (조회수 증가 X)
-    @Transactional(readOnly = true)
+    // ✅ 특정 게시글 조회 (조회수 증가)
+    @Transactional
     public Board getBoardById(Long seq) {
-        logger.info("게시글 조회 (조회수 증가 X): seq={}", seq);
+        incrementViews(seq); // 조회수 증가
         return boardRepository.findById(seq).orElse(null);
     }
 
