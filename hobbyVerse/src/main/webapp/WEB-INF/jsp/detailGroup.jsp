@@ -172,8 +172,7 @@ body {
                   <button class="btn btn-sm btn-outline-secondary">삭제</button>
                </div>
             </div>
-            <br />
-
+            <br/>
          </div>
          <div class="d-flex justify-content-center">
             <a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
@@ -199,8 +198,8 @@ body {
             </script>
          </div>
       </div>
+         <br/>
    </div>
-   <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

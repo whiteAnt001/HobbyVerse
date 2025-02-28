@@ -89,7 +89,7 @@
                     </c:forEach>
                </div>
              <div class="text-center mt-3">
-                    <a href="/meetup/index.html" class="btn btn-secondary btn-sm">이전으로</a>
+                    <a href="/home" class="btn btn-secondary btn-sm">이전으로</a>
            </div>
         </div>
     </div>

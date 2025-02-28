@@ -160,13 +160,11 @@ public class MeetingController {
         	mav.addObject("message", "추천이 완료되었습니다.");
         }
         mav.setViewName("recommendGroupDone");
-        mav.addObject("redirectUrl","/home");
         mav.addObject("recommend", recommend);
         mav.addObject("user", user);
         return mav;
     }//추천하기
 
-    
     @GetMapping(value = "/meetup/detail.html")
     public ModelAndView detail(Integer id, HttpSession session) {
         ModelAndView mav = new ModelAndView("detailGroup");
@@ -182,28 +180,6 @@ public class MeetingController {
         return mav;
     }//모임 상세보기
     
-//    @GetMapping("/meetup/modify.html")
-//    public ModelAndView modify(Integer m_id, String BTN) {
-//        ModelAndView mav = new ModelAndView();
-//
-//        if ("수정".equals(BTN)) {
-//            // 수정 버튼 클릭 시
-//            Meetup meetup = this.meetingService.getMeetDetail(m_id); // 모임 정보 가져오기
-//            List<Category> categoryList = meetingService.getCategoryList(); // 카테고리 리스트 가져오기
-//
-//            mav.setViewName("updateGroup"); // 수정 화면으로 이동
-//            mav.addObject("meetup", meetup); // 수정할 모임 정보 전달
-//            mav.addObject("categoryList", categoryList); // 카테고리 리스트 전달
-//        } else if ("삭제".equals(BTN)) {
-//            // 삭제 버튼 클릭 시
-//            this.meetingService.deleteById(m_id); // 모임 삭제
-//            mav.setViewName("deleteGroupSuccess"); // 삭제 완료 화면으로 이동
-//            mav.addObject("message", "삭제되었습니다."); // 삭제 메시지 전달
-//        }
-//
-//        return mav;
-//    }
-   
     @GetMapping("/meetup/modify.html")
     public ModelAndView modify(Integer m_id, String BTN) {
         ModelAndView mav = new ModelAndView();
@@ -225,30 +201,6 @@ public class MeetingController {
         return mav;
     }
     
-    @GetMapping(value = "/meetup/recommend.html")
-    public ModelAndView recommend(Recommend recommend, HttpSession session) {
-        ModelAndView mav = new ModelAndView();
-        User user = (User) session.getAttribute("loginUser");
-        if (user == null) { // 로그인되지 않은 경우
-            mav.setViewName("recommendGroupDone");  // 로그인 페이지로 리다이렉트
-            mav.addObject("message", "로그인이 필요합니다.");
-            mav.addObject("redirectUrl","/login");
-            return mav;
-        }
-        recommend.setEmail(user.getEmail());
-        Integer count = this.meetingService.getRecommendCheck(recommend.getM_id(),recommend.getEmail());
-        if(count > 0) {
-        	mav.addObject("message", "이미 추천한 모임입니다.");
-        }else {
-        	this.meetingService.putRecommend(recommend.getM_id(), recommend.getEmail());
-        	mav.addObject("message", "추천이 완료되었습니다.");
-        }
-        mav.setViewName("recommendGroupDone");
-        mav.addObject("recommend", recommend);
-        mav.addObject("user", user);
-        return mav;
-    }//추천하기
-
     @PostMapping("/meetup/update.html")
     public ModelAndView update(Meetup meetup, HttpSession session) {
         ModelAndView mav = new ModelAndView();
