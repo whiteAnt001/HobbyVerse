@@ -41,7 +41,7 @@
                         <td>${meeting.m_date}</td>
                         <td>
                             <a href="/api/admin/meeting/edit/form/${meeting.m_id }" class="btn btn-warning btn-sm">✏ 수정</a>
-                            <a href="/api/admin/meeting/delete/${meeting.m_id}" class="btn btn-danger btn-sm" onclick="deleteMeeting(${meeting.m_id})">🗑 삭제</a>
+                            <a class="btn btn-danger btn-sm" onclick="deleteMeeting(${meeting.m_id})">🗑 삭제</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -70,6 +70,7 @@
     function deleteMeeting(meetingId) {
         // 사용자에게 삭제 확인 메시지 표시
         if (confirm('정말로 이 모임을 삭제하시겠습니까?')) {
+        	alert('삭제 모임 ok');
             // 확인 버튼을 클릭하면 DELETE 요청 실행
             const url = `/api/admin/meeting/delete/` + meetingId;  // URL에 meetingId 넣기
 
@@ -96,9 +97,6 @@
                 console.error('Error:', error);
                 alert('Failed to delete user: ' + error.message);
             });
-        } else {
-            // 취소를 클릭하면 삭제 요청을 하지 않고 종료
-            return;  // 함수 종료
         }
     }
 </script>

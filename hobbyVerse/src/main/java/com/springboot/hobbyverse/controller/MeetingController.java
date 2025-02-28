@@ -140,48 +140,6 @@ public class MeetingController {
         mav.addObject("message", "모임이 등록되었습니다.");
         return mav;
     }//모임등록
-    
-    @GetMapping(value = "/meetup/detail.html")
-    public ModelAndView detail(Integer id, HttpSession session) {
-        ModelAndView mav = new ModelAndView("detailGroup");
-        Meetup meetup = this.meetingService.getMeetDetail(id);
-        
-        // 조회수 증가 처리
-        this.meetingService.incrementViews(id);
-        
-        // 최신 조회수 가져오기
-        Integer views = this.meetingService.getViews(id);
-        
-        User user = (User) session.getAttribute("loginUser");
-        
-        mav.addObject("user", user);
-        mav.addObject("meetup", meetup);
-        mav.addObject("views", views); // 조회수 추가
-        
-        return mav;
-    }
-    
-    @GetMapping("/meetup/modify.html")
-    public ModelAndView modify(Integer m_id, String BTN) {
-        ModelAndView mav = new ModelAndView();
-
-        if ("수정".equals(BTN)) {
-            // 수정 버튼 클릭 시
-            Meetup meetup = this.meetingService.getMeetDetail(m_id); // 모임 정보 가져오기
-            List<Category> categoryList = meetingService.getCategoryList(); // 카테고리 리스트 가져오기
-
-            mav.setViewName("updateGroup"); // 수정 화면으로 이동
-            mav.addObject("meetup", meetup); // 수정할 모임 정보 전달
-            mav.addObject("categoryList", categoryList); // 카테고리 리스트 전달
-        } else if ("삭제".equals(BTN)) {
-            // 삭제 버튼 클릭 시
-            this.meetingService.deleteById(m_id); // 모임 삭제
-            mav.setViewName("deleteGroupSuccess"); // 삭제 완료 화면으로 이동
-            mav.addObject("message", "삭제되었습니다."); // 삭제 메시지 전달
-        }
-
-        return mav;
-    }
 
     @GetMapping(value = "/meetup/recommend.html")
     public ModelAndView recommend(Recommend recommend, HttpSession session) {
