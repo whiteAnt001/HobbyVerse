@@ -41,6 +41,8 @@ public class ApplyMeetController {
 	public ModelAndView apply(Integer m_id, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		
+		Meetup meetup = this.meetingService.getMeetingById(m_id);
+		mav.addObject("meetup", meetup);
 		mav.setViewName("forward:/success?m_id=" + m_id);
 		return mav;
 	}
@@ -58,34 +60,49 @@ public class ApplyMeetController {
 		
 		boolean existMeet = meetingApplyRepsotory.existsByIdAndMid(user.getUserId(), m_id);
 		//true:가입됨, false:미가입
+		Meetup meet = this.meetingService.getMeet(m_id);
 		
 		//정보 저장
 		MeetingApply meetingApply = new MeetingApply();
 		meetingApply.setId(user.getUserId());
 		meetingApply.setName(user.getName());
+		meetingApply.setEamil(user.getEmail());
 		meetingApply.setMid(m_id);
+		meetingApply.setTitle(meet.getTitle());
 		meetingApply.setApply_date(java.sql.Date.valueOf(java.time.LocalDate.now()));
 			
 		//DB 저장
 		if(! existMeet) {//존재하지 않는 모임일 경우
 			meetingApplyRepsotory.save(meetingApply);	
-			mav.addObject("alertSuccess","신청 완료했습니다." );
+			
 		} else {//이미 존재하는 모임일 경우
 			List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
-			List<MeetingApply> meetingList = this.meetingApplyService.meetingList(user_id);
+			
  			
 			mav.addObject("alertError", "이미 신청된 모임입니다. ");
 			mav.setViewName("applySuccess");
-			mav.addObject("meetingApplies", meetingApplies);
-			mav.addObject("meetingLlist", meetingList);
+			mav.addObject("meetingApplies", meetingApplies);	
 			return mav;
 		}
+		mav.addObject("alertSuccess","신청이 완료됐습니다. " );
 		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
-		List<MeetingApply> meetingList = this.meetingApplyService.meetingList(user_id);
+		Meetup meetup = meetingService.getMeetingById(m_id);
 			
 		mav.setViewName("applySuccess");
 		mav.addObject("meetingApplies", meetingApplies);
-		mav.addObject("meetingList", meetingList);
+		mav.addObject("meetup", meetup);
+		return mav;
+	}
+	
+	@GetMapping("/applyDetail")
+	public ModelAndView applyDetail(Integer m_id) {
+		ModelAndView mav = new ModelAndView();
+		Meetup meetup = this.meetingService.getMeet(m_id);
+		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
+		
+		mav.addObject("meetup", meetup);
+		mav.addObject("meetingApplies", meetingApplies);
+		mav.setViewName("applySuccess");
 		return mav;
 	}
 

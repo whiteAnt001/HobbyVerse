@@ -4,19 +4,12 @@
 <mapper namespace="com.springboot.hobbyverse.mapper.MeetingApplyMapper">
 	<!-- 모임 아이디로 신청자 목록 가져오기 -> 신청자 목록에서 사용 -->
 	<select id="joinedUser" parameterType="Integer" resultType="com.springboot.hobbyverse.model.MeetingApply">
-		select ma.id, ma.name, ma.apply_date, ma.m_id
+		select ma.id, ma.name, ma.apply_date
 		from meeting_apply as ma
 		inner join meetup as m
 		on ma.m_id = m.m_id
 		where ma.m_id = #{m_id}
 	</select>
 	
-	<!-- 계정으로 신청한 모임 가져오기 -> 마이페이지 신청모임 목록에서 사용 -->
-	<select id="meetingList" parameterType="Integer" resultType="com.springboot.hobbyverse.model.MeetingApply">
-		select ma.m_id, ma.apply_date, ma.title
-		from meeting_apply as ma
-		inner join users as u
-		on ma.id = u.id
-		where ma.id = #{id}
-	</select>
+	
 </mapper>

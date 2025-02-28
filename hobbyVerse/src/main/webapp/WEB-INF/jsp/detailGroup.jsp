@@ -54,6 +54,12 @@
                         <p>📅 ${meetup.m_date }</p>
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
+                        
+                        <form:form action="/applyMeeting" method="POST">
+						<input type="hidden" name="m_id" value="${meetup.m_id }">
+                        <input type="submit" value="참가신청" class="btn btn-gradient w-100" onsubmit="return check()">
+                    	</form:form>
+                    	
                         <h5>조회수</h5>
                   		<p>👁️ ${meetup.views}</p> <!-- 조회수 표시 추가 -->
                         
@@ -88,6 +94,8 @@
                     </div>
           	 	</div>
           	  <br/>
+
+                </div>
           	<div class="d-flex justify-content-center">
 		    <a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
 		
@@ -111,5 +119,9 @@
     </div>
 </div><br/>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+   </div>
+   
+   
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

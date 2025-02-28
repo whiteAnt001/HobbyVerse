@@ -45,4 +45,6 @@ public interface MeetingMapper {
 	List<Recommend> getRecommend(Recommend recommend);//추천 확인
 	void putRecommend(int m_id, String email);//추천하기
 	Integer getRecommendCheck(Integer m_id, String email);//중복추천 방지
+	Meetup getMeet(Integer m_id);// 모임 아이디로 모임 찾기
+	Meetup getMeetTitle(Integer m_id);//모임 아이디로 모임 이름 찾기
 }

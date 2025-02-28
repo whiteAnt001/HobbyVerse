@@ -16,10 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.Board;
+import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.BoardRepository;
 import com.springboot.hobbyverse.repository.UserRepository;
+import com.springboot.hobbyverse.service.MeetingApplyService;
+import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.MyPageService;
 import com.springboot.hobbyverse.service.UserService;
 
@@ -35,6 +38,9 @@ public class MyPageController {
 	private BoardRepository boardRepository;
 	@Autowired
 	private UserRepository userRepository;
+	@Autowired
+	private MeetingService meetingService;
+
 	
 	//마이페이지 메인
 	@GetMapping("/myPage")
@@ -81,10 +87,11 @@ public class MyPageController {
 	public ModelAndView joinedMeetings(HttpSession session) {
 		ModelAndView mav = new ModelAndView("myPage_joinedMeetings");
 		User user = (User)session.getAttribute("loginUser");
-		//TODO 미주가 완성해야 가능함
+		List<MeetingApply> meetingApply = myPageService.meetingList(user.getUserId());
+		mav.addObject("meetingApply", meetingApply);
 		mav.addObject("user", user);
 		return mav;
-	}
+	}      
 	
 	//내가 쓴 게시글
 	@GetMapping("/myPage/myPosts")

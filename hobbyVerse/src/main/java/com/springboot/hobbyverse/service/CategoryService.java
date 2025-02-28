@@ -38,7 +38,7 @@ public class CategoryService {
 		return this.categoryMapper.getKeyCountByName(sm);
 	}
 	
-	//카테고리 별 모임 페이지 처리
+	//카테고리 별 모임 페이지 처리'
 	public List<Meetup> getMeet(Integer pageNo, Integer c_key) {
 		if(pageNo == null) pageNo = 1;
 		int start = (pageNo - 1) * 6;

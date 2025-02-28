@@ -28,4 +28,10 @@
     <select id="getUserInfo" parameterType="Long" resultType="com.springboot.hobbyverse.model.User">
     	select * from users where id=#{id}
     </select>
+    
+    
+    <!-- 계정으로 신청한 모임 가져오기 -> 마이페이지 신청모임 목록에서 사용 -->
+	<select id="meetingList" parameterType="Long" resultType="com.springboot.hobbyverse.model.MeetingApply">
+		select m_id mid, title, apply_date from meeting_apply where id = #{id}
+	</select>
 </mapper>

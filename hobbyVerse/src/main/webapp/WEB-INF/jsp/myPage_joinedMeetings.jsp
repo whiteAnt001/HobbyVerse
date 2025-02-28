@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -18,12 +20,6 @@ body {
 	min-height: 100vh;
 }
 
-/* 마이페이지 크기 키우기 */
-.container-lg {
-	max-width: 900px; /* container-lg의 최대 너비를 더 넓게 설정 */
-	margin-top: 50px;
-}
-
 /* 카드 마진 */
 .card {
 	margin-bottom: 20px;
@@ -33,36 +29,58 @@ body {
 .gradient-bg {
 	background: linear-gradient(135deg, #6a11cb, #2575fc);
 }
+
+/* 그라데이션 버튼 */
+.gradient-btn {
+	background: linear-gradient(135deg, #6a11cb, #2575fc);
+	border: none;
+	color: white;
+}
+
+.gradient-btn:hover {
+	background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
 </style>
 </head>
 <body>
+	<!-- 네비게이션 바 -->
 	<jsp:include page="/WEB-INF/jsp/navbar.jsp" />
 
+	<!-- 모임 신청 리스트 -->
 	<div class="container mt-5">
-		<h2 class="text-center mb-4">참여 신청한 모임</h2>
+		<h3 class="text-center mb-4">참여 신청한 모임</h3>
 
-		<c:forEach var="meetingList" items="${meetingList }">
-			<table>
-				<tr>
-					<th>모임 아이디:</th>
-					<td>${meetingList.m_id}</td>
-				</tr>
-				<tr>
-					<th>모임 이름:</th>
-					<td>${meetingList.title }</td>
-				</tr>
-				<tr>
-					<th>신청 날짜:</th>
-					<td>${meetingList.apply_date}</td>
-				</tr>
-				<tr>
-					<th><a href="/myPage">마이 페이지 이동하기</a></th>
-				</tr>
-			</table>
+		<!-- 신청한 모임이 없을 경우 처리 -->
+		<c:if test="${empty meetingApply}">
+			<div class="alert alert-warning text-center" role="alert">신청한
+				모임이 없습니다.</div>
+		</c:if>
+
+		<!-- 신청한 모임 목록 -->
+
+		<c:forEach var="meeting" items="${meetingApply}">
+			<a href="/applyDetail?m_id=${meeting.mid }"
+				style="text-decoration: none;">
+				<div class="card mb-4">
+					<div class="card-body">
+						<h5 class="card-title">모임 아이디: ${meeting.mid}</h5>
+						<h6 class="card-subtitle mb-2 text-muted">모임 이름:
+							${meeting.title}</h6>
+						<p class="card-text">
+							신청 날짜:
+							<fmt:formatDate value="${meeting.apply_date}" pattern="yyyy-MM-dd" />
+						</p>
+					</div>
+				</div>
+			</a>
+		</c:forEach>
+
 	</div>
-	</c:forEach>
+	
+	
 
-	</div>
-
+	<!-- Bootstrap JS -->
+	<script
+		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

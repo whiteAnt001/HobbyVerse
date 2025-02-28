@@ -59,6 +59,12 @@
                     </div>
                     
                 </div>
+                   <c:if test="${not empty alertSuccess }">
+                	<script type="text/javascript">
+                		alert("${alertSuccess}");
+                	</script>
+                </c:if>
+                
                 <c:if test="${not empty alertError }">
                 	<script type="text/javascript">
                 		alert("${alertError}");
@@ -76,11 +82,10 @@
                             		<tr><th>신청자:</th><td>${apply.id}</td></tr>
                             		<tr><th>닉네임:</th><td>${apply.name }</td></tr>
                             		<tr><th>신청 날짜:</th><td>${apply.apply_date}</td></tr>
-                            		<tr><th><a href="/myPage">마이 페이지 이동하기</a></th></tr>
+                            		<tr><th>모임 이름:</th><td>${apply.title}</td></tr>
                             	</table>
                             	</div>	
                         </div>
-                        <button class="btn btn-sm btn-outline-secondary">삭제</button>
                     </div>
                     </c:forEach>
           	  </div>

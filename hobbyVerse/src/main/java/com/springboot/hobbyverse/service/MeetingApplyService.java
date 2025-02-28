@@ -34,9 +34,4 @@ public class MeetingApplyService {
 	public List<MeetingApply> joinedUser(Integer m_id) {
 		return this.meetingApplyMapper.joinedUser(m_id);
 	}
-	
-	public List<MeetingApply> meetingList(Long id) {
-		return this.meetingApplyMapper.meetingList(id);
-	}
-	
 }
