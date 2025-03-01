@@ -80,6 +80,10 @@
 <br />
 
 ## 🤔 기술적 이슈와 해결 과정
+- JWT 토큰을 발급받는 과정
+    - [JWT 발급](https://junseoddi.tistory.com/13)
+- 게시판에 댓글 구현 하기
+    - [댓글 구현](https://junseoddi.tistory.com/14)
 
 
 
