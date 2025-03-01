@@ -57,7 +57,32 @@
 			        <p>${totalInquiries} 건</p>
 			    </div>
 			</div>
+        </div>
+    </div>
+    
+<div class="container mt-5">
+        <div class="row mt-4">
+            <div class="col-md-4">
+                <div class="dashboard-card" onclick="location.href='/api/admin/users'">
+                    <div class="emoji">👥</div>
+                    <h3>🚨 신고된 항목</h3>
+                    <p>${totalUsers} 명</p>
+                </div>
             </div>
+            <div class="col-md-4">
+                <div class="dashboard-card" onclick="location.href='/api/admin/meetings'">
+                    <div class="emoji">📅</div>
+                    <h3>총 모임 수</h3>
+                    <p>${totalMeet} 개</p>
+                </div>
+            </div>
+			<div class="col-md-4">
+			    <div class="dashboard-card" onclick="location.href='/api/admin/inquiries'">
+			        <div class="emoji">📩</div>
+			        <h3>문의 사항</h3>
+			        <p>${totalInquiries} 건</p>
+			    </div>
+			</div>
         </div>
     </div>
 
