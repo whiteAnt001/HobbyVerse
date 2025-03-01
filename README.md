@@ -65,7 +65,6 @@
 
 
 <br />
-https://github.com/user-attachments/assets/b9d2404e-3756-486c-8c19-b6caae261123
 ## ⚙ 기술 스택
 ### Back-end
 <div>
