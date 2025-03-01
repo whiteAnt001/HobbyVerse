@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.hobbyverse.mapper.MyMapper">
+	<!-- 총 유저 수 카운트 -->
+	<select id="getUserCount" resultType="Integer">
+		select count(*) from users
+	</select>
+	<!-- 모든 유저를 찾는 메퍼 -->
+	<select id="getUserList" resultType="com.springboot.hobbyverse.model.User" parameterType="com.springboot.hobbyverse.model.StartEnd">
+		select id as userId, email, name, role, reg_date as regDate
+		from (
+		    select rownum rn, u.* 
+		    from (
+		        select * from users 
+		        order by id asc
+		    ) u
+		) 
+		where rn > #{start} and rn <![CDATA[<]]> #{end}
+	</select>
+	
+	<!-- 유저를 찾는 메퍼 -->
+    <select id="getUser" parameterType="com.springboot.hobbyverse.model.User" resultType="com.springboot.hobbyverse.model.User">
+        select * from users where email = #{email} and password=#{password}
+    </select>
+    
+    <!-- 계정으로 유저 정보 가져오는 매퍼 -->
+    <select id="getUserInfo" parameterType="Long" resultType="com.springboot.hobbyverse.model.User">
+    	select * from users where id=#{id}
+    </select>
+    
+    
+    <!-- 계정으로 신청한 모임 가져오기 -> 마이페이지 신청모임 목록에서 사용 -->
+	<select id="meetingList" parameterType="Long" resultType="com.springboot.hobbyverse.model.MeetingApply">
+		select m_id mid, title, apply_date from meeting_apply where id = #{id}
+	</select>
+</mapper>
