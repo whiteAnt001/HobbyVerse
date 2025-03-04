@@ -14,7 +14,6 @@ import lombok.Setter;
 public class Report {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // 기본 키 자동 증가
-	@Column(name="m_id")
 	private Integer report_id;
 	private Integer m_id;
 	private String email;

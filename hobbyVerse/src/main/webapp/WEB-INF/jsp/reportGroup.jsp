@@ -45,26 +45,25 @@
     <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
     
     <div class="container mt-5">
-    <h2 class="mb-4">모임 신고</h2>
-    <form:form action="/meetup/reportDo.html" method="post" modelAttribute="report" enctype="multipart/form-data">
-        <div class="mb-3">
-            <label for="title" class="form-label">모임 이름 <strong>${meetup.title}</strong></label>
-        </div>
-        <div class="mb-3">
-            <label for="email" class="form-label">작성자 <strong>${report.email}</strong></label>
-        </div>
-        <div class="mb-3">
-            <label for="info" class="form-label">신고 사유</label><br/>
-            <form:textarea path="reason" class="form-control" id="reason" name="reason" rows="5" cols="150" required="true"></form:textarea>
-        </div>
-
-        <div align="center">
-            <button type="submit" class="btn btn-primary">신고하기</button>
-            <a href="/meetup/detail.html?id=${meetup.m_id}" class="btn btn-secondary">취소</a>
-        </div>
-    </form:form>
-</div>
-
+        <h2 class="mb-4">모임 신고</h2>
+        <form:form action="/meetup/reportDo.html" method="post" modelAttribute="report" enctype="multipart/form-data" onsubmit="return check(this);">
+			<input type="hidden" name="m_id" value="${m_id }"/>
+            <div class="mb-3">
+                <label for="title" class="form-label">모임 이름: <strong>${meetup.title}</strong></label>
+            </div>
+            <div class="mb-3">
+                <label for="email" class="form-label">신고자: <strong>${report.email}</strong></label>
+            </div>
+            <div class="mb-3">
+                <label for="reason" class="form-label">신고 사유</label><br/>
+                <form:textarea path="reason" class="form-control" id="reason" rows="5" required="true"></form:textarea>
+            </div>
+            <div align="center">
+                <button type="submit" class="btn btn-primary">신고하기</button>
+                <a href="/meetup/detail.html?id=${m_id}" class="btn btn-outline-secondary">취소</a>
+            </div>
+        </form:form>
+    </div>
     <script type="text/javascript">
         function check(frm) {
             if (!confirm("정말로 신고하시겠습니까?")) {

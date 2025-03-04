@@ -168,22 +168,24 @@ public class MeetingController {
     }//추천하기
 
     @GetMapping(value = "/meetup/report.html")
-    public ModelAndView report(Integer id, Report report, HttpSession session) {
+    public ModelAndView report(Integer m_id, Report report, HttpSession session) {
         ModelAndView mav = new ModelAndView("reportGroup");
         User user = (User) session.getAttribute("loginUser");
         report.setEmail(user.getEmail());
-        Meetup meetup = meetingService.getMeetingById(id);
+        Meetup meetup = meetingService.getMeetingById(m_id);
         mav.addObject("meetup", meetup);
         mav.addObject("report", report);
+        mav.addObject("m_id",m_id);
         mav.addObject("user", user);
 
-        return mav;
+       return mav;
+
     }
     @PostMapping("/meetup/reportDo.html")
-    public ModelAndView register(Report report, Meetup meetup, HttpSession session) {
+    public ModelAndView register(Report report, Integer m_id, HttpSession session) {
         ModelAndView mav = new ModelAndView();
-        User user = (User) session.getAttribute("loginUser");
-        report.setM_id(meetup.getM_id());
+        User user = (User) session.getAttribute("loginUser");      
+        report.setM_id(m_id);
         report.setEmail(user.getEmail());
         this.meetingService.putReport(report);      
         mav.setViewName("reportGroupDone");

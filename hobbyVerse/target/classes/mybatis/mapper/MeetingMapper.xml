@@ -7,13 +7,6 @@
 	     insert into report(m_id, email, reason, report_date) 
     		values(#{m_id}, #{email}, #{reason}, current_timestamp)
 	</insert>	
-	<!-- 신고 목록 조회 -->
-	<select id="getReport" resultType="com.springboot.hobbyverse.model.Report">
-	    select r.report_id, m.m_id, u.email, r.reason, r.report_date
-	    from report r
-	    inner join meetup m on m.m_id = r.m_id
-	    inner join users u on u.email = r.email
-	</select>
 	
 	<select id="getMeetingById" parameterType="Integer" resultType="com.springboot.hobbyverse.model.Meetup">
       select * from meetup where m_id = #{id}
@@ -119,8 +112,7 @@
    </update>
    
    <!-- 모임 아이디로 모임 찾기 -->
-   <select id="getMeet" parameterType="Integer"
-      resultType="com.springboot.hobbyverse.model.Meetup">
+   <select id="getMeet" parameterType="Integer" resultType="com.springboot.hobbyverse.model.Meetup">
       select * from meetup where m_id = #{m_id}
    </select>
 </mapper>
