@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.core.sym.Name;
 import com.springboot.hobbyverse.config.SecurityConfig;
 import com.springboot.hobbyverse.dto.TopCategoryDTO;
 import com.springboot.hobbyverse.dto.UpdateUserRequest;
@@ -27,6 +29,7 @@ import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.model.UserActivity;
 import com.springboot.hobbyverse.repository.UserRepository;
+import com.springboot.hobbyverse.service.AdminSearchService;
 import com.springboot.hobbyverse.service.InquiryService;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.UserActivityService;
@@ -234,4 +237,46 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     
+    @PostMapping("/searchMeet")
+    public ModelAndView searchMeet(HttpSession session, String TITLE, Integer pageNo) {
+    	ModelAndView mav = new ModelAndView();
+    	User user = (User)session.getAttribute("loginUser");
+    	
+    	int currentPage = 1;
+    	if(pageNo != null) currentPage = pageNo;
+    	session.setAttribute("TITLE", TITLE);
+    	List<Meetup> meetList = this.adminSearchService.searchMeet(TITLE, pageNo);
+    	int totalCount = this.adminSearchService.searchMeetCount(TITLE);
+    	int pageCount = totalCount / 6;
+    	if(totalCount % 6 != 0) pageCount++;
+    	mav.addObject("meetList", meetList);
+    	mav.addObject("user", user);
+    	mav.addObject("TITLE", TITLE);
+        mav.addObject("pageCount", pageCount);
+        mav.addObject("currentPage", currentPage);
+        mav.setViewName("meeting_managementResult");
+    	return mav;
+    }
+    
+   @PostMapping("/searchUser")
+   public ModelAndView searchUser(HttpSession session, Integer pageNo, String SEARCH) {
+	   ModelAndView mav = new ModelAndView();
+	   User user = (User)session.getAttribute("loginUser");
+	   
+	   int currentPage = 1;
+	   if(pageNo != null) currentPage = pageNo;
+	   session.setAttribute("SEARCH", SEARCH);
+	   List<User> userList = this.adminSearchService.searchUser(SEARCH, pageNo);
+	   
+	   int totalCount = this.adminSearchService.searchUserCount(SEARCH);
+	   int pageCount = totalCount / 6;
+	   if(totalCount % 6 != 0) pageCount++;
+	   mav.addObject("userList", userList);
+	   mav.addObject("user", user);
+	   mav.addObject("SEARCH", SEARCH);
+	   mav.addObject("pageCount", pageCount);
+       mav.addObject("currentPage", currentPage);
+       mav.setViewName("user_managementResult");
+	   return mav;
+   }
 }

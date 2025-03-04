@@ -23,6 +23,21 @@
 
     <div class="container mt-5">
         <h2 class="text-center">👥 회원 관리</h2>
+        
+        <form action="/api/admin/searchUser" method="post">
+        	<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-8 mx-auto">
+					<div
+						class="filter-bar d-flex justify-content-between align-items-center">
+						검색 <input type="text" name="SEARCH"/>
+							<input type="submit" value="검색"/>
+					</div>
+				</div>
+			</div>
+			</div>
+        </form>
+        
         <table class="table table-hover mt-4">
             <thead class="table-dark">
                 <tr>
