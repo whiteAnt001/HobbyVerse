@@ -11,97 +11,41 @@
 <link rel="stylesheet"
    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <style>
-body {
-   background: #f4f4f4;
-   color: #333;
-   min-height: 100vh;
-}
+body {background: #f4f4f4; color: #333; min-height: 100vh;}
 
-.gradient-bg {
-   background: linear-gradient(135deg, #6a11cb, #2575fc);
-}
+.gradient-bg {background: linear-gradient(135deg, #6a11cb, #2575fc);}
 
-.meeting-header {
-   background: linear-gradient(135deg, #6a11cb, #2575fc);
-   color: white;
-   padding: 20px 10px;
-   text-align: center;
-   border-radius: 0 0 15px 15px;
-}
+.meeting-header {background: linear-gradient(135deg, #6a11cb, #2575fc); color: white;
+  				 padding: 20px 10px; text-align: center; border-radius: 0 0 15px 15px;}
 
-.meeting-header h1 {
-   font-size: 1.5rem;
-}
+.meeting-header h1 {font-size: 1.5rem;}
 
-.meeting-header h4 {
-   font-size: 1rem;
-}
+.meeting-header h4 {font-size: 1rem;}
 
-.meeting-detail-card {
-   background: white;
-   border-radius: 8px;
-   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-   margin-top: 20px;
-}
+.meeting-detail-card {background: white; border-radius: 8px;
+   					box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); margin-top: 20px;}
 
-.meeting-detail-card img {
-   width: 100%;
-   height: 300px;
-   object-fit: cover;
-   border-radius: 8px 8px 0 0;
-}
+.meeting-detail-card img {width: 100%; height: 300px; object-fit: cover; border-radius: 8px 8px 0 0;}
 
-.meeting-detail-card .content {
-   padding: 20px;
-}
+.meeting-detail-card .content {padding: 20px;}
 
-.meeting-detail-card h3 {
-   font-size: 1.4rem;
-}
+.meeting-detail-card h3 {font-size: 1.4rem;}
 
-.meeting-detail-card p {
-   font-size: 0.9rem;
-   color: #555;
-}
+.meeting-detail-card p {font-size: 0.9rem; color: #555;}
 
-.participants-list {
-   background: #fff;
-   padding: 10px;
-   margin-top: 15px;
-   border-radius: 8px;
-   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
-}
+.participants-list {background: #fff; padding: 10px; margin-top: 15px;
+   					border-radius: 8px; box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);}
 
-.participants-list h5 {
-   font-size: 1rem;
-   margin-bottom: 8px;
-}
+.participants-list h5 {font-size: 1rem; margin-bottom: 8px;}
 
-.participant {
-   display: flex;
-   justify-content: space-between;
-   align-items: center;
-   margin-bottom: 8px;
-}
+.participant {display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;}
 
-.participant img {
-   width: 30px;
-   height: 30px;
-   border-radius: 50%;
-   margin-right: 8px;
-}
+.participant img {width: 30px; height: 30px; border-radius: 50%; margin-right: 8px;}
 
-.btn-gradient {
-   background: linear-gradient(135deg, #6a11cb, #2575fc);
-   color: white;
-   padding: 8px 12px;
-   font-size: 0.9rem;
-}
+.btn-gradient {background: linear-gradient(135deg, #6a11cb, #2575fc); 
+		color: white; padding: 8px 12px; font-size: 0.9rem;}
 
-.btn-sm {
-   padding: 5px 8px;
-   font-size: 0.8rem;
-}
+.btn-sm {padding: 5px 8px; font-size: 0.8rem;}
 </style>
 </head>
 <body>
@@ -117,9 +61,7 @@ body {
       <div class="row">
          <div class="col-md-8 mx-auto">
             <div class="meeting-detail-card">
-               <img
-                  src="${pageContext.request.contextPath}/upload/${meetup.imagename }"
-                  alt="">
+               <img src="${pageContext.request.contextPath}/upload/${meetup.imagename }" alt="">
                <div class="content">
                   <h5>카테고리</h5>
                   <p>${meetup.category_name}</p>
@@ -130,26 +72,26 @@ body {
                   <h5>참가비</h5>
                   <p>💰 ${meetup.price }원</p>
 
-
-
                   <h5>조회수</h5>
                   <p>👁️ ${meetup.views}</p>
                   <!-- 조회수 표시 추가 -->
 
                   <div align="center" class="d-flex gap-2 align-items-stretch">
-                     <!-- 참가신청 버튼 (길게) -->
-                     <form:form action="/applyMeeting" method="POST">
+                     <!-- 참가신청 버튼 -->
+                     <form action="/applyMeeting" method="POST">
                         <input type="hidden" name="m_id" value="${meetup.m_id }">
                         <input type="submit" value="참가신청" class="btn btn-gradient w-100"
                            onsubmit="return check()">
-                     </form:form>
-
-                     <!-- 추천(좋아요) 버튼 (작게) -->
-                     <form action="/meetup/recommend.html"
-                        class="d-flex align-items-stretch">
+                     </form>
+                     <!-- 추천(좋아요) 버튼 -->
+                     <form action="/meetup/recommend.html" class="d-flex align-items-stretch">
                         <input type="hidden" name="m_id" value="${meetup.m_id}">
-                        <button type="submit"
-                           class="btn btn-outline-primary btn-sm h-100">👍추천</button>
+                        <button type="submit" class="btn btn-outline-primary btn-sm h-100">👍추천</button>
+                     </form>
+                     <!-- 신고 버튼 -->
+                     <form action="/meetup/report.html" class="d-flex align-items-stretch">
+                        <input type="hidden" name="m_id" value="${meetup.m_id}">                    	
+                        <button type="submit" class="btn btn-danger btn-sm">🚨신고</button>
                      </form>
                   </div>
                </div>

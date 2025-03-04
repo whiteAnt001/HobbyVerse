@@ -112,6 +112,7 @@ to {
 
 						<div class="meeting-card">
 							<div class="p-3">
+							<img src="${pageContext.request.contextPath}/upload/${meet.imagename}" alt="" class="image">
 									<!-- <th>모임 아이디</th> -->
 									${key.m_id }
 									

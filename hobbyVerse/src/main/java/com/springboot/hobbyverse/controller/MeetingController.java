@@ -3,7 +3,7 @@ package com.springboot.hobbyverse.controller;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,12 +11,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
+import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.UserService;
@@ -43,10 +45,10 @@ public class MeetingController {
         int count = this.meetingService.getTotal();
         int startRow = 0; int endRow = 0; int totalPageCount = 0;
         if (count > 0) {
-            totalPageCount = count / 6;
-            if (count % 6 != 0) totalPageCount++;           
-            startRow = (currentPage - 1) * 6;
-            endRow = ((currentPage - 1) * 6) + 6;           
+            totalPageCount = count / 3;
+            if (count % 3 != 0) totalPageCount++;           
+            startRow = (currentPage - 1) * 3;
+            endRow = ((currentPage - 1) * 3) + 3;           
             if (endRow > count) endRow = count;
         }
         List<Meetup> meetList = this.meetingService.getMeetList(PAGE_NUM);
@@ -66,8 +68,8 @@ public class MeetingController {
     public ModelAndView search(String title, Integer pageNo, HttpSession session) {
         int currentPage = 1;
         if (pageNo != null) currentPage = pageNo;
-        int start = (currentPage - 1) * 6; 
-        int end = start + 7;
+        int start = (currentPage - 1) * 3; 
+        int end = start + 4;
         List<Meetup> meetList = this.meetingService.getMeetByTitle(title, currentPage);
         Integer totalCount = this.meetingService.getMeetCountByTitle(title);
         User user = (User) session.getAttribute("loginUser");
@@ -146,7 +148,7 @@ public class MeetingController {
         ModelAndView mav = new ModelAndView();
         User user = (User) session.getAttribute("loginUser");
         if (user == null) { // 로그인되지 않은 경우
-            mav.setViewName("recommendGroupDone");  // 로그인 페이지로 리다이렉트
+            mav.setViewName("recommendGroupDone");
             mav.addObject("message", "로그인이 필요합니다.");
             mav.addObject("redirectUrl","/login");
             return mav;
@@ -165,14 +167,38 @@ public class MeetingController {
         return mav;
     }//추천하기
 
+    @GetMapping(value = "/meetup/report.html")
+    public ModelAndView report(Integer id, Report report, HttpSession session) {
+        ModelAndView mav = new ModelAndView("reportGroup");
+        User user = (User) session.getAttribute("loginUser");
+        report.setEmail(user.getEmail());
+        Meetup meetup = meetingService.getMeetingById(id);
+        mav.addObject("meetup", meetup);
+        mav.addObject("report", report);
+        mav.addObject("user", user);
+
+        return mav;
+    }
+    @PostMapping("/meetup/reportDo.html")
+    public ModelAndView register(Report report, Meetup meetup, HttpSession session) {
+        ModelAndView mav = new ModelAndView();
+        User user = (User) session.getAttribute("loginUser");
+        report.setM_id(meetup.getM_id());
+        report.setEmail(user.getEmail());
+        this.meetingService.putReport(report);      
+        mav.setViewName("reportGroupDone");
+        mav.addObject("message", "신고가 접수되었습니다.");
+        return mav;
+    }//신고하기
+
     @GetMapping(value = "/meetup/detail.html")
     public ModelAndView detail(Integer id, HttpSession session) {
         ModelAndView mav = new ModelAndView("detailGroup");
         Meetup meetup = this.meetingService.getMeetDetail(id);     
-        // 조회수 증가 처리
-        this.meetingService.incrementViews(id);       
-        // 최신 조회수 가져오기
-        Integer views = this.meetingService.getViews(id);         
+        
+        this.meetingService.incrementViews(id);// 조회수 증가 처리    
+        Integer views = this.meetingService.getViews(id);// 최신 조회수 가져오기 
+        
         User user = (User) session.getAttribute("loginUser");       
         mav.addObject("user", user);
         mav.addObject("meetup", meetup);

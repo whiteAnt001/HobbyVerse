@@ -1,5 +1,6 @@
 package com.springboot.hobbyverse.mapper;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
@@ -9,17 +10,18 @@ import org.apache.ibatis.annotations.Update;
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
+import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.StartEnd;
 
 
 @Mapper
 public interface MeetingMapper {
-   // 조회수 증가
-    @Update("UPDATE MEETUP SET VIEWS = VIEWS + 1 WHERE M_ID = #{id}")
-    void incrementViews(Integer id);
-    // 조회수 가져오기
-    @Select("SELECT VIEWS FROM MEETUP WHERE M_ID = #{id}")
-    Integer getViews(Integer id);
+	// 조회수 증가
+   @Update("UPDATE MEETUP SET VIEWS = VIEWS + 1 WHERE M_ID = #{id}")
+   void incrementViews(Integer id);
+   // 조회수 가져오기
+   @Select("SELECT VIEWS FROM MEETUP WHERE M_ID = #{id}")
+   Integer getViews(Integer id);
     
    List<Category> getCategoryList();//카테고리 리스트찾기
    
@@ -30,6 +32,7 @@ public interface MeetingMapper {
    
    Integer getTotal();//모임 전체 갯수
    Integer getMaxId();//모임 번호 찾기
+   
    Meetup getMeetingById(Integer id);
    Meetup getMeetDetail(Integer id);//m_id로 모임상세 찾기
    
@@ -45,6 +48,10 @@ public interface MeetingMapper {
    List<Recommend> getRecommend(Recommend recommend);//추천 확인
    void putRecommend(int m_id, String email);//추천하기
    Integer getRecommendCheck(Integer m_id, String email);//중복추천 방지
+   
+   void putReport(Report report);//신고하기
+   List<Report> getReport(Report report);//신고목록
+   
    Meetup getMeet(Integer m_id);// 모임 아이디로 모임 찾기
    Meetup getMeetTitle(Integer m_id);//모임 아이디로 모임 이름 찾기
 }

@@ -50,7 +50,7 @@ body {
 	object-fit: cover;
 	border-radius: 10px 10px 0 0;
 }
-
+.image{width: 320px; height: 300px; margin-bottom: 10px;}
 /* 필터 & 정렬 바 */
 .filter-bar {
 	background: white;
@@ -112,6 +112,7 @@ to {
 
 						<div class="meeting-card">
 							<div class="p-3">
+							<img src="${pageContext.request.contextPath}/upload/${meet.imagename}" alt="" class="image">
 									<!-- <th>모임 아이디</th> -->
 									${key.m_id }
 									
