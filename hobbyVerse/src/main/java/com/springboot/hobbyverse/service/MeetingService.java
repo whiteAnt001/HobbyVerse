@@ -24,35 +24,6 @@ public class MeetingService {
 
 	private static final Logger logger = LoggerFactory.getLogger(MeetingService.class);
     private final MeetupRepository meetupRepository;
-	//추천
-	public List<Recommend> getRecommend(Recommend recommend){
-		return this.meetingMapper.getRecommend(recommend);
-	}//추천 확인
-	public void putRecommend(int m_id, String email) {
-		this.meetingMapper.putRecommend(m_id, email);
-	}//추천하기
-	public Integer getRecommendCheck(Integer m_id, String email) {
-		return this.meetingMapper.getRecommendCheck(m_id,email);
-	}
-	
-	// 조회수 가져오기
-	public Integer getViews(Integer id) {
-		return meetingMapper.getViews(id);
-	}
-	// 조회수 증가 메서드 추가
-	public void incrementViews(Integer id) {
-		if (id == null) {
-		    System.out.println("🚨 ERROR: ID is null in incrementViews()");
-		    return;
-	    }       
-	    this.meetingMapper.incrementViews(id);
-	}
-	
-	//모임 아이디로 모임 찾기
-	   public Meetup getMeet(Integer m_id) {
-	      return this.meetingMapper.getMeet(m_id);
-	   }
-	   
 
     @PersistenceContext
     private EntityManager entityManager;  // ✅ JPA 캐시 강제 새로고침
