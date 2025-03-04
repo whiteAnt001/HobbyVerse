@@ -258,14 +258,7 @@ public class AdminController {
 	   int currentPage = 1;
 	   if(pageNo != null) currentPage = pageNo;
 	   session.setAttribute("SEARCH", SEARCH);
-	   if(SEARCH == null) {
-		   System.out.println("검색된 결과 없음");
-	   } else {
-		   System.out.println("SEARCH:"+SEARCH);
-	   }
 	   List<User> userList = this.adminSearchService.searchUser(SEARCH, pageNo);
-	   
-	   System.out.println("건 수:"+userList.size());
 	   
 	   int totalCount = this.adminSearchService.searchUserCount(SEARCH);
 	   int pageCount = totalCount / 6;
