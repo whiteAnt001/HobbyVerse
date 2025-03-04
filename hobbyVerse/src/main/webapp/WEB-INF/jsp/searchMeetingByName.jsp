@@ -114,11 +114,6 @@ to {
 							class="filter-bar d-flex justify-content-between align-items-center">
 							모임 검색<input type="text" name="NAME" /><input type="hidden"
 								name="KEY" value="${KEY }" /> <input type="submit" value="검색" />
-							<select class="form-select w-auto">
-								<option>최신순</option>
-								<option>인기순</option>
-								<option>참가비 낮은순</option>
-							</select>
 						</div>
 					</div>
 				</div>
