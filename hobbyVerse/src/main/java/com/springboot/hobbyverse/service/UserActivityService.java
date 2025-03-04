@@ -23,26 +23,26 @@ public class UserActivityService {
 		return this.userActivityRepository.findByActivityDate(date);
 	}
 	
-	// 최근 7일간의 유저 활동 조회 (문자열로 반환)
+	// 최근 7일간의 유저 활동 조회
 	public String getRecentUserStats() {
-        LocalDate endDate = LocalDate.now();
-        LocalDate startDate = endDate.minusDays(7);
-        
-        // 최근 7일간의 유저 활동 조회
-        List<UserActivity> userStats = userActivityRepository.findByActivityDateBetween(startDate, endDate);
-        
-        // 각 항목별 값 합산
-        int totalNewUsers = userStats.stream().mapToInt(UserActivity::getNewUsers).sum();
-        int totalUnsubscribedUsers = userStats.stream().mapToInt(UserActivity::getUnsubscribedUsers).sum();
-        int totalJoinedMeetings = userStats.stream().mapToInt(UserActivity::getJoinedMeetings).sum();
-        
-        // 결과를 하나의 문자열로 합친다
-        String userStatsSummary = "신규 가입자: " + totalNewUsers + "명, "
-            + "탈퇴한 사용자: " + totalUnsubscribedUsers + "명, "
-            + "모임을 가입한 사용자: " + totalJoinedMeetings + "명";
+	    LocalDate endDate = LocalDate.now(); // 오늘 날짜
+	    LocalDate startDate = endDate.minusDays(7); // 최근 7일
 
-        return userStatsSummary;
-    }
+	    // 최근 7일간의 유저 활동 조회
+	    List<UserActivity> userStats = userActivityRepository.findByActivityDateBetween(startDate, endDate);
+
+	    // 각 항목별 값 합산
+	    int totalNewUsers = userStats.stream().mapToInt(UserActivity::getNewUsers).sum();
+	    int totalUnsubscribedUsers = userStats.stream().mapToInt(UserActivity::getUnsubscribedUsers).sum();
+	    int totalJoinedMeetings = userStats.stream().mapToInt(UserActivity::getJoinedMeetings).sum();
+
+	    // 결과를 각 항목별 문자열로 반환
+	    String userStatsSummary = "<Strong>신규 가입자:</Strong> " + totalNewUsers + "명<br>"
+	            + "<Strong>탈퇴한 사용자:</Strong> " + totalUnsubscribedUsers + "명<br>"
+	            + "<Strong>모임을 가입한 사용자:</Strong> " + totalJoinedMeetings + "명";
+
+	    return userStatsSummary;
+	}
 	
 	//유저 동향 저장
 	@Transactional

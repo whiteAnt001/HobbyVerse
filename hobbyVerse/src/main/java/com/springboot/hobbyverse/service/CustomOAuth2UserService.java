@@ -51,6 +51,7 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 					.unsubscribedUsers(0)
 					.joinedMeetings(0)
 					.build();
+			
 			userActivityService.saveUserActivity(newUserActivity);
 		}
 		return new CustomOAuth2User(oAuth2User);

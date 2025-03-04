@@ -48,6 +48,7 @@ public class AdminController {
     private final SecurityConfig securityConfig;
     private final InquiryService inquiryService; // 추가 (문의사항 서비스)
     private final UserActivityService userActivityService;
+    private final AdminSearchService adminSearchService;
     //관리자 전용 대시보드 경로
     @GetMapping("/dashboard")
     public ModelAndView dashboard() { 
