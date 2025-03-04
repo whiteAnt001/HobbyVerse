@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.hobbyverse.mapper.AdminSearchMapper">
+	<!-- 관리자 계정 - 모임 이름 검색 -->
+	<select id="searchMeet" parameterType="com.springboot.hobbyverse.model.StartEnd" resultType="com.springboot.hobbyverse.model.Meetup">
+		select m_id, title, w_id, m_date
+			from (
+    		select m.*, ROW_NUMBER() OVER (ORDER BY m.m_id DESC) as rank
+    			from (
+       			 select m.m_id, m.title, m.w_id, m.m_date
+        			from meetup m
+       			 where m.title like '%' || #{title} || '%'
+    			) m
+			) 
+			where rank > #{start} AND rank <![CDATA[<]]> #{end}
+	</select>
+	
+	
+	<!-- 관리자 계정 - 모임 이름 검색 개수 -->
+	<select id="searchMeetCount" parameterType="String" resultType="Integer">
+		select count(*) from meetup where title like '%' || #{title} || '%'
+	</select>
+	
+	<select id="searchUser" parameterType="com.springboot.hobbyverse.model.StartEnd" resultType="com.springboot.hobbyverse.model.User">
+		select id as userId, email, name, role, reg_date as regDate
+			from(
+			select u.*, ROW_NUMBER() OVER (ORDER BY u.id DESC) as rank
+				from(
+				select u.id, u.email, u.name, u.role, u.reg_date
+					from users u
+				where u.email like '%' || #{email} || '%'
+				) u
+			) 
+			where rank > #{start} and rank <![CDATA[<]]> #{end}
+	</select>
+
+	<select id="searchUserCount" parameterType="String" resultType="Integer">
+		select count(*) from users where email like '%' || #{email} || '%'
+	</select>
+</mapper>

@@ -10,4 +10,5 @@ public class StartEnd {
 	private int start;
 	private int end;
 	private Integer c_key;
+	private String email;
 }
