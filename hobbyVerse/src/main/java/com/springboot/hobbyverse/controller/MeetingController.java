@@ -186,6 +186,27 @@ public class MeetingController {
 
         return mav;
     }
+    
+    
+    @GetMapping(value = "/meetup/detailCategory.html")
+    public ModelAndView detailCategory(Integer id, HttpSession session) {
+        ModelAndView mav = new ModelAndView("detailGroupCategory");
+
+        // ✅ 조회수 증가 (DB 직접 업데이트)
+        meetingService.incrementViewsDirectly(id);
+
+        // ✅ 최신 데이터 강제 로드 (반드시 실행해야 최신 조회수 반영됨)
+        Meetup meetup = meetingService.getMeetDetail(id);
+
+        User user = (User) session.getAttribute("loginUser");
+        mav.addObject("user", user);
+        mav.addObject("meetup", meetup);
+        mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+
+        logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+
+        return mav;
+    }
 
 
 

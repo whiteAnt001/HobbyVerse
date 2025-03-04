@@ -91,11 +91,6 @@ to {
 					<div class="filter-bar d-flex justify-content-between align-items-center">
 						모임 검색<input type="text" name="NAME" /><input type="hidden"
 							name="KEY" value="${KEY }" /> <input type="submit" value="검색" />
-						<select class="form-select w-auto">
-							<option>최신순</option>
-							<option>인기순</option>
-							<option>참가비 낮은순</option>
-						</select>
 					</div>
 				</div>
 			</div>
@@ -120,7 +115,7 @@ to {
 									<!-- <th>작성일</th> -->
 									<p class="card-text">날짜: ${key.m_date }</p>
 
-									<a href="/meetup/detail.html?id=${key.m_id }" class="btn btn-primary">자세히보기</a>
+									<a href="/meetup/detailCategory.html?id=${key.m_id }" class="btn btn-primary">자세히보기</a>
 							</div>
 						</div>
 
