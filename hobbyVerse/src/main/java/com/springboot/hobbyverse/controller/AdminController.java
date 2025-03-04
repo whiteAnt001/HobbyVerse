@@ -251,28 +251,28 @@ public class AdminController {
     }
     
    @PostMapping("/searchUser")
-   public ModelAndView searchUser(HttpSession session, String EMAIL, Integer pageNo) {
+   public ModelAndView searchUser(HttpSession session, Integer pageNo, String SEARCH) {
 	   ModelAndView mav = new ModelAndView();
 	   User user = (User)session.getAttribute("loginUser");
 	   
 	   int currentPage = 1;
 	   if(pageNo != null) currentPage = pageNo;
-	   session.setAttribute("EMAIL", EMAIL);
-	   if(EMAIL == null) {
-		   System.out.println("검색된 결과가 없음");
+	   session.setAttribute("SEARCH", SEARCH);
+	   if(SEARCH == null) {
+		   System.out.println("검색된 결과 없음");
 	   } else {
-		   System.out.println("EMAIL : " + EMAIL);
+		   System.out.println("SEARCH:"+SEARCH);
 	   }
-	   List<User> userList = this.adminSearchService.searchUser(EMAIL, pageNo);
+	   List<User> userList = this.adminSearchService.searchUser(SEARCH, pageNo);
 	   
-	   System.out.println("조회건수:"+userList.size());
+	   System.out.println("건 수:"+userList.size());
 	   
-	   int totalCount = this.adminSearchService.searchUserCount(EMAIL);
+	   int totalCount = this.adminSearchService.searchUserCount(SEARCH);
 	   int pageCount = totalCount / 6;
 	   if(totalCount % 6 != 0) pageCount++;
 	   mav.addObject("userList", userList);
 	   mav.addObject("user", user);
-	   mav.addObject("EMAIL", EMAIL);
+	   mav.addObject("SEARCH", SEARCH);
 	   mav.addObject("pageCount", pageCount);
        mav.addObject("currentPage", currentPage);
        mav.setViewName("user_managementResult");

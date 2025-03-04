@@ -10,6 +10,8 @@ import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.StartEnd;
 import com.springboot.hobbyverse.model.User;
 
+import jakarta.validation.constraints.Email;
+
 @Service
 public class AdminSearchService {
 	@Autowired
@@ -31,7 +33,7 @@ public class AdminSearchService {
 		return this.adminSearchMapper.searchMeetCount(title);
 	}
 	
-	public List<User> searchUser(String email, Integer pageNo) {
+	public List<User> searchUser(String search, Integer pageNo) {
 		if(pageNo == null) pageNo = 1;
 		int start = (pageNo - 1) * 6;
 		int end = ((pageNo - 1) * 6) + 7;
@@ -40,11 +42,15 @@ public class AdminSearchService {
 		StartEnd se = new StartEnd();
 		se.setStart(start);
 		se.setEnd(end);
-		se.setEmail(email);
+		se.setSearch(search);
+//		se.setEmail(search);
+//		se.setName(search);
+		
+		System.out.println("email:"+se.getEmail()+",name:"+se.getEmail());
 		return this.adminSearchMapper.searchUser(se);
 	}
 	
-	public Integer searchUserCount(String email) {
-		return this.adminSearchMapper.searchUserCount(email);
+	public Integer searchUserCount(String search) {
+		return this.adminSearchMapper.searchUserCount(search);
 	}
 }

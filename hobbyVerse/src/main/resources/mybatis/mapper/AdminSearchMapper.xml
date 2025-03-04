@@ -29,13 +29,14 @@
 				from(
 				select u.id, u.email, u.name, u.role, u.reg_date
 					from users u
-				where u.email like '%' || #{email} || '%'
+				where u.email like '%' || #{search} || '%'
+					or u.name like '%' || #{search} || '%'
 				) u
 			) 
 			where rank > #{start} and rank <![CDATA[<]]> #{end}
 	</select>
 
 	<select id="searchUserCount" parameterType="String" resultType="Integer">
-		select count(*) from users where email like '%' || #{email} || '%'
+		select count(*) from users where email like '%' || #{search} || '%' or name like '%' || #{search} || '%'
 	</select>
 </mapper>
