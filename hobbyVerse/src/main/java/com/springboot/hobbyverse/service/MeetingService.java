@@ -111,6 +111,9 @@ public class MeetingService {
 	public void putReport(Report report) {
 		this.meetingMapper.putReport(report);
 	}//신고하기
+	public List<Report> getReport(Report report){
+		return this.meetingMapper.getReport(report);
+	}//신고목록
 	
 	//모임 아이디로 모임 찾기
 	public Meetup getMeet(Integer m_id) {
