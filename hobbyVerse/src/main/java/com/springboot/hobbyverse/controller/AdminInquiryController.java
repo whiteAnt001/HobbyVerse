@@ -25,7 +25,7 @@ public class AdminInquiryController {
     private final InquiryService inquiryService;
 
     /**
-     * ✅ `/api/admin` 접속 시 자동으로 `/api/admin/inquiries`로 이동
+     * 
      */
     @GetMapping("")
     public String redirectToInquiries() {

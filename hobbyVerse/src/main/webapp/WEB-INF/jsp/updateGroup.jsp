@@ -47,6 +47,10 @@
                         modelAttribute="meetup" enctype="multipart/form-data">
                             <input type="hidden" name="m_id" value="${meetup.m_id}"/>
                             
+                           <div class="mb-3">
+                                <label for="title" class="form-label">주최자</label>
+                                <input type="text" class="form-control" id="w_id" name="w_id" value="${meetup.w_id}" required/>
+                            </div>
                             <div class="mb-3">
                                 <label for="title" class="form-label">모임 이름</label>
                                 <input type="text" class="form-control" id="title" name="title" value="${meetup.title}" required/>

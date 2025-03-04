@@ -1,5 +1,6 @@
 package com.springboot.hobbyverse.service;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
@@ -9,15 +10,16 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.hobbyverse.config.CustomOAuth2User;
 import com.springboot.hobbyverse.model.User;
+import com.springboot.hobbyverse.model.UserActivity;
 import com.springboot.hobbyverse.repository.UserRepository;
 
+import lombok.RequiredArgsConstructor;
+
 @Service
+@RequiredArgsConstructor
 public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 	private final UserRepository userRepository;
-	
-	public CustomOAuth2UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
-	}
+	private final UserActivityService userActivityService;
 	
 	@Override
 	public OAuth2User loadUser(OAuth2UserRequest userRequest) {
@@ -42,8 +44,15 @@ public class CustomOAuth2UserService extends DefaultOAuth2UserService {
 					.providerId(providerId)
 					.build();
 			userRepository.save(user);
+			
+			UserActivity newUserActivity = UserActivity.builder()
+					.activityDate(LocalDate.now())
+					.newUsers(1)
+					.unsubscribedUsers(0)
+					.joinedMeetings(0)
+					.build();
+			userActivityService.saveUserActivity(newUserActivity);
 		}
-		
 		return new CustomOAuth2User(oAuth2User);
 		
 	}

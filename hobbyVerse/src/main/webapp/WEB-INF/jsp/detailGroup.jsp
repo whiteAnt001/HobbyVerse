@@ -162,7 +162,7 @@ body {
 			<div class="d-flex justify-content-center">
 				<a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
 
-				<c:if test="${loginUser != null && loginUser.email == meetup.w_id}">
+				<c:if test="${loginUser != null && loginUser.email == meetup.w_id || user.role == 'ROLE_ADMIN'}">
 					<form action="/meetup/modify.html" class="d-flex">
 						<input type="hidden" name="m_id" value="${meetup.m_id}"> <input
 							type="submit" value="수정" name="BTN"
