@@ -3,9 +3,10 @@ package com.springboot.hobbyverse.controller;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -29,6 +30,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 public class MeetingController {
+	private static final Logger logger = LoggerFactory.getLogger(MeetingService.class);
 
 	@Autowired
 	private UserService userService;
@@ -168,17 +170,28 @@ public class MeetingController {
     @GetMapping(value = "/meetup/detail.html")
     public ModelAndView detail(Integer id, HttpSession session) {
         ModelAndView mav = new ModelAndView("detailGroup");
-        Meetup meetup = this.meetingService.getMeetDetail(id);     
-        // 조회수 증가 처리
-        this.meetingService.incrementViews(id);       
-        // 최신 조회수 가져오기
-        Integer views = this.meetingService.getViews(id);         
-        User user = (User) session.getAttribute("loginUser");       
+
+        // ✅ 조회수 증가 (DB 직접 업데이트)
+        meetingService.incrementViewsDirectly(id);
+
+        // ✅ 최신 데이터 강제 로드 (반드시 실행해야 최신 조회수 반영됨)
+        Meetup meetup = meetingService.getMeetDetail(id);
+
+        User user = (User) session.getAttribute("loginUser");
         mav.addObject("user", user);
         mav.addObject("meetup", meetup);
-        mav.addObject("views", views); // 조회수 추가       
+        mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+
+        logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+
         return mav;
-    }//모임 상세보기
+    }
+
+
+
+
+
+    
     
     @GetMapping("/meetup/modify.html")
     public ModelAndView modify(Integer m_id, String BTN) {

@@ -403,6 +403,7 @@
                     }
                     replyToggleEditForm(replyId); // 수정 폼 닫기
                     alert("수정이 완료되었습니다.");
+                    location.reload();
                 } else {
                     alert("수정 실패: " + data.message);
                 }
@@ -430,7 +431,7 @@
             fetch('/comments/updateComment/' + commentId, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: newContent })  // JSON 형식으로 변환
+                body: JSON.stringify({ content: newContent })
             })
             .then(response => response.json())
             .then(data => {
@@ -440,8 +441,8 @@
                     if (commentContent) {
                         commentContent.innerText = newContent;
                     }
-                    toggleEditForm(commentId); // 수정 폼 닫기
                     alert("수정이 완료되었습니다.");
+                    location.reload();
                 } else {
                     alert("수정 실패: " + data.message);
                 }
