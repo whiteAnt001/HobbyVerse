@@ -5,6 +5,7 @@ import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
 import com.springboot.hobbyverse.model.MeetingApply;
+import com.springboot.hobbyverse.model.User;
 
 
 @Mapper

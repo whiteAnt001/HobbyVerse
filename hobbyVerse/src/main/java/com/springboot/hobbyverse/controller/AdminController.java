@@ -25,17 +25,20 @@ import com.springboot.hobbyverse.config.SecurityConfig;
 import com.springboot.hobbyverse.dto.TopCategoryDTO;
 import com.springboot.hobbyverse.dto.UpdateUserRequest;
 import com.springboot.hobbyverse.model.Category;
+import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.model.UserActivity;
 import com.springboot.hobbyverse.repository.UserRepository;
 import com.springboot.hobbyverse.service.AdminSearchService;
 import com.springboot.hobbyverse.service.InquiryService;
+import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.UserActivityService;
 import com.springboot.hobbyverse.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.websocket.Session;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -49,6 +52,8 @@ public class AdminController {
     private final InquiryService inquiryService; // 추가 (문의사항 서비스)
     private final UserActivityService userActivityService;
     private final AdminSearchService adminSearchService;
+    private final MeetingApplyService meetingApplyService;
+    
     //관리자 전용 대시보드 경로
     @GetMapping("/dashboard")
     public ModelAndView dashboard() { 
@@ -238,6 +243,7 @@ public class AdminController {
         return ResponseEntity.status(HttpStatus.OK).body(response);
     }
     
+    //모임 이름으로 검색
     @PostMapping("/searchMeet")
     public ModelAndView searchMeet(HttpSession session, String TITLE, Integer pageNo) {
     	ModelAndView mav = new ModelAndView();
@@ -259,6 +265,7 @@ public class AdminController {
     	return mav;
     }
     
+   //이메일, 이름으로 검색
    @PostMapping("/searchUser")
    public ModelAndView searchUser(HttpSession session, Integer pageNo, String SEARCH) {
 	   ModelAndView mav = new ModelAndView();
@@ -278,6 +285,17 @@ public class AdminController {
 	   mav.addObject("pageCount", pageCount);
        mav.addObject("currentPage", currentPage);
        mav.setViewName("user_managementResult");
+	   return mav;
+   }
+   
+   //가입자 보기
+   @GetMapping("/showUserList")
+   public ModelAndView showUser(HttpSession session, Integer m_id) {
+	   ModelAndView mav = new ModelAndView("userList");
+	   List<MeetingApply> showUser = meetingApplyService.joinedUser(m_id);
+	   mav.addObject("showUser", showUser);
+
+	   System.out.println("모임 아이디:" + m_id);
 	   return mav;
    }
 }
