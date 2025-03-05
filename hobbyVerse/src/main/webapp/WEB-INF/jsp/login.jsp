@@ -133,8 +133,7 @@
     	<script type="text/javascript">
     		alert("계정 또는 비밀번호가 일치하지 않습니다.");
     	</script>
-    </c:if>
-    
+    </c:if>    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

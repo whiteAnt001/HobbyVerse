@@ -77,23 +77,19 @@ body {background: #f4f4f4; color: #333; min-height: 100vh;}
                   <!-- 조회수 표시 추가 -->
 
                   <div align="center" class="d-flex gap-2 align-items-stretch">
-                     <!-- 참가신청 버튼 -->
-                     <form action="/applyMeeting" method="POST">
-                        <input type="hidden" name="m_id" value="${meetup.m_id }">
-                        <input type="submit" value="참가신청" class="btn btn-gradient w-100"
-                           onsubmit="return check()">
-                     </form>
-                     <!-- 추천(좋아요) 버튼 -->
-                     <form action="/meetup/recommend.html" class="d-flex align-items-stretch">
-                        <input type="hidden" name="m_id" value="${meetup.m_id}">
-                        <button type="submit" class="btn btn-outline-primary btn-sm h-100">👍추천</button>
-                     </form>
-                     <!-- 신고 버튼 -->
-                     <form action="/meetup/report.html" class="d-flex align-items-stretch">
-                        <input type="hidden" name="m_id" value="${meetup.m_id}">                    	
-                        <button type="submit" class="btn btn-danger btn-sm">🚨신고</button>
-                     </form>
-                  </div>
+				   <!-- 참가신청 버튼 -->
+				   <form action="/applyMeeting" method="POST" class="flex-grow-1">
+				      <input type="hidden" name="m_id" value="${meetup.m_id}">
+				      <input type="submit" value="참가신청" class="btn btn-gradient w-100 h-100" onsubmit="return check()">
+				   </form>
+				
+					<!-- 신고 버튼 -->
+					<form action="/meetup/report.html" class="d-flex">
+						<input type="hidden" name="m_id" value="${meetup.m_id}"/>
+						<button type="submit" class="btn btn-danger btn-sm px-3 h-100">🚨신고</button>
+					</form>
+				</div>
+
                </div>
             </div>
             <script type="text/javascript">

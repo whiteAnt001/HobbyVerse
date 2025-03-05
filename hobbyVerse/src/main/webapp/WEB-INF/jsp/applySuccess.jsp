@@ -53,11 +53,18 @@
                         <h5>참가비</h5>
                         <p>💰 ${meetup.price }원</p>
 
-                  <form:form>
-                        <input type="submit" value="참가 취소" class="btn btn-gradient w-100">
-                       </form:form>
-                    </div>
-                    
+                  		<div class="d-flex gap-2 align-items-stretch">
+						   <!-- 참가 취소 버튼 -->
+						   <form:form class="flex-grow-1">
+						      <input type="submit" value="참가 취소" class="btn btn-gradient w-100 h-100">
+						   </form:form>
+							<!-- 추천(좋아요) 버튼 -->
+						   <form:form action="/meetup/recommend.html" method="GET" modelAttribute="meetup" class="d-flex">
+						      <form:input type="hidden" path="m_id" value="${meetup.m_id}"/>
+						      <button type="submit" class="btn btn-outline-primary btn-sm px-3 h-100">👍추천</button>
+						   </form:form>
+						</div>
+                    </div>                   
                 </div>
                    <c:if test="${not empty alertSuccess }">
                    <script type="text/javascript">
