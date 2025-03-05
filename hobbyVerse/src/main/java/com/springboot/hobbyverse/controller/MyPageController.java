@@ -1,5 +1,6 @@
 package com.springboot.hobbyverse.controller;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,27 +20,27 @@ import com.springboot.hobbyverse.model.Board;
 import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
+import com.springboot.hobbyverse.model.UserActivity;
 import com.springboot.hobbyverse.repository.BoardRepository;
 import com.springboot.hobbyverse.repository.UserRepository;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.MyPageService;
+import com.springboot.hobbyverse.service.UserActivityService;
 import com.springboot.hobbyverse.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 public class MyPageController {
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private MyPageService myPageService;
-	@Autowired
-	private BoardRepository boardRepository;
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private MeetingService meetingService;
+	private final UserService userService;
+	private final MyPageService myPageService;
+	private final BoardRepository boardRepository;
+	private final UserRepository userRepository;
+	private final MeetingService meetingService;
+	private final UserActivityService userActivityService;
 
 	
 	//마이페이지 메인
@@ -164,6 +165,16 @@ public class MyPageController {
 			response.put("message", "유저를 찾을 수 없습니다.");
         	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
+		
+		UserActivity deleteUserActivity = UserActivity.builder()
+				.activityDate(LocalDate.now())
+				.newUsers(0)
+				.unsubscribedUsers(1) //탈퇴한 유저
+				.joinedMeetings(0)
+				.build();
+		
+		//유저 동향 업데이트
+		userActivityService.saveUserActivity(deleteUserActivity);
 		
 		//유저 삭제하기
 		userRepository.deleteByEmail(email); 
