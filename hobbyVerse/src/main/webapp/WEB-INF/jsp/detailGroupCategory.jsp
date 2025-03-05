@@ -177,7 +177,7 @@ body {
 					<a href="/category/moveTravel" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
 				</c:when>
 				<c:when test="${c_key == 6}">
-					<a href="/category/moveSport" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+					<a href="/category/moveEtc" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
 				</c:when>
 			</c:choose>
 				
