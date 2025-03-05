@@ -216,7 +216,7 @@
 					<p class="comment-content">${comment.content}</p>
 
 					<!-- 수정 및 삭제 버튼 (작성자만 가능) -->
-					<c:if test="${user.email == comment.userEmail}">
+					<c:if test="${user.email == comment.userEmail || user.role == 'ROLE_ADMIN'}">
 						<button type="button" class="btn btn-warning btn-sm"
 							onclick="toggleEditForm(${comment.id})">수정</button>
 						<button type="button" class="btn btn-danger btn-sm"
@@ -260,7 +260,7 @@
 									<div class="comment-content-container">
 										<p class="comment-content">${reply.content}</p>
 										<!-- 대댓글 수정 및 삭제 버튼 (내용 오른쪽에 위치) -->
-										<c:if test="${user.email == reply.userEmail}">
+										<c:if test="${user.email == comment.userEmail || user.role == 'ROLE_ADMIN'}">
 											<div class="comment-actions">
 												<button type="button" class="btn btn-warning btn-sm"
 													onclick="replyToggleEditForm(${reply.id})">수정</button>
