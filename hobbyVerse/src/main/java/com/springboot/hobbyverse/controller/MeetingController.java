@@ -3,6 +3,8 @@ package com.springboot.hobbyverse.controller;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -135,6 +137,7 @@ public class MeetingController {
                 }
             }
             meetup.setImagename(fileName);
+            meetup.setW_date(LocalDate.now());
         }        
         // 모임 등록
         this.meetingService.putMeeting(meetup);      

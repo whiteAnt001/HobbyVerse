@@ -152,6 +152,7 @@ public class MyPageController {
 		mav.addObject("user", user);
 		return mav;
 	}
+	
 	//회원 탈퇴
 	@DeleteMapping("/api/myPage/deleteAccount")
 	@Transactional

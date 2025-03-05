@@ -72,43 +72,46 @@
         </div>
     </div>
 
-    <!-- 추가적인 내용들... -->
-    <div class="row mt-4">
-        <!-- 참가신청 TOP3 -->
-        <div class="col-md-6">
-            <div class="dashboard-card">
-                <div class="emoji">🏆</div>
-                <h3>최근 7일 간 카테고리별 참가신청 동향</h3>
-                <c:forEach var="category" items="${topCategories}" varStatus="status">
-                    <!-- TOP 1 -->
-                    <c:if test="${status.index == 0}">
-                        <p><strong>TOP 1:</strong> ${category.category} - ${category.meeting_count}명</p>
-                    </c:if>
+		<div class="row mt-4 d-flex align-items-stretch">
+			<!-- 참가신청 TOP3 -->
+			<div class="col-md-6 d-flex">
+				<div class="dashboard-card w-100">
+					<div class="emoji">🏆</div>
+					<h3>최근 7일 간 카테고리별 참가신청 동향</h3>
+					<c:forEach var="category" items="${topCategories}"
+						varStatus="status">
+						<c:if test="${status.index == 0}">
+							<p>
+								<strong>TOP 1:</strong> ${category.category} -
+								${category.meeting_count}명
+							</p>
+						</c:if>
+						<c:if test="${status.index == 1}">
+							<p>
+								<strong>TOP 2:</strong> ${category.category} -
+								${category.meeting_count}명
+							</p>
+						</c:if>
+						<c:if test="${status.index == 2}">
+							<p>
+								<strong>TOP 3:</strong> ${category.category} -
+								${category.meeting_count}명
+							</p>
+						</c:if>
+					</c:forEach>
+				</div>
+			</div>
 
-                    <!-- TOP 2 -->
-                    <c:if test="${status.index == 1}">
-                        <p><strong>TOP 2:</strong> ${category.category} - ${category.meeting_count}명</p>
-                    </c:if>
-
-                    <!-- TOP 3 -->
-                    <c:if test="${status.index == 2}">
-                        <p><strong>TOP 3:</strong> ${category.category} - ${category.meeting_count}명</p>
-                    </c:if>
-                </c:forEach>
-            </div>
-        </div>
-
-       			<!-- 최근 7일간 유저 동향 -->
-			<div class="col-md-6">
-				<div class="dashboard-card">
+			<!-- 최근 7일간 유저 동향 -->
+			<div class="col-md-6 d-flex">
+				<div class="dashboard-card w-100">
 					<div class="emoji">📈</div>
 					<h3>최근 7일간 유저 동향</h3>
 					<p>${userStats}</p>
 				</div>
 			</div>
-			
-
 		</div>
+	</div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
