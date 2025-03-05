@@ -1,6 +1,8 @@
 package com.springboot.hobbyverse.model;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -61,6 +64,11 @@ public class Comment {
 
     @Column(name = "status", nullable = false)
     private Integer status = 1;  // 기본값 1 설정
+    
+    @Column(name = "created_At_String", nullable = false)
+    private String createdAtString;
+    @Column(name = "updated_At_String", nullable = false)
+    private String updatedAtString;
 
     @PrePersist
     public void prePersist() {
@@ -82,6 +90,7 @@ public class Comment {
     	reply.setUserEmail(userEmail);
     	reply.setUserName(userName);
     	reply.setStatus(status);
+    	reply.setCreatedAt(LocalDateTime.now());
     	
     	return reply;
     }

@@ -1,5 +1,7 @@
 package com.springboot.hobbyverse.model;
 import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import org.springframework.web.multipart.MultipartFile;
 
@@ -36,7 +38,7 @@ public class Meetup {
     private String imagename;
 
     @Temporal(TemporalType.DATE)
-    private Date w_date;  // 등록 날짜
+    private LocalDate w_date;  // 등록 날짜
 
     @Column(name = "views", nullable = false, columnDefinition = "INT DEFAULT 0")
     private Integer views = 0;  // ✅ 기본값 0 설정

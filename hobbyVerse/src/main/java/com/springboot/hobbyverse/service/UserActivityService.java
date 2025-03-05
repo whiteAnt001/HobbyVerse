@@ -37,8 +37,8 @@ public class UserActivityService {
 	    int totalJoinedMeetings = userStats.stream().mapToInt(UserActivity::getJoinedMeetings).sum();
 
 	    // 결과를 각 항목별 문자열로 반환
-	    String userStatsSummary = "<Strong>신규 가입자:</Strong> " + totalNewUsers + "명<br>"
-	            + "<Strong>탈퇴한 사용자:</Strong> " + totalUnsubscribedUsers + "명<br>"
+	    String userStatsSummary = "<Strong>신규 가입자:</Strong> " + totalNewUsers + "명<br/><br/>"
+	            + "<Strong>탈퇴한 사용자:</Strong> " + totalUnsubscribedUsers + "명<br/><br/>"
 	            + "<Strong>모임을 가입한 사용자:</Strong> " + totalJoinedMeetings + "명";
 
 	    return userStatsSummary;

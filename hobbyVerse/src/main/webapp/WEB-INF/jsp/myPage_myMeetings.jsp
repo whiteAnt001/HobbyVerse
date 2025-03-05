@@ -42,7 +42,7 @@ body {
             <ul class="list-group">
                 <c:forEach var="meeting" items="${createdMeetings}">
                     <li class="list-group-item">
-                        <a href="/meeting/${meeting.m_id}">${meeting.title} - ${meeting.w_date}</a>
+                        <a href="/meetup/detail.html?id=${meeting.m_id }">${meeting.title} - ${meeting.w_date}</a>
                     </li>
                 </c:forEach>
             </ul>
