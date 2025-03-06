@@ -295,7 +295,6 @@ public class AdminController {
 	   List<MeetingApply> showUser = meetingApplyService.joinedUser(m_id);
 	   mav.addObject("showUser", showUser);
 
-	   System.out.println("모임 아이디:" + m_id);
 	   return mav;
    }
 }
