@@ -22,7 +22,12 @@ import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.model.UserActivity;
 import com.springboot.hobbyverse.repository.BoardRepository;
+import com.springboot.hobbyverse.repository.CommentRepository;
+import com.springboot.hobbyverse.repository.InquiryRepository;
+import com.springboot.hobbyverse.repository.MeetingApplyRepsotory;
+import com.springboot.hobbyverse.repository.MeetupRepository;
 import com.springboot.hobbyverse.repository.UserRepository;
+import com.springboot.hobbyverse.service.CommentService;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.MyPageService;
@@ -37,10 +42,14 @@ import lombok.RequiredArgsConstructor;
 public class MyPageController {
 	private final UserService userService;
 	private final MyPageService myPageService;
-	private final BoardRepository boardRepository;
-	private final UserRepository userRepository;
 	private final MeetingService meetingService;
 	private final UserActivityService userActivityService;
+	private final UserRepository userRepository;
+	private final BoardRepository boardRepository;
+	private final CommentRepository commentRepository;
+	private final InquiryRepository inquiryRepository;
+	private final MeetingApplyRepsotory meetingApplyRepsotory;
+
 
 	
 	//마이페이지 메인
@@ -177,8 +186,14 @@ public class MyPageController {
 		//유저 동향 업데이트
 		userActivityService.saveUserActivity(deleteUserActivity);
 		
+		//유저 관련 데이터 삭제하기
+		commentRepository.deleteByUserEmail(email);
+		boardRepository.deleteByEmail(email);
+		meetingApplyRepsotory.deleteByEmail(email);
+		inquiryRepository.deleteByUserEmail(email);
+		
 		//유저 삭제하기
-		userRepository.deleteByEmail(email); 
+		userRepository.deleteByEmail(email);
 		// 세션 무효화 - 탈퇴 후 세션을 종료
 		session.invalidate();
 		    

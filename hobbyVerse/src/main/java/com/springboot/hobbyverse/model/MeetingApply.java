@@ -29,12 +29,16 @@ public class MeetingApply {
 	private Long apply_id;//참가신청 순서
 	private Long id; //계정
 	private String name; //닉네임
-	private String eamil;//이메일
+	private String email;//이메일
 	@Column(name="m_id")
 	private Integer mid; //모임 아이디
 	private String title;//모임 이름
 	@Temporal(TemporalType.DATE)
 	private Date apply_date;//침가 신청일
+	
+    @ManyToOne
+    @JoinColumn(name = "user_id") // user_id라는 컬럼으로 Join
+    private User user;
 	
 }
      

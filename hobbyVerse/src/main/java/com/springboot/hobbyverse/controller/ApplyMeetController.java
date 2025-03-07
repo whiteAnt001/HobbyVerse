@@ -70,7 +70,7 @@ public class ApplyMeetController {
 		MeetingApply meetingApply = new MeetingApply();
 		meetingApply.setId(user.getUserId());
 		meetingApply.setName(user.getName());
-		meetingApply.setEamil(user.getEmail());
+		meetingApply.setEmail(user.getEmail());
 		meetingApply.setMid(m_id);
 		meetingApply.setTitle(meet.getTitle());
 		meetingApply.setApply_date(java.sql.Date.valueOf(java.time.LocalDate.now()));

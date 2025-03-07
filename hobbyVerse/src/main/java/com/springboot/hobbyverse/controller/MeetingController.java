@@ -210,12 +210,6 @@ public class MeetingController {
 
         return mav;
     }
-
-
-
-
-
-    
     
     @GetMapping("/meetup/modify.html")
     public ModelAndView modify(Integer m_id, String BTN) {
