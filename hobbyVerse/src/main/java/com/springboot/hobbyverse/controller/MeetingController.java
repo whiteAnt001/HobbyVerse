@@ -195,11 +195,31 @@ public class MeetingController {
 		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(id);
 
 		User user = (User) session.getAttribute("loginUser");
+		if (user == null) { // 로그인이 안 되어 있는 경우
+	        // 로그인이 되어 있지 않으면 기본적인 모임 정보만 제공
+	        mav.setViewName("detailGroup");
+	        mav.addObject("meetup", meetup);
+	        mav.addObject("meetingApplies", meetingApplies);
+	        mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+	        logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+	        return mav;
+	    }
+		
+		
 		String user_name = user.getName();//User
 		String name = meetup.getW_id();//Meetup
 
-		if (user_name.equals("관리자")) {// 관리자
+		if(user_name.isEmpty()) {//로그인을 하지 않은 상태
+			mav.setViewName("detailGroup");
+			mav.addObject("user", user);
+			mav.addObject("meetup", meetup);
+			mav.addObject("meetingApplies", meetingApplies);
+			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
 
+			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			return mav;
+			
+		} else if (user_name.equals("관리자") || name.equals(user_name)) {// 관리자, 모임 등록자 == 로그인 된 계정
 			mav.setViewName("admindetailGroup");
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
@@ -209,18 +229,6 @@ public class MeetingController {
 			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
 			return mav;
 
-		} else if (name.equals(user_name)) {// 모임 등록자 == 로그인 된 계정
-			mav.setViewName("admindetailGroup");
-			mav.addObject("user", user);
-			mav.addObject("meetup", meetup);
-			mav.addObject("meetingApplies", meetingApplies);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-			System.out.println("로그인 계정:" + user_name);
-			System.out.println("모임 등록자:" + name);
-			return mav;
- 
 		} else {//일반 계정
 			mav.setViewName("detailGroup");
 			mav.addObject("user", user);
@@ -246,6 +254,17 @@ public class MeetingController {
 		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(id);
 
 		User user = (User) session.getAttribute("loginUser");
+		if (user == null) { // 로그인이 안 되어 있는 경우
+	        // 로그인이 되어 있지 않으면 기본적인 모임 정보만 제공
+	        mav.setViewName("detailGroup");
+	        mav.addObject("meetup", meetup);
+	        mav.addObject("meetingApplies", meetingApplies);
+	        mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+	        logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+	        return mav;
+	    }
+		
+		
 		String user_name = user.getName();//User
 		String name = meetup.getW_id();//Meetup
 
