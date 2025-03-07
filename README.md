@@ -17,6 +17,10 @@
 
 <br />
 
+### 아키텍처 설계
+<img src="https://github.com/user-attachments/assets/dba4af73-7594-4597-bdbb-d2988bb2b80c" width="1600"/>
+
+
 ### 화면 구성
 |로그인|회원가입|
 |:---:|:---:|
@@ -51,7 +55,6 @@
 
 <br />
 ## ⚙ 기술 스택
-### Back-end
 <div>
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/Java.png?raw=true" width="80">
 <img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/SpringBoot.png?raw=true" width="80">
@@ -63,6 +66,12 @@
 <img src="https://github.com/user-attachments/assets/b9d2404e-3756-486c-8c19-b6caae261123" width="80">
 <img src="https://github.com/user-attachments/assets/7fd9338e-6845-44d2-9beb-1c8bfb444c85" width="80" height="80">
 <img src="https://github.com/user-attachments/assets/b25d6f3c-66eb-4c05-9c99-e5f143ec10b6" width="80" height="80">
+<img src="https://github.com/user-attachments/assets/e45db31a-ea73-4b69-a35c-582947115c6b" width="80" height="80">
+<img src="https://github.com/user-attachments/assets/b17a2db1-1f03-4c05-8069-2986cb5c8e52" width="80" height="80">
+
+<img src="https://github.com/user-attachments/assets/0cd6c426-982d-4660-acab-47fc2eb1dd65" width="80" height="80">
+<img src="https://github.com/user-attachments/assets/35233fec-fe00-4c32-bf2d-46f1c78a5463" width="80" height="80">
+<img src="https://github.com/user-attachments/assets/06a38b09-7c4a-42c6-b766-e1dd816e2613" width="80" height="80">
 
 
 </div>
