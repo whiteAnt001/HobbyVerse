@@ -130,39 +130,65 @@ body {
 						<h5>참가비</h5>
 						<p>💰 ${meetup.price }원</p>
 						<h5>조회수</h5>
-						<p>👁️ ${views}</p> 
+						<p>👁️ ${views}</p>
 						<!-- 조회수 표시 추가 -->
 
-						<div align="center" class="d-flex gap-2 align-items-stretch">
-							<!-- 참가신청 버튼 (길게) -->
-							<form:form action="/applyMeeting" method="POST">
-								<input type="hidden" name="m_id" value="${meetup.m_id }">
-								<input type="submit" value="참가신청" class="btn btn-gradient w-100"
-									onsubmit="return check()">
-							</form:form>
 
-							<!-- 추천(좋아요) 버튼 (작게) -->
-							<form action="/meetup/recommend.html"
-								class="d-flex align-items-stretch">
-								<input type="hidden" name="m_id" value="${meetup.m_id}">
-								<button type="submit"
-									class="btn btn-outline-primary btn-sm h-100">👍추천</button>
-							</form>
-						</div>
 					</div>
 				</div>
-				
-			  <c:if test="${not empty alertCancel }">
-                	<script type="text/javascript">
-                		alert("${alertCancel}");
-                	</script>
-                </c:if>
 
+				<div class="participants-list">
+					<h5>참가자 목록</h5>
+					<c:forEach var="apply" items="${meetingApplies }">
+						<div class="participant">
+							<div class="d-flex align-items-center">
+								<img src="https://randomuser.me/api/portraits/men/1.jpg"
+									alt="참가자 1">
+								<div align="center">
+									<table>
+										<tr>
+											<th>신청자:</th>
+											<td>${apply.id}</td>
+										</tr>
+										<tr>
+											<th>닉네임:</th>
+											<td>${apply.name }</td>
+										</tr>
+										<tr>
+											<th>신청 날짜:</th>
+											<td>${apply.apply_date}</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</div>
 			</div>
 			<div class="d-flex justify-content-center">
-				<a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+				<c:choose>
+				<c:when test="${c_key == 1}">
+					<a href="/category/moveSport" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+				</c:when>
+				<c:when test="${c_key == 2}">
+					<a href="/category/moveMusic" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+				</c:when>
+				<c:when test="${c_key == 3}">
+					<a href="/category/moveStudy" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+				</c:when>
+				<c:when test="${c_key == 4}">
+					<a href="/category/moveGame" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+				</c:when>
+				<c:when test="${c_key == 5}">
+					<a href="/category/moveTravel" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+				</c:when>
+				<c:when test="${c_key == 6}">
+					<a href="/category/moveEtc" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
+				</c:when>
+			</c:choose>
 
-				<c:if test="${loginUser != null && loginUser.email == meetup.w_id || user.role == 'ROLE_ADMIN'}">
+				<c:if
+					test="${loginUser != null && loginUser.email == meetup.w_id || user.role == 'ROLE_ADMIN'}">
 					<form action="/meetup/modify.html" class="d-flex">
 						<input type="hidden" name="m_id" value="${meetup.m_id}"> <input
 							type="submit" value="수정" name="BTN"

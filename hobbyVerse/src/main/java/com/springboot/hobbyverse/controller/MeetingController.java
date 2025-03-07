@@ -18,9 +18,11 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.model.Category;
+import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
 import com.springboot.hobbyverse.model.User;
+import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.UserService;
 
@@ -38,6 +40,8 @@ public class MeetingController {
 	private UserService userService;
     @Autowired 
     private MeetingService meetingService;
+    @Autowired
+    private MeetingApplyService meetingApplyService;
 
     @GetMapping(value = "/home")
     public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
@@ -172,43 +176,80 @@ public class MeetingController {
 
     @GetMapping(value = "/meetup/detail.html")
     public ModelAndView detail(Integer id, HttpSession session) {
-        ModelAndView mav = new ModelAndView("detailGroup");
+        ModelAndView mav = new ModelAndView();
 
         // ✅ 조회수 증가 (DB 직접 업데이트)
         meetingService.incrementViewsDirectly(id);
 
         // ✅ 최신 데이터 강제 로드 (반드시 실행해야 최신 조회수 반영됨)
         Meetup meetup = meetingService.getMeetDetail(id);
+        List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(id);
 
         User user = (User) session.getAttribute("loginUser");
-        mav.addObject("user", user);
-        mav.addObject("meetup", meetup);
-        mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-        logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-
-        return mav;
+        Long user_id = user.getUserId();
+        
+        if(user_id == 0) {//관리자
+        	
+        	
+        	mav.setViewName("admindetailGroup");
+        	mav.addObject("user", user);
+            mav.addObject("meetup", meetup);
+            mav.addObject("meetingApplies", meetingApplies);
+            mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+            
+            logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+        	return mav;
+        	
+        } else {//일반 계정
+        	mav.setViewName("detailGroup");
+        	mav.addObject("user", user);
+            mav.addObject("meetup", meetup);
+            mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+            
+            logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+        	return mav;
+        }
     }
     
     
+    //카테고리에서 모임(자세히 보기)들어간 경우일때 이전으로 버튼
     @GetMapping(value = "/meetup/detailCategory.html")
     public ModelAndView detailCategory(Integer id, HttpSession session) {
-        ModelAndView mav = new ModelAndView("detailGroupCategory");
+    	//id => 모임 아이디
+        ModelAndView mav = new ModelAndView();
 
         // ✅ 조회수 증가 (DB 직접 업데이트)
         meetingService.incrementViewsDirectly(id);
 
         // ✅ 최신 데이터 강제 로드 (반드시 실행해야 최신 조회수 반영됨)
         Meetup meetup = meetingService.getMeetDetail(id);
+        List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(id);
 
         User user = (User) session.getAttribute("loginUser");
-        mav.addObject("user", user);
-        mav.addObject("meetup", meetup);
-        mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+        Long user_id = user.getUserId();
+        
+        if(user_id == 0) {//관리자
+        	
+        	
+        	mav.setViewName("admindetailGroupCategory");
+        	mav.addObject("user", user);
+            mav.addObject("meetup", meetup);
+            mav.addObject("meetingApplies", meetingApplies);
+            mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+            
+            logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+        	return mav;
+        	
+        } else {//일반 계정
+        	mav.setViewName("detailGroupCategory");
+        	mav.addObject("user", user);
+            mav.addObject("meetup", meetup);
+            mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+            
+            logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+        	return mav;
+        }
 
-        logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-
-        return mav;
     }
     
     @GetMapping("/meetup/modify.html")
@@ -223,8 +264,7 @@ public class MeetingController {
             mav.addObject("categoryList", categoryList);
             mav.addObject("BTN", "수정");
         } else if ("삭제".equals(BTN)) {
-            // 삭제 버튼 클릭 시 삭제 확인 페이지(modifyDone.jsp)로 이동
-            this.meetingService.deleteById(m_id);
+            // 삭제 버튼 클릭 시 삭제 확인 페이지(modifyDone.jsp)로 이동            this.meetingService.deleteById(m_id);
             mav.setViewName("deleteGroupDone");
             mav.addObject("meetup", meetup);
             mav.addObject("BTN", "삭제");

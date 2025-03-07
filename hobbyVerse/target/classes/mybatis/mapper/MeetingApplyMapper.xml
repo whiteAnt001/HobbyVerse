@@ -4,7 +4,7 @@
 <mapper namespace="com.springboot.hobbyverse.mapper.MeetingApplyMapper">
 	<!-- 모임 아이디로 신청자 목록 가져오기 -> 신청자 목록에서 사용 -->
 	<select id="joinedUser" parameterType="Integer" resultType="com.springboot.hobbyverse.model.MeetingApply">
-		select ma.id, ma.name, ma.apply_date
+		select ma.id, ma.name, ma.apply_date, ma.email
 		from meeting_apply as ma
 		inner join meetup as m
 		on ma.m_id = m.m_id
