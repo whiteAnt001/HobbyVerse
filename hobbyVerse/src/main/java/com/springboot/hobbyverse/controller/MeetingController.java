@@ -182,7 +182,7 @@ public class MeetingController {
         mav.addObject("meetup", meetup);
         mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
 
-        logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+       // logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
 
         return mav;
     }

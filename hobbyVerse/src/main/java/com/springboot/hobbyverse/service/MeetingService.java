@@ -133,9 +133,7 @@ public class MeetingService {
             meetupRepository.save(meetup);  // ✅ 조회수 증가 후 저장
             entityManager.flush(); // ✅ DB에 즉시 반영
             entityManager.refresh(meetup); // ✅ JPA 캐시 강제 새로고침
-            logger.info("업데이트된 조회수: {}", meetup.getViews()); // ✅ 업데이트된 조회수 로그 출력
-        } else {
-            logger.warn("조회수 증가 실패: meetup ID {}를 찾을 수 없음", id);
+           // logger.info("업데이트된 조회수: {}", meetup.getViews()); // ✅ 업데이트된 조회수 로그 출력
         }
     }
 
@@ -143,11 +141,7 @@ public class MeetingService {
     @Transactional
     public void incrementViewsDirectly(Integer id) {
         int updatedRows = meetupRepository.incrementViewsById(id);
-        if (updatedRows > 0) {
-            logger.info("✅ DB에서 조회수 증가 완료 (meetup ID: {}, 업데이트된 행 개수: {})", id, updatedRows);
-        } else {
-            logger.warn("❌ DB에서 조회수 증가 실패 (meetup ID: {})", id);
-        }
+        
     }
 
 
