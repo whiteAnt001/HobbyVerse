@@ -3,10 +3,10 @@ package com.springboot.hobbyverse.controller;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.sql.Date;
 import java.time.LocalDate;
 import java.util.List;
 
+import org.apache.jasper.compiler.JspUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -233,10 +233,11 @@ public class MeetingController {
 		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(id);
 
 		User user = (User) session.getAttribute("loginUser");
-		Long user_id = user.getUserId();
-		String name = meetup.getW_id();
+		//Long user_id = user.getUserId();
+		String user_name = user.getName();//User
+		String name = meetup.getW_id();//Meetup
 
-		if (user_id == 0) {// 관리자
+		if (user_name.equals("관리자")) {// 관리자
 
 			mav.setViewName("admindetailGroupCategory");
 			mav.addObject("user", user);
@@ -247,17 +248,19 @@ public class MeetingController {
 			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
 			return mav;
 
-//		} else if (name.equals(user)) {// 모임 등록자 == 로그인 된 계정
-//			mav.setViewName("admindetailGroupCategory");
-//			mav.addObject("user", user);
-//			mav.addObject("meetup", meetup);
-//			mav.addObject("meetingApplies", meetingApplies);
-//			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-//
-//			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-//			return mav;
+		} else if (name.equals(user_name)) {// 모임 등록자 == 로그인 된 계정
+			mav.setViewName("admindetailGroupCategory");
+			mav.addObject("user", user);
+			mav.addObject("meetup", meetup);
+			mav.addObject("meetingApplies", meetingApplies);
+			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
 
-		} else {// 일반 계정
+			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			System.out.println("로그인 계정:" + user_name);
+			System.out.println("모임 등록자:" + name);
+			return mav;
+ 
+		} else {
 			mav.setViewName("detailGroupCategory");
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);

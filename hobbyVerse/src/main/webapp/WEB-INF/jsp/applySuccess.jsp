@@ -110,7 +110,6 @@ body {
 
 	<div class="meeting-header">
 		<h1>${meetup.title }</h1>
-		<h5>${meetup.w_id }</h5>
 	</div>
 
 	<div class="container mt-4">
@@ -123,6 +122,8 @@ body {
 					<div class="content">
 						<h5>모임 설명</h5>
 						<p>${meetup.info }</p>
+						<h5>작성자</h5>
+						<p>${meetup.w_id }</p>
 						<h5>모임 일정</h5>
 						<p>📅 ${meetup.m_date }</p>
 						<h5>참가비</h5>
