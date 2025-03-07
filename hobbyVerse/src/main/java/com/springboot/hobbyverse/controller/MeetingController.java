@@ -290,7 +290,7 @@ public class MeetingController {
 			System.out.println("로그인 계정:" + user_name);
 			System.out.println("모임 등록자:" + name);
 			return mav;
- 
+			
 		} else {//일반 계정
 			mav.setViewName("detailGroupCategory");
 			mav.addObject("user", user);
