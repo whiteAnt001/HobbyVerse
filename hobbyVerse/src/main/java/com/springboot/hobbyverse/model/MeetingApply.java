@@ -27,18 +27,21 @@ import lombok.Setter;
 @Setter
 public class MeetingApply {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_seq")
-	@SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
-	// @GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Id
-	private Long apply_id;// 참가신청 순서
-	private Long id; // 계정
-	private String name; // 닉네임
-	private String email;// 이메일
-	@Column(name = "m_id")
-	private Integer mid; // 모임 아이디
-	private String title;// 모임 이름
+    @SequenceGenerator(name = "user_seq", sequenceName = "user_sequence", allocationSize = 1)
+	//@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id   
+	private Long apply_id;//참가신청 순서
+	private Long id; //계정
+	private String name; //닉네임
+	private String email;//이메일
+	@Column(name="m_id")
+	private Integer mid; //모임 아이디
+	private String title;//모임 이름
 	@Temporal(TemporalType.DATE)
 	private Date apply_date;// 침가 신청일
 	
-
+    @ManyToOne
+    @JoinColumn(name = "user_id") // user_id라는 컬럼으로 Join
+    private User user;
+	
 }

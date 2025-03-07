@@ -7,6 +7,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Transient;
@@ -49,6 +51,9 @@ public class Board {
     public Board() {
         this.regDate = LocalDateTime.now();
     }
+    @ManyToOne
+    @JoinColumn(name = "user_id") // user_id라는 컬럼으로 Join
+    private User user;
 
     @PrePersist
     public void prePersist() {

@@ -45,6 +45,10 @@ public class Comment {
     @Column(name = "content", nullable = false, columnDefinition = "TEXT")
     private String content;
     
+    @ManyToOne
+    @JoinColumn(name = "user_id") // user_id라는 컬럼으로 Join
+    private User user;
+    
     @Column(nullable = false)
     private int depth = 0; // 기본값 0 (최상위 댓글)
 

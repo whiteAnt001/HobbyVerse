@@ -25,6 +25,11 @@ public class Inquiry {
 
     @Column(nullable = false, length = 255)
     private String title;  // 문의 제목
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id") // user_id라는 컬럼으로 Join
+    private User user;
+
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;  // 문의 내용

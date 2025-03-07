@@ -11,4 +11,5 @@ import com.springboot.hobbyverse.model.Comment;
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 	List<Comment> findByBoardAndStatus(Board board, Integer Status);
+	void deleteByUserEmail(String email);
 }

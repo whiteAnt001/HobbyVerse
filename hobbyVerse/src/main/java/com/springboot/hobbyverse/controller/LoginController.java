@@ -1,6 +1,12 @@
 package com.springboot.hobbyverse.controller;
 
+import java.util.Collection;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +21,7 @@ import com.springboot.hobbyverse.service.UserService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
-
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 @Controller
 public class LoginController {
 	@Autowired
@@ -59,7 +65,17 @@ public class LoginController {
 			 // 암호화된 비밀번호 비교
 	        boolean isPasswordMatch = userService.checkPassword(password, loginUser.getPassword());
 	        if (isPasswordMatch) {
-	        	session.setAttribute("loginUser", loginUser);
+	            session.setAttribute("loginUser", loginUser);
+	            
+	         // 로그인 성공 시, 사용자 권한을 포함한 인증 토큰 생성
+	            UsernamePasswordAuthenticationToken authenticationToken = 
+	                new UsernamePasswordAuthenticationToken(loginUser, password, loginUser.getAuthorities());
+
+	            // SecurityContext에 인증 객체 설정
+	            SecurityContextHolder.getContext().setAuthentication(authenticationToken);
+	            
+	            System.out.println(SecurityContextHolder.getContext().getAuthentication());
+
 	        	mav.setViewName("redirect:/home"); //로그인 성공 후 홈 이동
 	        } else {
 	            mav.addObject("FAIL", "YES");  // 비밀번호 불일치

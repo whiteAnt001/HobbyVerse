@@ -21,14 +21,10 @@ public interface MeetupRepository extends JpaRepository<Meetup, Integer> {
     int incrementViewsById(@Param("id") Integer id);  // ✅ 직접 SQL 실행
     
 
-    @Query(value = "SELECT m.c_key, c.name AS category_name, COUNT(a.apply_id) AS meeting_count " +
-            "FROM meetup m " +
-            "JOIN meeting_apply a ON m.m_id = a.m_id " +
-            "JOIN category c ON m.c_key = c.c_key " +
-            "WHERE a.apply_date >= :startDate " +
-            "GROUP BY m.c_key, c.name " +
-            "ORDER BY meeting_count DESC " +
-            "LIMIT 3", nativeQuery = true)
-List<Object[]> findTopMeetingCategories(@Param("startDate") LocalDateTime startDate);
+	@Query(value = "SELECT m.c_key, c.name AS category_name, COUNT(a.apply_id) AS meeting_count " + "FROM meetup m "
+			+ "JOIN meeting_apply a ON m.m_id = a.m_id " + "JOIN category c ON m.c_key = c.c_key "
+			+ "WHERE a.apply_date >= :startDate " + "GROUP BY m.c_key, c.name " + "ORDER BY meeting_count DESC "
+			+ "LIMIT 3", nativeQuery = true)
+	List<Object[]> findTopMeetingCategories(@Param("startDate") LocalDateTime startDate);
 
 }
