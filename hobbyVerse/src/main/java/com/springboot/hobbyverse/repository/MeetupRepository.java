@@ -11,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springboot.hobbyverse.model.Meetup;
+import com.springboot.hobbyverse.model.User;
 
 @Repository
 public interface MeetupRepository extends JpaRepository<Meetup, Integer> {
@@ -26,5 +27,4 @@ public interface MeetupRepository extends JpaRepository<Meetup, Integer> {
 			+ "WHERE a.apply_date >= :startDate " + "GROUP BY m.c_key, c.name " + "ORDER BY meeting_count DESC "
 			+ "LIMIT 3", nativeQuery = true)
 	List<Object[]> findTopMeetingCategories(@Param("startDate") LocalDateTime startDate);
-
 }

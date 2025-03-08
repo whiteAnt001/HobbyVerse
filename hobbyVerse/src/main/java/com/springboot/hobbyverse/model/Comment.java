@@ -69,9 +69,10 @@ public class Comment {
     @Column(name = "status", nullable = false)
     private Integer status = 1;  // 기본값 1 설정
     
-    @Column(name = "created_At_String", nullable = false)
+    @Column(name = "created_at_string")
     private String createdAtString;
-    @Column(name = "updated_At_String", nullable = false)
+
+    @Column(name = "updated_at_String", nullable = false)
     private String updatedAtString;
 
     @PrePersist

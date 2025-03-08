@@ -10,6 +10,7 @@ import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
 import com.springboot.hobbyverse.model.StartEnd;
+import com.springboot.hobbyverse.model.User;
 
 
 @Mapper

@@ -3,10 +3,10 @@ package com.springboot.hobbyverse.controller;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.apache.jasper.compiler.JspUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +22,7 @@ import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
 import com.springboot.hobbyverse.model.User;
+import com.springboot.hobbyverse.repository.MeetupRepository;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.UserService;
@@ -42,6 +43,7 @@ public class MeetingController {
 	private MeetingService meetingService;
 	@Autowired
 	private MeetingApplyService meetingApplyService;
+	private final MeetupRepository meetupRepository;
 
 	@GetMapping(value = "/home")
 	public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
@@ -75,31 +77,6 @@ public class MeetingController {
 		return mav;
 	}// 모임목록,페이지처리
 
-	@PostMapping(value = "/meetup/search.html")
-	public ModelAndView search(String title, Integer pageNo, HttpSession session) {
-		int currentPage = 1;
-		if (pageNo != null)
-			currentPage = pageNo;
-		int start = (currentPage - 1) * 6;
-		int end = start + 7;
-		List<Meetup> meetList = this.meetingService.getMeetByTitle(title, currentPage);
-		Integer totalCount = this.meetingService.getMeetCountByTitle(title);
-		User user = (User) session.getAttribute("loginUser");
-		int pageCount = totalCount / 5;
-		if (totalCount % 5 != 0)
-			pageCount++;
-		ModelAndView mav = new ModelAndView("searchGroupList");
-		mav.addObject("user", user);
-		mav.addObject("START", start);
-		mav.addObject("END", end);
-		mav.addObject("TOTAL", totalCount);
-		mav.addObject("LIST", meetList);
-		mav.addObject("meetList", meetList);
-		mav.addObject("pageCount", pageCount);
-		mav.addObject("currentPage", currentPage);
-		mav.addObject("title", title);
-		return mav;
-	}// 모임제목으로 모임 검색
     @PostMapping(value = "/meetup/search.html")
     public ModelAndView search(String title, Integer pageNo, HttpSession session) {
         int currentPage = 1;
@@ -123,61 +100,6 @@ public class MeetingController {
         mav.addObject("title", title);
         return mav;
     }//모임제목으로 모임 검색
-    
-    @GetMapping(value = "/meetup/createGroup.html")
-    public ModelAndView entry(Meetup meetup, HttpSession session) {
-        List<Category> categoryList = meetingService.getCategoryList();
-        ModelAndView mav = new ModelAndView("createGroup");
-        User user = (User)session.getAttribute("loginUser");
-        meetup.setW_id(user.getUsername());
-        mav.addObject(new Meetup());
-        mav.addObject("user",user);
-        mav.addObject("categoryList", categoryList);
-        return mav;
-    }//모임등록창
-    
-    @PostMapping("/meetup/register.html")
-    public ModelAndView register(Meetup meetup, BindingResult br, HttpSession session, 
-                HttpServletRequest request) throws Exception {
-        ModelAndView mav = new ModelAndView();
-        User user = (User) session.getAttribute("loginUser");
-        meetup.setW_id(user.getUsername());
-        MultipartFile multiFile = meetup.getFile();
-        String fileName = null;
-        String path = null;
-        OutputStream out = null;
-        fileName = multiFile.getOriginalFilename();
-        if (!fileName.equals("")) {
-            // 파일 업로드 경로 설정
-            ServletContext ctx = session.getServletContext();
-            path = ctx.getRealPath("/upload/" + fileName);
-            BufferedInputStream bis = null;
-            try {
-                out = new FileOutputStream(path);
-                bis = new BufferedInputStream(multiFile.getInputStream());
-                byte[] buffer = new byte[8192];
-                int read = 0;
-                while ((read = bis.read(buffer)) > 0) {
-                    out.write(buffer, 0, read);
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            } finally {
-                try {
-                    if (out != null) out.close();
-                    if (bis != null) bis.close();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-            meetup.setImagename(fileName);
-        }        
-        // 모임 등록
-        this.meetingService.putMeeting(meetup);      
-        mav.setViewName("createGroupDone");
-        mav.addObject("message", "모임이 등록되었습니다.");
-        return mav;
-    }//모임등록
 
 	@GetMapping(value = "/meetup/createGroup.html")
 	public ModelAndView entry(Meetup meetup, HttpSession session) {
@@ -197,6 +119,7 @@ public class MeetingController {
 		ModelAndView mav = new ModelAndView();
 		User user = (User) session.getAttribute("loginUser");
 		meetup.setW_id(user.getName());
+		meetup.setEmail(user.getEmail());	
 		MultipartFile multiFile = meetup.getFile();
 		String fileName = null;
 		String path = null;
@@ -228,11 +151,12 @@ public class MeetingController {
 				}
 			}
 			meetup.setImagename(fileName);
-			meetup.setW_date(LocalDate.now());
 		}
 		// 모임 등록
 		this.meetingService.putMeeting(meetup);
+		meetupRepository.save(meetup);
 		mav.setViewName("createGroupDone");
+		mav.addObject("user", user);
 		mav.addObject("message", "모임이 등록되었습니다.");
 		return mav;
 	}// 모임등록
@@ -268,7 +192,7 @@ public class MeetingController {
 		// ✅ 조회수 증가 (DB 직접 업데이트)
 		meetingService.incrementViewsDirectly(id);
 
-       // logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+       // logger.info("🔄 최신 조회수: {}", meetup.getViews()); // 콘솔에서 최신 조회수 확인
 		// ✅ 최신 데이터 강제 로드 (반드시 실행해야 최신 조회수 반영됨)
 		Meetup meetup = meetingService.getMeetDetail(id);
 		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(id);
@@ -279,8 +203,7 @@ public class MeetingController {
 	        mav.setViewName("detailGroup");
 	        mav.addObject("meetup", meetup);
 	        mav.addObject("meetingApplies", meetingApplies);
-	        mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-	        logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+	        mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
 	        return mav;
 	    }
 		
@@ -293,9 +216,7 @@ public class MeetingController {
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
 			mav.addObject("meetingApplies", meetingApplies);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
 			return mav;
 			
 		} else if (user_name.equals("관리자") || name.equals(user_name)) {// 관리자, 모임 등록자 == 로그인 된 계정
@@ -303,18 +224,14 @@ public class MeetingController {
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
 			mav.addObject("meetingApplies", meetingApplies);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
 			return mav;
 
 		} else {//일반 계정
 			mav.setViewName("detailGroup");
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
 			return mav;
 		}
 	}
@@ -338,8 +255,7 @@ public class MeetingController {
 	        mav.setViewName("detailGroup");
 	        mav.addObject("meetup", meetup);
 	        mav.addObject("meetingApplies", meetingApplies);
-	        mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-	        logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+	        mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
 	        return mav;
 	    }
 		
@@ -353,9 +269,7 @@ public class MeetingController {
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
 			mav.addObject("meetingApplies", meetingApplies);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
 			return mav;
 
 		} else if (name.equals(user_name)) {// 모임 등록자 == 로그인 된 계정
@@ -363,9 +277,7 @@ public class MeetingController {
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
 			mav.addObject("meetingApplies", meetingApplies);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
 			System.out.println("로그인 계정:" + user_name);
 			System.out.println("모임 등록자:" + name);
 			return mav;
@@ -374,9 +286,7 @@ public class MeetingController {
 			mav.setViewName("detailGroupCategory");
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
 			return mav;
 		}
 
@@ -402,57 +312,6 @@ public class MeetingController {
 		}
 		return mav;
 	}
-
-	@PostMapping("/meetup/update.html")
-	public ModelAndView update(Meetup meetup, HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		// 파일 업로드 처리
-		if (meetup.getFile() != null && !meetup.getFile().getOriginalFilename().equals("")) {
-			String fileName = meetup.getFile().getOriginalFilename();
-			ServletContext ctx = session.getServletContext();
-			String path = ctx.getRealPath("/upload/" + fileName);
-			try (OutputStream os = new FileOutputStream(path);
-					BufferedInputStream bis = new BufferedInputStream(meetup.getFile().getInputStream())) {
-				byte[] buffer = new byte[8156];
-				int read;
-				while ((read = bis.read(buffer)) > 0) {
-					os.write(buffer, 0, read);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			meetup.setImagename(fileName);
-		}
-		// 모임 수정 처리
-		this.meetingService.updateMeeting(meetup);
-		mav.setViewName("updateGroupDone");
-		mav.addObject("message", "모임이 성공적으로 수정되었습니다.");
-		mav.addObject("meetup", meetup);
-		return mav;
-	}
-    }
-    
-    @GetMapping("/meetup/modify.html")
-    public ModelAndView modify(Integer m_id, String BTN, HttpSession session) {
-        ModelAndView mav = new ModelAndView();
-        Meetup meetup = this.meetingService.getMeetDetail(m_id);
-        User user = (User)session.getAttribute("loginUser");
-        List<Category> categoryList = meetingService.getCategoryList();
-        if ("수정".equals(BTN)) {
-            // 수정 버튼 클릭 시 updateGroup.jsp(수정 폼)로 이동
-            mav.setViewName("updateGroup"); // updateGroup.jsp
-            mav.addObject("meetup", meetup);
-            mav.addObject("user", user);
-            mav.addObject("categoryList", categoryList);
-            mav.addObject("BTN", "수정");
-        } else if ("삭제".equals(BTN)) {
-            // 삭제 버튼 클릭 시 삭제 확인 페이지(modifyDone.jsp)로 이동            this.meetingService.deleteById(m_id);
-            mav.setViewName("deleteGroupDone");
-            mav.addObject("meetup", meetup);
-            mav.addObject("BTN", "삭제");
-        }
-        return mav;
-    }
     
     @PostMapping("/meetup/update.html")
     public ModelAndView update(Meetup meetup, HttpSession session) {

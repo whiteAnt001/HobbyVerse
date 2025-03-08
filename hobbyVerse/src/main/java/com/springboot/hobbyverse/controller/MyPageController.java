@@ -1,6 +1,7 @@
 package com.springboot.hobbyverse.controller;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -83,10 +84,13 @@ public class MyPageController {
 	
 	//내가 만든 모임
 	@GetMapping("/myPage/myMeetings")
-	public ModelAndView myMeetings(HttpSession session) {
+	public ModelAndView myMeetings(Meetup meetup, HttpSession session) {
 		ModelAndView mav = new ModelAndView("myPage_myMeetings");
 		User user = (User)session.getAttribute("loginUser");
 		List<Meetup> createMeetings = myPageService.getCreateMeetings(user.getEmail());
+		
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        mav.addObject("formattedW_date", meetup.getW_date().format(formatter));
 		mav.addObject("user", user);
 		mav.addObject("createdMeetings", createMeetings);
 		return mav;

@@ -15,6 +15,7 @@ import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
 import com.springboot.hobbyverse.model.StartEnd;
+import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.MeetupRepository;
 
 import jakarta.persistence.EntityManager;
@@ -75,7 +76,6 @@ public class MeetingService {
         entityManager.clear(); // JPA 캐시 제거 (최신 데이터 강제 조회)
         return meetupRepository.findById(id).orElse(null); // DB에서 강제 조회
     }
-
 
     public void updateMeeting(Meetup meetup) {
         meetingMapper.updateMeeting(meetup);

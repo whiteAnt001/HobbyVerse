@@ -1,7 +1,9 @@
 package com.springboot.hobbyverse.model;
 import java.sql.Date;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
+import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.web.multipart.MultipartFile;
 
 import jakarta.persistence.Column;
@@ -9,6 +11,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -36,8 +40,11 @@ public class Meetup {
     private String w_id;
     private String imagename;
 
-    @Temporal(TemporalType.DATE)
-    private Date w_date;  // 등록 날짜
+    @CreationTimestamp
+    private LocalDateTime w_date = LocalDateTime.now();  // 등록 날짜
+    
+    @Transient
+    private String formattedW_date;
 
     @Column(name = "views", nullable = false, columnDefinition = "INT DEFAULT 0")
     private Integer views = 0;  // ✅ 기본값 0 설정
@@ -49,4 +56,15 @@ public class Meetup {
     private MultipartFile file;
 
     private Integer recommend;
+    
+    @Column(name = "email", nullable = false)
+    private String email;
+    
+    public String getformattedW_date() {
+        if (w_date != null) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            return w_date.format(formatter);
+        }
+        return null;
+    }
 }
