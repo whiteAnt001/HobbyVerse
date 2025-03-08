@@ -168,7 +168,7 @@
         </c:if>
 
         <!-- ✅ 수정/삭제 권한이 없는 경우 -->
-        <c:if test="${empty user or user.email != board.email and user.email == board.email || user.role == 'ROLE_ADMIN'}">
+        <c:if test="${empty user or user.email != board.email}">
         <p>${board.content}</p>
             <a href="/boards" class="btn btn-secondary">목록으로</a>
         </c:if>

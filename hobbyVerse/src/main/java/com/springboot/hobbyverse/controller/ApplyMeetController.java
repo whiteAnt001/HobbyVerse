@@ -82,7 +82,6 @@ public class ApplyMeetController {
 		} else {//이미 존재하는 모임일 경우
 			List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
 			mav.addObject("user", user);
- 			
 			mav.addObject("alertError", "이미 신청된 모임입니다. ");
 			mav.setViewName("applySuccess");
 			mav.addObject("meetingApplies", meetingApplies);	

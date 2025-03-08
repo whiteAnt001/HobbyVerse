@@ -15,6 +15,7 @@ import org.springframework.security.web.firewall.StrictHttpFirewall;
 
 import com.springboot.hobbyverse.service.CustomOAuth2UserService;
 
+import jakarta.servlet.http.Cookie;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -53,10 +54,18 @@ public class SecurityConfig {
                 )
 
             .logout(logout -> logout
-                .logoutSuccessUrl("/login") // 로그아웃 후 로그인 페이지로 이동
-                .invalidateHttpSession(true) // 세션 무효화
-            );
+            	    .logoutUrl("/logout") // 로그아웃 요청 URL
+            	    .logoutSuccessHandler((request, response, authentication) -> {
+            	        // JWT 쿠키 삭제
+            	        Cookie jwtCookie = new Cookie("access_token", null);
+            	        jwtCookie.setHttpOnly(true);
+            	        jwtCookie.setSecure(true);
+            	        jwtCookie.setPath("/");
+            	        jwtCookie.setMaxAge(0); // 쿠키 즉시 삭제
 
+            	        response.addCookie(jwtCookie);
+            	        response.sendRedirect("/login"); // 로그아웃 후 로그인 페이지로 이동
+            	    }));
         return http.build();
     }
     
