@@ -107,7 +107,6 @@ public class InquiryService {
     // ✅ 문의 삭제
     @Transactional
     public void deleteInquiry(Long id) {
-        logger.info("문의 삭제 요청: id={}", id);
         inquiryRepository.deleteById(id);
     }
 
@@ -135,5 +134,10 @@ public class InquiryService {
             return inquiryRepository.save(inquiry);
         }
         return null;
+    }
+ // 운영자 답변 업데이트
+    @Transactional
+    public void updateAdminReply(Long id, String reply) {
+        inquiryRepository.updateAdminReply(id, reply);
     }
 }

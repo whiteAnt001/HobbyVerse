@@ -87,5 +87,16 @@ public class AdminInquiryController {
         redirectAttributes.addFlashAttribute("message", "문의사항이 수정되었습니다.");
         return "redirect:/api/admin/inquiries";
     }
+    @PostMapping("/inquiries/reply/{id}")
+    public String updateAdminReply(
+        @PathVariable Long id, 
+        @RequestParam("adminReply") String adminReply,  // ✅ HTML과 동일한 "adminReply"로 변경
+        RedirectAttributes redirectAttributes
+    ) {
+        inquiryService.updateAdminReply(id, adminReply);
+        redirectAttributes.addFlashAttribute("message", "운영자 답변이 등록되었습니다.");
+        return "redirect:/api/admin/inquiries";
+    }
+
 
 }

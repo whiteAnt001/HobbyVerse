@@ -268,6 +268,7 @@ public class MeetingController {
 		// ✅ 조회수 증가 (DB 직접 업데이트)
 		meetingService.incrementViewsDirectly(id);
 
+       // logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
 		// ✅ 최신 데이터 강제 로드 (반드시 실행해야 최신 조회수 반영됨)
 		Meetup meetup = meetingService.getMeetDetail(id);
 		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(id);
