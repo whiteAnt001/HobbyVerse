@@ -39,8 +39,6 @@ public class Meetup {
     private Integer price;
     private String w_id;
     private String imagename;
-    @Column(name = "email")
-    private String email;
 
     @CreationTimestamp
     private LocalDateTime w_date = LocalDateTime.now();  // 등록 날짜

@@ -186,7 +186,6 @@ body {
 				<a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
 
 				<c:if test="${user != null && user.email == meetup.email || user.role == 'ROLE_ADMIN'}">
-				${user.email } ${meetup.email }
 					<form action="/meetup/modify.html" class="d-flex">
 						<input type="hidden" name="m_id" value="${meetup.m_id}"> <input
 							type="submit" value="수정" name="BTN"
