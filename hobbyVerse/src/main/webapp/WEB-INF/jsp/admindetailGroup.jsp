@@ -110,7 +110,6 @@ body {
 
 	<div class="meeting-header">
 		<h1>${meetup.title }</h1>
-		<h5>${meetup.w_id }</h5>
 	</div>
 
 	<div class="container mt-4">
@@ -122,7 +121,31 @@ body {
 						alt="">
 					<div class="content">
 						<h5>카테고리</h5>
-						<p>${meetup.category_name}</p>
+						<p>
+						<c:choose>
+							<c:when test="${meetup.c_key == '1' }">
+								<font size="3">운동</font>
+							</c:when>
+							<c:when test="${meetup.c_key == '2' }">
+								<font size="3">음악</font>
+							</c:when>
+							<c:when test="${meetup.c_key == '3' }">
+								<font size="3">스터디</font>
+							</c:when>
+							<c:when test="${meetup.c_key == '4' }">
+								<font size="3">게임</font>
+							</c:when>
+							<c:when test="${meetup.c_key == '5' }">
+								<font size="3">여행</font>
+							</c:when>
+							<c:otherwise>
+								<font size="3">기타</font>
+							</c:otherwise>
+						</c:choose>
+						</p>
+						<!-- <p>${meetup.category_name}</p> -->
+						<h5>작성자</h5>
+						<p>${meetup.w_id }</p>
 						<h5>모임 설명</h5>
 						<p>${meetup.info }</p>
 						<h5>모임 일정</h5>

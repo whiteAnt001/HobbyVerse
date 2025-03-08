@@ -105,28 +105,57 @@ to {
 			<c:forEach var="key" items="${keyCategory }">
 				<div class="col-md-4 mb-4">
 
-						<div class="meeting-card">
-							<div class="p-3">
-									<!-- <th>모임 아이디</th> -->
-									${key.m_id }
-									
-									<!-- <th>모임 이름</th> -->
-									<h5 class="card-title">${key.title }</h5>
+					<div class="meeting-card">
+						<div class="p-3">
+							<!-- <th>모임 아이디</th> -->
+							${key.m_id }
 
-									<!-- <th>작성일</th> -->
-									<p class="card-text">날짜: ${key.m_date }</p>
+							<!-- <th>모임 이름</th> -->
+							<h5 class="card-title">${key.title }</h5>
 
-									<a href="/meetup/detailCategory.html?id=${key.m_id }" class="btn btn-primary">자세히보기</a>
-							</div>
+							<!-- <th>작성일</th> -->
+							<p class="card-text">날짜: ${key.m_date }</p>
+
+							<a href="/meetup/detailCategory.html?id=${key.m_id }"
+								class="btn btn-primary">자세히보기</a>
 						</div>
+					</div>
 
 				</div>
 			</c:forEach>
 
 		</div>
 	</div>
-	
-	<jsp:include page="page.jsp"/>
+
+	<div align="center">
+		<c:set var="pageCount" value="${pageCount}" />
+		<c:set var="currentPage" value="${currentPage}" />
+
+		<c:set var="startPage"
+			value="${currentPage - (currentPage % 10 == 0 ? 10 : (currentPage % 10)) + 1}" />
+		<c:set var="endPage" value="${startPage + 9}" />
+		<c:if test="${endPage > pageCount}">
+			<c:set var="endPage" value="${pageCount}" />
+		</c:if>
+
+		<c:if test="${startPage > 1}">
+			<a href="/category/moveTravel?pageNo=${startPage - 1}">[이전]</a>
+		</c:if>
+
+		<c:forEach begin="${startPage }" end="${endPage}" var="i">
+			<c:if test="${currentPage == i}">
+				<font size="6">
+			</c:if>
+			<a href="/category/moveTravel?pageNo=${i}">${i}</a>
+			<c:if test="${currentPage == i}">
+				</font>
+			</c:if>
+		</c:forEach>
+
+		<c:if test="${endPage < pageCount}">
+			<a href="/category/moveTravel?pageNo=${endPage + 1}">[다음]</a>
+		</c:if>
+	</div>
 
 
 	<!-- Bootstrap JS -->
