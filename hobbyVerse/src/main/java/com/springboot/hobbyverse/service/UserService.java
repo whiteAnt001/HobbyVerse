@@ -1,11 +1,11 @@
 	package com.springboot.hobbyverse.service;
 
 	import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.springboot.hobbyverse.config.SecurityConfig;
@@ -28,6 +28,10 @@ import lombok.RequiredArgsConstructor;
 		@Autowired
 		private SecurityConfig securityConfig;
 		
+		
+		public List<SimpleGrantedAuthority> getAuthorities(User user) {
+		    return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
+		}
 		//유저 정보 찾기
 		public User getUser(User user) {
 			return this.myMapper.getUser(user);

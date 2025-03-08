@@ -3,8 +3,6 @@ package com.springboot.hobbyverse.controller;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -141,7 +139,6 @@ public class MeetingController {
                 }
             }
             meetup.setImagename(fileName);
-            meetup.setW_date(LocalDate.now());
         }        
         // 모임 등록
         this.meetingService.putMeeting(meetup);      
@@ -253,14 +250,16 @@ public class MeetingController {
     }
     
     @GetMapping("/meetup/modify.html")
-    public ModelAndView modify(Integer m_id, String BTN) {
+    public ModelAndView modify(Integer m_id, String BTN, HttpSession session) {
         ModelAndView mav = new ModelAndView();
         Meetup meetup = this.meetingService.getMeetDetail(m_id);
+        User user = (User)session.getAttribute("loginUser");
         List<Category> categoryList = meetingService.getCategoryList();
         if ("수정".equals(BTN)) {
             // 수정 버튼 클릭 시 updateGroup.jsp(수정 폼)로 이동
             mav.setViewName("updateGroup"); // updateGroup.jsp
             mav.addObject("meetup", meetup);
+            mav.addObject("user", user);
             mav.addObject("categoryList", categoryList);
             mav.addObject("BTN", "수정");
         } else if ("삭제".equals(BTN)) {
