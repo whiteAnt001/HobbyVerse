@@ -36,6 +36,8 @@ public class Meetup {
     private Integer price;
     private String w_id;
     private String imagename;
+    @Column(name = "email")
+    private String email;
 
     @Temporal(TemporalType.DATE)
     private LocalDate w_date;  // 등록 날짜
