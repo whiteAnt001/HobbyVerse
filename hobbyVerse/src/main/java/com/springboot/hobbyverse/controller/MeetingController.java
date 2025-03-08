@@ -208,18 +208,15 @@ public class MeetingController {
 	    }
 		
 		
-		String user_name = user.getName();//User
-		String name = meetup.getW_id();//Meetup
+//		String user_name = user.getName();//User
+		String role = user.getRole();//user의 권한
+		String name = meetup.getW_id();//meetup에 있는 작성자
+		String userEmail = user.getEmail();//로그인된 계정의 이메일
+		String meetEmail = meetup.getEmail();//모임에 등록된 이메일
+		
 
-		if(user_name.isEmpty()) {//로그인을 하지 않은 상태
-			mav.setViewName("detailGroup");
-			mav.addObject("user", user);
-			mav.addObject("meetup", meetup);
-			mav.addObject("meetingApplies", meetingApplies);
-			mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
-			return mav;
-			
-		} else if (user_name.equals("관리자") || name.equals(user_name)) {// 관리자, 모임 등록자 == 로그인 된 계정
+		//권한 / 이메일로 비교
+		if(role.equals("ROLE_ADMIN") || meetEmail.equals(userEmail)) {// 관리자, 모임에 등록된 이메일 == 로그인 된 계정의 이메일
 			mav.setViewName("admindetailGroup");
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
@@ -234,6 +231,7 @@ public class MeetingController {
 			mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
 			return mav;
 		}
+
 	}
 
 	// 카테고리에서 모임(자세히 보기)들어간 경우일때 이전으로 버튼
@@ -260,12 +258,16 @@ public class MeetingController {
 	    }
 		
 		
-		String user_name = user.getName();//User
-		String name = meetup.getW_id();//Meetup
+//		String user_name = user.getName();//User
+		String role = user.getRole();//user의 권한
+		String name = meetup.getW_id();//meetup에 있는 작성자
+		String userEmail = user.getEmail();//로그인된 계정의 이메일
+		String meetEmail = meetup.getEmail();//모임에 등록된 이메일
+		
 
-		if (user_name.equals("관리자")) {// 관리자
-
-			mav.setViewName("admindetailGroupCategory");
+		//권한 / 이메일로 비교
+		if(role.equals("ROLE_ADMIN") || meetEmail.equals(userEmail)) {// 관리자, 모임에 등록된 이메일 == 로그인 된 계정의 이메일
+			mav.setViewName("admindetailGroup");
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
 			mav.addObject("meetingApplies", meetingApplies);
@@ -283,13 +285,12 @@ public class MeetingController {
 			return mav;
 			
 		} else {//일반 계정
-			mav.setViewName("detailGroupCategory");
+			mav.setViewName("detailGroup");
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
 			mav.addObject("views", meetup.getViews()); // 최신 조회수 반영
 			return mav;
 		}
-
 	}
 
 	@GetMapping("/meetup/modify.html")
