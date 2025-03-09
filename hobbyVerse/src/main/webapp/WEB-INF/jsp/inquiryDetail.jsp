@@ -23,11 +23,12 @@
         .comment-body {
             font-size: 14px;
         }
+            /* 네비게이션 바 */
+		.gradient-bg {background: linear-gradient(135deg, #6a11cb, #2575fc);} /* 배경에 그라데이션 효과 적용 */
     </style>
 </head>
 <body>
-    <!-- 관리자 네비게이션 바 포함 -->
-    <jsp:include page="/WEB-INF/jsp/adminNavber.jsp"/>
+    <jsp:include page="/WEB-INF/jsp/navbar.jsp"/>
 
     <div class="container mt-5">
         <h2 class="text-center">문의사항 상세</h2>
@@ -54,7 +55,7 @@
         </c:if>
 
         <div class="mt-3">
-            <a href="/api/admin/inquiries" class="btn btn-secondary">목록으로 돌아가기</a>
+            <a href="/inquiries" class="btn btn-secondary">목록으로 돌아가기</a>
         </div>
     </div>
 
