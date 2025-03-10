@@ -165,4 +165,8 @@ public class MeetingService {
     public Meetup getMeet(Integer m_id) {
         return meetingMapper.getMeet(m_id);
     }
+    
+    public String getW_id(Integer m_id) {
+    	return meetingMapper.getW_id(m_id);
+    }
 }
