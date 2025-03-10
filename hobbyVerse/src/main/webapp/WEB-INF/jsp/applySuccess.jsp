@@ -130,16 +130,20 @@ body {
 						<p>💰 ${meetup.price }원</p>
 
 						<div class="d-flex gap-2 align-items-stretch">
-						   <!-- 참가 취소 버튼 -->
-						   <form:form action="/cancelMeeting" method="POST" class="flex-grow-1">
+							<!-- 참가 취소 버튼 -->
+							<form:form action="/cancelMeeting" method="POST"
+								class="flex-grow-1">
 								<input type="hidden" name="m_id" value="${meetup.m_id }">
-								<input type="submit" value="참가 취소" class="btn btn-gradient w-100 h-100">
-						   </form:form>
+								<input type="submit" value="참가 취소"
+									class="btn btn-gradient w-100 h-100">
+							</form:form>
 							<!-- 추천(좋아요) 버튼 -->
-						   <form:form action="/meetup/recommend.html" method="GET" modelAttribute="meetup" class="d-flex">
-						      <form:input type="hidden" path="m_id" value="${meetup.m_id}"/>
-						      <button type="submit" class="btn btn-outline-primary btn-sm px-3 h-100">👍추천</button>
-						   </form:form>
+							<form:form action="/meetup/recommend.html" method="GET"
+								modelAttribute="meetup" class="d-flex">
+								<form:input type="hidden" path="m_id" value="${meetup.m_id}" />
+								<button type="submit"
+									class="btn btn-outline-primary btn-sm px-3 h-100">👍추천</button>
+							</form:form>
 						</div>
 					</div>
 				</div>
@@ -156,12 +160,30 @@ body {
 				</c:if>
 
 				<div class="participants-list">
+					<c:forEach var="wId" items="${wId }">
+						<div class="participant">
+							<div class="d-flex align-items-center">
+								<img src="/upload/king2.png" class="image" alt="">
+								<div align="center">
+									<table>
+										<tr>
+											<th>방장:</th>
+										</tr>
+										<tr>
+											<td>${wId }</td>
+										</tr>
+									</table>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+					</br>
+
 					<h5>참가자 목록</h5>
 					<c:forEach var="apply" items="${meetingApplies }">
 						<div class="participant">
 							<div class="d-flex align-items-center">
-								<img src="https://randomuser.me/api/portraits/men/1.jpg"
-									alt="참가자 1">
+								<img src="/upload/basic2.png" class="image" alt="">
 								<div align="center">
 									<table>
 										<tr>
