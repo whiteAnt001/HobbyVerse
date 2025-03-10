@@ -59,6 +59,19 @@ body {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+ /* 그라데이션 스타일 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        }
+        .gradient-btn {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border: none;
+            color: white;
+        }
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+        }
+
 /* 애니메이션 효과 */
 @
 keyframes fadeIn {from { opacity:0;
@@ -69,6 +82,7 @@ to {
 	opacity: 1;
 	transform: translateY(0);
 }
+
 }
 </style>
 </head>
@@ -106,19 +120,19 @@ to {
 	</div>
 
 	<div>
-		<form action="/category/search" method="post">
-			<div class="container mt-4">
-				<div class="row">
-					<div class="col-md-8 mx-auto">
-						<div
-							class="filter-bar d-flex justify-content-between align-items-center">
-							모임 검색<input type="text" name="NAME" /><input type="hidden"
-								name="KEY" value="${KEY }" /> <input type="submit" value="검색" />
-						</div>
-					</div>
+		<!-- 필터 & 정렬 -->
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-8 mx-auto">
+					<form action="/category/search" method="post" class="input-group">
+						<input type="text" class="form-control" name="NAME"
+							placeholder="검색어를 입력하세요..." /> <input type="hidden" name="KEY"
+							value="${KEY }" />
+						<button type="submit" class="btn gradient-btn">검색</button>
+					</form>
 				</div>
 			</div>
-		</form>
+		</div>
 
 		<c:if test="${not empty alertSuccess }">
 			<script type="text/javascript">
@@ -138,11 +152,11 @@ to {
 						<c:forEach var="key" items="${keyList}">
 							<div class="col-md-4 mb-4">
 								<table border="1">
-
 									<div class="meeting-card">
 										<div clss="p-3">
 											<div class="meeting-card">
 												<div class="p-3">
+												<img src="${pageContext.request.contextPath}/upload/${key.imagename}" alt="" class="image">
 													<!-- <th>모임 아이디</th> -->
 													${key.m_id }
 

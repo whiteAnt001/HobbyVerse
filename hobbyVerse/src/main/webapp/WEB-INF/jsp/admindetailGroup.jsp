@@ -160,26 +160,14 @@ body {
 						<h5>조회수</h5>
 						<p>👁️ ${views}</p>
 						<!-- 조회수 표시 추가 -->
-
-
 					</div>
 				</div>
 
 				<div class="participants-list">
 					<c:forEach var="wId" items="${wId }">
-						<div class="participant">
-							<div class="d-flex align-items-center">
-								<div align="center">
-									<table>
-										<tr><th>방장: </th></tr>
-										<tr><td>${wId }</td></tr>
-									</table>
-								</div>
-							</div>
-						</div>
+						<p><strong>방장: </strong>${wId}</p>
 					</c:forEach>
-					</br>
-	
+
 					<h5>참가자 목록</h5>
 					<c:forEach var="apply" items="${meetingApplies }">
 						<div class="participant">

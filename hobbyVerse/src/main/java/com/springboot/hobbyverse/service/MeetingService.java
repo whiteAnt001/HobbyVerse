@@ -53,8 +53,8 @@ public class MeetingService {
 
     public List<Meetup> getMeetList(Integer pageNo) {
         if (pageNo == null) pageNo = 1;
-        int start = (pageNo - 1) * 6;
-        int end = ((pageNo - 1) * 6) + 7;
+        int start = (pageNo - 1) * 4;
+        int end = ((pageNo - 1) * 4) + 5;
         StartEnd se = new StartEnd();
         se.setStart(start);
         se.setEnd(end);

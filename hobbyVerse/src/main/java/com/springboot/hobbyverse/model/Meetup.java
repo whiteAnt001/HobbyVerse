@@ -11,8 +11,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
@@ -41,7 +39,10 @@ public class Meetup {
     private String imagename;
 
     @CreationTimestamp
-    private LocalDateTime w_date = LocalDateTime.now();  // 등록 날짜
+    @Column(name = "w_date", nullable = false, updatable = false)
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime w_date; 
+    private String w_dateString;
     
     @Transient
     private String formattedW_date;

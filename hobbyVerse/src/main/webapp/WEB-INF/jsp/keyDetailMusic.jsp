@@ -32,35 +32,58 @@ body {
 	animation: fadeIn 1s ease-in-out;
 }
 
-/* 모임 카드 */
 .meeting-card {
 	background: white;
 	border-radius: 10px;
 	box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 	transition: transform 0.3s ease-in-out;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	padding: 10px;
+	height: 200px; /* 고정된 높이 */
 }
 
 .meeting-card:hover {
 	transform: scale(1.05);
 }
 
-.meeting-card img {
-	width: 100%;
-	height: 200px;
-	object-fit: cover;
-	border-radius: 10px 10px 0 0;
+.gradient-bg {
+	background: linear-gradient(135deg, #6a11cb, #2575fc);
 }
 
-/* 필터 & 정렬 바 */
+.gradient-btn {
+	background: linear-gradient(135deg, #6a11cb, #2575fc);
+	border: none;
+	color: white;
+}
+
+.gradient-btn:hover {
+	background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
+
+/* 이미지 스타일 */
+.meeting-card img {
+	object-fit: contain; /* 이미지가 부모 div에 맞게 크기 조정, 잘리지 않음 */
+	width: 100%; /* 부모 div 너비에 맞게 확장 */
+	height: 100%; /* 부모 div 높이에 맞게 확장 */
+	border-radius: 10px; /* 카드의 모서리에 맞게 이미지 둥글게 처리 */
+}
+
 .filter-bar {
 	background: white;
 	padding: 10px;
 	border-radius: 10px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-.image{width: 320px; height: 300px; margin-bottom: 10px;}
+
+.image {
+	width: 50px;
+	height: 50px;
+	margin-left: 10px;
+}
+
 /* 애니메이션 효과 */
-@
 keyframes fadeIn {from { opacity:0;
 	transform: translateY(-20px);
 }
@@ -84,80 +107,87 @@ to {
 	</div>
 
 	<!-- 필터 & 정렬 -->
-	<form action="/category/search" method="post">
-		<div class="container mt-4">
-			<div class="row">
-				<div class="col-md-8 mx-auto">
-					<div
-						class="filter-bar d-flex justify-content-between align-items-center">
-						모임 검색<input type="text" name="NAME" /><input type="hidden"
-							name="KEY" value="${KEY }" /> <input type="submit" value="검색" />
-					</div>
-				</div>
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+				<form action="/category/search" method="post" class="input-group">
+					<input type="text" class="form-control" name="NAME"
+						placeholder="검색어를 입력하세요..." /> <input type="hidden" name="KEY"
+						value="${KEY }" />
+					<button type="submit" class="btn gradient-btn">검색</button>
+				</form>
 			</div>
 		</div>
-	</form>
+	</div>
 
 	<!-- 모임 목록 -->
 	<div class="container mt-4">
 		<div class="row">
-
 			<c:forEach var="key" items="${keyCategory }">
 				<div class="col-md-4 mb-4">
+					<div class="meeting-card"
+						style="display: flex; justify-content: space-between; align-items: center;">
+						<div class="p-3" style="flex: 1; padding-right: 10px;">
+							<!-- 모임 아이디 -->
+							${key.m_id}
 
-						<div class="meeting-card">
-							<div class="p-3">
-							<img src="${pageContext.request.contextPath}/upload/${meet.imagename}" alt="" class="image">
-									<!-- <th>모임 아이디</th> -->
-									${key.m_id }
-									
-									<!-- <th>모임 이름</th> -->
-									<h5 class="card-title">${key.title }</h5>
+							<!-- 모임 이름 -->
+							<h5 class="card-title">${key.title}</h5>
 
-									<!-- <th>작성일</th> -->
-									<p class="card-text">날짜: ${key.m_date }</p>
+							<!-- 작성일 -->
+							<p class="card-text">날짜: ${key.m_date}</p>
 
-									<a href="/meetup/detailCategory.html?id=${key.m_id }" class="btn btn-primary">자세히보기</a>
-							</div>
+							<!-- 자세히보기 버튼 -->
+							<a href="/meetup/detailCategory.html?id=${key.m_id}"
+								class="btn btn-primary">자세히보기</a>
 						</div>
 
+						<!-- 이미지 오른쪽 정렬 -->
+						<div
+							style="width: 120px; height: 120px; overflow: hidden; position: relative;">
+							<img
+								src="${pageContext.request.contextPath}/upload/${key.imagename}"
+								alt="" class="image" />
+						</div>
+					</div>
 				</div>
 			</c:forEach>
-
 		</div>
 	</div>
-	
+
 	<div align="center">
-	<c:set var="pageCount" value="${pageCount}" />
-	<c:set var="currentPage" value="${currentPage}" />
-	
-	<c:set var="startPage" value="${currentPage - (currentPage % 10 == 0 ? 10 : (currentPage % 10)) + 1}" />
-    <c:set var="endPage" value="${startPage + 9}" />
-	<c:if test="${endPage > pageCount}">
-		<c:set var="endPage" value="${pageCount}"/>
-	</c:if>
+		<c:set var="pageCount" value="${pageCount}" />
+		<c:set var="currentPage" value="${currentPage}" />
 
-	<c:if test="${startPage > 1}">
-		<a href="/category/moveMusic?pageNo=${startPage - 1}">[이전]</a>
-	</c:if>
-
-	<c:forEach begin="${startPage }" end="${endPage}" var="i">
-		<c:if test="${currentPage == i}">
-			<font size="6">
+		<c:set var="startPage"
+			value="${currentPage - (currentPage % 10 == 0 ? 10 : (currentPage % 10)) + 1}" />
+		<c:set var="endPage" value="${startPage + 9}" />
+		<c:if test="${endPage > pageCount}">
+			<c:set var="endPage" value="${pageCount}" />
 		</c:if>
-		<a href="/category/moveMusic?pageNo=${i}">${i}</a>
-		<c:if test="${currentPage == i}">
-			</font>
-		</c:if>
-	</c:forEach>
 
-	<c:if test="${endPage < pageCount}">
-		<a href="/category/moveMusic?pageNo=${endPage + 1}">[다음]</a>
-	</c:if>
-</div>
+		<c:if test="${startPage > 1}">
+			<a href="/category/moveSport?pageNo=${startPage - 1}">[이전]</a>
+		</c:if>
+
+		<c:forEach begin="${startPage }" end="${endPage}" var="i">
+			<c:if test="${currentPage == i}">
+				<font size="6">
+			</c:if>
+			<a href="/category/moveSport?pageNo=${i}">${i}</a>
+			<c:if test="${currentPage == i}">
+				</font>
+			</c:if>
+		</c:forEach>
+
+		<c:if test="${endPage < pageCount}">
+			<a href="/category/moveSport?pageNo=${endPage + 1}">[다음]</a>
+		</c:if>
+	</div>
 
 	<!-- Bootstrap JS -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
