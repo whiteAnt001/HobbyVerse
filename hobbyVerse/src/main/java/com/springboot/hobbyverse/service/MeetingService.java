@@ -159,9 +159,7 @@ public class MeetingService {
     @Transactional
     public void incrementViewsDirectly(Integer id) {
         int updatedRows = meetupRepository.incrementViewsById(id);
-        
     }
-
 
     public Meetup getMeet(Integer m_id) {
         return meetingMapper.getMeet(m_id);

@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.hobbyverse.mapper.ReportMapper">
+    <!-- 모임 신고 -->
+    <insert id="putReport" parameterType="com.springboot.hobbyverse.model.Report">
+        insert into report(m_id, email, reason, report_date) 
+        values(#{m_id}, #{email}, #{reason}, current_timestamp)
+    </insert> 	
+	<!-- 모든 신고 목록 -->
+    <select id="getReportList" resultType="com.springboot.hobbyverse.model.Report" parameterType="com.springboot.hobbyverse.model.StartEnd">
+	    select * 
+	    from(
+	        select rownum rn, r.* 
+	        from (
+	            select * 
+	            from report 
+	            order by report_id asc
+	        ) r
+	    ) m
+	    where rn > #{start} and rn <![CDATA[<]]> #{end}
+	</select>
+    <!-- 특정 모임 ID에 대한 신고 횟수 찾기 -->
+    <select id="getReportCountById" resultType="Integer" parameterType="Integer">
+        select count(*) 
+        from report
+        where m_id = #{m_id}
+    </select>    
+	<!-- 신고된 모임 총 갯수 -->
+    <select id="getReportTotal" resultType="Integer">
+        select count(*) from report
+    </select>    
+    <!-- 모임별 신고된 횟수 -->
+    <select id="getReportedMeeting" resultType="com.springboot.hobbyverse.model.Meetup">
+        select m.*, count(r.report_id) as report_count
+        from meetup m
+        left join report r on m.m_id = r.m_id
+        group by m.m_id
+    </select>
+    <!-- 신고된 모임 상세보기 -->
+    <select id="getReportDetail" resultType="com.springboot.hobbyverse.model.Report" parameterType="Integer">
+    	select * from report where report_id=#{report_id}
+    </select>   
+    <!-- 모임 리스트 -->
+    <select id="getMeetingList" resultType="com.springboot.hobbyverse.model.Meetup">
+    	select * from meetup 
+    </select>
+    <!-- 신고된 모임 삭제 -->
+    <delete id="deleteReports" parameterType="Integer">
+    	delete from report where report_id = #{report_id}
+    </delete>
+    
+    <select id="getReportCountByTitle" parameterType="String" resultType="Integer">
+      select count(*)
+	    from report r
+	    join meetup m on r.m_id = m.m_id
+	    where m.title like '%' || #{title} || '%'
+   </select><!-- 모임제목으로 모임 갯수 검색 -->
+   <select id="getReportByTitle" parameterType="com.springboot.hobbyverse.model.StartEnd" 
+         resultType="com.springboot.hobbyverse.model.Report">
+     select *
+	    from (
+	        select r.report_id, r.m_id, r.email, r.reason, r.report_date, r.report_count, rownum as rn
+	        from report r
+	        join meetup m on r.m_id = m.m_id
+	        where m.title like '%' || #{title} || '%'
+	        order by r.report_count desc
+	    )
+	    where rn > #{start} and rn <![CDATA[<]]> #{end}
+   </select><!-- 모임제목으로 모임 검색 -->
+</mapper>
