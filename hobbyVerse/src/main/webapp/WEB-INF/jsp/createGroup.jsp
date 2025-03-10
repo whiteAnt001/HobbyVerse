@@ -70,8 +70,27 @@
                 <label for="info" class="form-label">모임 설명</label><br/>
                 <form:textarea path="info" class="form-control" id="info" name="info" rows="3" required="true"></form:textarea>
             </div>
+			<div class="mb-3">
+				<!-- 주소 검색 기능 추가 부분 -->
+				<div class="mb-3">
+					<label for="address" class="form-label">모임 위치</label><br /> <input
+						type="text" id="address" placeholder="장소를 입력하세요"
+						style="width: 300px;">
+					<button type="button" id="search-btn">장소 검색</button>
 
-            <div class="mb-3">
+					<!-- 지도 표시 영역 -->
+					<div id="map"
+						style="width: 500px; height: 400px; margin-top: 10px;"></div>
+
+					<!-- 위도, 경도, 주소를 저장하는 숨겨진 입력 필드 -->
+					<input type="hidden" id="latitude" name="latitude"> <input
+						type="hidden" id="longitude" name="longitude"> <input
+						type="hidden" id="hidden-address" name="address">
+					<!-- 숨겨진 주소 필드 -->
+				</div>
+
+			</div>
+			<div class="mb-3">
                 <label for="c_key" class="form-label">카테고리</label>
                 <form:select path="c_key" id="c_key" name="c_key" required="true">
                     <c:forEach var="category" items="${categoryList}">
@@ -157,5 +176,60 @@
 	    }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281&libraries=services"></script>
+	<script type="text/javascript">
+    // 카카오 지도 API 로드 후 실행될 함수
+    function initMap() {
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(37.5665, 126.9780), // 기본 서울 위치
+            level: 3 // 지도 레벨 설정
+        };
+
+        var map = new kakao.maps.Map(container, options);
+        var marker = new kakao.maps.Marker({
+            map: map
+        });
+
+        // 장소 검색 버튼 클릭 시 처리
+        document.getElementById('search-btn').addEventListener('click', function() {
+            var placeName = document.getElementById('address').value;
+            if (!placeName) {
+                alert('장소를 입력해주세요.');
+                return;
+            }
+
+            var ps = new kakao.maps.services.Places(); // 장소 검색 서비스 객체 생성
+
+            // 장소 검색
+            ps.keywordSearch(placeName, function(results, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    // 검색된 첫 번째 장소에 대한 정보를 가져옵니다.
+                    var place = results[0];
+                    var latLng = new kakao.maps.LatLng(place.y, place.x); // 검색된 장소의 좌표
+
+                    // 지도 이동
+                    map.setCenter(latLng);
+
+                    // 마커 위치 설정
+                    marker.setPosition(latLng);
+
+                    // 위도, 경도를 폼에 자동으로 입력
+                    document.getElementById('latitude').value = place.y;
+                    document.getElementById('longitude').value = place.x;
+
+                    // 주소를 숨겨진 필드에 저장
+                    document.getElementById('hidden-address').value = place.address_name;
+
+                } else {
+                    alert('장소를 찾을 수 없습니다. 다시 시도해 주세요.');
+                }
+            });
+        });
+    }
+
+    // 페이지 로드 후 지도 초기화
+    window.onload = initMap;
+</script>
 </body>
 </html>

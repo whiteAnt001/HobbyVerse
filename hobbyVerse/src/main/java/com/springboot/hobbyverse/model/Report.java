@@ -20,6 +20,7 @@ public class Report {
 	private String email;
 	private String reason;
 	private LocalDateTime report_date;
+	private Integer report_count;
 	
 	private Meetup meetup;
 }

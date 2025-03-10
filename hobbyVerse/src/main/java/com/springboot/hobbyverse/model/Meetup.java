@@ -58,8 +58,17 @@ public class Meetup {
 
     private Integer recommend;
     
-    @Column(name = "email", nullable = false)
+    @Column(name = "email")
     private String email;
+    
+    @Column(name = "latitude")
+    private Double latitude; //위도 저장
+    
+    @Column(name = "longitude")
+    private Double longitude; //경도 저장
+    
+    @Column(name = "address")
+    private String address; //주소 저장
     
     public String getformattedW_date() {
         if (w_date != null) {

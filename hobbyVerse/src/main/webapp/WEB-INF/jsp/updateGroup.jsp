@@ -83,22 +83,103 @@
                             <div class="mb-3">
                                 <label for="file" class="form-label">모임 사진</label>
                                 <input type="file" class="form-control" id="file" name="file">
-                                <small class="text-muted">
-                                    JPEG, PNG 형식의 이미지만 업로드 가능합니다.
-                                </small>
+                                <small class="text-muted">JPEG, PNG 형식의 이미지만 업로드 가능합니다. (파일을 선택하지 않으면 기존 이미지 유지)</small>
                             </div>
-                            
-                            <div align="center">
+
+							<div class="mb-3">
+								<!-- 주소 검색 기능 추가 부분 -->
+								<div class="mb-3">
+									<label for="address" class="form-label">모임 위치</label><br /> 
+									<input type="text" id="address" placeholder="장소를 입력하세요" style="width: 300px;">
+									<button type="button" id="search-btn">장소 검색</button><br/>
+									<small class="text-muted">건물이름, 장소로만 검색 가능합니다.(장소를 입력하지 않으면 기존 장소 유지)</small>
+
+									<!-- 지도 표시 영역 -->
+									<div id="map"
+										style="width: 500px; height: 400px; margin-top: 10px;"></div>
+
+									<!-- 위도, 경도, 주소를 저장하는 숨겨진 입력 필드 -->
+									<input type="hidden" id="latitude" name="latitude" value="${ meetup.latitude }"> 
+									<input type="hidden" id="longitude" name="longitude" value="${ meetup.longitude }">
+									<input type="hidden" id="hidden-address" name="address" value="${ meetup.address }">
+									<!-- 숨겨진 주소 필드 -->
+								</div>
+							<div align="center">
                                 <button type="submit" class="btn btn-primary">수정하기</button>
                                 <a href="/meetup/detail.html?id=${meetup.m_id}" class="btn btn-secondary">취소</a>
                             </div>
-                        </form:form>
+						</form:form>
                         <script type="text/javascript">
                         function check(frm){
                         	if (! confirm("정말로 수정하시겠습니까?")) return false;	
                         }
                         </script>
-                    </div>
+                        <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281&libraries=services"></script>
+
+<script type="text/javascript">
+    // 카카오 지도 API 로드 후 실행될 함수
+    function initMap() {
+        var container = document.getElementById('map');
+        var options = {
+            center: new kakao.maps.LatLng(37.5665, 126.9780), // 기본 서울 위치
+            level: 3 // 지도 레벨 설정
+        };
+
+        var map = new kakao.maps.Map(container, options);
+        var marker = new kakao.maps.Marker({
+            map: map
+        });
+
+        // 장소 검색 버튼 클릭 시 처리
+        document.getElementById('search-btn').addEventListener('click', function() {
+            var placeName = document.getElementById('address').value;
+            if (!placeName) {
+                alert('장소를 입력해주세요.');
+                return;
+            }
+
+            // 카카오 Places 서비스 객체 생성
+            var ps = new kakao.maps.services.Places(); 
+
+            // 장소 검색
+            ps.keywordSearch(placeName, function(results, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    // 검색된 첫 번째 장소에 대한 정보를 가져옵니다.
+                    var place = results[0];
+                    var latLng = new kakao.maps.LatLng(place.y, place.x); // 검색된 장소의 좌표
+
+                    // 지도 이동
+                    map.setCenter(latLng);
+
+                    // 마커 위치 설정
+                    marker.setPosition(latLng);
+                    marker.setMap(map); // 마커를 명시적으로 지도에 다시 추가
+
+                    // 위도, 경도를 폼에 자동으로 입력
+                    document.getElementById('latitude').value = place.y;
+                    document.getElementById('longitude').value = place.x;
+
+                    // 주소를 숨겨진 필드에 저장
+                    document.getElementById('hidden-address').value = place.address_name;
+                } else {
+                    alert('장소를 찾을 수 없습니다. 다시 시도해 주세요.');
+                }
+            });
+        });
+    }
+
+    // 카카오 지도 API 스크립트 로드 확인 후 지도 초기화
+    window.onload = function() {
+        if (typeof kakao === 'undefined') {
+            console.error("카카오 지도 API가 로드되지 않았습니다.");
+        } else {
+            initMap(); // 지도 초기화 함수 호출
+        }
+    };
+</script>
+
+
+					</div>
                 </div>
             </div>
         </div>
