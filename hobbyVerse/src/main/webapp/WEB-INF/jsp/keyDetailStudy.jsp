@@ -50,7 +50,7 @@ body {
 	object-fit: cover;
 	border-radius: 10px 10px 0 0;
 }
-
+.image{width: 320px; height: 300px; margin-bottom: 10px;}
 /* 필터 & 정렬 바 */
 .filter-bar {
 	background: white;

@@ -14,6 +14,7 @@
         .gradient-bg { background: linear-gradient(135deg, #6a11cb, #2575fc); }
         .gradient-btn { background: linear-gradient(135deg, #6a11cb, #2575fc); border: none; color: white; }
         .gradient-btn:hover { background: linear-gradient(135deg, #2575fc, #6a11cb); }
+        .image{width: 320px; height: 300px; margin-bottom: 10px;}
     </style>
 </head>
 <body>
@@ -43,12 +44,16 @@
                 <c:forEach var="meet" items="${meetList}">
                     <div class="col-md-4 mb-4">
                         <div class="card shadow-sm">
-                            <div class="card-body">
-                                <h5 class="card-title">${meet.title}</h5>
-                                <p class="card-text">날짜: ${meet.m_date}</p>
-                                <p class="card-text" style="font-size: 13px;">👍${meet.recommend }</p>
-                                <a href="/meetup/detail.html?id=${meet.m_id}" class="btn btn-primary">자세히 보기</a>
-                            </div>
+                            <div class="card-body d-flex align-items-center">
+		                        <div class="me-3">
+		                        	<img src="${pageContext.request.contextPath}/upload/${meet.imagename}" alt="" class="image">
+		                            <h5 class="card-title">${meet.title}</h5>
+		                            <p class="card-text">날짜: ${meet.m_date}</p>
+		                            <p class="card-text" style="font-size: 13px;">👍${meet.recommend }</p>
+		                            <!-- 일반 버튼으로 수정 -->
+		                            <a href="/meetup/detail.html?id=${meet.m_id }" class="btn btn-primary">자세히 보기</a>
+		                        </div>
+		                    </div>
                         </div>
                     </div>
                 </c:forEach>

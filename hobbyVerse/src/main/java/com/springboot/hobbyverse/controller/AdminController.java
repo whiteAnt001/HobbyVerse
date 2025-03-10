@@ -1,12 +1,10 @@
 package com.springboot.hobbyverse.controller;
 
-import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -16,29 +14,28 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.fasterxml.jackson.core.sym.Name;
 import com.springboot.hobbyverse.config.SecurityConfig;
 import com.springboot.hobbyverse.dto.TopCategoryDTO;
 import com.springboot.hobbyverse.dto.UpdateUserRequest;
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
+import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.User;
-import com.springboot.hobbyverse.model.UserActivity;
 import com.springboot.hobbyverse.repository.UserRepository;
 import com.springboot.hobbyverse.service.AdminSearchService;
 import com.springboot.hobbyverse.service.InquiryService;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
+import com.springboot.hobbyverse.service.ReportService;
+import com.springboot.hobbyverse.service.ReportService;
 import com.springboot.hobbyverse.service.UserActivityService;
 import com.springboot.hobbyverse.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
-import jakarta.websocket.Session;
 import lombok.RequiredArgsConstructor;
 
 @RestController
@@ -53,6 +50,7 @@ public class AdminController {
     private final UserActivityService userActivityService;
     private final AdminSearchService adminSearchService;
     private final MeetingApplyService meetingApplyService;
+    private final ReportService reportService;
     
     //관리자 전용 대시보드 경로
     @GetMapping("/dashboard")
@@ -297,4 +295,84 @@ public class AdminController {
 
 	   return mav;
    }
+   
+ //신고된 모임 확인
+   @GetMapping("/reports")
+   public ModelAndView reports(Integer PAGE_NUM, HttpSession session) {
+       ModelAndView mav = new ModelAndView("report_management");
+       User user = (User) session.getAttribute("loginUser");
+       int currentPage = 1;
+       if (PAGE_NUM != null) currentPage = PAGE_NUM;
+       int start = (currentPage - 1) * 10; 
+       int end = start + 11;       
+       List<Report> reportList = this.reportService.getReportList(PAGE_NUM); // 신고 목록
+       List<Meetup> meetList = this.reportService.getReportedMeeting(); // 모임별 신고 횟수
+       Integer totalCount = this.reportService.getReportTotal();
+       int pageCount = totalCount / 10;
+       if(totalCount % 10 != 0) pageCount++;
+       mav.addObject("START", start);
+       mav.addObject("END", end);
+       mav.addObject("TOTAL", totalCount);
+       mav.addObject("LIST",meetList); 
+       mav.addObject("pageCount", pageCount);
+       mav.addObject("currentPage", currentPage);
+       mav.addObject("reportList", reportList);
+       mav.addObject("meetList", meetList);
+       mav.addObject("user", user);
+
+       return mav;
+   }
+   
+   //신고된 모임 상세
+   @GetMapping("/reportsDetail")
+   public ModelAndView reportsDetail(Integer report_id, HttpSession session) {
+       ModelAndView mav = new ModelAndView("reportsDetail");
+       User user = (User)session.getAttribute("loginUser");
+       Report report = this.reportService.getReportDetail(report_id);// 해당 신고 정보 조회
+       List<Meetup> meetList = this.reportService.getMeetingList(); // 모임 리스트 조회
+       mav.addObject("report", report);
+       mav.addObject("meetList", meetList); // meetList 추가
+       mav.addObject("report_id", report_id);
+       mav.addObject("user", user);
+       return mav;
+   }
+   
+   //신고된 모임 삭제
+   @DeleteMapping("/reportsDelete/{report_id}")
+   public ResponseEntity<Map<String, String>> reportsDelete(@PathVariable Integer report_id){
+   	Map<String, String> response = new HashMap<>();   	
+   	this.reportService.deleteReports(report_id);  	
+   	if(report_id == null) {
+       	response.put("message", "모임을 찾을 수 없습니다.");
+       	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+   	}   	
+       response.put("message", "모임을 성공적으로 삭제했습니다.");
+       return ResponseEntity.status(HttpStatus.OK).body(response);
+   }
+   
+   @GetMapping("/reportsSearch")
+   public ModelAndView reportsSearch(String title, Integer PAGE_NUM, HttpSession session) {
+       ModelAndView mav = new ModelAndView("reportSearchGroup");
+       User user = (User) session.getAttribute("loginUser");
+       int currentPage = 1;
+       if (PAGE_NUM != null) currentPage = PAGE_NUM;
+       int start = (currentPage - 1) * 10; 
+       int end = start + 11;       
+       List<Report> reportList = this.reportService.getReportByTitle(title, PAGE_NUM); // 신고 목록
+       List<Meetup> meetList = this.reportService.getReportedMeeting(); // 모임별 신고 횟수
+       Integer totalCount = this.reportService.getReportCountByTitle(title);
+       int pageCount = totalCount / 10;
+       if(totalCount % 10 != 0) pageCount++;
+       mav.addObject("START", start);
+       mav.addObject("END", end);
+       mav.addObject("TOTAL", totalCount);
+       mav.addObject("LIST",meetList); 
+       mav.addObject("pageCount", pageCount);
+       mav.addObject("currentPage", currentPage);
+       mav.addObject("reportList", reportList);
+       mav.addObject("meetList", meetList);
+       mav.addObject("title", title);
+       mav.addObject("user", user);
+       return mav;
+   }  
 }

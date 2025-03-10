@@ -14,6 +14,7 @@ import com.springboot.hobbyverse.mapper.MeetingMapper;
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
+import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.StartEnd;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.MeetupRepository;
@@ -158,9 +159,7 @@ public class MeetingService {
     @Transactional
     public void incrementViewsDirectly(Integer id) {
         int updatedRows = meetupRepository.incrementViewsById(id);
-        
     }
-
 
     public Meetup getMeet(Integer m_id) {
         return meetingMapper.getMeet(m_id);

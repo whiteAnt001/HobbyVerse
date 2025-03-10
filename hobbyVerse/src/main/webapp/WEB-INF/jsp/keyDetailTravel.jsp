@@ -58,7 +58,7 @@ body {
 	border-radius: 10px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-
+.image{width: 320px; height: 300px; margin-bottom: 10px;}
 /* 애니메이션 효과 */
 @
 keyframes fadeIn {from { opacity:0;
