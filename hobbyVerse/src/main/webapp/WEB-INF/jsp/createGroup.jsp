@@ -69,8 +69,13 @@
                 <label for="info" class="form-label">모임 설명</label><br/>
                 <form:textarea path="info" class="form-control" id="info" name="info" rows="3" cols="150" required="true"></form:textarea>
             </div>
-
-            <div class="mb-3">
+			<div class="mb-3">
+				<label for="info" class="form-label">모임 위치</label><br />
+				<input type="text" id="address" placeholder="주소를 입력하세요" style="width: 300px;">
+				<button onclick="searchLocation()">검색</button>
+				<div id="map" style="width: 500px; height: 400px;"></div>
+			</div>
+			<div class="mb-3">
                 <label for="c_key" class="form-label">카테고리</label>
                 <form:select path="c_key" id="c_key" name="c_key" required="true">
 				    <c:forEach var="category" items="${categoryList}">
@@ -100,21 +105,90 @@
 		</div>
         </form:form>
     </div>
+	<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281"></script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-     <script>
-        document.querySelector('form').addEventListener('submit', function(event) {
-            // 파일 유효성 검사
-            var fileInput = document.querySelector('#file');
-            var file = fileInput.files[0];
-            if (file) {
-                var fileType = file.type;
-                if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
-                    event.preventDefault();
-                    alert('JPEG 또는 PNG 형식의 파일만 업로드 가능합니다.');
-                    return;
-                }
-            }
-    </script>
+
+	<script>
+		window.onload = function() {
+			// API가 로드될 때까지 기다렸다가 실행
+			if (window.kakao && window.kakao.maps) {
+				initMap();
+			} else {
+				setTimeout(function() {
+					initMap();
+				}, 500);
+			}
+		};
+
+		function initMap() {
+			var container = document.getElementById('map');
+			var options = {
+				center : new kakao.maps.LatLng(33.450701, 126.570667),
+				level : 3
+			};
+
+			var map = new kakao.maps.Map(container, options);
+		}
+	</script>
+
+	<script>
+		var map;
+		var geocoder;
+		var marker;
+
+		function initMap() {
+			var container = document.getElementById('map');
+			var options = {
+				center : new kakao.maps.LatLng(37.5665, 126.9780), // 초기 지도 중심 좌표
+				level : 3
+			};
+			map = new kakao.maps.Map(container, options);
+			geocoder = new kakao.maps.services.Geocoder(); // 주소 검색 객체 생성
+		}
+
+		function searchLocation() {
+			var address = document.getElementById('address').value;
+			geocoder.addressSearch(address,
+					function(result, status) {
+						if (status === kakao.maps.services.Status.OK) {
+							var coords = new kakao.maps.LatLng(result[0].y,
+									result[0].x);
+
+							if (marker)
+								marker.setMap(null); // 기존 마커 삭제
+							marker = new kakao.maps.Marker({
+								position : coords,
+								map : map
+							});
+
+							map.setCenter(coords); // 지도 중심 이동
+						} else {
+							alert("주소를 찾을 수 없습니다.");
+						}
+					});
+		}
+
+		window.onload = initMap;
+	</script>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		document.querySelector('form').addEventListener(
+				'submit',
+				function(event) {
+					// 파일 유효성 검사
+					var fileInput = document.querySelector('#file');
+					var file = fileInput.files[0];
+					if (file) {
+						var fileType = file.type;
+						if (fileType !== 'image/jpeg'
+								&& fileType !== 'image/png') {
+							event.preventDefault();
+							alert('JPEG 또는 PNG 형식의 파일만 업로드 가능합니다.');
+							return;
+						}
+					}
+				});
+	</script>
 </body>
 </html>
