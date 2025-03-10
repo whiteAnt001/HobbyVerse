@@ -119,34 +119,26 @@ to {
 			<c:forEach var="key" items="${keyCategory }">
 				<div class="col-md-4 mb-4">
 
-					<div class="meeting-card">
-						<div class="p-3">
-							<img
-								src="${pageContext.request.contextPath}/upload/${meet.imagename}"
-								alt="" class="image">
-							<!-- <th>모임 아이디</th> -->
-							${key.m_id }
-						<div class="meeting-card">
-							<div class="p-3">
-							<img src="${pageContext.request.contextPath}/upload/${key.imagename}" alt="" class="image">
+							<div class="meeting-card">
+								<div class="p-3">
+									<img
+										src="${pageContext.request.contextPath}/upload/${key.imagename}"
+										alt="" class="image">
 									<!-- <th>모임 아이디</th> -->
 									${key.m_id }
-									
+
 									<!-- <th>모임 이름</th> -->
 									<h5 class="card-title">${key.title }</h5>
 
-							<!-- <th>모임 이름</th> -->
-							<h5 class="card-title">${key.title }</h5>
+									<!-- <th>작성일</th> -->
+									<p class="card-text">날짜: ${key.m_date }</p>
 
-							<!-- <th>작성일</th> -->
-							<p class="card-text">날짜: ${key.m_date }</p>
+									<a href="/meetup/detailCategory.html?id=${key.m_id }"
+										class="btn btn-primary">자세히보기</a>
+								</div>
+							</div>
 
-							<a href="/meetup/detailCategory.html?id=${key.m_id }"
-								class="btn btn-primary">자세히보기</a>
 						</div>
-					</div>
-
-				</div>
 			</c:forEach>
 
 		</div>
