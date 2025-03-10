@@ -23,7 +23,7 @@
 </style>
 
 <nav class="navbar navbar-expand-lg navbar-dark gradient-bg">
-	<div class="container">
+	<div class="container-fluid">
 		<a class="navbar-brand" href="/api/admin/dashboard">HobbyVerse 관리자</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 			data-bs-target="#adminNavbar">
@@ -39,7 +39,7 @@
 				<li class="nav-item"><a class="nav-link" href="/api/admin/meetings">모임 관리</a></li>
 				<li class="nav-item">
 					<form action="/logout" method="post">
-						<button type="submit" class="btn btn-danger">🚪 로그아웃</button>
+						<button type="submit" class="btn btn-danger">로그아웃</button>
 					</form>
 				</li>
 			</ul>

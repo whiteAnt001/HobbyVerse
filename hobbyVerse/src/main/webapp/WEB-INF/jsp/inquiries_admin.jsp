@@ -26,21 +26,22 @@
                 </tr>
             </thead>
             <tbody>
-				<c:forEach var="inquiry" items="${inquiryList}">
-				    <tr>
-				        <td>${inquiry.seq}</td>
-						<td>${inquiry.title}</td>
+            <c:forEach var="inquiry" items="${inquiryList}">
+                <tr>
+                    <td>${inquiry.seq}</td>
+                  <td>${inquiry.title}</td>
 
 				        <td>${inquiry.userEmail}</td>
 				        <td>${inquiry.formattedCreatedAt}</td>
 				        <td>
-							<button type="button" class="btn btn-warning btn-sm" onclick="location.href='/api/admin/inquiries/edit/${inquiry.seq}'">
-							    ✏ 수정
+							<button type="button" class="btn btn-warning btn-sm" onclick="location.href='/api/admin/inquiries/edit/${inquiry.id}'">
+							    ✏ 답변
 							</button>
 
-				            <form action="/api/admin/inquiries/delete/${inquiry.seq}" method="post" style="display:inline;">
-				                <button type="submit" class="btn btn-danger btn-sm">🗑 삭제</button>
-				            </form>
+							<form action="/api/admin/inquiries/delete/${inquiry.id}" method="post" style="display:inline;">
+							    <button type="submit" class="btn btn-danger btn-sm">🗑 삭제</button>
+							</form>
+
 				        </td>
 				    </tr>
 				</c:forEach>

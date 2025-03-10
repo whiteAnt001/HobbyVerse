@@ -22,6 +22,21 @@
 
     <div class="container mt-5">
         <h2 class="text-center">📅 모임 관리</h2>
+        
+        <form action="/api/admin/searchMeet" method="post">
+        	<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-8 mx-auto">
+					<div
+						class="filter-bar d-flex justify-content-between align-items-center">
+						검색 <input type="text" name="TITLE"/>
+							<input type="submit" value="검색"/>
+					</div>
+				</div>
+			</div>
+			</div>
+        </form>
+        
         <table class="table table-hover mt-4">
             <thead class="table-dark">
                 <tr>
@@ -30,6 +45,7 @@
                     <th>주최자</th>
                     <th>날짜</th>
                     <th>관리</th>
+                    <th>유저 관리</th>
                 </tr>
             </thead>
             <tbody>
@@ -42,6 +58,9 @@
                         <td>
                             <a href="/api/admin/meeting/edit/form/${meeting.m_id }" class="btn btn-warning btn-sm">✏ 수정</a>
                             <a class="btn btn-danger btn-sm" onclick="deleteMeeting(${meeting.m_id})">🗑 삭제</a>
+                        </td>
+                        <td>
+                        	<a href="/api/admin/showUserList?m_id=${meeting.m_id }" style="text-decoration: none;">가입자 보기</a>
                         </td>
                     </tr>
                 </c:forEach>

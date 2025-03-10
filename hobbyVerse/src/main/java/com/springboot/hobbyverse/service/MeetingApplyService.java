@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.springboot.hobbyverse.mapper.MeetingApplyMapper;
 import com.springboot.hobbyverse.model.MeetingApply;
+import com.springboot.hobbyverse.model.User;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;

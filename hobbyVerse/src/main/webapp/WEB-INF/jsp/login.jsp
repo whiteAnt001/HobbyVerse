@@ -115,7 +115,7 @@
                 </div>
                 <div align="center" class="social-login-btn mt-2">
                 <a href="<c:url value='/oauth2/authorization/google'/>">
-                    <img src="/img/google1.png" alt="Google">
+                    <img src="/img/google.png" alt="Google">
                 </a>
                 </div>
                 <div class="social-login-btn mt-2" align="center">

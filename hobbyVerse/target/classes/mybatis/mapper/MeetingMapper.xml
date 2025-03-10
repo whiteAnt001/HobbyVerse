@@ -46,7 +46,7 @@
    </select><!-- 관리자용 모임 목록 -->
    
    <select id="getMeetingByUser"  parameterType="String" resultType="com.springboot.hobbyverse.model.Meetup">
-      select * from meetup where w_id = #{id}
+      select * from meetup where email = #{id}
    </select>
    
    <select id="getCategoryList" resultType="com.springboot.hobbyverse.model.Category">
@@ -123,4 +123,9 @@
       resultType="com.springboot.hobbyverse.model.Meetup">
       select * from meetup where m_id = #{m_id}
    </select>
+   
+   <!-- 모임 아이디로 주최자 가져오기 -->
+	<select id="getW_id" parameterType="Integer" resultType="String">
+		select w_id from meetup where m_id = #{m_id}
+	</select>
 </mapper>

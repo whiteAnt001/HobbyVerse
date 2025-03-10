@@ -14,7 +14,8 @@
 		from category c, meetup m where c.c_key = m.c_key and m.c_key = #{c_key}
 		and m.title like '%' || #{title} || '%') a
 		)
-		where rank > #{start} and rank <![CDATA[<]]>
+		where rank > #{start} and
+		rank <![CDATA[<]]>
 		#{end}
 	</select>
 
@@ -22,7 +23,8 @@
 	<select id="getKeyCountByName"
 		parameterType="com.springboot.hobbyverse.model.SameMeeting"
 		resultType="Integer">
-		select count(*) from meetup where title like '%' || #{title} || '%' and
+		select count(*) from meetup where title like '%' ||
+		#{title} || '%' and
 		c_key = #{c_key}
 	</select>
 
@@ -31,7 +33,8 @@
 		resultType="com.springboot.hobbyverse.model.Meetup"
 		parameterType="com.springboot.hobbyverse.model.StartEnd">
 		select * from (select ROW_NUMBER() OVER() as rank, a.*
-		from (select * from meetup where c_key = #{c_key} ) a)
+		from (select *
+		from meetup where c_key = #{c_key} ) a)
 		where rank > #{start} and rank <![CDATA[<]]>
 		#{end}
 	</select>

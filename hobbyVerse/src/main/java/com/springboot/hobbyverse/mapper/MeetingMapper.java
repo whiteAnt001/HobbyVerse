@@ -12,6 +12,7 @@ import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
 import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.StartEnd;
+import com.springboot.hobbyverse.model.User;
 
 
 @Mapper
@@ -54,4 +55,5 @@ public interface MeetingMapper {
    
    Meetup getMeet(Integer m_id);// 모임 아이디로 모임 찾기
    Meetup getMeetTitle(Integer m_id);//모임 아이디로 모임 이름 찾기
+   String getW_id(Integer m_id);//모임 아이디로 주뢰자 가져오기
 }

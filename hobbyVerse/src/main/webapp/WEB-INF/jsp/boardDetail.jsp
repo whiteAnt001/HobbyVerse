@@ -168,7 +168,7 @@
         </c:if>
 
         <!-- ✅ 수정/삭제 권한이 없는 경우 -->
-        <c:if test="${empty user or user.email != board.email and user.email == board.email || user.role == 'ROLE_ADMIN'}">
+        <c:if test="${empty user or user.email != board.email}">
         <p>${board.content}</p>
             <a href="/boards" class="btn btn-secondary">목록으로</a>
         </c:if>
@@ -201,78 +201,93 @@
 			</form>
 		</c:if>
         <hr>
-</div>
+	</div>
        <!-- 댓글 목록 표시 -->
-<div id="commentList">
-    <h3>댓글 목록</h3>
+	<div id="commentList">
+		<h3>댓글 목록</h3>
 
-    <c:forEach var="comment" items="${comments}">
-        <c:if test="${empty comment.parentId}">
-            <div class="comment" id="comment-${comment.id}">
-                <div class="comment-header">
-                    <span class="comment-user">${comment.userName}</span>
-                    <span class="comment-date">${comment.createdAt}</span>
-                </div>
-                <p class="comment-content">${comment.content}</p>
+		<c:forEach var="comment" items="${comments}">
+			<c:if test="${empty comment.parentId}">
+				<div class="comment" id="comment-${comment.id}">
+					<div class="comment-header">
+						<span class="comment-user">${comment.userName}</span> <span
+							class="comment-date">작성일: ${comment.createdAtString}</span>
+					</div>
+					<p class="comment-content">${comment.content}</p>
 
-                <!-- 수정 및 삭제 버튼 (작성자만 가능) -->
-                <c:if test="${user.email == comment.userEmail}">
-                    <button type="button" class="btn btn-warning btn-sm" onclick="toggleEditForm(${comment.id})">수정</button>
-                    <button type="button" class="btn btn-danger btn-sm" onclick="deleteComment(${comment.id})">삭제</button>
-                </c:if>
+					<!-- 수정 및 삭제 버튼 (작성자만 가능) -->
+					<c:if test="${user.email == comment.userEmail || user.role == 'ROLE_ADMIN'}">
+						<button type="button" class="btn btn-warning btn-sm"
+							onclick="toggleEditForm(${comment.id})">수정</button>
+						<button type="button" class="btn btn-danger btn-sm"
+							onclick="deleteComment(${comment.id})">삭제</button>
+					</c:if>
 
-                <!-- 답글 버튼 -->
-                <button type="button" class="btn btn-secondary btn-sm" onclick="toggleReplyForm(${comment.id})">답글</button>
+					<!-- 답글 버튼 -->
+					<button type="button" class="btn btn-secondary btn-sm"
+						onclick="toggleReplyForm(${comment.id})">답글</button>
 
-                <!-- 댓글 수정 폼 (숨김 처리) -->
-                <div id="edit-form-${comment.id}" style="display: none;">
-                    <textarea id="edit-input-${comment.id}" class="form-control" rows="3">${comment.content}</textarea>
-                    <button type="button" class="btn btn-primary btn-sm mt-1" onclick="updateComment(${comment.id})">수정 완료</button>
-                    <button type="button" class="btn btn-secondary btn-sm mt-1" onclick="toggleEditForm(${comment.id})">취소</button>
-                </div>
+					<!-- 댓글 수정 폼 (숨김 처리) -->
+					<div id="edit-form-${comment.id}" style="display: none;">
+						<textarea id="edit-input-${comment.id}" class="form-control"
+							rows="3">${comment.content}</textarea>
+						<button type="button" class="btn btn-primary btn-sm mt-1"
+							onclick="updateComment(${comment.id})">수정 완료</button>
+						<button type="button" class="btn btn-secondary btn-sm mt-1"
+							onclick="toggleEditForm(${comment.id})">취소</button>
+					</div>
 
-                <!-- 답글 입력 폼 (숨김 처리) -->
-                <div id="reply-form-${comment.id}" style="display: none; margin-left: 30px;">
-                    <textarea id="reply-input-${comment.id}" class="form-control" rows="3"></textarea>
-                    <button type="button" class="btn btn-success btn-sm mt-1" onclick="createReplyComment(${comment.id})">작성 완료</button>
-                    <button type="button" class="btn btn-secondary btn-sm mt-1" onclick="toggleReplyForm(${comment.id})">취소</button>
-                </div>
+					<!-- 답글 입력 폼 (숨김 처리) -->
+					<div id="reply-form-${comment.id}"
+						style="display: none; margin-left: 30px;">
+						<textarea id="reply-input-${comment.id}" class="form-control"
+							rows="3"></textarea>
+						<button type="button" class="btn btn-success btn-sm mt-1"
+							onclick="createReplyComment(${comment.id})">작성 완료</button>
+						<button type="button" class="btn btn-secondary btn-sm mt-1"
+							onclick="toggleReplyForm(${comment.id})">취소</button>
+					</div>
 
-                <!-- 대댓글 리스트 -->
-				<div class="reply-list">
-				    <c:forEach var="reply" items="${comments}">
-				        <c:if test="${reply.parentId == comment.id}">
-				            <div class="comment reply" id="comment-${reply.id}">
-				                <div class="comment-header">
-				                    <span class="comment-user">${reply.userName}</span>
-				                    <span class="comment-date">${reply.createdAt}</span>
-				                </div>
-				                <div class="comment-content-container">
-				                    <p class="comment-content">${reply.content}</p>
-				                    <!-- 대댓글 수정 및 삭제 버튼 (내용 오른쪽에 위치) -->
-				                    <c:if test="${user.email == reply.userEmail}">
-				                        <div class="comment-actions">
-				                            <button type="button" class="btn btn-warning btn-sm" onclick="replyToggleEditForm(${reply.id})">수정</button>
-				                            <button type="button" class="btn btn-danger btn-sm" onclick="deleteComment(${reply.id})">삭제</button>
-				                        </div>
-				                    </c:if>
-				                </div>
-				            </div>
-				
-				            <!-- 대댓글 수정 폼 -->
-				            <div id="reply-edit-form-${reply.id}" style="display: none;">
-				                <textarea id="reply-edit-input-${reply.id}" class="form-control" rows="3">${reply.content}</textarea>
-				                <button type="button" class="btn btn-primary btn-sm mt-1" onclick="replyUpdateComment(${reply.id})">수정 완료</button>
-				                <button type="button" class="btn btn-secondary btn-sm mt-1" onclick="replyToggleEditForm(${reply.id})">취소</button>
-				            </div>
-				        </c:if>
-				    </c:forEach>
+					<!-- 대댓글 리스트 -->
+					<div class="reply-list">
+						<c:forEach var="reply" items="${comments}">
+							<c:if test="${reply.parentId == comment.id}">
+								<div class="comment reply" id="comment-${reply.id}">
+									<div class="comment-header">
+										<span class="comment-user">${reply.userName}</span> <span
+											class="comment-date">작성일: ${reply.createdAtString}</span>
+									</div>
+									<div class="comment-content-container">
+										<p class="comment-content">${reply.content}</p>
+										<!-- 대댓글 수정 및 삭제 버튼 (내용 오른쪽에 위치) -->
+										<c:if test="${user.email == comment.userEmail || user.role == 'ROLE_ADMIN'}">
+											<div class="comment-actions">
+												<button type="button" class="btn btn-warning btn-sm"
+													onclick="replyToggleEditForm(${reply.id})">수정</button>
+												<button type="button" class="btn btn-danger btn-sm"
+													onclick="deleteComment(${reply.id})">삭제</button>
+											</div>
+										</c:if>
+									</div>
+								</div>
+
+								<!-- 대댓글 수정 폼 -->
+								<div id="reply-edit-form-${reply.id}" style="display: none;">
+									<textarea id="reply-edit-input-${reply.id}"
+										class="form-control" rows="3">${reply.content}</textarea>
+									<button type="button" class="btn btn-primary btn-sm mt-1"
+										onclick="replyUpdateComment(${reply.id})">수정 완료</button>
+									<button type="button" class="btn btn-secondary btn-sm mt-1"
+										onclick="replyToggleEditForm(${reply.id})">취소</button>
+								</div>
+							</c:if>
+						</c:forEach>
+					</div>
 				</div>
-            </div>
-        </c:if>
-    </c:forEach>
-</div>
-<br/>
+			</c:if>
+		</c:forEach>
+	</div>
+	<br />
 	<script>
 	//댓글 작성하기
     function submitComment() {
@@ -403,6 +418,7 @@
                     }
                     replyToggleEditForm(replyId); // 수정 폼 닫기
                     alert("수정이 완료되었습니다.");
+                    location.reload();
                 } else {
                     alert("수정 실패: " + data.message);
                 }
@@ -430,7 +446,7 @@
             fetch('/comments/updateComment/' + commentId, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ content: newContent })  // JSON 형식으로 변환
+                body: JSON.stringify({ content: newContent })
             })
             .then(response => response.json())
             .then(data => {
@@ -440,8 +456,8 @@
                     if (commentContent) {
                         commentContent.innerText = newContent;
                     }
-                    toggleEditForm(commentId); // 수정 폼 닫기
                     alert("수정이 완료되었습니다.");
+                    location.reload();
                 } else {
                     alert("수정 실패: " + data.message);
                 }

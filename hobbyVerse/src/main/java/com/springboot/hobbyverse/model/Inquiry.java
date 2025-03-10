@@ -13,8 +13,8 @@ import java.time.format.DateTimeFormatter;
 @Entity
 @Table(name = "inquiry")
 public class Inquiry {
-	@Transient
-	private String maskedEmail;
+    @Transient
+    private String maskedEmail;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,6 +25,11 @@ public class Inquiry {
 
     @Column(nullable = false, length = 255)
     private String title;  // 문의 제목
+    
+    @ManyToOne
+    @JoinColumn(name = "user_id") // user_id라는 컬럼으로 Join
+    private User user;
+
 
     @Column(nullable = false, columnDefinition = "TEXT")
     private String content;  // 문의 내용
@@ -34,6 +39,9 @@ public class Inquiry {
 
     @Column(name = "user_email", length = 255)
     private String userEmail;  // ✅ 작성자 이메일을 그대로 사용
+
+    @Column(name = "admin_reply", columnDefinition = "TEXT")
+    private String adminReply;  // ✅ 운영자 답변 필드 추가
 
     // 🔹 DB에 저장되지 않는 변환된 날짜 필드
     @Transient

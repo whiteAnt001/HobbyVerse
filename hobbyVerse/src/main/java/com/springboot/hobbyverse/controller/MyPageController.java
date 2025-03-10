@@ -1,5 +1,7 @@
 package com.springboot.hobbyverse.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -19,27 +21,36 @@ import com.springboot.hobbyverse.model.Board;
 import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
+import com.springboot.hobbyverse.model.UserActivity;
 import com.springboot.hobbyverse.repository.BoardRepository;
+import com.springboot.hobbyverse.repository.CommentRepository;
+import com.springboot.hobbyverse.repository.InquiryRepository;
+import com.springboot.hobbyverse.repository.MeetingApplyRepsotory;
+import com.springboot.hobbyverse.repository.MeetupRepository;
 import com.springboot.hobbyverse.repository.UserRepository;
+import com.springboot.hobbyverse.service.CommentService;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.MyPageService;
+import com.springboot.hobbyverse.service.UserActivityService;
 import com.springboot.hobbyverse.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
+import lombok.RequiredArgsConstructor;
 
 @RestController
+@RequiredArgsConstructor
 public class MyPageController {
-	@Autowired
-	private UserService userService;
-	@Autowired
-	private MyPageService myPageService;
-	@Autowired
-	private BoardRepository boardRepository;
-	@Autowired
-	private UserRepository userRepository;
-	@Autowired
-	private MeetingService meetingService;
+	private final UserService userService;
+	private final MyPageService myPageService;
+	private final MeetingService meetingService;
+	private final UserActivityService userActivityService;
+	private final UserRepository userRepository;
+	private final BoardRepository boardRepository;
+	private final CommentRepository commentRepository;
+	private final InquiryRepository inquiryRepository;
+	private final MeetingApplyRepsotory meetingApplyRepsotory;
+
 
 	
 	//마이페이지 메인
@@ -73,10 +84,13 @@ public class MyPageController {
 	
 	//내가 만든 모임
 	@GetMapping("/myPage/myMeetings")
-	public ModelAndView myMeetings(HttpSession session) {
+	public ModelAndView myMeetings(Meetup meetup, HttpSession session) {
 		ModelAndView mav = new ModelAndView("myPage_myMeetings");
 		User user = (User)session.getAttribute("loginUser");
 		List<Meetup> createMeetings = myPageService.getCreateMeetings(user.getEmail());
+		
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+        mav.addObject("formattedW_date", meetup.getW_date().format(formatter));
 		mav.addObject("user", user);
 		mav.addObject("createdMeetings", createMeetings);
 		return mav;
@@ -151,6 +165,7 @@ public class MyPageController {
 		mav.addObject("user", user);
 		return mav;
 	}
+	
 	//회원 탈퇴
 	@DeleteMapping("/api/myPage/deleteAccount")
 	@Transactional
@@ -165,8 +180,24 @@ public class MyPageController {
         	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
         }
 		
+		UserActivity deleteUserActivity = UserActivity.builder()
+				.activityDate(LocalDate.now())
+				.newUsers(0)
+				.unsubscribedUsers(1) //탈퇴한 유저
+				.joinedMeetings(0)
+				.build();
+		
+		//유저 동향 업데이트
+		userActivityService.saveUserActivity(deleteUserActivity);
+		
+		//유저 관련 데이터 삭제하기
+		commentRepository.deleteByUserEmail(email);
+		boardRepository.deleteByEmail(email);
+		meetingApplyRepsotory.deleteByEmail(email);
+		inquiryRepository.deleteByUserEmail(email);
+		
 		//유저 삭제하기
-		userRepository.deleteByEmail(email); 
+		userRepository.deleteByEmail(email);
 		// 세션 무효화 - 탈퇴 후 세션을 종료
 		session.invalidate();
 		    

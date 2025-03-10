@@ -1,11 +1,9 @@
 package com.springboot.hobbyverse.config;
 
 import java.io.IOException;
-import java.util.Map;
 
 import org.springframework.security.core.Authentication;
 
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -39,12 +37,12 @@ public class OAuth2AuthenticationSuccessHandler implements AuthenticationSuccess
 		String accessToken = JwtUtil.generateToken(email, name, role);
 		String refreshToken = JwtUtil.generateRefreshToken(email);
         
-       
-        
         // 응답 헤더에 JWT 추가
         response.setHeader("Authorization", "Bearer " + accessToken);
         response.setHeader("Refresh-Token", refreshToken);
 		
+        //JWT를 쿠키에 저장
+        jwtUtil.addJwtToCookie(response, accessToken);
 		//DB에서 사용자 정보 가져오기'
 		User user = userRepository.findByEmail(email);
 		
