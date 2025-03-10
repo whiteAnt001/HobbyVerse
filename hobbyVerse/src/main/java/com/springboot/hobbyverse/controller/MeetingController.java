@@ -3,7 +3,6 @@ package com.springboot.hobbyverse.controller;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -21,6 +19,7 @@ import com.springboot.hobbyverse.model.Recommend;
 import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.service.MeetingService;
+import com.springboot.hobbyverse.service.ReportService;
 import com.springboot.hobbyverse.service.UserService;
 
 import jakarta.servlet.ServletContext;
@@ -36,6 +35,8 @@ public class MeetingController {
 	private UserService userService;
     @Autowired 
     private MeetingService meetingService;
+    @Autowired
+    private ReportService reportService;
 
     @GetMapping(value = "/home")
     public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
@@ -187,7 +188,7 @@ public class MeetingController {
         User user = (User) session.getAttribute("loginUser");      
         report.setM_id(m_id);
         report.setEmail(user.getEmail());
-        this.meetingService.putReport(report);      
+        this.reportService.putReport(report);      
         mav.setViewName("reportGroupDone");
         mav.addObject("message", "신고가 접수되었습니다.");
         return mav;

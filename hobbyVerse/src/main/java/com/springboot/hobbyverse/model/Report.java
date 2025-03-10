@@ -2,7 +2,6 @@ package com.springboot.hobbyverse.model;
 
 import java.time.LocalDateTime;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,6 +18,5 @@ public class Report {
 	private String email;
 	private String reason;
 	private LocalDateTime report_date;
-	
-	private Meetup meetup;
+	private Integer report_count;
 }
