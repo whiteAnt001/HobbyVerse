@@ -159,9 +159,13 @@ body {
 						<div id="map" style="width: 500px; height: 400px;"></div>
 						<input type="hidden" id="latitude" value="${ meetup.latitude }" />
 						<input type="hidden" id="longitude" value="${ meetup.longitude }" />
-						<h5>조회수</h5>
-						<p>👁️ ${views}</p>
-						<!-- 조회수 표시 추가 -->
+						<div class="d-flex justify-content-between align-items-center mt-3">
+							<div></div>
+							<!-- 빈 공간으로 좌측 정렬 방지 -->
+							<div class="text-end">
+								<small class="text-muted">작성일: ${meetup.w_date} | 조회수: ${views}</small>
+							</div>
+						</div>
 
 
 					</div>
@@ -266,14 +270,13 @@ body {
 	</div>
 	<div>
 		<br />
-		<script type="text/javascript"
-			src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281"></script>
+		<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281"></script>
 
 		<script type="text/javascript">
 			// 카카오 지도 API가 로딩된 후에 실행되는 함수
 			kakao.maps
 					.load(function() {
-						// 서버에서 받은 위도, 경도 값 (여기서는 예시 값 사용)
+						// 서버에서 받은 위도, 경도 값
 						var latitude = parseFloat(document
 								.getElementById('latitude').value);
 						var longitude = parseFloat(document

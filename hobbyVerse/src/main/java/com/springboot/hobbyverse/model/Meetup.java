@@ -41,7 +41,7 @@ public class Meetup {
     @CreationTimestamp
     @Column(name = "w_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime w_date; 
+    private LocalDateTime w_date = LocalDateTime.now();
     private String w_dateString;
     
     @Transient

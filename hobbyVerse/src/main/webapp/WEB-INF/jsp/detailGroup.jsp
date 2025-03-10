@@ -157,10 +157,13 @@ body {
 						<div id="map" style="width: 500px; height: 400px;"></div>
 						<input type="hidden" id="latitude" value="${ meetup.latitude }"/>
     					<input type="hidden" id="longitude" value="${ meetup.longitude }"/>
-						<h5>조회수</h5>
-						<p>👁️ ${views}</p> 
-						<!-- 조회수 표시 추가 -->
-
+						<div class="d-flex justify-content-between align-items-center mt-3">
+							<div></div>
+							<!-- 빈 공간으로 좌측 정렬 방지 -->
+							<div class="text-end">
+								<small class="text-muted">작성일: ${meetup.w_date}  조회수: ${views}</small>
+							</div>
+						</div>
 						<div align="center" class="d-flex gap-2 align-items-stretch">
                             <!-- 참가신청 버튼 -->
                             <form action="/applyMeeting" method="POST" class="flex-grow-1">
@@ -209,10 +212,9 @@ body {
 				</script>
 			</div>
 		</div>
-	</div>
+	<div>
 	<br />
 	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281"></script>
-
 	<script type="text/javascript">
 		// 카카오 지도 API가 로딩된 후에 실행되는 함수
 		kakao.maps.load(function() {
@@ -247,8 +249,7 @@ body {
 			infowindow.open(map, marker); // 지도와 마커에 인포윈도우 표시
 		});
 	</script>
-	<script
-		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	</div>
 </body>
 </html>
