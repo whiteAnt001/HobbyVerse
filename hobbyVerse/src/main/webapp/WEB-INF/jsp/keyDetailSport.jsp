@@ -79,13 +79,10 @@ body {
 }
 
 .image {
-	width: 50px;
-	height: 50px;
-	margin-left: 10px;
+	margin-left: -10px;
 }
 
 /* 애니메이션 효과 */
-@
 keyframes fadeIn {from { opacity:0;
 	transform: translateY(-20px);
 }
@@ -93,7 +90,6 @@ keyframes fadeIn {from { opacity:0;
 to {
 	opacity: 1;
 	transform: translateY(0);
-}
 }
 </style>
 </head>
@@ -144,10 +140,7 @@ to {
 							<a href="/meetup/detailCategory.html?id=${key.m_id}"
 								class="btn btn-primary">자세히보기</a>
 						</div>
-
-						<!-- 이미지 오른쪽 정렬 -->
-						<div
-							style="width: 120px; height: 120px; overflow: hidden; position: relative;">
+						<div style="width: 150px; height: 150px; position: relative;">
 							<img
 								src="${pageContext.request.contextPath}/upload/${key.imagename}"
 								alt="" class="image" />

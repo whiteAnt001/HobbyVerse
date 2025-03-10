@@ -102,6 +102,7 @@ body {
 	padding: 5px 8px;
 	font-size: 0.8rem;
 }
+.
 </style>
 </head>
 <body>

@@ -100,7 +100,7 @@
 				<div class="mb-3">
 					<label for="address" class="form-label">모임 장소</label><br /> 
 					<input type="text" id="address" placeholder="장소를 입력하세요" style="width: 300px;">
-					<button type="button" id="search-btn">장소 검색</button><br /> 
+					<button type="button" id="search-btn" class="btn btn-sm btn-outline-secondary me-2">장소 검색</button><br/> 
 					<small class="text-muted">건물이름, 장소로만 검색 가능합니다.</small>
 
 					<!-- 지도 표시 영역 -->
@@ -123,35 +123,35 @@
     </div>
 	<script>
         document.querySelector('form').addEventListener('submit', function(event) {
-            // 파일 유효성 검사
-            var fileInput = document.querySelector('#file');
-            var file = fileInput.files[0];
+           // 파일 유효성 검사
+            var ileInput = document.querySelector'#file');
+            var file = fileInpt.files[0];
             if (file) {
-                var fileType = file.type;
-                if (fileType !== 'image/jpeg' && fileType !== 'image/png') {
-                    event.preventDefault();
-                    alert('JPEG 또는 PNG 형식의 파일만 업로드 가능합니다.');
-                    return;
+               var fileType = file.type;
+               if (fileType !== 'image/jpeg' & fileType !== 'image/png') {
+                   event.preventDefault();
+                   alert('JPEG 또는 PNG 형식의 파일만 업드 가능합니다.');
+                    return
                 }
             }
-    </script>
-    <script type="text/javascript">
+   </script>
+    <script type="text/javasript">
 	    function workingClock(){
-	        var today = new Date();
+        va today = new Date();
 	        var year = today.getFullYear();
-	        var month = today.getMonth() + 1;
+	        var month = today.getMonth) + 1;
 	        if(month < 10) month = "0" + month;
-	        var date = today.getDate();
+	        var dae = today.getDate();
 	        if(date < 10) date = "0" + date;
-	        var hour = today.getHours();
-	        if(hour < 10) hour = "0" + hour;
-	        var min = today.getMinutes();
-	        if(min < 10) min = "0" + min;
-	        var sec = today.getSeconds();
-	        if(sec < 10) sec = "0" + sec;
+	       ar hour = today.getHours();
+	       if(hour < 10) hour = "" + hour;
+	        var min = today.getMintes();
+       if(min < 10) in = "0" + min;
+	        var se = today.getSeconds();
+	        if(sec < 10) sec = "0" + sec
 	        
-	        var formattedDate = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
-	        document.getElementById("clock").innerHTML = formattedDate;
+	        var formattedDate = ear + "-" + month + "-" + date + " " + our + ":" + min + ":" + sec;
+	       document.geElementById("clock").innerHTML = ormattedDate;
 			document.getElementById("w_dateString").value = formattedDate;
 	    }
 	    window.onload = function() {
