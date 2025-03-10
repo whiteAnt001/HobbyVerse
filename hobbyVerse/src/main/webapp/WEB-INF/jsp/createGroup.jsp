@@ -71,26 +71,6 @@
                 <form:textarea path="info" class="form-control" id="info" name="info" rows="3" required="true"></form:textarea>
             </div>
 			<div class="mb-3">
-				<!-- 주소 검색 기능 추가 부분 -->
-				<div class="mb-3">
-					<label for="address" class="form-label">모임 위치</label><br /> <input
-						type="text" id="address" placeholder="장소를 입력하세요"
-						style="width: 300px;">
-					<button type="button" id="search-btn">장소 검색</button>
-
-					<!-- 지도 표시 영역 -->
-					<div id="map"
-						style="width: 500px; height: 400px; margin-top: 10px;"></div>
-
-					<!-- 위도, 경도, 주소를 저장하는 숨겨진 입력 필드 -->
-					<input type="hidden" id="latitude" name="latitude"> <input
-						type="hidden" id="longitude" name="longitude"> <input
-						type="hidden" id="hidden-address" name="address">
-					<!-- 숨겨진 주소 필드 -->
-				</div>
-
-			</div>
-			<div class="mb-3">
                 <label for="c_key" class="form-label">카테고리</label>
                 <form:select path="c_key" id="c_key" name="c_key" required="true">
                     <c:forEach var="category" items="${categoryList}">
@@ -115,13 +95,27 @@
                 <form:input path="file" type="file" class="form-control" id="file" name="file" accept="image/*" required="true"/>
                 <small class="text-muted">JPEG, PNG 형식의 이미지만 업로드 가능합니다.</small>
             </div>
+			<div class="mb-3">
+				<!-- 주소 검색 기능 추가 부분 -->
+				<div class="mb-3">
+					<label for="address" class="form-label">모임 장소</label><br /> 
+					<input type="text" id="address" placeholder="장소를 입력하세요" style="width: 300px;">
+					<button type="button" id="search-btn">장소 검색</button><br /> 
+					<small class="text-muted">건물이름, 장소로만 검색 가능합니다.</small>
 
-            <div class="mb-2">
-                <label for="w_dateString" class="form-label">현재 시간: <span id="clock"></span></label>
-                <input type="hidden" name="w_dateString" id="w_dateString" />
-            </div>
+					<!-- 지도 표시 영역 -->
+					<div id="map"
+						style="width: 500px; height: 400px; margin-top: 10px;"></div>
 
-            <div align="center">
+					<!-- 위도, 경도, 주소를 저장하는 숨겨진 입력 필드 -->
+					<input type="hidden" id="latitude" name="latitude">
+					<input type="hidden" id="longitude" name="longitude">
+						<input type="hidden" id="hidden-address" name="address">
+					<!-- 숨겨진 주소 필드 -->
+				</div>
+			</div>
+
+			<div align="center">
                 <button type="submit" class="btn btn-primary">등록하기</button>
                 <a href="/home" class="btn btn-secondary">취소</a>
             </div>
