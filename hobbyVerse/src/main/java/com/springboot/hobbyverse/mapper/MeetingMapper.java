@@ -48,4 +48,5 @@ public interface MeetingMapper {
    Integer getRecommendCheck(Integer m_id, String email);//중복추천 방지
    Meetup getMeet(Integer m_id);// 모임 아이디로 모임 찾기
    Meetup getMeetTitle(Integer m_id);//모임 아이디로 모임 이름 찾기
+   String getW_id(Integer m_id);//모임 아이디로 주뢰자 가져오기
 }
