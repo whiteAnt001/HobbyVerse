@@ -14,9 +14,7 @@ import com.springboot.hobbyverse.mapper.MeetingMapper;
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
-import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.StartEnd;
-import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.MeetupRepository;
 
 import jakarta.persistence.EntityManager;
@@ -168,4 +166,26 @@ public class MeetingService {
     public String getW_id(Integer m_id) {
     	return meetingMapper.getW_id(m_id);
     }
+    // 기존 이미지 사용하기 위한 서비스
+    public String getExistingImagename(Integer m_id) {
+        // m_id에 해당하는 모임 정보를 조회하여 imagename 반환
+        Meetup meetup = meetupRepository.findById(m_id).orElse(null);
+        if (meetup != null) {
+            return meetup.getImagename();
+        }
+        return null;  // 해당 모임이 없으면 null 반환
+    }
+    
+    // 기존 위도 가져오는 메서드
+    public double getExistingLatitude(int mId) {
+        // m_id를 통해 해당 모임의 위도를 가져옴
+    	return meetingMapper.getLatitudeByMeetingId(mId);
+    }
+
+    // 기존 경도 가져오는 메서드
+    public double getExistingLongitude(int mId) {
+        // m_id를 통해 해당 모임의 경도를 가져옴
+        return meetingMapper.getLongitudeByMeetingId(mId);
+    }
+
 }

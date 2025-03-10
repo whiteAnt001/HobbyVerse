@@ -56,4 +56,9 @@ public interface MeetingMapper {
    Meetup getMeet(Integer m_id);// 모임 아이디로 모임 찾기
    Meetup getMeetTitle(Integer m_id);//모임 아이디로 모임 이름 찾기
    String getW_id(Integer m_id);//모임 아이디로 주뢰자 가져오기
+   
+   // 기존 위도를 가져오는 메서드
+   double getLatitudeByMeetingId(Integer m_id);
+   // 기존 경도를 가져오는 메서드
+   double getLongitudeByMeetingId(Integer m_id);
 }

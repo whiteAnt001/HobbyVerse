@@ -152,6 +152,11 @@ body {
 						<p>📅 ${meetup.m_date }</p>
 						<h5>참가비</h5>
 						<p>💰 ${meetup.price }원</p>
+						<h5>모임위치</h5>
+						<p><strong>${ meetup.address }</strong></p>
+						<div id="map" style="width: 500px; height: 400px;"></div>
+						<input type="hidden" id="latitude" value="${ meetup.latitude }"/>
+    					<input type="hidden" id="longitude" value="${ meetup.longitude }"/>
 						<h5>조회수</h5>
 						<p>👁️ ${views}</p> 
 						<!-- 조회수 표시 추가 -->
@@ -207,8 +212,43 @@ body {
 			</div>
 		</div>
 	</div>
-	</div>
 	<br />
+	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281"></script>
+
+	<script type="text/javascript">
+		// 카카오 지도 API가 로딩된 후에 실행되는 함수
+		kakao.maps.load(function() {
+			// 서버에서 받은 위도, 경도 값 (여기서는 예시 값 사용)
+			var latitude = parseFloat(document.getElementById('latitude').value);
+			var longitude = parseFloat(document.getElementById('longitude').value);
+
+
+			console.log("Latitude: ", latitude);
+			console.log("Longitude: ", longitude);
+
+			// 지도 초기화
+			var container = document.getElementById('map');
+			var options = {
+				center : new kakao.maps.LatLng(latitude, longitude), // 서버에서 받은 위도, 경도로 설정
+				level : 3
+			};
+
+			var map = new kakao.maps.Map(container, options);
+
+			// 마커 객체 생성
+			var marker = new kakao.maps.Marker({
+				map : map,
+				position : new kakao.maps.LatLng(latitude, longitude)
+			// 서버에서 받은 위도, 경도로 설정
+			});
+
+			// 마커 클릭 시 인포윈도우(주소 표시) 추가
+			var infowindow = new kakao.maps.InfoWindow({
+				content : document.getElementById('address').value
+			});
+			infowindow.open(map, marker); // 지도와 마커에 인포윈도우 표시
+		});
+	</script>
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	</div>

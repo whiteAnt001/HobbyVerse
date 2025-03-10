@@ -3,10 +3,8 @@ package com.springboot.hobbyverse.controller;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.time.LocalDate;
 import java.util.List;
 
-import org.apache.jasper.compiler.JspUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +20,8 @@ import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
-import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.User;
+import com.springboot.hobbyverse.repository.MeetupRepository;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.UserService;
@@ -44,6 +42,8 @@ public class MeetingController {
 	private MeetingService meetingService;
 	@Autowired
 	private MeetingApplyService meetingApplyService;
+	@Autowired
+	private MeetupRepository meetupRepository;
 
 	@GetMapping(value = "/home")
 	public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
@@ -116,11 +116,16 @@ public class MeetingController {
 	}// 모임등록창
 
 	@PostMapping("/meetup/register.html")
-	public ModelAndView register(Meetup meetup, BindingResult br, HttpSession session, HttpServletRequest request)
+	public ModelAndView register(Meetup meetup, BindingResult br, HttpSession session, HttpServletRequest request, @RequestParam String latitude, @RequestParam String longitude, @RequestParam String address)
 			throws Exception {
 		ModelAndView mav = new ModelAndView();
 		User user = (User) session.getAttribute("loginUser");
 		meetup.setW_id(user.getName());
+		meetup.setEmail(user.getEmail());
+        // Meetup 객체에 주소, 위도, 경도 저장
+        meetup.setLatitude(Double.parseDouble(latitude)); // 위도
+        meetup.setLongitude(Double.parseDouble(longitude)); // 경도
+        meetup.setAddress(address); // 주소
 		MultipartFile multiFile = meetup.getFile();
 		String fileName = null;
 		String path = null;
@@ -155,6 +160,7 @@ public class MeetingController {
 		}
 		// 모임 등록
 		this.meetingService.putMeeting(meetup);
+		meetupRepository.save(meetup);
 		mav.setViewName("createGroupDone");
 		mav.addObject("message", "모임이 등록되었습니다.");
 		return mav;
@@ -215,7 +221,7 @@ public class MeetingController {
 		String meetEmail = meetup.getEmail();// 모임에 등록된 이메일
 
 		// 권한 / 이메일로 비교
-		if (role.equals("ROLE_ADMIN") || meetEmail == userEmail) {// 관리자, 모임에 등록된 이메일 == 로그인 된 계정의 이메일
+		if (role.equals("ROLE_ADMIN") || meetEmail.equals(userEmail)) {// 관리자, 모임에 등록된 이메일 == 로그인 된 계정의 이메일
 			mav.setViewName("admindetailGroup");
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);
@@ -314,26 +320,36 @@ public class MeetingController {
 	}
 
 	@PostMapping("/meetup/update.html")
-	public ModelAndView update(Meetup meetup, HttpSession session) {
+	public ModelAndView update(Meetup meetup, HttpSession session, @RequestParam String latitude, @RequestParam String longitude, @RequestParam String address) {
 		ModelAndView mav = new ModelAndView();
 		// 파일 업로드 처리
-		if (meetup.getFile() != null && !meetup.getFile().getOriginalFilename().equals("")) {
-			String fileName = meetup.getFile().getOriginalFilename();
-			ServletContext ctx = session.getServletContext();
-			String path = ctx.getRealPath("/upload/" + fileName);
-			try (OutputStream os = new FileOutputStream(path);
-					BufferedInputStream bis = new BufferedInputStream(meetup.getFile().getInputStream())) {
-				byte[] buffer = new byte[8156];
-				int read;
-				while ((read = bis.read(buffer)) > 0) {
-					os.write(buffer, 0, read);
-				}
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			meetup.setImagename(fileName);
-		}
-		// 모임 수정 처리
+	    if (meetup.getFile() != null && !meetup.getFile().getOriginalFilename().equals("")) {
+	        String fileName = meetup.getFile().getOriginalFilename();
+	        ServletContext ctx = session.getServletContext();
+	        String path = ctx.getRealPath("/upload/" + fileName);
+	        try (OutputStream os = new FileOutputStream(path);
+	             BufferedInputStream bis = new BufferedInputStream(meetup.getFile().getInputStream())) {
+	            byte[] buffer = new byte[8156];
+	            int read;
+	            while ((read = bis.read(buffer)) > 0) {
+	                os.write(buffer, 0, read);
+	            }
+	        } catch (Exception e) {
+	            e.printStackTrace();
+	        }
+	        meetup.setImagename(fileName);  // 새로운 파일명 저장
+	    } else {
+	        // 파일이 업로드되지 않았을 경우 기존 이미지 이름 그대로 사용
+	        String existingImagename = meetingService.getExistingImagename(meetup.getM_id());
+	        meetup.setImagename(existingImagename);
+	    }   
+	    if(latitude == null && latitude.trim().isEmpty() && longitude == null && longitude.trim().isEmpty()) {
+	    	//위치가 변경 되었다면
+	    	meetup.setLatitude(Double.parseDouble(latitude)); //변경된 위도 사용
+	    	meetup.setLongitude(Double.parseDouble(longitude)); //변경된 경도 사용
+	    }
+        meetup.setAddress(address); // 주소
+        // 모임 수정 처리
 		this.meetingService.updateMeeting(meetup);
 		mav.setViewName("updateGroupDone");
 		mav.addObject("message", "모임이 성공적으로 수정되었습니다.");

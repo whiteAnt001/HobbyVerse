@@ -67,7 +67,7 @@
             <div class="dashboard-card" onclick="location.href='/api/admin/reports'">
                 <div class="emoji">⚠️</div>
                 <h3>신고된 항목</h3>
-                <p>${totalReports} 건</p>
+                <p>상세보기</p>
             </div>
         </div>
     </div>
