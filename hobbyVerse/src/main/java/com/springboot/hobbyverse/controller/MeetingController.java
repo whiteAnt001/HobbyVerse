@@ -21,10 +21,12 @@ import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
+import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.MeetupRepository;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
+import com.springboot.hobbyverse.service.ReportService;
 import com.springboot.hobbyverse.service.UserService;
 
 import jakarta.servlet.ServletContext;
@@ -45,6 +47,8 @@ public class MeetingController {
 	private MeetingApplyService meetingApplyService;
 	@Autowired
 	private MeetupRepository meetupRepository;
+	@Autowired
+	private ReportService reportService;
 
 	@GetMapping(value = "/home")
 	public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
@@ -357,4 +361,30 @@ public class MeetingController {
 		mav.addObject("meetup", meetup);
 		return mav;
 	}
+	
+    @GetMapping(value = "/meetup/report.html")
+    public ModelAndView report(Integer m_id, Report report, HttpSession session) {
+        ModelAndView mav = new ModelAndView("reportGroup");
+        User user = (User) session.getAttribute("loginUser");
+        report.setEmail(user.getEmail());
+        Meetup meetup = meetingService.getMeetingById(m_id);
+        mav.addObject("meetup", meetup);
+        mav.addObject("report", report);
+        mav.addObject("m_id",m_id);
+        mav.addObject("user", user);
+
+       return mav;
+
+    }
+    @PostMapping("/meetup/reportDo.html")
+    public ModelAndView register(Report report, Integer m_id, HttpSession session) {
+        ModelAndView mav = new ModelAndView();
+        User user = (User) session.getAttribute("loginUser");      
+        report.setM_id(m_id);
+        report.setEmail(user.getEmail());
+        this.reportService.putReport(report);      
+        mav.setViewName("reportGroupDone");
+        mav.addObject("message", "신고가 접수되었습니다.");
+        return mav;
+    }//신고하기
 }
