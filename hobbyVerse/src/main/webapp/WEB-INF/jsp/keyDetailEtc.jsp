@@ -59,6 +59,21 @@ body {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+/* 그라데이션 스타일 */
+.gradient-bg {
+	background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+
+.gradient-btn {
+	background: linear-gradient(135deg, #6a11cb, #2575fc);
+	border: none;
+	color: white;
+}
+
+.gradient-btn:hover {
+	background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
+
 /* 애니메이션 효과 */
 @
 keyframes fadeIn {from { opacity:0;
@@ -84,19 +99,18 @@ to {
 	</div>
 
 	<!-- 필터 & 정렬 -->
-	<form action="/category/search" method="post">
-		<div class="container mt-4">
-			<div class="row">
-				<div class="col-md-8 mx-auto">
-					<div
-						class="filter-bar d-flex justify-content-between align-items-center">
-						모임 검색<input type="text" name="NAME" /><input type="hidden"
-							name="KEY" value="${KEY }" /> <input type="submit" value="검색" />
-					</div>
-				</div>
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+				<form action="/category/search" method="post" class="input-group">
+					<input type="text" class="form-control" name="NAME"
+						placeholder="검색어를 입력하세요..." /> <input type="hidden" name="KEY"
+						value="${KEY }" />
+					<button type="submit" class="btn gradient-btn">검색</button>
+				</form>
 			</div>
 		</div>
-	</form>
+	</div>
 
 	<!-- 모임 목록 -->
 	<div class="container mt-4">
@@ -104,56 +118,61 @@ to {
 
 			<c:forEach var="key" items="${keyCategory }">
 				<div class="col-md-4 mb-4">
-						<div class="meeting-card">
-							<div class="p-3">
-							<img src="${pageContext.request.contextPath}/upload/${key.imagename}" alt="" class="image">
+
+							<div class="meeting-card">
+								<div class="p-3">
+									<img
+										src="${pageContext.request.contextPath}/upload/${key.imagename}"
+										alt="" class="image">
 									<!-- <th>모임 아이디</th> -->
 									${key.m_id }
-									
+
 									<!-- <th>모임 이름</th> -->
 									<h5 class="card-title">${key.title }</h5>
 
 									<!-- <th>작성일</th> -->
 									<p class="card-text">날짜: ${key.m_date }</p>
 
-									<a href="/meetup/detailCategory.html?id=${key.m_id }" class="btn btn-primary">자세히보기</a>
+									<a href="/meetup/detailCategory.html?id=${key.m_id }"
+										class="btn btn-primary">자세히보기</a>
+								</div>
 							</div>
-						</div>
 
-				</div>
+						</div>
 			</c:forEach>
 
 		</div>
 	</div>
-	
+
 	<div align="center">
-	<c:set var="pageCount" value="${pageCount}" />
-	<c:set var="currentPage" value="${currentPage}" />
-	
-	<c:set var="startPage" value="${currentPage - (currentPage % 10 == 0 ? 10 : (currentPage % 10)) + 1}" />
-    <c:set var="endPage" value="${startPage + 9}" />
-	<c:if test="${endPage > pageCount}">
-		<c:set var="endPage" value="${pageCount}"/>
-	</c:if>
+		<c:set var="pageCount" value="${pageCount}" />
+		<c:set var="currentPage" value="${currentPage}" />
 
-	<c:if test="${startPage > 1}">
-		<a href="/category/moveEtc?pageNo=${startPage - 1}">[이전]</a>
-	</c:if>
-
-	<c:forEach begin="${startPage }" end="${endPage}" var="i">
-		<c:if test="${currentPage == i}">
-			<font size="6">
+		<c:set var="startPage"
+			value="${currentPage - (currentPage % 10 == 0 ? 10 : (currentPage % 10)) + 1}" />
+		<c:set var="endPage" value="${startPage + 9}" />
+		<c:if test="${endPage > pageCount}">
+			<c:set var="endPage" value="${pageCount}" />
 		</c:if>
-		<a href="/category/moveEtc?pageNo=${i}">${i}</a>
-		<c:if test="${currentPage == i}">
-			</font>
-		</c:if>
-	</c:forEach>
 
-	<c:if test="${endPage < pageCount}">
-		<a href="/category/moveEtc?pageNo=${endPage + 1}">[다음]</a>
-	</c:if>
-</div>
+		<c:if test="${startPage > 1}">
+			<a href="/category/moveEtc?pageNo=${startPage - 1}">[이전]</a>
+		</c:if>
+
+		<c:forEach begin="${startPage }" end="${endPage}" var="i">
+			<c:if test="${currentPage == i}">
+				<font size="6">
+			</c:if>
+			<a href="/category/moveEtc?pageNo=${i}">${i}</a>
+			<c:if test="${currentPage == i}">
+				</font>
+			</c:if>
+		</c:forEach>
+
+		<c:if test="${endPage < pageCount}">
+			<a href="/category/moveEtc?pageNo=${endPage + 1}">[다음]</a>
+		</c:if>
+	</div>
 
 
 	<!-- Bootstrap JS -->
