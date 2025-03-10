@@ -218,34 +218,16 @@ public class MeetingController {
 			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
 			return mav;
 		}
+		
+		mav.setViewName("detailGroup");
+		mav.addObject("user", user);
+		mav.addObject("meetup", meetup);
+		mav.addObject("meetingApplies", meetingApplies);
+		mav.addObject("wId", wId);
+		mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
 
-//      String user_name = user.getName();//User
-//      String name = meetup.getW_id();//meetup에 있는 작성자
-		String role = user.getRole();// user의 권한
-		String userEmail = user.getEmail();// 로그인된 계정의 이메일
-		String meetEmail = meetup.getEmail();// 모임에 등록된 이메일
-
-		// 권한 / 이메일로 비교
-		if (role.equals("ROLE_ADMIN") || meetEmail.equals(userEmail)) {// 관리자, 모임에 등록된 이메일 == 로그인 된 계정의 이메일
-			mav.setViewName("admindetailGroup");
-			mav.addObject("user", user);
-			mav.addObject("meetup", meetup);
-			mav.addObject("meetingApplies", meetingApplies);
-			mav.addObject("wId", wId);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-			return mav;
-
-		} else {// 일반 계정
-			mav.setViewName("detailGroup");
-			mav.addObject("user", user);
-			mav.addObject("meetup", meetup);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-			return mav;
-		}
+		logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+		return mav;
 
 	}
 
@@ -273,34 +255,16 @@ public class MeetingController {
 			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
 			return mav;
 		}
+		
+		mav.setViewName("detailGroupCategory");
+		mav.addObject("user", user);
+		mav.addObject("meetup", meetup);
+		mav.addObject("meetingApplies", meetingApplies);
+		mav.addObject("wId", wId);
+		mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
 
-//      String user_name = user.getName();//User
-//      String name = meetup.getW_id();//meetup에 있는 작성자
-		String role = user.getRole();// user의 권한
-		String userEmail = user.getEmail();// 로그인된 계정의 이메일
-		String meetEmail = meetup.getEmail();// 모임에 등록된 이메일
-
-		// 권한 / 이메일로 비교
-		if (role.equals("ROLE_ADMIN") || meetEmail.equals(userEmail)) {// 관리자, 모임에 등록된 이메일 == 로그인 된 계정의 이메일
-			mav.setViewName("admindetailGroupCategory");
-			mav.addObject("user", user);
-			mav.addObject("meetup", meetup);
-			mav.addObject("meetingApplies", meetingApplies);
-			mav.addObject("wId", wId);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-			return mav;
-
-		} else {// 일반 계정
-			mav.setViewName("detailGroupCategory");
-			mav.addObject("user", user);
-			mav.addObject("meetup", meetup);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-			return mav;
-		}
+		logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+		return mav;
 	}
 
 	@GetMapping("/meetup/modify.html")
