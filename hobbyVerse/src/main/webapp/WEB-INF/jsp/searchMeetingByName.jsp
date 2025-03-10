@@ -138,11 +138,11 @@ to {
 						<c:forEach var="key" items="${keyList}">
 							<div class="col-md-4 mb-4">
 								<table border="1">
-
 									<div class="meeting-card">
 										<div clss="p-3">
 											<div class="meeting-card">
 												<div class="p-3">
+												<img src="${pageContext.request.contextPath}/upload/${key.imagename}" alt="" class="image">
 													<!-- <th>모임 아이디</th> -->
 													${key.m_id }
 

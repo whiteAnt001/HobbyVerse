@@ -3,10 +3,9 @@ package com.springboot.hobbyverse.controller;
 import java.io.BufferedInputStream;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
-import org.apache.jasper.compiler.JspUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -22,7 +20,6 @@ import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
-import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
@@ -56,11 +53,11 @@ public class MeetingController {
 		int endRow = 0;
 		int totalPageCount = 0;
 		if (count > 0) {
-			totalPageCount = count / 6;
-			if (count % 6 != 0)
+			totalPageCount = count / 4;
+			if (count % 4 != 0)
 				totalPageCount++;
-			startRow = (currentPage - 1) * 6;
-			endRow = ((currentPage - 1) * 6) + 6;
+			startRow = (currentPage - 1) * 4;
+			endRow = ((currentPage - 1) * 4) + 4;
 			if (endRow > count)
 				endRow = count;
 		}
@@ -153,7 +150,7 @@ public class MeetingController {
 			}
 			meetup.setImagename(fileName);
 		}
-		// 모임 등록
+        meetup.setW_date(LocalDateTime.now());
 		this.meetingService.putMeeting(meetup);
 		mav.setViewName("createGroupDone");
 		mav.addObject("message", "모임이 등록되었습니다.");
