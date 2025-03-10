@@ -215,7 +215,7 @@ public class MeetingController {
 		String meetEmail = meetup.getEmail();// 모임에 등록된 이메일
 
 		// 권한 / 이메일로 비교
-		if (role.equals("ROLE_ADMIN") || meetEmail == userEmail) {// 관리자, 모임에 등록된 이메일 == 로그인 된 계정의 이메일
+		if (role.equals("ROLE_ADMIN") || meetEmail.equals(userEmail)) {// 관리자, 모임에 등록된 이메일 == 로그인 된 계정의 이메일
 			mav.setViewName("admindetailGroup");
 			mav.addObject("user", user);
 			mav.addObject("meetup", meetup);

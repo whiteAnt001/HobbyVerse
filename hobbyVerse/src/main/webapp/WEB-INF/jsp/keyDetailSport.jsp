@@ -44,6 +44,21 @@ body {
 	transform: scale(1.05);
 }
 
+/* 그라데이션 스타일 */
+.gradient-bg {
+	background: linear-gradient(135deg, #6a11cb, #2575fc);
+}
+
+.gradient-btn {
+	background: linear-gradient(135deg, #6a11cb, #2575fc);
+	border: none;
+	color: white;
+}
+
+.gradient-btn:hover {
+	background: linear-gradient(135deg, #2575fc, #6a11cb);
+}
+
 .meeting-card img {
 	width: 100%;
 	height: 200px;
@@ -58,7 +73,12 @@ body {
 	border-radius: 10px;
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
-.image{width: 320px; height: 300px; margin-bottom: 10px;}
+
+.image {
+	width: 320px;
+	height: 300px;
+	margin-bottom: 10px;
+}
 /* 애니메이션 효과 */
 @
 keyframes fadeIn {from { opacity:0;
@@ -84,19 +104,18 @@ to {
 	</div>
 
 	<!-- 필터 & 정렬 -->
-	<form action="/category/search" method="post">
-		<div class="container mt-4">
-			<div class="row">
-				<div class="col-md-8 mx-auto">
-					<div
-						class="filter-bar d-flex justify-content-between align-items-center">
-						모임 검색<input type="text" name="NAME" /><input type="hidden"
-							name="KEY" value="${KEY }" /> <input type="submit" value="검색" />
-					</div>
-				</div>
+	<div class="container mt-4">
+		<div class="row">
+			<div class="col-md-8 mx-auto">
+				<form action="/category/search" method="post" class="input-group">
+					<input type="text" class="form-control" name="NAME"
+						placeholder="검색어를 입력하세요..." /> <input type="hidden" name="KEY"
+						value="${KEY }" />
+					<button type="submit" class="btn gradient-btn">검색</button>
+				</form>
 			</div>
 		</div>
-	</form>
+	</div>
 
 	<!-- 모임 목록 -->
 	<div class="container mt-4">
@@ -105,7 +124,7 @@ to {
 			<c:forEach var="key" items="${keyCategory }">
 				<div class="col-md-4 mb-4">
 
-					<div class="meeting-card">
+					<div class="meeting-card" align="left">
 						<div class="p-3">
 							<!-- <th>모임 아이디</th> -->
 							${key.m_id }
@@ -116,11 +135,12 @@ to {
 							<!-- <th>작성일</th> -->
 							<p class="card-text">날짜: ${key.m_date }</p>
 
+
 							<a href="/meetup/detailCategory.html?id=${key.m_id }"
 								class="btn btn-primary">자세히보기</a>
+
 						</div>
 					</div>
-
 				</div>
 			</c:forEach>
 
