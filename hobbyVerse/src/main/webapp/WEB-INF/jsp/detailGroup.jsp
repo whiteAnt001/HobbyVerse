@@ -157,21 +157,18 @@ body {
 						<!-- 조회수 표시 추가 -->
 
 						<div align="center" class="d-flex gap-2 align-items-stretch">
-							<!-- 참가신청 버튼 (길게) -->
-							<form:form action="/applyMeeting" method="POST">
-								<input type="hidden" name="m_id" value="${meetup.m_id }">
-								<input type="submit" value="참가신청" class="btn btn-gradient w-100"
-									onsubmit="return check()">
-							</form:form>
+                            <!-- 참가신청 버튼 -->
+                            <form action="/applyMeeting" method="POST" class="flex-grow-1">
+                                <input type="hidden" name="m_id" value="${meetup.m_id}">
+                                <input type="submit" value="참가신청" class="btn btn-gradient w-100 h-100" onsubmit="return check()">
+                            </form>
 
-							<!-- 추천(좋아요) 버튼 (작게) -->
-							<form action="/meetup/recommend.html"
-								class="d-flex align-items-stretch">
-								<input type="hidden" name="m_id" value="${meetup.m_id}">
-								<button type="submit"
-									class="btn btn-outline-primary btn-sm h-100">👍추천</button>
-							</form>
-						</div>
+                            <!-- 신고 버튼 -->
+                            <form action="/meetup/report.html" class="d-flex">
+                                <input type="hidden" name="m_id" value="${meetup.m_id}"/>
+                                <button type="submit" class="btn btn-danger btn-sm px-3 h-100">🚨신고</button>
+                            </form>
+                        </div>
 					</div>
 				</div>
 				
@@ -180,11 +177,12 @@ body {
                 		alert("${alertCancel}");
                 	</script>
                 </c:if>
-
+                <br/>
 			</div>
+			
 			<div class="d-flex justify-content-center">
 				<a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
-
+				
 				<c:if test="${user != null && user.email == meetup.email || user.role == 'ROLE_ADMIN'}">
 					<form action="/meetup/modify.html" class="d-flex">
 						<input type="hidden" name="m_id" value="${meetup.m_id}"> <input

@@ -126,6 +126,14 @@ to {
 								alt="" class="image">
 							<!-- <th>모임 아이디</th> -->
 							${key.m_id }
+						<div class="meeting-card">
+							<div class="p-3">
+							<img src="${pageContext.request.contextPath}/upload/${key.imagename}" alt="" class="image">
+									<!-- <th>모임 아이디</th> -->
+									${key.m_id }
+									
+									<!-- <th>모임 이름</th> -->
+									<h5 class="card-title">${key.title }</h5>
 
 							<!-- <th>모임 이름</th> -->
 							<h5 class="card-title">${key.title }</h5>
