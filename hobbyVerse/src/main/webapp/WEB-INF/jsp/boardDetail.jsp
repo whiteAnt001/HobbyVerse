@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 
 <!DOCTYPE html>
 <html lang="UTF-8">
@@ -153,19 +154,18 @@
                         <textarea class="form-control" name="content" rows="5" required>${board.content}</textarea>
                     </div>
 
-                    <!-- 🔹 수정 버튼과 목록으로 버튼 -->
+                    <!-- 🔹 수정 버튼 -->
                     <div class="d-flex align-items-center gap-2">
-                        <button type="submit" class="btn btn-primary">수정 완료</button>
-                        <a href="/boards" class="btn btn-secondary">목록으로</a>
-                    </div>
-                </form>
-                
-                <!-- ✅ 삭제 버튼 -->
-            <form action="/boards/${board.seq}/delete" method="post" class="mt-2"
-                  onsubmit="return confirm('정말 삭제하시겠습니까?');">
-                <button type="submit" class="btn btn-danger">삭제</button>
-            </form>
-        </c:if>
+				    <button type="submit" class="btn btn-primary">수정 완료</button>
+				    
+				    <!-- ✅ 삭제 버튼 -->
+				    <form action="/boards/${board.seq}/delete" method="post" class="mt-2"
+				          onsubmit="return confirm('정말 삭제하시겠습니까?');">
+				        <button type="submit" class="btn btn-danger">삭제</button>
+				    </form>
+				   </div>
+				 </form>
+				</c:if>
 
         <!-- ✅ 수정/삭제 권한이 없는 경우 -->
         <c:if test="${empty user or user.email != board.email}">

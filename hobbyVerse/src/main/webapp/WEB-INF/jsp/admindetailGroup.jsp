@@ -189,6 +189,7 @@ body {
 						</div>
 					</c:forEach>
 				</div>
+				<br/>
 			</div>
 			<div class="d-flex justify-content-center">
 				<a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>

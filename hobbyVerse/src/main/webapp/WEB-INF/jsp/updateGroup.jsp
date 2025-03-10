@@ -84,7 +84,7 @@
                                 <label for="file" class="form-label">모임 사진</label>
                                 <input type="file" class="form-control" id="file" name="file">
                                 <small class="text-muted">
-                                    JPEG, PNG 형식의 이미지만 업로드 가능합니다. (파일을 선택하지 않으면 기존 이미지 유지)
+                                    JPEG, PNG 형식의 이미지만 업로드 가능합니다.
                                 </small>
                             </div>
                             
