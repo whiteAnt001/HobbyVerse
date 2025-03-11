@@ -15,6 +15,9 @@ public class Board {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long seq;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id") // Board 테이블에 user_id 컬럼 추가
+    private User user; // 반드시 User 타입 필드명이 있어야 함
     @Column(nullable = false)
     private String subject;
 
