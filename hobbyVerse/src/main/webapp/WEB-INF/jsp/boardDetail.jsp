@@ -95,6 +95,15 @@
           margin-right: 10px; /* 버튼과 내용 사이 여백 */
           flex-grow: 1; /* 내용이 가능한 공간을 차지하도록 설정 */
       }
+	  /* 게시글 이미지 크기 제한 */
+	  		.board-image {
+	  		    max-width: 250px;  /* ✅ 최대 너비 400px */
+	  		    height: auto;      /* ✅ 비율 유지 */
+	  		    display: block;
+	  		    margin: 10px auto; /* ✅ 중앙 정렬 */
+	  		    border-radius: 10px; /* ✅ 모서리 둥글게 */
+	  		    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* ✅ 그림자 효과 */
+
       
       /* 댓글 내 액션 버튼들을 오른쪽 정렬 */
       .comment-actions {
@@ -141,40 +150,57 @@
         <hr>
 
         <!-- ✅ 게시글 수정 / 삭제 (로그인한 사용자의 이메일이 게시글 이메일과 같을 때만 가능 / 관리자 권한을 가진 사람도 가능) -->
-		<!-- ✅ 게시글 수정 / 삭제 (관리자 또는 작성자만 가능) -->
-		<c:if test="${not empty user and (user.email == board.email || user.role == 'ROLE_ADMIN')}">
-		    <form action="/boards/${board.seq}/update" method="post">
-		        <div class="mb-3">
-		            <label class="form-label"><strong>제목:</strong></label>
-		            <input type="text" class="form-control" name="subject" value="${board.subject}" required>
-		        </div>
+		<!-- ✅ 게시글 내용 -->
+		        <c:if test="${not empty user and user.email == board.email || user.role == 'ROLE_ADMIN'}">
+		            <form action="/boards/${board.seq}/update" method="post">
+		                <div class="mb-3">
+		                    <label class="form-label"><strong>제목:</strong></label>
+		                    <input type="text" class="form-control" name="subject" value="${board.subject}" required>
+		                </div>
 
-		        <div class="mb-3">
-		            <label class="form-label"><strong>내용:</strong></label>
-		            <textarea class="form-control" name="content" rows="5" required>${board.content}</textarea>
-		        </div>
+		                <div class="mb-3">
+		                    <label class="form-label"><strong>내용:</strong></label>
+		                    <textarea class="form-control" name="content" rows="5" required>${board.content}</textarea>
+		                </div>
 
-		        <!-- 수정 / 삭제 버튼 -->
-		        <div class="d-flex align-items-center gap-2">
-		            <button type="submit" class="btn btn-primary">수정 완료</button>
+		                <div class="d-flex align-items-center gap-2">
+		                    <button type="submit" class="btn btn-primary">수정 완료</button>
+		                    <a href="/boards" class="btn btn-secondary">목록으로</a>
+		                </div>
+		            </form>
+
+		            <form action="/boards/${board.seq}/delete" method="post" class="mt-2"
+		                  onsubmit="return confirm('정말 삭제하시겠습니까?');">
+		                <button type="submit" class="btn btn-danger">삭제</button>
+		            </form>
+		        </c:if>
+
+		        <c:if test="${empty user or (user.email != board.email and user.role != 'ROLE_ADMIN')}">
+		            <p>${board.content}</p>
 		            <a href="/boards" class="btn btn-secondary">목록으로</a>
-		        </div>
-		    </form>
-
-		    <form action="/boards/${board.seq}/delete" method="post" class="mt-2"
-		          onsubmit="return confirm('정말 삭제하시겠습니까?');">
-		        <button type="submit" class="btn btn-danger">삭제</button>
-		    </form>
-		</c:if>
-
-		<!-- ✅ 수정/삭제 권한이 없는 경우: 내용만 표시 -->
-		<c:if test="${empty user or (user.email != board.email and user.role != 'ROLE_ADMIN')}">
-		    <p>${board.content}</p>
-		    <a href="/boards" class="btn btn-secondary">목록으로</a>
-		</c:if>
+		        </c:if>
 
 
         <hr>
+		<!-- ✅ 게시글 이미지 표시 -->
+		<c:if test="${not empty board.imagePath}">
+		    <div class="text-center mt-3">
+		        <h2>첨부된 이미지</h2>
+		        <img src="${board.imagePath}" class="img-fluid board-image">
+		    </div>
+		</c:if>
+
+		<!-- ✅ 이미지 스타일 추가 -->
+		<style>
+		    .board-image {
+		        max-width: 250px; /* ✅ 최대 너비 */
+		        height: auto;     /* ✅ 비율 유지 */
+		        display: block;   
+		        margin: 10px auto; /* ✅ 중앙 정렬 */
+		        border-radius: 10px; /* ✅ 둥근 모서리 */
+		        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* ✅ 그림자 효과 */
+		    }
+		</style>
 
         <!-- ✅ 추천 버튼 -->
         <c:if test="${not empty user}">
@@ -288,6 +314,7 @@
          </c:if>
       </c:forEach>
    </div>
+   
    <br />
    <script>
    //댓글 작성하기
