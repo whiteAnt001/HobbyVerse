@@ -159,9 +159,13 @@ body {
 						<div id="map" style="width: 500px; height: 400px;"></div>
 						<input type="hidden" id="latitude" value="${ meetup.latitude }" />
 						<input type="hidden" id="longitude" value="${ meetup.longitude }" />
-						<h5>조회수</h5>
-						<p>👁️ ${views}</p>
-						<!-- 조회수 표시 추가 -->
+						<div class="d-flex justify-content-between align-items-center mt-3">
+							<div></div>
+							<!-- 빈 공간으로 좌측 정렬 방지 -->
+							<div class="text-end">
+								<small class="text-muted">작성일: ${meetup.w_date}  조회수: ${views}</small>
+							</div>
+						</div>
 
 
 					</div>
