@@ -93,6 +93,7 @@
             <h1>모임이 쉽고 즐거워지다!</h1>
             <p>HobbyVerse와 함께 새로운 취미를 발견하고, 같은 관심사를 가진 사람들과 소통하세요. 지금 바로 시작해보세요!</p>
         </div>
+        <div>
         <div class="card">
             <div class="card-body">
                 <h3 class="card-title text-center">로그인</h3>
@@ -114,15 +115,19 @@
                 </div>
                 <div align="center" class="social-login-btn mt-2">
                 <a href="<c:url value='/oauth2/authorization/google'/>">
-                    <img src="/img/google1.png" alt="Google">
+                    <img src="/img/google.png" alt="Google">
                 </a>
                 </div>
                 <div class="social-login-btn mt-2" align="center">
-                <a href="#"/>
+                <a href="#"></a>
                     <img src="/img/kakao.png" alt="kakao">
                 </div>
             </div>
         </div>
+        <div class="text-center mt-3">
+        	<a href="/home" style="color: Thistle;">비회원으로 즐기기</a>
+        </div>
+    </div>
     </div>
     <c:if test="${FAIL == 'YES'}">
     	<script type="text/javascript">

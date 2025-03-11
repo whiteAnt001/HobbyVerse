@@ -36,4 +36,5 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
     Page<Board> findAllByOrderBySeqDesc(Pageable pageable);
 
 	List<Board> findByName(String name);
+	void deleteByEmail(String email);
 }

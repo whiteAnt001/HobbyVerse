@@ -26,10 +26,10 @@
                 </tr>
             </thead>
             <tbody>
-				<c:forEach var="inquiry" items="${inquiryList}">
-				    <tr>
-				        <td>${inquiry.seq}</td>
-						<td>${inquiry.title}</td>
+            <c:forEach var="inquiry" items="${inquiryList}">
+                <tr>
+                    <td>${inquiry.seq}</td>
+                  <td>${inquiry.title}</td>
 
 				        <td>${inquiry.userEmail}</td>
 				        <td>${inquiry.formattedCreatedAt}</td>

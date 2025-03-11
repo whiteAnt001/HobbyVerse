@@ -1,5 +1,7 @@
 package com.springboot.hobbyverse.controller;
 
+import java.time.LocalDate;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
@@ -10,6 +12,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.springboot.hobbyverse.dto.AddUserRequest;
 import com.springboot.hobbyverse.model.User;
+import com.springboot.hobbyverse.model.UserActivity;
+import com.springboot.hobbyverse.service.UserActivityService;
 import com.springboot.hobbyverse.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -18,8 +22,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
 public class UserViewController {
-	@Autowired
-	private UserService userService;
+	private final UserService userService;
+	private final UserActivityService userActivityService;
 	
 	//회원가입
 	@GetMapping("/signup")
@@ -30,9 +34,17 @@ public class UserViewController {
 	//회원가입 완료
 	@PostMapping("/register")
     public ModelAndView signup(AddUserRequest addUserRequest) {
-		ModelAndView mav = new ModelAndView("signup");			
+		ModelAndView mav = new ModelAndView("signup");
 		try {
 			mav.setViewName("signupResult"); // 가입 성공시 회원가입 성공 창으로 이동
+			UserActivity newActivity = UserActivity.builder()
+					.activityDate(LocalDate.now())
+					.newUsers(1)
+					.unsubscribedUsers(0)
+					.joinedMeetings(0)
+					.build();
+			
+			userActivityService.saveUserActivity(newActivity);
 			userService.saveUser(addUserRequest); //폼 로그인 사용자 저장
 		}catch (Exception e) {
 			mav.addObject("errorMessage", e.getMessage()); //실패시 에러메세지 출력

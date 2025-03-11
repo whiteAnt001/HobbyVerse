@@ -1,12 +1,15 @@
 package com.springboot.hobbyverse.service;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.springboot.hobbyverse.dto.TopCategoryDTO;
 import com.springboot.hobbyverse.mapper.MeetingMapper;
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.Meetup;
@@ -26,10 +29,18 @@ public class MeetingService {
     private final MeetupRepository meetupRepository;
 
     @PersistenceContext
-    private EntityManager entityManager;  // ✅ JPA 캐시 강제 새로고침
+    private EntityManager entityManager;  // JPA 캐시 강제 새로고침
 
     
     private final MeetingMapper meetingMapper;
+    
+    public List<TopCategoryDTO> getTopMeetingCategories() {
+    	LocalDateTime  startDate = LocalDateTime .now().minusDays(7);
+    	List<Object[]> results = meetupRepository.findTopMeetingCategories(startDate);
+    	
+    	return results.stream()
+    			.map(row -> new TopCategoryDTO((String) row[1], ((Long) row[2]).intValue())).collect(Collectors.toList());
+    }
 
     public List<Category> getCategoryList() {
         return meetingMapper.getCategoryList();
@@ -42,8 +53,8 @@ public class MeetingService {
 
     public List<Meetup> getMeetList(Integer pageNo) {
         if (pageNo == null) pageNo = 1;
-        int start = (pageNo - 1) * 6;
-        int end = ((pageNo - 1) * 6) + 7;
+        int start = (pageNo - 1) * 4;
+        int end = ((pageNo - 1) * 4) + 5;
         StartEnd se = new StartEnd();
         se.setStart(start);
         se.setEnd(end);
@@ -61,10 +72,9 @@ public class MeetingService {
 
     @Transactional(readOnly = true)
     public Meetup getMeetDetail(Integer id) {
-        entityManager.clear(); // ✅ JPA 캐시 제거 (최신 데이터 강제 조회)
-        return meetupRepository.findById(id).orElse(null); // ✅ DB에서 강제 조회
+        entityManager.clear(); // JPA 캐시 제거 (최신 데이터 강제 조회)
+        return meetupRepository.findById(id).orElse(null); // DB에서 강제 조회
     }
-
 
     public void updateMeeting(Meetup meetup) {
         meetingMapper.updateMeeting(meetup);
@@ -123,29 +133,59 @@ public class MeetingService {
         return meetingMapper.getViews(id);
     }
 
- // ✅ 조회수 증가 (JPA 기본 방식)
+ // 조회수 증가 (JPA 기본 방식)
     @Transactional
     public void incrementViews(Integer id) {
         Meetup meetup = meetupRepository.findById(id).orElse(null);
         if (meetup != null) {
-            logger.info("현재 조회수: {}", meetup.getViews()); // ✅ 현재 조회수 로그 출력
+            logger.info("현재 조회수: {}", meetup.getViews()); // 현재 조회수 로그 출력
             meetup.setViews(meetup.getViews() + 1);
             meetupRepository.save(meetup);  // ✅ 조회수 증가 후 저장
             entityManager.flush(); // ✅ DB에 즉시 반영
             entityManager.refresh(meetup); // ✅ JPA 캐시 강제 새로고침
            // logger.info("업데이트된 조회수: {}", meetup.getViews()); // ✅ 업데이트된 조회수 로그 출력
+            meetupRepository.save(meetup);  // 조회수 증가 후 저장
+            entityManager.flush(); // DB에 즉시 반영
+            entityManager.refresh(meetup); // JPA 캐시 강제 새로고침
+            logger.info("업데이트된 조회수: {}", meetup.getViews()); // 업데이트된 조회수 로그 출력
+        } else {
+            logger.warn("조회수 증가 실패: meetup ID {}를 찾을 수 없음", id);
         }
     }
 
-    // ✅ 강제 DB 업데이트 (JPA가 적용되지 않을 경우)
+    // 강제 DB 업데이트 (JPA가 적용되지 않을 경우)
     @Transactional
     public void incrementViewsDirectly(Integer id) {
         int updatedRows = meetupRepository.incrementViewsById(id);
-        
     }
-
 
     public Meetup getMeet(Integer m_id) {
         return meetingMapper.getMeet(m_id);
     }
+    
+    public String getW_id(Integer m_id) {
+    	return meetingMapper.getW_id(m_id);
+    }
+    // 기존 이미지 사용하기 위한 서비스
+    public String getExistingImagename(Integer m_id) {
+        // m_id에 해당하는 모임 정보를 조회하여 imagename 반환
+        Meetup meetup = meetupRepository.findById(m_id).orElse(null);
+        if (meetup != null) {
+            return meetup.getImagename();
+        }
+        return null;  // 해당 모임이 없으면 null 반환
+    }
+    
+    // 기존 위도 가져오는 메서드
+    public double getExistingLatitude(int mId) {
+        // m_id를 통해 해당 모임의 위도를 가져옴
+    	return meetingMapper.getLatitudeByMeetingId(mId);
+    }
+
+    // 기존 경도 가져오는 메서드
+    public double getExistingLongitude(int mId) {
+        // m_id를 통해 해당 모임의 경도를 가져옴
+        return meetingMapper.getLongitudeByMeetingId(mId);
+    }
+
 }

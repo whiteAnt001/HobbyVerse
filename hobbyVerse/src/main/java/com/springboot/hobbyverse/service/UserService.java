@@ -1,12 +1,11 @@
 	package com.springboot.hobbyverse.service;
 
 	import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Service;
 
 import com.springboot.hobbyverse.config.SecurityConfig;
@@ -29,6 +28,10 @@ import lombok.RequiredArgsConstructor;
 		@Autowired
 		private SecurityConfig securityConfig;
 		
+		
+		public List<SimpleGrantedAuthority> getAuthorities(User user) {
+		    return Collections.singletonList(new SimpleGrantedAuthority(user.getRole()));
+		}
 		//유저 정보 찾기
 		public User getUser(User user) {
 			return this.myMapper.getUser(user);
@@ -57,7 +60,6 @@ import lombok.RequiredArgsConstructor;
 	    	User user = userRepository.findByEmail(email);
 	    	return user != null ? user.getRole() : null; //사용자가 있으면 role 반환, 없으면 null
 	    }
-		
 	    //폼 로그인 사용자 정보 저장
 	    @Transactional
 	    public User saveUser(AddUserRequest dto) {
@@ -71,7 +73,6 @@ import lombok.RequiredArgsConstructor;
 	                        .provider(null)  // 폼 로그인에서는 provider가 없으므로 null
 	                        .providerId(null)  // 폼 로그인에서는 providerId가 없으므로 null
 	                        .build();
-	        System.out.println("유저 정보 저장 : " + user.getRegDate());
 	        return userRepository.save(user);
 	    }
 	    // 로그인 시 사용자가 입력한 비밀번호와 DB에 저장된 암호화된 비밀번호를 비교

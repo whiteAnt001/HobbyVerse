@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>  
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="UTF-8">
@@ -18,7 +18,9 @@
         .gradient-bg {background: linear-gradient(135deg, #6a11cb, #2575fc);}
         .gradient-btn {background: linear-gradient(135deg, #6a11cb, #2575fc);
                         border: none; color: white;}
-        .gradient-btn:hover { background: linear-gradient(135deg, #2575fc, #6a11cb);}
+        .gradient-btn:hover {background: linear-gradient(135deg, #2575fc, #6a11cb);}
+        .image{width: 225px; height: 200px; margin-bottom: 10px;}
+
     </style>
 </head>
 <body>
@@ -39,13 +41,15 @@
     </div>
     <!-- 인기 모임 목록 -->
     <div class="container mt-5">
-        <h3 class="text-center mb-4">🔥 인기 모임</h3>
-        <div class="row">
-            <!-- EL 표현식과 매핑 부분 -->
-            <c:forEach var="meet" items="${meetList}">
-                <form method="post" action="/home" class="col-md-4 mb-4">
-                    <div class="card shadow-sm">
-                        <div class="card-body">
+    <h3 class="text-center mb-4">🔥 인기 모임</h3>
+    <div class="row">
+        <!-- EL 표현식과 매핑 부분 -->
+        <c:forEach var="meet" items="${meetList}">
+            <form method="post" action="/home" class="col-md-3 mb-3">
+                <div class="card shadow-sm">
+                    <div class="card-body d-flex align-items-center">
+                        <div class="me-3">
+                        	<img src="${pageContext.request.contextPath}/upload/${meet.imagename}" alt="" class="image">
                             <h5 class="card-title">${meet.title}</h5>
                             <p class="card-text">날짜: ${meet.m_date}</p>
                             <p class="card-text" style="font-size: 13px;">👍${meet.recommend }</p>
@@ -53,10 +57,12 @@
                             <a href="/meetup/detail.html?id=${meet.m_id }" class="btn btn-primary">자세히 보기</a>
                         </div>
                     </div>
-                </form>
-            </c:forEach>
-        </div>
+                </div>
+            </form>
+        </c:forEach>
     </div>
+	</div>
+
     <!-- 페이지처리 -->
     <c:set var="startPage" value="${currentPage - (currentPage - 1) % 10}" />
     <c:set var="endPage" value="${startPage + 9}" />

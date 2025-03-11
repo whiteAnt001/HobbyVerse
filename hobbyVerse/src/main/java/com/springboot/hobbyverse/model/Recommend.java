@@ -11,7 +11,7 @@ import lombok.Setter;
 public class Recommend {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer like_id;
+	private Integer r_id;
 	private Integer m_id;
 	private String email;
 }

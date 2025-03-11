@@ -14,4 +14,5 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     void deleteByBoard_Seq(Long seq);
     void deleteByParentId(Long parentId);
 
+	void deleteByUserEmail(String email);
 }

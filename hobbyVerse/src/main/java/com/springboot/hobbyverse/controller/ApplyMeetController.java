@@ -2,6 +2,7 @@ package com.springboot.hobbyverse.controller;
 
 import java.lang.ProcessBuilder.Redirect;
 import java.sql.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.swing.border.TitledBorder;
@@ -18,9 +19,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.User;
+import com.springboot.hobbyverse.model.UserActivity;
 import com.springboot.hobbyverse.repository.MeetingApplyRepsotory;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
+import com.springboot.hobbyverse.service.UserActivityService;
 import com.springboot.hobbyverse.service.UserService;
 
 import jakarta.servlet.http.HttpSession;
@@ -36,6 +39,7 @@ public class ApplyMeetController {
 	private MeetingApplyService meetingApplyService;
 	
 	private final MeetingApplyRepsotory meetingApplyRepsotory;
+	private final UserActivityService userActivityService;
 	
 	@PostMapping("/applyMeeting")
 	public ModelAndView apply(Integer m_id, HttpSession session) {
@@ -52,6 +56,7 @@ public class ApplyMeetController {
 	public ModelAndView success(HttpSession session, Integer m_id, Long user_id) {
 		ModelAndView mav = new ModelAndView();
 		User user = (User)session.getAttribute("loginUser");
+		String wId = meetingService.getW_id(m_id);
 		if(user == null) {
 			mav.setViewName("/login");
 			mav.addObject(new User());
@@ -66,7 +71,7 @@ public class ApplyMeetController {
 		MeetingApply meetingApply = new MeetingApply();
 		meetingApply.setId(user.getUserId());
 		meetingApply.setName(user.getName());
-		meetingApply.setEamil(user.getEmail());
+		meetingApply.setEmail(user.getEmail());
 		meetingApply.setMid(m_id);
 		meetingApply.setTitle(meet.getTitle());
 		meetingApply.setApply_date(java.sql.Date.valueOf(java.time.LocalDate.now()));
@@ -75,24 +80,36 @@ public class ApplyMeetController {
 		if(! existMeet) {//존재하지 않는 모임일 경우
 			meetingApplyRepsotory.save(meetingApply);	
 			
+			mav.addObject("alertSuccess","신청이 완료됐습니다. " );
+			List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
+			Meetup meetup = meetingService.getMeetingById(m_id);
+			
+			UserActivity applyUser = UserActivity.builder()
+					.activityDate(LocalDate.now())
+					.newUsers(0)
+					.unsubscribedUsers(0)
+					.joinedMeetings(1)
+					.build();
+			
+			userActivityService.saveUserActivity(applyUser);
+				
+			mav.setViewName("applySuccess");
+			mav.addObject("meetingApplies", meetingApplies);
+			mav.addObject("user", user);
+			mav.addObject("meetup", meetup);
+			mav.addObject("wId", wId);
+			return mav;
+			
 		} else {//이미 존재하는 모임일 경우
 			List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
 			mav.addObject("user", user);
- 			
 			mav.addObject("alertError", "이미 신청된 모임입니다. ");
 			mav.setViewName("applySuccess");
 			mav.addObject("meetingApplies", meetingApplies);	
+			mav.addObject("wId", wId);
 			return mav;
 		}
-		mav.addObject("alertSuccess","신청이 완료됐습니다. " );
-		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
-		Meetup meetup = meetingService.getMeetingById(m_id);
-			
-		mav.setViewName("applySuccess");
-		mav.addObject("meetingApplies", meetingApplies);
-		mav.addObject("user", user);
-		mav.addObject("meetup", meetup);
-		return mav;
+		
 	}
 	
 	@GetMapping("/applyDetail")
@@ -101,10 +118,12 @@ public class ApplyMeetController {
 		User user = (User)session.getAttribute("loginUser");
 		Meetup meetup = this.meetingService.getMeet(m_id);
 		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(m_id);
+		String wId = meetingService.getW_id(m_id);
 		
 		mav.addObject("meetup", meetup);
 		mav.addObject("user", user);
 		mav.addObject("meetingApplies", meetingApplies);
+		mav.addObject("wId", wId);
 		mav.setViewName("applySuccess");
 		return mav;
 	}

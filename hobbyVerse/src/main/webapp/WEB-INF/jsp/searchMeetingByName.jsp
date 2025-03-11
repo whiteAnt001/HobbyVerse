@@ -59,6 +59,19 @@ body {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+ /* 그라데이션 스타일 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        }
+        .gradient-btn {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border: none;
+            color: white;
+        }
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+        }
+
 /* 애니메이션 효과 */
 @
 keyframes fadeIn {from { opacity:0;
@@ -69,68 +82,102 @@ to {
 	opacity: 1;
 	transform: translateY(0);
 }
+
 }
 </style>
 </head>
 <body>
-	    <jsp:include page="/WEB-INF/jsp/navbar.jsp" />
+	<jsp:include page="/WEB-INF/jsp/navbar.jsp" />
 
-	<form action="/category/search" method="post">
+	<!-- 카테고리 헤더 -->
+	<div class="category-header">
+		<c:choose>
+			<c:when test="${KEY == 1 }">
+				<h1>🏀 스포츠 모임</h1>
+				<p>다양한 스포츠를 즐기고 함께 운동할 사람들을 찾아보세요!</p>
+			</c:when>
+			<c:when test="${KEY == 2 }">
+				<h1>🎵 음악 모임</h1>
+				<p>다양한 악기를 연주하고 함께 즐길 사람들을 찾아보세요!</p>
+			</c:when>
+			<c:when test="${KEY == 3 }">
+				<h1>📚 스터디 모임</h1>
+				<p>함께 열심히 자격증이나 개인 공부합시다. 독서도 환영!</p>
+			</c:when>
+			<c:when test="${KEY == 4 }">
+				<h1>🎮 게임 모임</h1>
+				<p>다양한 게임을 즐기고 함께 놀 사람을 찾아보세요!</p>
+			</c:when>
+			<c:when test="${KEY == 5 }">
+				<h1>✈️ 여행 모임</h1>
+				<p>여럿이 여행을 떠나요!</p>
+			</c:when>
+			<c:when test="${KEY == 6 }">
+				<h1>🍳 기타</h1>
+				<p>그 외 기타 모임!</p>
+			</c:when>
+		</c:choose>
+	</div>
+
+	<div>
+		<!-- 필터 & 정렬 -->
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-md-8 mx-auto">
-					<div
-						class="filter-bar d-flex justify-content-between align-items-center">
-						모임 검색<input type="text" name="NAME" /><input type="hidden"
-							name="KEY" value="${KEY }" /> <input type="submit" value="검색" />
-						<select class="form-select w-auto">
-							<option>최신순</option>
-							<option>인기순</option>
-							<option>참가비 낮은순</option>
-						</select>
-					</div>
+					<form action="/category/search" method="post" class="input-group">
+						<input type="text" class="form-control" name="NAME"
+							placeholder="검색어를 입력하세요..." /> <input type="hidden" name="KEY"
+							value="${KEY }" />
+						<button type="submit" class="btn gradient-btn">검색</button>
+					</form>
 				</div>
 			</div>
 		</div>
-	</form>
 
-	<div class="container mt-4">
-		<div class="row">
-			<c:choose>
-				<c:when test="${keyList[0] == null }">
-					<div align="center">
-						<h2>아직 해당 모임이 만들어지지 않았어요</h2>
-					</div>
-				</c:when>
-				<c:otherwise>
-					<c:forEach var="key" items="${keyList}">
-						<div class="col-md-4 mb-4">
-							<table border="1">
+		<c:if test="${not empty alertSuccess }">
+			<script type="text/javascript">
+				alert("${alertSuccess}");
+			</script>
+		</c:if>
 
-								<div class="meeting-card">
-									<div clss="p-3">
-										<div class="meeting-card">
-											<div class="p-3">
-												<!-- <th>모임 아이디</th> -->
-												${key.m_id }
+		<div class="container mt-4">
+			<div class="row">
+				<c:choose>
+					<c:when test="${keyList[0] == null }">
+						<div align="center">
+							<h2>아직 해당 모임이 만들어지지 않았어요</h2>
+						</div>
+					</c:when>
+					<c:otherwise>
+						<c:forEach var="key" items="${keyList}">
+							<div class="col-md-4 mb-4">
+								<table border="1">
+									<div class="meeting-card">
+										<div clss="p-3">
+											<div class="meeting-card">
+												<div class="p-3">
+												<img src="${pageContext.request.contextPath}/upload/${key.imagename}" alt="" class="image">
+													<!-- <th>모임 아이디</th> -->
+													${key.m_id }
 
-												<!-- <th>모임 이름</th> -->
-												<h5 class="card-title">${key.title }</h5>
+													<!-- <th>모임 이름</th> -->
+													<h5 class="card-title">${key.title }</h5>
 
-												<!-- <th>작성일</th> -->
-												<p class="card-text">날짜: ${key.w_date }</p>
+													<!-- <th>작성일</th> -->
+													<p class="card-text">날짜: ${key.m_date }</p>
 
-												<a href="/meetup/detail.html?id=${key.m_id }"
-													class="btn btn-primary">자세히보기</a>
+													<a href="/meetup/detail.html?id=${key.m_id }"
+														class="btn btn-primary">자세히보기</a>
+												</div>
 											</div>
 										</div>
 									</div>
-								</div>
-							</table>
-						</div>
-					</c:forEach>
-				</c:otherwise>
-			</c:choose>
+								</table>
+							</div>
+						</c:forEach>
+					</c:otherwise>
+				</c:choose>
+			</div>
 		</div>
 	</div>
 

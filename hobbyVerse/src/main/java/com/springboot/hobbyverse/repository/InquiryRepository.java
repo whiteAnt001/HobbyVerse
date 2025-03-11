@@ -33,6 +33,7 @@ public interface InquiryRepository extends JpaRepository<Inquiry, Long> {
     // ✅ 번호(SEQ) 기준 내림차순 정렬 (최신순 정렬)
     Page<Inquiry> findAllByOrderBySeqDesc(Pageable pageable);
     List<Inquiry> findAllByOrderBySeqDesc(); // 관리자 전용 목록 (페이징 없음)
+    void deleteByUserEmail(String email);
 
     @Modifying
     @Transactional
