@@ -170,7 +170,7 @@ to {
 									class="btn btn-primary">자세히보기</a>
 							</div>
 
-							<!-- 이미지 오른쪽 정렬 -->
+						<!-- 이미지 오른쪽 정렬 -->
 						<div style="width: 150px; height: 150px; position: relative;">
 							<img
 								src="${pageContext.request.contextPath}/upload/${key.imagename}"

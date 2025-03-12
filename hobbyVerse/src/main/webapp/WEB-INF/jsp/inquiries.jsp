@@ -27,6 +27,8 @@
             background-color: #d6d6d6 !important; /* 기존보다 더 어둡게 조정 */
             opacity: 1; /* 글자 선명하게 */
         }
+	   a {text-decoration: none;}
+	   a:hover {text-decoration: underline;} 
     </style>
 </head>
 <body>
