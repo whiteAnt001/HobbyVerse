@@ -198,7 +198,6 @@ public class CategoryController {
 	
     @RequestMapping("/category/search") // 모임 이름으로 모임 검색 (검색)
     public ModelAndView searchPOST(String NAME, Integer pageNo, Integer KEY, HttpSession session) {
-    	System.out.println("###/category/search");
     	ModelAndView mav = new ModelAndView();
         User user = (User)session.getAttribute("loginUser");
         int currentPage = 1;
@@ -226,34 +225,4 @@ public class CategoryController {
         mav.setViewName("searchMeetingByName");
         return mav;
     }
-    
-   // @GetMapping("/category/search") // 모임 이름으로 모임 검색 (검색 후 페이지 전화)
-    public ModelAndView searchGET(String NAME, Integer pageNo, Integer KEY, HttpSession session) {
-        ModelAndView mav = new ModelAndView();
-        User user = (User)session.getAttribute("loginUser");
-        int currentPage = 1;
-        if (pageNo != null) currentPage = pageNo;
-		int start = (currentPage - 1) * 3;
-		int end = start + 4;
-        session.setAttribute("name", NAME);
-        KEY = (Integer)session.getAttribute("c_key");      
-        List<Meetup> keyList = this.categoryService.getKeyByName(NAME, pageNo, KEY);
-        int totalCount = this.categoryService.getKeyCountByName(NAME, KEY);
-        int pageCount = totalCount / 3;
-        if (totalCount % 3 != 0) pageCount++;
-        mav.addObject("keyList", keyList);
-        mav.addObject("user", user);
-        mav.addObject("NAME", NAME);
-        mav.addObject("KEY", KEY);
-		mav.addObject("start", start);
-		mav.addObject("end", end);
-		mav.addObject("total", totalCount);
-        mav.addObject("pageCount", pageCount);
-        mav.addObject("currentPage", currentPage);
-        mav.setViewName("searchMeetingByName");
-        return mav;
-    }
-    
-    
-
 }

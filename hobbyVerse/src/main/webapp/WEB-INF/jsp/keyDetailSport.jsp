@@ -146,11 +146,8 @@ to {
 						</div>
 
 						<!-- 이미지 오른쪽 정렬 -->
-						<div
-							style="width: 120px; height: 120px; overflow: hidden; position: relative;">
-							<img
-								src="${pageContext.request.contextPath}/upload/${key.imagename}"
-								alt="" class="image" />
+						<div style="width: 120px; height: 120px; overflow: hidden; position: relative;">
+							<img src="${pageContext.request.contextPath}/upload/${key.imagename}" alt="" class="image" />
 						</div>
 					</div>
 				</div>

@@ -76,6 +76,7 @@
 									src="${pageContext.request.contextPath}/upload/${meet.imagename}"
 									alt="" class="image">
 								<h5 class="card-title">${meet.title}</h5>
+		
 								<p class="card-text">날짜: ${meet.m_date}</p>
 								<p class="card-text" style="font-size: 13px;">👍${meet.recommend }</p>
 								<!-- 일반 버튼으로 수정 -->
