@@ -2,12 +2,10 @@ package com.springboot.hobbyverse.service;
 
 import java.time.LocalDate;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
@@ -18,18 +16,16 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.springboot.hobbyverse.model.Board;
-import com.springboot.hobbyverse.model.Comment;
-import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.BoardRepository;
+import com.springboot.hobbyverse.repository.CommentRepository;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.LockModeType;
 import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Service
 public class BoardService {
-
+	 private final CommentRepository commentRepository;
     private static final Logger logger = LoggerFactory.getLogger(BoardService.class);
     private final BoardRepository boardRepository;
     @PersistenceContext
@@ -121,13 +117,30 @@ public class BoardService {
     public void deleteBoard(Long seq) {
         try {
             logger.info("게시글 삭제 시도: seq={}", seq);
-            boardRepository.deleteBySeq(seq);  // ✅ 변경된 deleteBySeq(seq) 호출
+
+            // ✅ 1. 먼저 해당 게시글의 모든 대댓글(답글) 삭제
+            commentRepository.findAll().stream()
+                    .filter(comment -> comment.getParentId() != null && comment.getBoard().getSeq().equals(seq))
+                    .forEach(comment -> commentRepository.deleteByParentId(comment.getParentId()));
+            logger.info("게시글의 대댓글 삭제 완료: seq={}", seq);
+
+            // ✅ 2. 그 후 게시글의 댓글 삭제
+            commentRepository.deleteByBoard_Seq(seq);
+            logger.info("게시글의 댓글 삭제 완료: seq={}", seq);
+
+            // ✅ 3. 게시글 삭제
+            boardRepository.deleteBySeq(seq);
             logger.info("게시글 삭제 완료: seq={}", seq);
         } catch (ObjectOptimisticLockingFailureException e) {
             logger.error("게시글 삭제 중 충돌 발생", e);
             throw new RuntimeException("게시글 삭제 중 충돌이 발생했습니다. 다시 시도해주세요.");
         }
     }
+
+
+
+
+
 
     // ✅ 추천 기능 (유저별 하루 1회만 가능)
     @Transactional

@@ -15,8 +15,7 @@
 		and m.title like '%' || #{title} || '%') a
 		)
 		where rank > #{start} and
-		rank <![CDATA[<]]>
-		#{end}
+		rank <![CDATA[<]]>	#{end}
 	</select>
 
 	<!-- 검색 전 -->
