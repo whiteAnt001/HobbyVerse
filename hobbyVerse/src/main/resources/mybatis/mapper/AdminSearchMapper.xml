@@ -6,7 +6,7 @@
 	<select id="searchMeet" parameterType="com.springboot.hobbyverse.model.StartEnd" resultType="com.springboot.hobbyverse.model.Meetup">
 		select m_id, title, w_id, m_date
 			from (
-    		select m.*, ROW_NUMBER() OVER (ORDER BY m.m_id DESC) as rank
+    		select m.*, ROW_NUMBER() OVER (ORDER BY m.m_id ASC) as rank
     			from (
        			 select m.m_id, m.title, m.w_id, m.m_date
         			from meetup m

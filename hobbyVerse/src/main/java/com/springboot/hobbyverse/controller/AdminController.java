@@ -258,7 +258,7 @@ public class AdminController {
 		int start = (currentPage - 1) * 6;
 		int end = start + 7;
 
-		//session.setAttribute("TITLE", TITLE);
+		// session.setAttribute("TITLE", TITLE);
 		List<Meetup> meetList = this.adminSearchService.searchMeet(TITLE, pageNo);
 		int totalCount = this.adminSearchService.searchMeetCount(TITLE);
 		int pageCount = totalCount / 6;
@@ -288,7 +288,7 @@ public class AdminController {
 		int start = (currentPage - 1) * 6;
 		int end = start + 7;
 
-		//session.setAttribute("SEARCH", SEARCH);
+		// session.setAttribute("SEARCH", SEARCH);
 		List<User> userList = this.adminSearchService.searchUser(SEARCH, pageNo);
 
 		int totalCount = this.adminSearchService.searchUserCount(SEARCH);
@@ -364,8 +364,10 @@ public class AdminController {
 	public ModelAndView reportsDetail(Integer report_id, HttpSession session) {
 		ModelAndView mav = new ModelAndView("reportsDetail");
 		User user = (User) session.getAttribute("loginUser");
+
 		Report report = this.reportService.getReportDetail(report_id);// 해당 신고 정보 조회
 		List<Meetup> meetList = this.reportService.getMeetingList(); // 모임 리스트 조회
+
 		mav.addObject("report", report);
 		mav.addObject("meetList", meetList); // meetList 추가
 		mav.addObject("report_id", report_id);
@@ -413,61 +415,4 @@ public class AdminController {
 		mav.addObject("user", user);
 		return mav;
 	}
-       return mav;
-   }
-   
-   //신고된 모임 상세
-   @GetMapping("/reportsDetail")
-   public ModelAndView reportsDetail(Integer report_id, HttpSession session) {
-       ModelAndView mav = new ModelAndView("reportsDetail");
-       User user = (User)session.getAttribute("loginUser");
-       
-       Report report = this.reportService.getReportDetail(report_id);// 해당 신고 정보 조회
-       List<Meetup> meetList = this.reportService.getMeetingList(); // 모임 리스트 조회
-       
-       mav.addObject("report", report);
-       mav.addObject("meetList", meetList); // meetList 추가
-       mav.addObject("report_id", report_id);
-       mav.addObject("user", user);
-       return mav;
-   }
-   
-   //신고된 모임 삭제
-   @DeleteMapping("/reportsDelete/{report_id}")
-   public ResponseEntity<Map<String, String>> reportsDelete(@PathVariable Integer report_id){
-   	Map<String, String> response = new HashMap<>();   	
-   	this.reportService.deleteReports(report_id);  	
-   	if(report_id == null) {
-       	response.put("message", "모임을 찾을 수 없습니다.");
-       	return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
-   	}   	
-       response.put("message", "모임을 성공적으로 삭제했습니다.");
-       return ResponseEntity.status(HttpStatus.OK).body(response);
-   }
-   
-   @GetMapping("/reportsSearch")
-   public ModelAndView reportsSearch(String title, Integer PAGE_NUM, HttpSession session) {
-       ModelAndView mav = new ModelAndView("reportSearchGroup");
-       User user = (User) session.getAttribute("loginUser");
-       int currentPage = 1;
-       if (PAGE_NUM != null) currentPage = PAGE_NUM;
-       int start = (currentPage - 1) * 10; 
-       int end = start + 11;       
-       List<Report> reportList = this.reportService.getReportByTitle(title, PAGE_NUM); // 신고 목록
-       List<Meetup> meetList = this.reportService.getReportedMeeting(); // 모임별 신고 횟수
-       Integer totalCount = this.reportService.getReportCountByTitle(title);
-       int pageCount = totalCount / 10;
-       if(totalCount % 10 != 0) pageCount++;
-       mav.addObject("START", start);
-       mav.addObject("END", end);
-       mav.addObject("TOTAL", totalCount);
-       mav.addObject("LIST",meetList); 
-       mav.addObject("pageCount", pageCount);
-       mav.addObject("currentPage", currentPage);
-       mav.addObject("reportList", reportList);
-       mav.addObject("meetList", meetList);
-       mav.addObject("title", title);
-       mav.addObject("user", user);
-       return mav;
-   }  
 }
