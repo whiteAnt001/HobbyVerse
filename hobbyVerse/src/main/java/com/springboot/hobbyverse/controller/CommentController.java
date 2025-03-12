@@ -1,6 +1,5 @@
 package com.springboot.hobbyverse.controller;
 
-import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import com.springboot.hobbyverse.dto.CommentRequest;
 import com.springboot.hobbyverse.model.Comment;
 import com.springboot.hobbyverse.repository.CommentRepository;
-import com.springboot.hobbyverse.repository.UserRepository;
 import com.springboot.hobbyverse.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
@@ -54,7 +52,6 @@ public class CommentController {
 
         Comment comment = existingComment.get();
         comment.setContent(newContent);
-        comment.setUpdatedAt(LocalDateTime.now());
         commentRepository.save(comment);
 
         return ResponseEntity.ok(Map.of("success", true, "comment", comment));

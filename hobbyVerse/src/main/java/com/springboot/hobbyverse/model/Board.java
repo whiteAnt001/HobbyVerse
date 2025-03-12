@@ -62,10 +62,6 @@ public class Board {
     @Column(nullable = true, length = 500)
     private String imagePath;
 
-    public Board() {
-        this.regDate = LocalDateTime.now();
-    }
-
     @PrePersist
     public void prePersist() {
         if (this.regDate == null) {

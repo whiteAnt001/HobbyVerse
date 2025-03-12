@@ -100,6 +100,7 @@ public class BoardController {
                                     @RequestParam(value = "file", required = false) MultipartFile file,
                                     HttpSession session) {
         User user = (User) session.getAttribute("loginUser");
+        ModelAndView mav = new ModelAndView();
 
         if (user != null) {
             board.setName(user.getName());  // 작성자 저장
@@ -147,7 +148,8 @@ public class BoardController {
         }
 
         boardService.saveBoard(board); // ✅ DB에 저장
-        return new ModelAndView("redirect:/boards");
+        mav.setViewName("redirect:/boards");
+		return mav;
     }
 
 

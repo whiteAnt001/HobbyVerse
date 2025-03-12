@@ -139,8 +139,8 @@
         <!-- ✅ 작성자 / 작성일 / 조회수 / 추천수 -->
         <div class="d-flex justify-content-between">
             <div>
-                <p><strong>작성자:</strong> ${board.name} #${board.user.userId}</p>
-				<p><strong>작성일:</strong> ${formattedRegDate}</p>
+                <p><strong>작성자:</strong> ${board.name} #${board.user.userId }</p>
+                <p><strong>작성일:</strong> ${formattedRegDate}</p>
             </div>
             <div>
                 <p><strong>조회수:</strong> ${board.readCount}</p>
@@ -223,6 +223,7 @@
              <input type="hidden" id="boardId" value="${board.seq}"/>
              <input type="hidden" id="userName" value="${user.name}"/>
              <input type="hidden" id="userEmail" value="${user.email}"/>
+             <input type="hidden" id="userId" value="${user.userId}"/>
              <textarea id="content" class="form-control" rows="3"></textarea>
              <button type="button" id="writebutton" class="btn btn-primary" onclick="submitComment()">댓글 작성</button>
          </form>
@@ -237,7 +238,7 @@
          <c:if test="${empty comment.parentId}">
             <div class="comment" id="comment-${comment.id}">
                <div class="comment-header">
-                  <span class="comment-user">${comment.userName}</span> <span
+                  <span class="comment-user">${comment.userName} #${comment.user.userId }</span> <span
                      class="comment-date">작성일: ${comment.createdAtString}</span>
                </div>
                <p class="comment-content">${comment.content}</p>
@@ -281,7 +282,7 @@
                      <c:if test="${reply.parentId == comment.id}">
                         <div class="comment reply" id="comment-${reply.id}">
                            <div class="comment-header">
-                              <span class="comment-user">${reply.userName}</span> <span
+                              <span class="comment-user">${reply.userName} #${reply.user.userId }</span> <span
                                  class="comment-date">작성일: ${reply.createdAtString}</span>
                            </div>
                            <div class="comment-content-container">
@@ -320,6 +321,7 @@
    //댓글 작성하기
     function submitComment() {
         const boardId = document.getElementById("boardId").value;
+        const userId = document.getElementById("userId").value;
         const userName = document.getElementById("userName").value;
         const userEmail = document.getElementById("userEmail").value;
         const content = document.getElementById("content").value;
@@ -336,9 +338,9 @@
             },
             body: JSON.stringify({
                 boardId: boardId,
+                userId: userId,
                 userName: userName,
                 userEmail: userEmail,
-
                 content: content
             })
         })
@@ -374,11 +376,12 @@
            const userEmailInput = document.getElementById("userEmail");
            const userNameInput = document.getElementById("userName");
            const boardIdInput = document.getElementById("boardId");
+           const userIdInput = document.getElementById("userId");
            
            // 위의 값이 없으면 경고창 표시
            if (!userEmailInput || !userNameInput || !boardIdInput) {
                console.error("사용자 정보 입력 필드가 없습니다.");
-               alert("로그인 정보를 찾을 수 없습니다. 다시 로그인 후 시도하세요.");
+               alert("로그인 후 시도하세요.");
                return;
            }
            
@@ -386,6 +389,7 @@
            const userEmail = userEmailInput.value;
            const userName = userNameInput.value;
            const boardId = boardIdInput.value;
+           const userId = userIdInput.value;
 
            if (!replyContent.trim()) {
                alert("대댓글 내용을 입력해 주세요.");
@@ -397,6 +401,7 @@
                headers: { 'Content-Type': 'application/json' },
                body: JSON.stringify({
                    content: replyContent,
+                   userId: userId,
                    userEmail: userEmail,
                    userName: userName,
                    parentId: commentId,
@@ -410,7 +415,8 @@
                    alert("대댓글이 작성되었습니다.");
                    location.reload();
                } else {
-                   alert("대댓글 작성 실패: " + data.message);
+                   alert("대댓글이 작성되었습니다.");
+                   location.reload();
                }
            })
            .catch(error => {

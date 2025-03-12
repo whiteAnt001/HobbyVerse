@@ -1,7 +1,5 @@
 package com.springboot.hobbyverse.service;
 
-import java.util.List;
-
 import org.springframework.stereotype.Service;
 
 import com.springboot.hobbyverse.model.Board;
@@ -11,7 +9,6 @@ import com.springboot.hobbyverse.repository.BoardRepository;
 import com.springboot.hobbyverse.repository.CommentRepository;
 import com.springboot.hobbyverse.repository.UserRepository;
 
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 
 @Service
@@ -19,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 public class CommentService {
 	private final CommentRepository commentRepository;
 	private final BoardRepository boardRepository;
+	private final UserRepository userRepository;
 	// 댓글 저장
 	public Comment saveComment(Long boardId, Long parentId, String content, String userEmail, String userName) {
 	    // 게시글 확인
@@ -26,8 +24,7 @@ public class CommentService {
 	            .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
 	    
 	    Comment comment;
-	    //User user = userRepository.findByEmail(userEmail);
-	    
+	    User user = userRepository.findByEmail(userEmail);
 	    // 대댓글인 경우
 	    if (parentId != null) {
 	        // 부모 댓글 확인
@@ -41,8 +38,8 @@ public class CommentService {
 
 	        // 대댓글 생성
 	        comment = new Comment();
-	        //comment.setUser(board.getUser());
 	        comment.setBoard(board);
+	        comment.setUser(user);
 	        comment.setParentId(parentComment.getId());
 	        comment.setContent(content);
 	        comment.setUserEmail(userEmail);
@@ -63,14 +60,14 @@ public class CommentService {
 	    } else { // 최상위 댓글인 경우
 	        // 최상위 댓글 생성
 	        comment = new Comment();
-	        //comment.setUser(user);
+	        comment.setUser(user);
 	        comment.setBoard(board);
 	        comment.setContent(content);
 	        comment.setUserEmail(userEmail);
 	        comment.setUserName(userName);
 	        comment.setDepth(0);  // 최상위 댓글은 depth 0
 	        comment.setStatus(1);
-	        comment.setGroupId(null);  // 자신의 ID를 groupId로 설정
+	        comment.setGroupId(comment.getId());  // 자신의 ID를 groupId로 설정
 	    }
 	    
 	    // 댓글 저장
