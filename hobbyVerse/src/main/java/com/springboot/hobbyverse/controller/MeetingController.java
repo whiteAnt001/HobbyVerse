@@ -331,7 +331,7 @@ public class MeetingController {
     public ModelAndView report(Integer m_id, Report report, HttpSession session) {
         ModelAndView mav = new ModelAndView("reportGroup");
         User user = (User) session.getAttribute("loginUser");
-        report.setEmail(user.getEmail());
+        report.setName(user.getName());
         Meetup meetup = meetingService.getMeetingById(m_id);
         mav.addObject("meetup", meetup);
         mav.addObject("report", report);
@@ -346,7 +346,7 @@ public class MeetingController {
         ModelAndView mav = new ModelAndView();
         User user = (User) session.getAttribute("loginUser");      
         report.setM_id(m_id);
-        report.setEmail(user.getEmail());
+        report.setName(user.getName());
         this.reportService.putReport(report);      
         mav.setViewName("reportGroupDone");
         mav.addObject("message", "신고가 접수되었습니다.");

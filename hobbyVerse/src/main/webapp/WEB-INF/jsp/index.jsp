@@ -33,7 +33,7 @@
 }
 
 .image {
-	width: 225px;
+	width: 240px;
 	height: 200px;
 	margin-bottom: 10px;
 }
