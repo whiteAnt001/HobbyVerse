@@ -104,8 +104,8 @@ public class MeetingService {
 
     public List<Meetup> getMeetByTitle(String title, Integer pageNo) {
         if (pageNo == null) pageNo = 1;
-        int start = (pageNo - 1) * 4;
-        int end = start + 5;
+        int start = (pageNo - 1) * 6;
+        int end = start + 7;
         StartEnd se = new StartEnd();
         se.setStart(start);
         se.setEnd(end);

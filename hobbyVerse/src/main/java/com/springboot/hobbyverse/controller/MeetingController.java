@@ -83,54 +83,30 @@ public class MeetingController {
 	}// 모임목록,페이지처리
 
 	@PostMapping(value = "/meetup/search.html")
-	public ModelAndView searchPost(String title, Integer pageNo, HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("loginUser");
+	public ModelAndView search(String title, Integer pageNo, HttpSession session) {
 		int currentPage = 1;
-		if(pageNo != null) currentPage = pageNo;
-		int start = (currentPage - 1) * 4;
-		int end = start + 5;
-		List<Meetup> meetList = this.meetingService.getMeetByTitle(title, pageNo);
-		int totalCount = this.meetingService.getMeetCountByTitle(title);
-		int pageCount = totalCount / 4;
-		if(totalCount % 4 != 0) pageCount++;
-		session.setAttribute("title", title);
-		mav.addObject("meetList",  meetList);
+		if (pageNo != null)
+			currentPage = pageNo;
+		int start = (currentPage - 1) * 6;
+		int end = start + 7;
+		List<Meetup> meetList = this.meetingService.getMeetByTitle(title, currentPage);
+		Integer totalCount = this.meetingService.getMeetCountByTitle(title);
+		User user = (User) session.getAttribute("loginUser");
+		int pageCount = totalCount / 5;
+		if (totalCount % 5 != 0)
+			pageCount++;
+		ModelAndView mav = new ModelAndView("searchGroupList");
 		mav.addObject("user", user);
-		mav.addObject("title", title);
-		mav.addObject("start", start);
-		mav.addObject("end", end);
-		mav.addObject("total", totalCount);
+		mav.addObject("START", start);
+		mav.addObject("END", end);
+		mav.addObject("TOTAL", totalCount);
+		mav.addObject("LIST", meetList);
+		mav.addObject("meetList", meetList);
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("currentPage", currentPage);
-		mav.setViewName("searchGroupList");
-		return mav;
-	}// 모임제목으로 모임 검색 
-	
-	@GetMapping(value = "/meetup/search.html")
-	public ModelAndView searchGet(String title, Integer pageNo, HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("loginUser");
-		int currentPage = 1;
-		if(pageNo != null) currentPage = pageNo;
-		int start = (currentPage - 1) * 4;
-		int end = start + 5;
-		List<Meetup> meetList = this.meetingService.getMeetByTitle(title, pageNo);
-		int totalCount = this.meetingService.getMeetCountByTitle(title);
-		int pageCount = totalCount / 4;
-		if(totalCount % 4 != 0) pageCount++;
-		session.setAttribute("title", title);
-		mav.addObject("meetList",  meetList);
-		mav.addObject("user", user);
 		mav.addObject("title", title);
-		mav.addObject("start", start);
-		mav.addObject("end", end);
-		mav.addObject("total", totalCount);
-		mav.addObject("pageCount", pageCount);
-		mav.addObject("currentPage", currentPage);
-		mav.setViewName("searchGroupList");
 		return mav;
-	}// 모임제목으로 모임 검색 (검색 후 페이지 변경)
+	}// 모임제목으로 모임 검색
 
 	@GetMapping(value = "/meetup/createGroup.html")
 	public ModelAndView entry(Meetup meetup, HttpSession session) {
@@ -242,16 +218,34 @@ public class MeetingController {
 			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
 			return mav;
 		}
-		
-		mav.setViewName("detailGroup");
-		mav.addObject("user", user);
-		mav.addObject("meetup", meetup);
-		mav.addObject("meetingApplies", meetingApplies);
-		mav.addObject("wId", wId);
-		mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
 
-		logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-		return mav;
+//      String user_name = user.getName();//User
+//      String name = meetup.getW_id();//meetup에 있는 작성자
+		String role = user.getRole();// user의 권한
+		String userEmail = user.getEmail();// 로그인된 계정의 이메일
+		String meetEmail = meetup.getEmail();// 모임에 등록된 이메일
+
+		// 권한 / 이메일로 비교
+		if (role.equals("ROLE_ADMIN") || meetEmail.equals(userEmail)) {// 관리자, 모임에 등록된 이메일 == 로그인 된 계정의 이메일
+			mav.setViewName("admindetailGroup");
+			mav.addObject("user", user);
+			mav.addObject("meetup", meetup);
+			mav.addObject("meetingApplies", meetingApplies);
+			mav.addObject("wId", wId);
+			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+
+			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			return mav;
+
+		} else {// 일반 계정
+			mav.setViewName("detailGroup");
+			mav.addObject("user", user);
+			mav.addObject("meetup", meetup);
+			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+
+			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			return mav;
+		}
 
 	}
 
@@ -279,16 +273,34 @@ public class MeetingController {
 			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
 			return mav;
 		}
-		
-		mav.setViewName("detailGroupCategory");
-		mav.addObject("user", user);
-		mav.addObject("meetup", meetup);
-		mav.addObject("meetingApplies", meetingApplies);
-		mav.addObject("wId", wId);
-		mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
 
-		logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-		return mav;
+//      String user_name = user.getName();//User
+//      String name = meetup.getW_id();//meetup에 있는 작성자
+		String role = user.getRole();// user의 권한
+		String userEmail = user.getEmail();// 로그인된 계정의 이메일
+		String meetEmail = meetup.getEmail();// 모임에 등록된 이메일
+
+		// 권한 / 이메일로 비교
+		if (role.equals("ROLE_ADMIN") || meetEmail.equals(userEmail)) {// 관리자, 모임에 등록된 이메일 == 로그인 된 계정의 이메일
+			mav.setViewName("admindetailGroup");
+			mav.addObject("user", user);
+			mav.addObject("meetup", meetup);
+			mav.addObject("meetingApplies", meetingApplies);
+			mav.addObject("wId", wId);
+			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+
+			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			return mav;
+
+		} else {// 일반 계정
+			mav.setViewName("detailGroup");
+			mav.addObject("user", user);
+			mav.addObject("meetup", meetup);
+			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+
+			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+			return mav;
+		}
 	}
 
 	@GetMapping("/meetup/modify.html")
