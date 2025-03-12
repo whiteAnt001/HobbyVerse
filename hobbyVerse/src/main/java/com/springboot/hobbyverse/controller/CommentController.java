@@ -1,5 +1,6 @@
 package com.springboot.hobbyverse.controller;
 
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Optional;
 
@@ -21,7 +22,6 @@ import lombok.RequiredArgsConstructor;
 public class CommentController {
     private final CommentService commentService;
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
 
     // 댓글 작성
     @PostMapping("/create")
@@ -54,6 +54,7 @@ public class CommentController {
 
         Comment comment = existingComment.get();
         comment.setContent(newContent);
+        comment.setUpdatedAt(LocalDateTime.now());
         commentRepository.save(comment);
 
         return ResponseEntity.ok(Map.of("success", true, "comment", comment));

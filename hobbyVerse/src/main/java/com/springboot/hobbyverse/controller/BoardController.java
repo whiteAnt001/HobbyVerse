@@ -27,6 +27,7 @@ import com.springboot.hobbyverse.service.BoardService;
 import com.springboot.hobbyverse.service.CommentService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @Controller
@@ -87,17 +88,22 @@ public class BoardController {
     // ✅ 게시글 저장 처리
     @PostMapping("/boards/create")
     public ModelAndView createBoard(@ModelAttribute Board board, HttpSession session) {
+    	ModelAndView mav = new ModelAndView();
         User user = (User) session.getAttribute("loginUser");
 
         if (user != null) {
             board.setName(user.getName());  //  이름 저장
             board.setEmail(user.getEmail()); // 이메일 저장
+            board.setUser(user);
         } else {
-            return new ModelAndView("redirect:/login");
+            mav.setViewName("redirect:/login");
+            return mav;
         }
-
+        
         boardService.saveBoard(board);
-        return new ModelAndView("redirect:/boards");
+        mav.setViewName("redirect:/boards");
+        mav.addObject("user", user);
+        return mav;
     }
 
 
@@ -127,6 +133,7 @@ public class BoardController {
     }
 
     // ✅ 게시글 삭제 처리
+    @Transactional
     @PostMapping("/boards/{seq}/delete")
     public ModelAndView deleteBoard(@PathVariable Long seq) {
         boardService.deleteBoard(seq);

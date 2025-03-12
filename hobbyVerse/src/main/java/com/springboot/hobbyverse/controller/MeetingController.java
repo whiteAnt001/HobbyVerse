@@ -128,9 +128,11 @@ public class MeetingController {
 		meetup.setW_id(user.getName());
 		meetup.setEmail(user.getEmail());
         // Meetup 객체에 주소, 위도, 경도 저장
-        meetup.setLatitude(Double.parseDouble(latitude)); // 위도
-        meetup.setLongitude(Double.parseDouble(longitude)); // 경도
-        meetup.setAddress(address); // 주소
+		// 위치 정보가 비어있을 경우 예외 처리
+	    // 위치 정보가 있을 경우 Meetup 객체에 저장
+	    meetup.setLatitude(Double.parseDouble(latitude)); // 위도
+	    meetup.setLongitude(Double.parseDouble(longitude)); // 경도
+	    meetup.setAddress(address); // 주소
 		MultipartFile multiFile = meetup.getFile();
 		String fileName = null;
 		String path = null;

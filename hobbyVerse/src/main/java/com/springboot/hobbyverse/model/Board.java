@@ -13,8 +13,12 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.Transient;
 import jakarta.persistence.Version;
+import lombok.Getter;
+import lombok.Setter;
 
 @Entity
+@Getter
+@Setter
 public class Board {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -52,8 +56,10 @@ public class Board {
         this.regDate = LocalDateTime.now();
     }
     @ManyToOne
-    @JoinColumn(name = "user_id") // user_id라는 컬럼으로 Join
+    @JoinColumn(name = "user_id") // users 테이블의 id와 연결
     private User user;
+    
+
 
     @PrePersist
     public void prePersist() {

@@ -130,8 +130,8 @@
         <!-- ✅ 작성자 / 작성일 / 조회수 / 추천수 -->
         <div class="d-flex justify-content-between">
             <div>
-                <p><strong>작성자:</strong> ${board.name}</p>
-                <p><strong>작성일:</strong> ${formattedRegDate}</p>
+                <p><strong>작성자:</strong> ${board.name} #${board.user.userId}</p>
+				<p><strong>작성일:</strong> ${formattedRegDate}</p>
             </div>
             <div>
                 <p><strong>조회수:</strong> ${board.readCount}</p>
@@ -210,8 +210,8 @@
 			<c:if test="${empty comment.parentId}">
 				<div class="comment" id="comment-${comment.id}">
 					<div class="comment-header">
-						<span class="comment-user">${comment.userName}</span> <span
-							class="comment-date">작성일: ${comment.createdAtString}</span>
+						<span class="comment-user">${comment.userName}</span>
+						 <span class="comment-date">작성일: ${comment.createdAtString}</span>
 					</div>
 					<p class="comment-content">${comment.content}</p>
 
@@ -254,7 +254,7 @@
 							<c:if test="${reply.parentId == comment.id}">
 								<div class="comment reply" id="comment-${reply.id}">
 									<div class="comment-header">
-										<span class="comment-user">${reply.userName}</span> <span
+										<span class="comment-user">${reply.userName} #${reply.user.userId}</span> <span
 											class="comment-date">작성일: ${reply.createdAtString}</span>
 									</div>
 									<div class="comment-content-container">
@@ -310,6 +310,7 @@
                 boardId: boardId,
                 userName: userName,
                 userEmail: userEmail,
+
                 content: content
             })
         })
@@ -349,7 +350,7 @@
     	    // 위의 값이 없으면 경고창 표시
     	    if (!userEmailInput || !userNameInput || !boardIdInput) {
     	        console.error("사용자 정보 입력 필드가 없습니다.");
-    	        alert("로그인 정보를 찾을 수 없습니다. 다시 로그인 후 시도하세요.");
+    	        alert("로그인이 되어있지 않습니다. 로그인 후 시도하세요.");
     	        return;
     	    }
     	    
@@ -357,7 +358,7 @@
     	    const userEmail = userEmailInput.value;
     	    const userName = userNameInput.value;
     	    const boardId = boardIdInput.value;
-
+    	    
     	    if (!replyContent.trim()) {
     	        alert("대댓글 내용을 입력해 주세요.");
     	        return;
