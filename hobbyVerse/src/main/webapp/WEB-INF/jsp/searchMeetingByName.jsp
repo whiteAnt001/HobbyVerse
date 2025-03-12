@@ -133,8 +133,8 @@ to {
 				<div class="col-md-8 mx-auto">
 					<form action="/category/search" method="post" class="input-group">
 						<input type="text" class="form-control" name="NAME"
-							value="${NAME }" placeholder="검색어를 입력하세요..." /> <input
-							type="hidden" name="KEY" value="${KEY }" />
+							value="${NAME }" placeholder="검색어를 입력하세요..." /> 
+							<input type="hidden" name="KEY" value="${KEY }" />
 						<button type="submit" class="btn gradient-btn">검색</button>
 					</form>
 				</div>

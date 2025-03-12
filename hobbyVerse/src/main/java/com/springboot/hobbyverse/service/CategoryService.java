@@ -27,12 +27,7 @@ public class CategoryService {
 		se.setEnd(end);
 		se.setTitle(title);
 		se.setC_key(key);
-		System.out.println("pageNo:"+pageNo+",start:"+start+",end:"+end+",key:"+key+",title:["+title+"]");
-
-		List<Meetup> list = this.categoryMapper.getKeyByName(se);
-		System.out.println("건 수 : "+list.size());
-		
-		return list;
+		return this.categoryMapper.getKeyByName(se);
 	}
 	
 	//검색 개수
