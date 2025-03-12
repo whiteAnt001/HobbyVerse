@@ -13,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
@@ -82,7 +83,7 @@ public class MeetingController {
 		return mav;
 	}// 모임목록,페이지처리
 
-	@PostMapping(value = "/meetup/search.html")
+	@RequestMapping(value = "/meetup/search.html")
 	public ModelAndView searchPost(String title, Integer pageNo, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
 		User user = (User)session.getAttribute("loginUser");
@@ -106,31 +107,7 @@ public class MeetingController {
 		mav.setViewName("searchGroupList");
 		return mav;
 	}// 모임제목으로 모임 검색 
-	
-	@GetMapping(value = "/meetup/search.html")
-	public ModelAndView searchGet(String title, Integer pageNo, HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("loginUser");
-		int currentPage = 1;
-		if(pageNo != null) currentPage = pageNo;
-		int start = (currentPage - 1) * 4;
-		int end = start + 5;
-		List<Meetup> meetList = this.meetingService.getMeetByTitle(title, pageNo);
-		int totalCount = this.meetingService.getMeetCountByTitle(title);
-		int pageCount = totalCount / 4;
-		if(totalCount % 4 != 0) pageCount++;
-		session.setAttribute("title", title);
-		mav.addObject("meetList",  meetList);
-		mav.addObject("user", user);
-		mav.addObject("title", title);
-		mav.addObject("start", start);
-		mav.addObject("end", end);
-		mav.addObject("total", totalCount);
-		mav.addObject("pageCount", pageCount);
-		mav.addObject("currentPage", currentPage);
-		mav.setViewName("searchGroupList");
-		return mav;
-	}// 모임제목으로 모임 검색 (검색 후 페이지 변경)
+
 
 	@GetMapping(value = "/meetup/createGroup.html")
 	public ModelAndView entry(Meetup meetup, HttpSession session) {
@@ -356,7 +333,7 @@ public class MeetingController {
     public ModelAndView report(Integer m_id, Report report, HttpSession session) {
         ModelAndView mav = new ModelAndView("reportGroup");
         User user = (User) session.getAttribute("loginUser");
-        report.setEmail(user.getEmail());
+        report.setName(user.getName());
         Meetup meetup = meetingService.getMeetingById(m_id);
         mav.addObject("meetup", meetup);
         mav.addObject("report", report);
@@ -371,7 +348,7 @@ public class MeetingController {
         ModelAndView mav = new ModelAndView();
         User user = (User) session.getAttribute("loginUser");      
         report.setM_id(m_id);
-        report.setEmail(user.getEmail());
+        report.setName(user.getName());
         this.reportService.putReport(report);      
         mav.setViewName("reportGroupDone");
         mav.addObject("message", "신고가 접수되었습니다.");

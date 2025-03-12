@@ -328,8 +328,10 @@ public class AdminController {
    public ModelAndView reportsDetail(Integer report_id, HttpSession session) {
        ModelAndView mav = new ModelAndView("reportsDetail");
        User user = (User)session.getAttribute("loginUser");
+       
        Report report = this.reportService.getReportDetail(report_id);// 해당 신고 정보 조회
        List<Meetup> meetList = this.reportService.getMeetingList(); // 모임 리스트 조회
+       
        mav.addObject("report", report);
        mav.addObject("meetList", meetList); // meetList 추가
        mav.addObject("report_id", report_id);

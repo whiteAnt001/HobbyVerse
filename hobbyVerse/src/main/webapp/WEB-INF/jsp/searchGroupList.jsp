@@ -59,7 +59,7 @@
 		<div class="row d-flex align-items-center justify-content-between">
 		<!-- 왼쪽 화살표 -->
 		<div class="col-auto">
-			<a href="../meetup/search.html?pageNo=${currentPage - 1}"
+			<a href="../meetup/search.html?pageNo=${currentPage - 1}&title=${title}"
 				class="btn btn-light"
 				<c:if test="${currentPage <= 1}"> style="pointer-events: none; opacity: 0.5;" </c:if>>
 				◀ </a>
@@ -76,6 +76,7 @@
 									src="${pageContext.request.contextPath}/upload/${meet.imagename}"
 									alt="" class="image">
 								<h5 class="card-title">${meet.title}</h5>
+		
 								<p class="card-text">날짜: ${meet.m_date}</p>
 								<p class="card-text" style="font-size: 13px;">👍${meet.recommend }</p>
 								<!-- 일반 버튼으로 수정 -->
@@ -89,7 +90,7 @@
 		</div>
 		<!-- 오른쪽 화살표 -->
 		<div class="col-auto">
-			<a href="../meetup/search.html?pageNo=${currentPage + 1}"
+			<a href="../meetup/search.html?pageNo=${currentPage + 1}&title=${title}"
 				class="btn btn-light"
 				<c:if test="${currentPage >= pageCount}"> style="pointer-events: none; opacity: 0.5;" </c:if>>
 				▶ </a>

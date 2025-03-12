@@ -4,8 +4,8 @@
 <mapper namespace="com.springboot.hobbyverse.mapper.ReportMapper">
     <!-- 모임 신고 -->
     <insert id="putReport" parameterType="com.springboot.hobbyverse.model.Report">
-        insert into report(m_id, email, reason, report_date) 
-        values(#{m_id}, #{email}, #{reason}, current_timestamp)
+        insert into report(m_id, name, reason, report_date) 
+        values(#{m_id}, #{name}, #{reason}, current_timestamp)
     </insert> 	
 	<!-- 모든 신고 목록 -->
     <select id="getReportList" resultType="com.springboot.hobbyverse.model.Report" parameterType="com.springboot.hobbyverse.model.StartEnd">
@@ -39,7 +39,8 @@
     </select>
     <!-- 신고된 모임 상세보기 -->
     <select id="getReportDetail" resultType="com.springboot.hobbyverse.model.Report" parameterType="Integer">
-    	select * from report where report_id=#{report_id}
+    	select * from report r
+    	where report_id=#{report_id}
     </select>   
     <!-- 모임 리스트 -->
     <select id="getMeetingList" resultType="com.springboot.hobbyverse.model.Meetup">

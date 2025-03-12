@@ -78,9 +78,7 @@ body {
 }
 
 .image {
-	width: 50px;
-	height: 50px;
-	margin-left: 10px;
+	margin-left: -10px;
 }
 
 /* 애니메이션 효과 */
@@ -172,12 +170,10 @@ to {
 									class="btn btn-primary">자세히보기</a>
 							</div>
 
-							<div
-								style="width: 120px; height: 120px overflow: hidden; position: relative;">
-								<img
-									src="${pageContext.request.contextPath}/upload/${key.imagename}"
-									alt="" class="image">
-							</div>
+						<!-- 이미지 오른쪽 정렬 -->
+						<div style="width: 150px; height: 150px; position: relative;">
+							<img src="${pageContext.request.contextPath}/upload/${key.imagename}" alt="" class="image" />
+						</div>
 
 						</div>
 

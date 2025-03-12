@@ -85,6 +85,8 @@
            from { opacity: 0; }
            to { opacity: 1; }
        }
+	   		a {text-decoration: none;}
+	   	a:hover {text-decoration: underline;}
     </style>
 </head>
 <body>

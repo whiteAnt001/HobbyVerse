@@ -154,6 +154,10 @@ body {
 					<!-- 자동완성 결과 표시할 영역 -->
 					<ul id="suggestions" class="list-group position-absolute"
 						style="width: 300px; z-index: 1000;"></ul>
+					<label for="address" class="form-label">모임 장소</label><br /> 
+					<input type="text" id="address" placeholder="장소를 입력하세요" style="width: 300px;">
+					<button type="button" id="search-btn" class="btn btn-sm btn-outline-secondary me-2">장소 검색</button><br/> 
+					<small class="text-muted">건물이름, 장소로만 검색 가능합니다.</small>
 
 					<!-- 지도 표시 영역 -->
 					<div id="map"
@@ -187,6 +191,54 @@ body {
 		                }
 		            }
 		    </script>
+        document.querySelector('form').addEventListener('submit', function(event) {
+           // 파일 유효성 검사
+            var ileInput = document.querySelector'#file');
+            var file = fileInpt.files[0];
+            if (file) {
+               var fileType = file.type;
+               if (fileType !== 'image/jpeg' & fileType !== 'image/png') {
+                   event.preventDefault();
+                   alert('JPEG 또는 PNG 형식의 파일만 업드 가능합니다.');
+                    return
+                }
+            }
+   </script>
+    <script type="text/javascript">
+    function workingClock(){
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth() + 1;
+        if(month < 10) month = "0" + month;
+        var date = today.getDate();
+        if(date < 10) date = "0" + date;
+        var hour = today.getHours();
+        if(hour < 10) hour = "0" + hour;
+        var min = today.getMinutes();
+        if(min < 10) min = "0" + min;
+        var sec = today.getSeconds();
+        if(sec < 10) sec = "0" + sec;
+        
+        var formattedDate = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
+        document.getElementById("clock").innerHTML = formattedDate;
+		document.getElementById("w_dateString").value = formattedDate;
+    }
+    window.onload = function() {
+        workingClock();
+        setInterval(workingClock, 1000);
+    };
+
+    function validatePrice() {
+        var price = document.getElementById("price").value;
+        if (isNaN(price) || price < 0) {
+            alert("참가비는 숫자로 입력하세요.");
+            return false;
+        }
+        return true;
+    }
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281&libraries=services"></script>
 	<script type="text/javascript">
 			    function workingClock(){
 			        var today = new Date();

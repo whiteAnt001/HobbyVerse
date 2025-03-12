@@ -17,7 +17,7 @@ public class Report {
 	@Column(name="m_id")
 	private Integer report_id;
 	private Integer m_id;
-	private String email;
+	private String name;
 	private String reason;
 	private LocalDateTime report_date;
 	private Integer report_count;
