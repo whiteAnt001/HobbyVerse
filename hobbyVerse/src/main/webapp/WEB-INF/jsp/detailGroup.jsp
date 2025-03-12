@@ -159,11 +159,13 @@ body {
 						<div id="map" style="width: 500px; height: 400px;"></div>
 						<input type="hidden" id="latitude" value="${ meetup.latitude }" />
 						<input type="hidden" id="longitude" value="${ meetup.longitude }" />
-						<div class="d-flex justify-content-between align-items-center mt-3">
+						<div
+							class="d-flex justify-content-between align-items-center mt-3">
 							<div></div>
 							<!-- 빈 공간으로 좌측 정렬 방지 -->
 							<div class="text-end">
-								<small class="text-muted">작성일: ${meetup.w_date}  조회수: ${views}</small>
+								<small class="text-muted">작성일: ${meetup.w_date} 조회수:
+									${views}</small>
 							</div>
 						</div>
 					</div>
@@ -173,7 +175,7 @@ body {
 					<c:when
 						test="${user != null && user.email == meetup.email || user.role == 'ROLE_ADMIN'}">
 						<div class="participants-list">
-							<c:forEach var="wId" items="${wId }">
+							<c:forEach var="wId" items="${wId}">
 								<div class="participant">
 									<div class="d-flex align-items-center">
 										<img src="/upload/king2.png" class="image" alt="">
@@ -183,17 +185,17 @@ body {
 													<th>방장:</th>
 												</tr>
 												<tr>
-													<td>${wId }</td>
+													<td>${wId}</td>
 												</tr>
 											</table>
 										</div>
 									</div>
 								</div>
 							</c:forEach>
-							</br>
+							<br>
 
 							<h5>참가자 목록</h5>
-							<c:forEach var="apply" items="${meetingApplies }">
+							<c:forEach var="apply" items="${meetingApplies}">
 								<div class="participant">
 									<div class="d-flex align-items-center">
 										<img src="/upload/basic2.png" class="image" alt="">
@@ -205,7 +207,7 @@ body {
 												</tr>
 												<tr>
 													<th>닉네임:</th>
-													<td>${apply.name }</td>
+													<td>${apply.name}</td>
 												</tr>
 												<tr>
 													<th>신청 날짜:</th>
@@ -217,17 +219,29 @@ body {
 								</div>
 							</c:forEach>
 						</div>
-						<form action="/meetup/modify.html" class="d-flex">
-							<input type="hidden" name="m_id" value="${meetup.m_id}">
-							<input type="submit" value="수정" name="BTN"
-								class="btn btn-sm btn-outline-secondary me-2">
-							<!-- 수정 버튼 간격 설정 -->
-						</form>
-						<form action="/meetup/modify.html" onsubmit="return check()">
-							<input type="hidden" name="m_id" value="${meetup.m_id}">
-							<input type="submit" value="삭제" name="BTN"
-								class="btn btn-sm btn-outline-secondary">
-						</form>
+
+						<!-- 수정, 삭제, 이전으로 버튼을 나란히 배치하고 가운데 정렬 -->
+						<div class="d-flex justify-content-center gap-3 mt-3">
+							<!-- 수정 버튼 -->
+							<form action="/meetup/modify.html" class="d-flex">
+								<input type="hidden" name="m_id" value="${meetup.m_id}">
+								<input type="submit" value="수정" name="BTN"
+									class="btn btn-sm btn-outline-secondary">
+							</form>
+
+							<!-- 삭제 버튼 -->
+							<form action="/meetup/modify.html" onsubmit="return check()">
+								<input type="hidden" name="m_id" value="${meetup.m_id}">
+								<input type="submit" value="삭제" name="BTN"
+									class="btn btn-sm btn-outline-danger">
+							</form>
+
+							<!-- 이전으로 버튼 -->
+							<div class="d-flex justify-content-center gap-2">
+								<a href="/home" class="btn btn-sm btn-outline-secondary">이전으로</a>
+							</div>
+						</div>
+
 						<script type="text/javascript">
 							function check(frm) {
 								if (!confirm("정말로 삭제하시겠습니까?"))
@@ -251,64 +265,57 @@ body {
 							</form>
 						</div>
 
-						<c:if test="${not empty alertCancel }">
+						<c:if test="${not empty alertCancel}">
 							<script type="text/javascript">
 								alert("${alertCancel}");
 							</script>
 						</c:if>
 					</c:otherwise>
 				</c:choose>
-
-			</div>
-			<div class="d-flex justify-content-center">
-				<a href="/home" class="btn btn-sm btn-outline-secondary me-3">이전으로</a>
 			</div>
 		</div>
-	</div>
-	<div>
-		<br />
-		<script type="text/javascript"
-			src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281"></script>
+		<div>
+			<br />
+			<script type="text/javascript"
+				src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281"></script>
 
-		<script type="text/javascript">
-			// 카카오 지도 API가 로딩된 후에 실행되는 함수
-			kakao.maps
-					.load(function() {
-						// 서버에서 받은 위도, 경도 값 (여기서는 예시 값 사용)
-						var latitude = parseFloat(document
-								.getElementById('latitude').value);
-						var longitude = parseFloat(document
-								.getElementById('longitude').value);
+			<script type="text/javascript">
+				// 카카오 지도 API가 로딩된 후에 실행되는 함수
+				kakao.maps.load(function() {
+					// 서버에서 받은 위도, 경도 값 (여기서는 예시 값 사용)
+					var latitude = parseFloat(document
+							.getElementById('latitude').value);
+					var longitude = parseFloat(document
+							.getElementById('longitude').value);
 
-						console.log("Latitude: ", latitude);
-						console.log("Longitude: ", longitude);
+					console.log("Latitude: ", latitude);
+					console.log("Longitude: ", longitude);
 
-						// 지도 초기화
-						var container = document.getElementById('map');
-						var options = {
-							center : new kakao.maps.LatLng(latitude, longitude), // 서버에서 받은 위도, 경도로 설정
-							level : 3
-						};
+					// 지도 초기화
+					var container = document.getElementById('map');
+					var options = {
+						center : new kakao.maps.LatLng(latitude, longitude), // 서버에서 받은 위도, 경도로 설정
+						level : 3
+					};
 
-						var map = new kakao.maps.Map(container, options);
+					var map = new kakao.maps.Map(container, options);
 
-						// 마커 객체 생성
-						var marker = new kakao.maps.Marker({
-							map : map,
-							position : new kakao.maps.LatLng(latitude,
-									longitude)
-						// 서버에서 받은 위도, 경도로 설정
-						});
-
-						// 마커 클릭 시 인포윈도우(주소 표시) 추가
-						var infowindow = new kakao.maps.InfoWindow({
-							content : document.getElementById('address').value
-						});
-						infowindow.open(map, marker); // 지도와 마커에 인포윈도우 표시
+					// 마커 객체 생성
+					var marker = new kakao.maps.Marker({
+						map : map,
+						position : new kakao.maps.LatLng(latitude, longitude)
+					// 서버에서 받은 위도, 경도로 설정
 					});
-		</script>
-		<script
-			src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-	</div>
+
+					// 마커 클릭 시 인포윈도우(주소 표시) 추가
+					var infowindow = new kakao.maps.InfoWindow({
+						content : document.getElementById('address').value
+					});
+					infowindow.open(map, marker); // 지도와 마커에 인포윈도우 표시
+				});
+			</script>
+			<script
+				src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+		</div>
 </body>
 </html>
