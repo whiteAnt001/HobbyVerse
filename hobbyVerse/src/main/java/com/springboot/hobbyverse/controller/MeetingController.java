@@ -83,30 +83,54 @@ public class MeetingController {
 	}// 모임목록,페이지처리
 
 	@PostMapping(value = "/meetup/search.html")
-	public ModelAndView search(String title, Integer pageNo, HttpSession session) {
+	public ModelAndView searchPost(String title, Integer pageNo, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
 		int currentPage = 1;
-		if (pageNo != null)
-			currentPage = pageNo;
-		int start = (currentPage - 1) * 6;
-		int end = start + 7;
-		List<Meetup> meetList = this.meetingService.getMeetByTitle(title, currentPage);
-		Integer totalCount = this.meetingService.getMeetCountByTitle(title);
-		User user = (User) session.getAttribute("loginUser");
-		int pageCount = totalCount / 5;
-		if (totalCount % 5 != 0)
-			pageCount++;
-		ModelAndView mav = new ModelAndView("searchGroupList");
+		if(pageNo != null) currentPage = pageNo;
+		int start = (currentPage - 1) * 4;
+		int end = start + 5;
+		List<Meetup> meetList = this.meetingService.getMeetByTitle(title, pageNo);
+		int totalCount = this.meetingService.getMeetCountByTitle(title);
+		int pageCount = totalCount / 4;
+		if(totalCount % 4 != 0) pageCount++;
+		session.setAttribute("title", title);
+		mav.addObject("meetList",  meetList);
 		mav.addObject("user", user);
-		mav.addObject("START", start);
-		mav.addObject("END", end);
-		mav.addObject("TOTAL", totalCount);
-		mav.addObject("LIST", meetList);
-		mav.addObject("meetList", meetList);
+		mav.addObject("title", title);
+		mav.addObject("start", start);
+		mav.addObject("end", end);
+		mav.addObject("total", totalCount);
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("currentPage", currentPage);
-		mav.addObject("title", title);
+		mav.setViewName("searchGroupList");
 		return mav;
-	}// 모임제목으로 모임 검색
+	}// 모임제목으로 모임 검색 
+	
+	@GetMapping(value = "/meetup/search.html")
+	public ModelAndView searchGet(String title, Integer pageNo, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		User user = (User)session.getAttribute("loginUser");
+		int currentPage = 1;
+		if(pageNo != null) currentPage = pageNo;
+		int start = (currentPage - 1) * 4;
+		int end = start + 5;
+		List<Meetup> meetList = this.meetingService.getMeetByTitle(title, pageNo);
+		int totalCount = this.meetingService.getMeetCountByTitle(title);
+		int pageCount = totalCount / 4;
+		if(totalCount % 4 != 0) pageCount++;
+		session.setAttribute("title", title);
+		mav.addObject("meetList",  meetList);
+		mav.addObject("user", user);
+		mav.addObject("title", title);
+		mav.addObject("start", start);
+		mav.addObject("end", end);
+		mav.addObject("total", totalCount);
+		mav.addObject("pageCount", pageCount);
+		mav.addObject("currentPage", currentPage);
+		mav.setViewName("searchGroupList");
+		return mav;
+	}// 모임제목으로 모임 검색 (검색 후 페이지 변경)
 
 	@GetMapping(value = "/meetup/createGroup.html")
 	public ModelAndView entry(Meetup meetup, HttpSession session) {

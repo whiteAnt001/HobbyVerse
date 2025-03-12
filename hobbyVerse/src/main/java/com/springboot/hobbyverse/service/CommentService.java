@@ -1,7 +1,6 @@
 package com.springboot.hobbyverse.service;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
+import java.util.List;
 
 import org.springframework.stereotype.Service;
 
@@ -25,7 +24,7 @@ public class CommentService {
 	    // 게시글 확인
 	    Board board = boardRepository.findById(boardId)
 	            .orElseThrow(() -> new IllegalArgumentException("게시글이 존재하지 않습니다."));
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+	    
 	    Comment comment;
 	    //User user = userRepository.findByEmail(userEmail);
 	    
@@ -39,6 +38,7 @@ public class CommentService {
 	        if (parentComment.getDepth() >= 2) {
 	            throw new IllegalArgumentException("더 이상 대댓글을 작성할 수 없습니다.");
 	        }
+
 	        // 대댓글 생성
 	        comment = new Comment();
 	        //comment.setUser(board.getUser());
@@ -47,8 +47,6 @@ public class CommentService {
 	        comment.setContent(content);
 	        comment.setUserEmail(userEmail);
 	        comment.setUserName(userName);
-	        comment.setCreatedAt(LocalDateTime.now());
-	        comment.setCreatedAtString(comment.getCreatedAt().format(formatter));
 	        comment.setDepth(parentComment.getDepth() + 1);  // 부모 댓글보다 한 단계 깊게 설정
 	        comment.setStatus(1);
 	        
@@ -72,8 +70,6 @@ public class CommentService {
 	        comment.setUserName(userName);
 	        comment.setDepth(0);  // 최상위 댓글은 depth 0
 	        comment.setStatus(1);
-	        comment.setCreatedAt(LocalDateTime.now());
-	        comment.setCreatedAtString(comment.getCreatedAt().format(formatter));
 	        comment.setGroupId(null);  // 자신의 ID를 groupId로 설정
 	    }
 	    
@@ -86,10 +82,7 @@ public class CommentService {
     public Comment updateComment(Long id, String content) {
     	Comment comment = commentRepository.findById(id)
     			.orElseThrow(() -> new RuntimeException("댓글을 찾을 수 없습니다."));
-    	DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
     	comment.setContent(content);
-    	comment.setUpdatedAt(LocalDateTime.now());
-    	comment.setUpdatedAtString(comment.getUpdatedAt().format(formatter));
     	return commentRepository.save(comment);
     }
 
