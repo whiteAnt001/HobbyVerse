@@ -23,6 +23,9 @@
         .gradient-btn:hover {
             background: linear-gradient(135deg, #2575fc, #6a11cb);
         }
+        
+       a {text-decoration: none;}
+	   a:hover {text-decoration: underline;}
     </style>
 </head>
 <body>
