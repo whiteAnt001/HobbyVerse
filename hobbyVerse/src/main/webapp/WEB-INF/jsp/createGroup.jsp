@@ -135,39 +135,38 @@
                 }
             }
    </script>
-    <script type="text/javasript">
-	    function workingClock(){
-        va today = new Date();
-	        var year = today.getFullYear();
-	        var month = today.getMonth) + 1;
-	        if(month < 10) month = "0" + month;
-	        var dae = today.getDate();
-	        if(date < 10) date = "0" + date;
-	       ar hour = today.getHours();
-	       if(hour < 10) hour = "" + hour;
-	        var min = today.getMintes();
-       if(min < 10) in = "0" + min;
-	        var se = today.getSeconds();
-	        if(sec < 10) sec = "0" + sec
-	        
-	        var formattedDate = ear + "-" + month + "-" + date + " " + our + ":" + min + ":" + sec;
-	       document.geElementById("clock").innerHTML = ormattedDate;
-			document.getElementById("w_dateString").value = formattedDate;
-	    }
-	    window.onload = function() {
-	        workingClock();
-	        setInterval(workingClock, 1000);
-	    };
-	
-	    // 가격 입력값 검증
-	    function validatePrice() {
-	        var price = document.getElementById("price").value;
-	        if (isNaN(price) || price < 0) {
-	            alert("참가비는 숫자로 입력하세요.");
-	            return false; // 폼 제출 막기
-	        }
-	        return true; // 폼 제출 허용
-	    }
+    <script type="text/javascript">
+    function workingClock(){
+        var today = new Date();
+        var year = today.getFullYear();
+        var month = today.getMonth() + 1;
+        if(month < 10) month = "0" + month;
+        var date = today.getDate();
+        if(date < 10) date = "0" + date;
+        var hour = today.getHours();
+        if(hour < 10) hour = "0" + hour;
+        var min = today.getMinutes();
+        if(min < 10) min = "0" + min;
+        var sec = today.getSeconds();
+        if(sec < 10) sec = "0" + sec;
+        
+        var formattedDate = year + "-" + month + "-" + date + " " + hour + ":" + min + ":" + sec;
+        document.getElementById("clock").innerHTML = formattedDate;
+		document.getElementById("w_dateString").value = formattedDate;
+    }
+    window.onload = function() {
+        workingClock();
+        setInterval(workingClock, 1000);
+    };
+
+    function validatePrice() {
+        var price = document.getElementById("price").value;
+        if (isNaN(price) || price < 0) {
+            alert("참가비는 숫자로 입력하세요.");
+            return false;
+        }
+        return true;
+    }
     </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281&libraries=services"></script>
