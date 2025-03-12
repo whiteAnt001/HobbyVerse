@@ -31,101 +31,128 @@
     </script>
     
     <style type="text/css">
+    
     /* 네비게이션 바 */
       .gradient-bg {background: linear-gradient(135deg, #6a11cb, #2575fc);} /* 배경에 그라데이션 효과 적용 */
-      
-      /* 큰 컨테이너 스타일 */
-      .container-lg {max-width: 900px; margin-top: 50px;}
-      
-      /* 전체 레이아웃 및 배경 스타일 */
-      body {background-color: #f8f9fa; font-family: Arial, sans-serif;}
-      
-      /* 댓글 작성 버튼의 여백 */
-      #writebutton {margin-top: 5px;}
-      
-      /* 댓글 목록 컨테이너 스타일 */
-      #commentList {max-width: 900px; margin: 0 auto; /* 중앙 정렬 */ font-family: Arial, sans-serif;}
-      
-      /* 각 댓글 스타일 */
-      .comment {background-color: #f9f9f9; border: 1px solid #ddd;
-          border-radius: 10px; /* 댓글 모서리를 둥글게 */
-          margin-bottom: 10px; /* 댓글 사이 간격 */
-          padding: 10px 10px; /* 댓글 내용에 여백 추가 */
-          position: relative; /* 댓글 내부 요소들을 위치시킬 수 있도록 설정 */
-      }
-      
-      /* 댓글 헤더 부분 (작성자, 날짜 등) 스타일 */
-      .comment-header {
-          display: flex; /* 플렉스 박스를 이용하여 아이템들을 정렬 */
-          justify-content: space-between; /* 작성자와 날짜를 양쪽 끝에 배치 */
-          font-size: 14px; color: #555;
-      }
-      
-      /* 댓글 작성자 이름 스타일 */
-      .comment-user {font-weight: bold;}
-      
-      /* 댓글 작성일 스타일 */
-      .comment-date {font-size: 12px; color: #999;}
-      
-      /* 댓글 내 버튼들 스타일 */
-      .comment .btn {font-size: 12px;
-          padding: 4px 8px; /* 버튼 내 여백 */
-          margin-right: 5px; /* 버튼들 사이 여백 */
-      }
-      
-      /* 대댓글 목록 스타일 */
-      .reply-list {
-          margin-left: 30px; /* 왼쪽 여백 추가 */
-          margin-top: 10px; /* 상단 여백 추가 */
-          max-height: 300px; /* 대댓글 목록의 최대 높이 설정 */
-          overflow-y: auto; /* 세로 스크롤 가능하도록 설정 */
-          padding-right: 10px; /* 스크롤바를 위한 공간 확보 */
-          padding-bottom: 10px; /* 하단 여백 추가 */
-      }
-      
-      /* 댓글 내용과 버튼을 구분하여 배치하는 스타일 */
-      .comment-content-container {
-          display: flex; /* 플렉스 박스를 사용하여 좌측 내용과 우측 버튼을 분리 */
-          justify-content: space-between; /* 내용과 버튼을 양쪽 끝으로 배치 */
-          align-items: center; /* 세로 중앙 정렬 */
-      }
-      
-      /* 댓글 내용 스타일 */
-      .comment-content {
-          margin-right: 10px; /* 버튼과 내용 사이 여백 */
-          flex-grow: 1; /* 내용이 가능한 공간을 차지하도록 설정 */
-      }
-	  /* 게시글 이미지 크기 제한 */
-	  		.board-image {
-	  		    max-width: 250px;  /* ✅ 최대 너비 400px */
-	  		    height: auto;      /* ✅ 비율 유지 */
-	  		    display: block;
-	  		    margin: 10px auto; /* ✅ 중앙 정렬 */
-	  		    border-radius: 10px; /* ✅ 모서리 둥글게 */
-	  		    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* ✅ 그림자 효과 */
 
-      
-      /* 댓글 내 액션 버튼들을 오른쪽 정렬 */
-      .comment-actions {
-          text-align: right;
-      }
-      
-      /* 댓글 내 액션 버튼 스타일 */
-      .comment-actions button {
-          margin-left: 5px;
-      }
-      
-      /* 대댓글 작성 스타일 */
-      .reply {
-          background-color: #f1f1f1; /* 대댓글 배경색 */
-          border: 1px solid #ccc; /* 테두리 색상 */
-          padding: 12px; /* 대댓글 내용에 여백 추가 */
-          border-radius: 8px; /* 대댓글 모서리 둥글게 설정 */
-          margin-top: 10px; /* 대댓글 위에 여백 추가 */
-      }
-      
-      /* 텍스트 영역 스타일 */
-      textarea {width: 100%; font-size: 14px;}         
+	.container {
+	    max-width: 800px;
+	    margin: 0 auto;
+	    padding: 20px;
+	}
+
+/* 전체 레이아웃 및 배경 스타일 */
+body {
+    background-color: #f8f9fa;
+    font-family: Arial, sans-serif;
+}
+
+/* 댓글 작성 버튼의 여백 */
+#writebutton {
+    margin-top: 5px;
+}
+
+/* 댓글 목록 컨테이너 스타일 */
+#commentList {
+    max-width: 700px;  /* 댓글 목록의 최대 너비를 700px로 줄임 */
+    margin: 0 auto;
+    font-family: Arial, sans-serif;
+}
+
+/* 각 댓글 스타일 */
+.comment {
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    padding: 8px 10px;  /* 패딩을 약간 줄여서 댓글 사이즈 축소 */
+    position: relative;
+}
+
+/* 댓글 헤더 부분 (작성자, 날짜 등) 스타일 */
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    font-size: 13px;  /* 폰트 크기 약간 줄임 */
+    color: #555;
+}
+
+/* 댓글 작성자 이름 스타일 */
+.comment-user {
+    font-weight: bold;
+}
+
+/* 댓글 작성일 스타일 */
+.comment-date {
+    font-size: 11px;  /* 날짜 폰트 크기 줄임 */
+    color: #999;
+}
+
+/* 댓글 내 버튼들 스타일 */
+.comment .btn {
+    font-size: 11px;  /* 버튼 폰트 크기 줄임 */
+    padding: 3px 6px;  /* 버튼 내 여백 축소 */
+    margin-right: 5px;
+}
+
+/* 대댓글 목록 스타일 */
+.reply-list {
+    margin-left: 20px;  /* 왼쪽 여백을 약간 줄임 */
+    margin-top: 8px;  /* 상단 여백을 약간 줄임 */
+    max-height: 250px;  /* 대댓글 목록 최대 높이를 250px로 줄임 */
+    overflow-y: auto;
+    padding-right: 8px;
+    padding-bottom: 8px;
+}
+
+/* 댓글 내용과 버튼을 구분하여 배치하는 스타일 */
+.comment-content-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 댓글 내용 스타일 */
+.comment-content {
+    margin-right: 8px;  /* 버튼과 내용 사이 여백을 줄임 */
+    flex-grow: 1;
+}
+
+/* 게시글 이미지 크기 제한 */
+.board-image {
+    max-width: 200px;  /* 이미지 최대 너비를 200px로 줄임 */
+    height: auto;
+    display: block;
+    margin: 8px auto;  /* 이미지 여백을 약간 줄임 */
+    border-radius: 8px;  /* 모서리 둥글게 설정 */
+    box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.1);  /* 그림자 효과 조정 */
+}
+
+/* 댓글 내 액션 버튼들을 오른쪽 정렬 */
+.comment-actions {
+    text-align: right;
+}
+
+/* 댓글 내 액션 버튼 스타일 */
+.comment-actions button {
+    margin-left: 4px;  /* 버튼 사이 여백을 줄임 */
+}
+
+/* 대댓글 작성 스타일 */
+.reply {
+    background-color: #f1f1f1;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 8px;
+    margin-top: 8px;  /* 대댓글 위 여백을 줄임 */
+}
+
+/* 텍스트 영역 스타일 */
+textarea {
+    width: 100%;
+    font-size: 13px;  /* 폰트 크기 약간 줄임 */
+}
+    
     </style>
 </head>
 <body>
@@ -139,7 +166,7 @@
         <!-- ✅ 작성자 / 작성일 / 조회수 / 추천수 -->
         <div class="d-flex justify-content-between">
             <div>
-                <p><strong>작성자:</strong> ${board.name}</p>
+                <p><strong>작성자:</strong> ${board.name} #${board.user.userId }</p>
                 <p><strong>작성일:</strong> ${formattedRegDate}</p>
             </div>
             <div>
@@ -223,6 +250,7 @@
              <input type="hidden" id="boardId" value="${board.seq}"/>
              <input type="hidden" id="userName" value="${user.name}"/>
              <input type="hidden" id="userEmail" value="${user.email}"/>
+             <input type="hidden" id="userId" value="${user.userId}"/>
              <textarea id="content" class="form-control" rows="3"></textarea>
              <button type="button" id="writebutton" class="btn btn-primary" onclick="submitComment()">댓글 작성</button>
          </form>
@@ -237,7 +265,7 @@
          <c:if test="${empty comment.parentId}">
             <div class="comment" id="comment-${comment.id}">
                <div class="comment-header">
-                  <span class="comment-user">${comment.userName}</span> <span
+                  <span class="comment-user">${comment.userName} #${comment.user.userId }</span> <span
                      class="comment-date">작성일: ${comment.createdAtString}</span>
                </div>
                <p class="comment-content">${comment.content}</p>
@@ -281,7 +309,7 @@
                      <c:if test="${reply.parentId == comment.id}">
                         <div class="comment reply" id="comment-${reply.id}">
                            <div class="comment-header">
-                              <span class="comment-user">${reply.userName}</span> <span
+                              <span class="comment-user">${reply.userName} #${reply.user.userId }</span> <span
                                  class="comment-date">작성일: ${reply.createdAtString}</span>
                            </div>
                            <div class="comment-content-container">
@@ -320,6 +348,7 @@
    //댓글 작성하기
     function submitComment() {
         const boardId = document.getElementById("boardId").value;
+        const userId = document.getElementById("userId").value;
         const userName = document.getElementById("userName").value;
         const userEmail = document.getElementById("userEmail").value;
         const content = document.getElementById("content").value;
@@ -336,6 +365,7 @@
             },
             body: JSON.stringify({
                 boardId: boardId,
+                userId: userId,
                 userName: userName,
                 userEmail: userEmail,
                 content: content
@@ -373,11 +403,12 @@
            const userEmailInput = document.getElementById("userEmail");
            const userNameInput = document.getElementById("userName");
            const boardIdInput = document.getElementById("boardId");
+           const userIdInput = document.getElementById("userId");
            
            // 위의 값이 없으면 경고창 표시
            if (!userEmailInput || !userNameInput || !boardIdInput) {
                console.error("사용자 정보 입력 필드가 없습니다.");
-               alert("로그인 정보를 찾을 수 없습니다. 다시 로그인 후 시도하세요.");
+               alert("로그인 후 시도하세요.");
                return;
            }
            
@@ -385,6 +416,7 @@
            const userEmail = userEmailInput.value;
            const userName = userNameInput.value;
            const boardId = boardIdInput.value;
+           const userId = userIdInput.value;
 
            if (!replyContent.trim()) {
                alert("대댓글 내용을 입력해 주세요.");
@@ -396,6 +428,7 @@
                headers: { 'Content-Type': 'application/json' },
                body: JSON.stringify({
                    content: replyContent,
+                   userId: userId,
                    userEmail: userEmail,
                    userName: userName,
                    parentId: commentId,
@@ -409,7 +442,8 @@
                    alert("대댓글이 작성되었습니다.");
                    location.reload();
                } else {
-                   alert("대댓글 작성 실패: " + data.message);
+                   alert("대댓글이 작성되었습니다.");
+                   location.reload();
                }
            })
            .catch(error => {

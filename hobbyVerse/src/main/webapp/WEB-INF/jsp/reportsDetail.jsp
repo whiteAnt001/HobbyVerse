@@ -53,8 +53,8 @@
 
         <form action="/api/admin/reportsDetail?report_id=${report.report_id}" method="POST" enctype="multipart/form-data">
             <div class="mb-3">
-                <label for="email" class="form-label">신고자</label>
-                <p class="form-control-plaintext"><strong>${report.email}</strong></p>
+                <label for="name" class="form-label">신고자</label>
+                <p class="form-control-plaintext"><strong>${report.name}</strong></p>
             </div>
 
             <div class="mb-3">
@@ -77,7 +77,7 @@
     <script type="text/javascript">
     function reportsDelete(report_id) {
         // 사용자에게 삭제 확인 메시지 표시
-        if (confirm('정말로 이 모임을 삭제하시겠습니까?')) {
+        if (confirm('정말로 내역을 삭제하시겠습니까?')) {
             // 확인 버튼을 클릭하면 DELETE 요청 실행
             const url = `/api/admin/reportsDelete/${report_id}`;
 
@@ -93,8 +93,8 @@
             })
             .then(data => {
                 console.log("Response:", data);
-                if (data.message === '모임을 성공적으로 삭제했습니다.') {
-                    alert('모임을 성공적으로 삭제했습니다.');
+                if (data.message === '신고 내역을 성공적으로 삭제했습니다.') {
+                    alert('신고 내역을 성공적으로 삭제했습니다.');
                     window.location.href = '/api/admin/reports'; 
                 } else {
                     alert('Error: ' + data.message);

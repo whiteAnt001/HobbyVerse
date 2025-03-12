@@ -52,7 +52,7 @@
                 <label for="title" class="form-label">모임 이름: <strong>${meetup.title}</strong></label>
             </div>
             <div class="mb-3">
-                <label for="email" class="form-label">신고자: <strong>${report.email}</strong></label>
+                <label for="email" class="form-label">신고자: <strong>${report.name}</strong></label>
             </div>
             <div class="mb-3">
                 <label for="reason" class="form-label">신고 사유</label><br/>

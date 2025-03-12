@@ -4,6 +4,20 @@ import java.time.LocalDateTime;
 import jakarta.persistence.*;
 import lombok.*;
 
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.PrePersist;
+import jakarta.persistence.PreUpdate;
+import jakarta.persistence.Transient;
+import jakarta.persistence.Version;
+import lombok.Getter;
+import lombok.Setter;
+
 @Entity
 @Getter
 @Setter
@@ -47,7 +61,6 @@ public class Board {
     // ✅ **이미지 경로 추가**
     @Column(nullable = true, length = 500)
     private String imagePath;
-
 
     @PrePersist
     public void prePersist() {

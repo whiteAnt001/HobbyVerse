@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.*;
 import com.springboot.hobbyverse.dto.CommentRequest;
 import com.springboot.hobbyverse.model.Comment;
 import com.springboot.hobbyverse.repository.CommentRepository;
-import com.springboot.hobbyverse.repository.UserRepository;
 import com.springboot.hobbyverse.service.CommentService;
 
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 public class CommentController {
     private final CommentService commentService;
     private final CommentRepository commentRepository;
-    private final UserRepository userRepository;
 
     // 댓글 작성
     @PostMapping("/create")

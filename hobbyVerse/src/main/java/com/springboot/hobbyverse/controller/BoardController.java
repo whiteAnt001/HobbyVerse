@@ -34,6 +34,7 @@ import com.springboot.hobbyverse.service.CommentService;
 
 import jakarta.persistence.criteria.Path;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
@@ -99,12 +100,15 @@ public class BoardController {
                                     @RequestParam(value = "file", required = false) MultipartFile file,
                                     HttpSession session) {
         User user = (User) session.getAttribute("loginUser");
+        ModelAndView mav = new ModelAndView();
 
         if (user != null) {
             board.setName(user.getName());  // 작성자 저장
             board.setEmail(user.getEmail()); // 이메일 저장
+            board.setUser(user);
         } else {
-            return new ModelAndView("redirect:/login");
+            mav.setViewName("redirect:/login");
+            return mav;
         }
 
         // ✅ 이미지 업로드 처리
@@ -144,7 +148,8 @@ public class BoardController {
         }
 
         boardService.saveBoard(board); // ✅ DB에 저장
-        return new ModelAndView("redirect:/boards");
+        mav.setViewName("redirect:/boards");
+		return mav;
     }
 
 
@@ -202,6 +207,7 @@ public class BoardController {
     }
 
     // ✅ 게시글 삭제 처리
+    @Transactional
     @PostMapping("/boards/{seq}/delete")
     public ModelAndView deleteBoard(@PathVariable Long seq) {
         boardService.deleteBoard(seq);

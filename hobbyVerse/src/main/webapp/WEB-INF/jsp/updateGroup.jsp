@@ -86,24 +86,27 @@
                                 <small class="text-muted">JPEG, PNG 형식의 이미지만 업로드 가능합니다. (파일을 선택하지 않으면 기존 이미지 유지)</small>
                             </div>
 
+							<!-- 주소 검색 기능 추가 부분 -->
 							<div class="mb-3">
-								<!-- 주소 검색 기능 추가 부분 -->
-								<div class="mb-3">
-									<label for="address" class="form-label">모임 위치</label><br /> 
-									<input type="text" id="address" placeholder="장소를 입력하세요" style="width: 300px;">
-									<button type="button" id="search-btn">장소 검색</button><br/>
-									<small class="text-muted">건물이름, 장소로만 검색 가능합니다.(장소를 입력하지 않으면 기존 장소 유지)</small>
+								<label for="address" class="form-label">모임 장소</label><br /> <input
+									type="text" id="address" placeholder="장소를 입력하세요"
+									style="width: 300px;">
+								<button type="button" id="search-btn">장소 검색</button><br /> <small class="text-muted">건물이름, 장소로만 검색 가능합니다.</small>
 
-									<!-- 지도 표시 영역 -->
-									<div id="map"
-										style="width: 500px; height: 400px; margin-top: 10px;"></div>
+								<!-- 자동완성 결과 표시할 영역 -->
+								<ul id="suggestions" class="list-group position-absolute"
+									style="width: 300px; z-index: 1000;"></ul>
 
-									<!-- 위도, 경도, 주소를 저장하는 숨겨진 입력 필드 -->
-									<input type="hidden" id="latitude" name="latitude" value="${ meetup.latitude }"> 
-									<input type="hidden" id="longitude" name="longitude" value="${ meetup.longitude }">
-									<input type="hidden" id="hidden-address" name="address" value="${ meetup.address }">
-									<!-- 숨겨진 주소 필드 -->
-								</div>
+								<!-- 지도 표시 영역 -->
+								<div id="map"
+									style="width: 500px; height: 400px; margin-top: 10px;"></div>
+
+								<!-- 위도, 경도, 주소를 저장하는 숨겨진 입력 필드 -->
+								<input type="hidden" id="latitude" name="latitude"> <input
+									type="hidden" id="longitude" name="longitude"> <input
+									type="hidden" id="hidden-address" name="address">
+								<!-- 숨겨진 주소 필드 -->
+							</div>
 							<div align="center">
                                 <button type="submit" class="btn btn-primary">수정하기</button>
                                 <a href="/meetup/detail.html?id=${meetup.m_id}" class="btn btn-secondary">취소</a>
@@ -116,7 +119,7 @@
                         </script>
                         <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281&libraries=services"></script>
 
-<script type="text/javascript">
+	<script type="text/javascript">
     function initMap() {
         var container = document.getElementById('map');
         
@@ -136,19 +139,17 @@
         });
 
         var geocoder = new kakao.maps.services.Geocoder(); // 주소 변환 객체 생성
+        var ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
+        var suggestions = document.getElementById('suggestions'); // 자동완성 목록
 
         // 지도 클릭 이벤트 추가
         kakao.maps.event.addListener(map, 'click', function(mouseEvent) {
-            var latlng = mouseEvent.latLng; // 클릭한 위치의 위도, 경도
-            
-            // 마커를 클릭한 위치로 이동
+            var latlng = mouseEvent.latLng;
             marker.setPosition(latlng);
-
-            // 위도, 경도를 입력 필드에 설정
             document.getElementById('latitude').value = latlng.getLat();
             document.getElementById('longitude').value = latlng.getLng();
 
-            // 클릭한 위치의 주소를 가져옴
+            // 클릭한 위치의 주소 가져오기
             geocoder.coord2Address(latlng.getLng(), latlng.getLat(), function(result, status) {
                 if (status === kakao.maps.services.Status.OK) {
                     var address = result[0].road_address ? result[0].road_address.address_name : result[0].address.address_name;
@@ -165,28 +166,68 @@
                 return;
             }
 
-            var ps = new kakao.maps.services.Places(); // 장소 검색 객체 생성
-
-            // 장소 검색
             ps.keywordSearch(placeName, function(results, status) {
                 if (status === kakao.maps.services.Status.OK) {
                     var place = results[0];
-                    var latLng = new kakao.maps.LatLng(place.y, place.x); // 검색된 장소 좌표
-
-                    // 지도 이동 및 마커 위치 설정
+                    var latLng = new kakao.maps.LatLng(place.y, place.x);
                     map.setCenter(latLng);
                     marker.setPosition(latLng);
-
-                    // 위도, 경도를 입력 필드에 설정
                     document.getElementById('latitude').value = place.y;
                     document.getElementById('longitude').value = place.x;
-
-                    // 주소를 숨겨진 필드에 저장
                     document.getElementById('hidden-address').value = place.address_name;
                 } else {
                     alert('장소를 찾을 수 없습니다. 다시 시도해 주세요.');
                 }
             });
+        });
+
+        // 자동완성 기능 추가
+        document.getElementById('address').addEventListener('input', function() {
+            var query = this.value.trim();
+            if (!query) {
+                suggestions.innerHTML = ''; // 입력이 없으면 자동완성 목록 숨김
+                return;
+            }
+
+            ps.keywordSearch(query, function(results, status) {
+                if (status === kakao.maps.services.Status.OK) {
+                    suggestions.innerHTML = ''; // 기존 목록 초기화
+                    results.forEach(function(place) {
+                        var li = document.createElement('li');
+                        li.textContent = place.place_name;
+                        li.classList.add('list-group-item'); // Bootstrap 스타일 적용
+                        
+                        li.addEventListener('click', function() {
+                            var latLng = new kakao.maps.LatLng(place.y, place.x);
+                            map.setCenter(latLng);
+                            marker.setPosition(latLng);
+                            document.getElementById('latitude').value = place.y;
+                            document.getElementById('longitude').value = place.x;
+                            document.getElementById('hidden-address').value = place.address_name;
+                            
+                            // 입력란에 선택한 장소의 이름을 표시
+                            document.getElementById('address').value = place.place_name;
+
+                            // 자동완성 목록 숨기기
+                            suggestions.innerHTML = '';
+                            
+                            // 검색이 완료된 후 더 이상 자동 검색이 되지 않도록 이벤트 막기
+                            document.getElementById('address').blur();
+                        });
+
+                        suggestions.appendChild(li);
+                    });
+                } else {
+                    suggestions.innerHTML = ''; // 검색 결과 없으면 목록 숨김
+                }
+            });
+        });
+
+        // 페이지 클릭 시 자동완성 목록 숨기기
+        document.addEventListener('click', function(event) {
+            if (!event.target.closest('#address') && !event.target.closest('#suggestions')) {
+                suggestions.innerHTML = '';
+            }
         });
     }
 
@@ -195,13 +236,10 @@
         if (typeof kakao === 'undefined') {
             console.error("카카오 지도 API가 로드되지 않았습니다.");
         } else {
-            initMap(); // 지도 초기화 함수 호출
+            initMap();
         }
     };
 </script>
-
-
-
 					</div>
                 </div>
             </div>

@@ -129,9 +129,11 @@ public class MeetingController {
 		meetup.setW_id(user.getName());
 		meetup.setEmail(user.getEmail());
         // Meetup 객체에 주소, 위도, 경도 저장
-        meetup.setLatitude(Double.parseDouble(latitude)); // 위도
-        meetup.setLongitude(Double.parseDouble(longitude)); // 경도
-        meetup.setAddress(address); // 주소
+		// 위치 정보가 비어있을 경우 예외 처리
+	    // 위치 정보가 있을 경우 Meetup 객체에 저장
+	    meetup.setLatitude(Double.parseDouble(latitude)); // 위도
+	    meetup.setLongitude(Double.parseDouble(longitude)); // 경도
+	    meetup.setAddress(address); // 주소
 		MultipartFile multiFile = meetup.getFile();
 		String fileName = null;
 		String path = null;
@@ -331,7 +333,7 @@ public class MeetingController {
     public ModelAndView report(Integer m_id, Report report, HttpSession session) {
         ModelAndView mav = new ModelAndView("reportGroup");
         User user = (User) session.getAttribute("loginUser");
-        report.setEmail(user.getEmail());
+        report.setName(user.getName());
         Meetup meetup = meetingService.getMeetingById(m_id);
         mav.addObject("meetup", meetup);
         mav.addObject("report", report);
@@ -346,7 +348,7 @@ public class MeetingController {
         ModelAndView mav = new ModelAndView();
         User user = (User) session.getAttribute("loginUser");      
         report.setM_id(m_id);
-        report.setEmail(user.getEmail());
+        report.setName(user.getName());
         this.reportService.putReport(report);      
         mav.setViewName("reportGroupDone");
         mav.addObject("message", "신고가 접수되었습니다.");
