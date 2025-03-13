@@ -176,63 +176,70 @@ public class MeetingController {
 
 	@GetMapping(value = "/meetup/recommend.html")
 	public ModelAndView recommend(Recommend recommend, HttpSession session) {
-		ModelAndView mav = new ModelAndView();
-		User user = (User) session.getAttribute("loginUser");
-		if (user == null) { // 로그인되지 않은 경우
-			mav.setViewName("recommendGroupDone"); // 로그인 페이지로 리다이렉트
-			mav.addObject("message", "로그인이 필요합니다.");
-			mav.addObject("redirectUrl", "/login");
-			return mav;
-		}
-		recommend.setEmail(user.getEmail());
-		Integer count = this.meetingService.getRecommendCheck(recommend.getM_id(), recommend.getEmail());
-		if (count > 0) {
-			mav.addObject("message", "이미 추천한 모임입니다.");
-		} else {
-			this.meetingService.putRecommend(recommend.getM_id(), recommend.getEmail());
-			mav.addObject("message", "추천이 완료되었습니다.");
-		}
-		mav.setViewName("recommendGroupDone");
-		mav.addObject("recommend", recommend);
-		mav.addObject("user", user);
-		return mav;
+	    ModelAndView mav = new ModelAndView();
+	    User user = (User) session.getAttribute("loginUser");
+	    if (user == null) { // 로그인되지 않은 경우
+	        mav.setViewName("recommendGroupDone"); // 로그인 페이지로 리다이렉트
+	        mav.addObject("message", "로그인이 필요합니다.");
+	        mav.addObject("redirectUrl", "/login");
+	        return mav;
+	    }
+
+	    recommend.setEmail(user.getEmail());
+	    Integer count = this.meetingService.getRecommendCheck(recommend.getM_id(), recommend.getEmail());
+	    if (count > 0) {
+	        mav.addObject("message", "이미 추천한 모임입니다.");
+	    } else {
+	        this.meetingService.putRecommend(recommend.getM_id(), recommend.getEmail());
+	        this.meetingService.updateRecommendCount(recommend.getM_id());  // 추천수 업데이트
+	        mav.addObject("message", "추천이 완료되었습니다.");
+	    }
+
+	    mav.setViewName("recommendGroupDone");
+	    mav.addObject("recommend", recommend);
+	    mav.addObject("user", user);
+	    return mav;
 	}// 추천하기
 
 	// 홈에서 모임 자세히보기
 	@GetMapping(value = "/meetup/detail.html")
 	public ModelAndView detail(Integer id, HttpSession session) {
-		ModelAndView mav = new ModelAndView();
+	    ModelAndView mav = new ModelAndView();
 
-		// ✅ 조회수 증가 (DB 직접 업데이트)
-		meetingService.incrementViewsDirectly(id);
+	    // ✅ 조회수 증가 (DB 직접 업데이트)
+	    meetingService.incrementViewsDirectly(id);
 
-		// ✅ 최신 데이터 강제 로드 (반드시 실행해야 최신 조회수 반영됨)
-		Meetup meetup = meetingService.getMeetDetail(id);
-		List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(id);
-		String wId = this.meetingService.getW_id(id);
+	    // ✅ 최신 데이터 강제 로드 (반드시 실행해야 최신 조회수 반영됨)
+	    Meetup meetup = meetingService.getMeetDetail(id);
+	    List<MeetingApply> meetingApplies = this.meetingApplyService.joinedUser(id);
+	    String wId = this.meetingService.getW_id(id);
+	    
+	    meetingService.updateRecommendCount(id); // 추천수 업데이트
+	    User user = (User) session.getAttribute("loginUser");
 
-		User user = (User) session.getAttribute("loginUser");
-		if (user == null) { // 로그인이 안 되어 있는 경우
-			// 로그인이 되어 있지 않으면 기본적인 모임 정보만 제공
-			mav.setViewName("detailGroup");
-			mav.addObject("meetup", meetup);
-			mav.addObject("meetingApplies", meetingApplies);
-			mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
-			logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-			return mav;
-		}
-		
-		mav.setViewName("detailGroup");
-		mav.addObject("user", user);
-		mav.addObject("meetup", meetup);
-		mav.addObject("meetingApplies", meetingApplies);
-		mav.addObject("wId", wId);
-		mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+	    if (user == null) { // 로그인이 안 되어 있는 경우
+	        // 로그인이 되어 있지 않으면 기본적인 모임 정보만 제공
+	        mav.setViewName("detailGroup");
+	        mav.addObject("meetup", meetup);
+	        mav.addObject("recommend", meetup.getRecommend());
+	        mav.addObject("meetingApplies", meetingApplies);
+	        mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
+	        logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+	        return mav;
+	    }
 
-		logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
-		return mav;
+	    mav.setViewName("detailGroup");
+	    mav.addObject("user", user);
+	    mav.addObject("meetup", meetup);
+	    mav.addObject("recommend", meetup.getRecommend());
+	    mav.addObject("meetingApplies", meetingApplies);
+	    mav.addObject("wId", wId);
+	    mav.addObject("views", meetup.getViews()); // ✅ 최신 조회수 반영
 
+	    logger.info("🔄 최신 조회수: {}", meetup.getViews()); // ✅ 콘솔에서 최신 조회수 확인
+	    return mav;
 	}
+
 
 	// 카테고리에서 모임(자세히 보기)들어간 경우일때 이전으로 버튼
 	@GetMapping(value = "/meetup/detailCategory.html")

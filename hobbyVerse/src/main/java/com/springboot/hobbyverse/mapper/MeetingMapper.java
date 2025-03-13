@@ -49,6 +49,7 @@ public interface MeetingMapper {
    List<Recommend> getRecommend(Recommend recommend);//추천 확인
    void putRecommend(int m_id, String email);//추천하기
    Integer getRecommendCheck(Integer m_id, String email);//중복추천 방지
+   void updateRecommendCount(Integer m_id);
    
    void putReport(Report report);//신고하기
    List<Report> getReport(Report report);//신고목록
