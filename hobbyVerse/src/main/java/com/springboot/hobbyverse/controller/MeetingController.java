@@ -292,10 +292,17 @@ public class MeetingController {
 	}
 
 	@PostMapping("/meetup/update.html")
-	public ModelAndView update(Meetup meetup, HttpSession session, @RequestParam String latitude, @RequestParam String longitude, @RequestParam String address) {
-		ModelAndView mav = new ModelAndView();
-		// 파일 업로드 처리
-	    if (meetup.getFile() != null && !meetup.getFile().getOriginalFilename().equals("")) {
+	public ModelAndView update(Meetup meetup, HttpSession session, 
+	                           @RequestParam(required = false) String latitude, 
+	                           @RequestParam(required = false) String longitude, 
+	                           @RequestParam(required = false) String address) {
+	    ModelAndView mav = new ModelAndView();
+
+	    // 1. 기존 모임 데이터 가져오기
+	    Meetup existingMeetup = meetingService.getMeetDetail(meetup.getM_id());
+
+	    // 2. 파일 업로드 처리
+	    if (meetup.getFile() != null && !meetup.getFile().getOriginalFilename().isEmpty()) {
 	        String fileName = meetup.getFile().getOriginalFilename();
 	        ServletContext ctx = session.getServletContext();
 	        String path = ctx.getRealPath("/upload/" + fileName);
@@ -311,23 +318,34 @@ public class MeetingController {
 	        }
 	        meetup.setImagename(fileName);  // 새로운 파일명 저장
 	    } else {
-	        // 파일이 업로드되지 않았을 경우 기존 이미지 이름 그대로 사용
-	        String existingImagename = meetingService.getExistingImagename(meetup.getM_id());
-	        meetup.setImagename(existingImagename);
-	    }   
-	    if(latitude == null && latitude.trim().isEmpty() && longitude == null && longitude.trim().isEmpty()) {
-	    	//위치가 변경 되었다면
-	    	meetup.setLatitude(Double.parseDouble(latitude)); //변경된 위도 사용
-	    	meetup.setLongitude(Double.parseDouble(longitude)); //변경된 경도 사용
+	        // 파일이 업로드되지 않았을 경우 기존 이미지 유지
+	        meetup.setImagename(existingMeetup.getImagename());
 	    }
-        meetup.setAddress(address); // 주소
-        // 모임 수정 처리
-		this.meetingService.updateMeeting(meetup);
-		mav.setViewName("updateGroupDone");
-		mav.addObject("message", "모임이 성공적으로 수정되었습니다.");
-		mav.addObject("meetup", meetup);
-		return mav;
+
+	    // 3. 위치 정보 업데이트 처리
+	    if (latitude != null && !latitude.trim().isEmpty() && longitude != null && !longitude.trim().isEmpty()) {
+	        // 새로운 위도, 경도, 주소 설정
+	        meetup.setLatitude(Double.parseDouble(latitude));
+	        meetup.setLongitude(Double.parseDouble(longitude));
+	        meetup.setAddress(address);
+	        meetingService.updateMeeting(meetup);
+	    } else {
+	        // 기존 데이터 유지
+	        meetup.setLatitude(existingMeetup.getLatitude());
+	        meetup.setLongitude(existingMeetup.getLongitude());
+	        meetup.setAddress(existingMeetup.getAddress());
+	        meetingService.updateMeeting(meetup);
+	    }
+
+	    // 4. 모임 정보 업데이트
+	    meetingService.updateMeeting(meetup);
+
+	    mav.setViewName("updateGroupDone");
+	    mav.addObject("message", "모임이 성공적으로 수정되었습니다.");
+	    mav.addObject("meetup", meetup);
+	    return mav;
 	}
+
 	
     @GetMapping(value = "/meetup/report.html")
     public ModelAndView report(Integer m_id, Report report, HttpSession session) {

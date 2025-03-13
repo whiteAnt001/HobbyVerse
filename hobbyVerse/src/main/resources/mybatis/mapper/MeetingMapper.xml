@@ -93,11 +93,11 @@
    
    <select id="getMeetList" resultType="com.springboot.hobbyverse.model.Meetup" 
       parameterType="com.springboot.hobbyverse.model.StartEnd">
-       select m_id, title, to_char(m_date, 'YYYY-MM-DD') as "m_date", imagename, recommend
+       select m_id, title, to_char(m_date, 'YYYY-MM-DD') as "m_date", imagename, recommend, views, address
        from (
            select rownum rn, a.*
            from (
-               select m.m_id, m.title, m.m_date, m.imagename, 
+               select m.m_id, m.title, m.m_date, m.imagename, m.views, m.address,
                       (select count(*) from recommend r where r.m_id = m.m_id) as recommend                      
                from meetup m
             order by (select count(*) from recommend r where r.m_id = m.m_id) desc           

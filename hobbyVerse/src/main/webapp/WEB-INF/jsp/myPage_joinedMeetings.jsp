@@ -109,8 +109,7 @@ h3 {
             <a href="/applyDetail?m_id=${meeting.mid}" style="text-decoration: none;">
                 <div class="card mb-4">
                     <div class="card-body">
-                        <h5 class="card-title">모임 아이디: ${meeting.mid}</h5>
-                        <h6 class="card-subtitle mb-2 text-muted">모임 이름: ${meeting.title}</h6>
+                        <h4 class="card-subtitle mb-2 text-muted"><Strong>모임 이름: ${meeting.title}</Strong></h4>
                         <p class="card-text">신청 날짜: <fmt:formatDate value="${meeting.apply_date}" pattern="yyyy-MM-dd" /></p>
                     </div>
                 </div>

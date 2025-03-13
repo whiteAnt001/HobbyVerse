@@ -162,10 +162,8 @@ body {
 						<div
 							class="d-flex justify-content-between align-items-center mt-3">
 							<div></div>
-							<!-- 빈 공간으로 좌측 정렬 방지 -->
 							<div class="text-end">
-								<small class="text-muted">작성일: ${meetup.w_date} 조회수:
-									${views}</small>
+								<small class="text-muted">작성일: ${meetup.formattedW_date} | 조회수: ${views} | 추천: </small>
 							</div>
 						</div>
 					</div>

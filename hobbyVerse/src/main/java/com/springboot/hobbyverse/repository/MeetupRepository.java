@@ -27,4 +27,8 @@ public interface MeetupRepository extends JpaRepository<Meetup, Integer> {
 			+ "WHERE a.apply_date >= :startDate " + "GROUP BY m.c_key, c.name " + "ORDER BY meeting_count DESC "
 			+ "LIMIT 3", nativeQuery = true)
 	List<Object[]> findTopMeetingCategories(@Param("startDate") LocalDateTime startDate);
+	
+    @Modifying
+    @Query("DELETE FROM Meetup m WHERE m.m_date < :now")
+    void deleteByMDateBefore(@Param("now") LocalDateTime now);
 }

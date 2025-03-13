@@ -14,7 +14,6 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <style>
-/* 그라데이션 스타일 */
 .gradient-bg {
 	background: linear-gradient(135deg, #6a11cb, #2575fc);
 }
@@ -30,75 +29,98 @@
 }
 
 .image {
-	width: 225px;
-	height: 200px;
-	margin-bottom: 10px;
+	width: 100%;
+	height: 100%;
+	object-fit: cover; /* 이미지가 부모 영역에 맞게 커버되도록 */
+	border-radius: 10px;
+}
+
+.arrow-btn {
+	width: 50px;
+	height: 50px;
+	border-radius: 50%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	font-size: 24px;
+	background-color: white;
+	border: 1px solid #ccc;
+	cursor: pointer;
+}
+
+.arrow-btn:hover {
+	background-color: #f8f9fa;
+}
+
+.card {
+	width: 220px;
+	border-radius: 10px;
+	overflow: hidden; /* 카드가 깔끔하게 보이도록 overflow 숨기기 */
+}
+
+.card-body {
+	padding: 1rem;
+}
+
+.card-title {
+	font-size: 1.1rem;
+	font-weight: bold;
+}
+
+.card-text {
+	font-size: 0.875rem;
+}
+
+.d-flex {
+	flex-wrap: nowrap;
+	overflow-x: auto;
+}
+
+.container {
+	max-width: 100%;
+	padding: 0 15px;
 }
 </style>
 </head>
 <body>
 	<jsp:include page="/WEB-INF/jsp/navbar.jsp" />
 
-	<div class="container mt-4">
-		<div class="row">
-			<div class="col-md-8 mx-auto">
-				<form action="/meetup/search.html" method="post">
-					<div class="input-group">
-						<input type="text" name="title" class="form-control"
-							placeholder="관심 있는 모임을 검색하세요..." value="${title}">
-						<button class="btn gradient-btn">검색</button>
-					</div>
-				</form>
-			</div>
-		</div>
-	</div>
-
 	<div class="container mt-5">
 		<h3 class="text-center mb-4">🔍 검색 결과</h3>
-		
-		<div class="row d-flex align-items-center justify-content-between">
-		<!-- 왼쪽 화살표 -->
-		<div class="col-auto">
-			<a href="../meetup/search.html?pageNo=${currentPage - 1}&title=${title}"
-				class="btn btn-light"
-				<c:if test="${currentPage <= 1}"> style="pointer-events: none; opacity: 0.5;" </c:if>>
-				◀ </a>
-		</div>
+		<div class="d-flex align-items-center justify-content-between">
+					<!-- 왼쪽 버튼 -->
+			<button class="arrow-btn me-3"
+				<c:if test="${currentPage <= 1}">disabled style="opacity: 0.5;"</c:if>
+				onclick="../meetup/search.html?pageNo=${currentPage - 1}&title=${title}">
+				<i class="fas fa-chevron-left"></i>
+			</button>
 
-		<div
-				class="col d-flex justify-content-start flex-nowrap over-flow">
-			<c:forEach var="meet" items="${meetList}">
-				<div class="col-md-3 mb-4 me-2">
+			<div class="d-flex flex-nowrap overflow-auto" style="gap: 20px;">
+				<c:forEach var="meet" items="${meetList}">
 					<div class="card shadow-sm">
-						<div class="card-body d-flex align-items-center">
-							<div class="me-3">
-								<img
-									src="${pageContext.request.contextPath}/upload/${meet.imagename}"
-									alt="" class="image">
-								<h5 class="card-title">${meet.title}</h5>
-		
-								<p class="card-text">날짜: ${meet.m_date}</p>
-								<p class="card-text" style="font-size: 13px;">👍${meet.recommend }</p>
-								<!-- 일반 버튼으로 수정 -->
-								<a href="/meetup/detail.html?id=${meet.m_id }"
-									class="btn btn-primary">자세히 보기</a>
-							</div>
+						<img src="${pageContext.request.contextPath}/upload/${meet.imagename}" alt="" class="image">
+						<div class="card-body text-center">
+							<h5 class="card-title">${meet.title}</h5>
+							<p class="card-text">진행일: ${meet.m_date}</p>
+							<p class="card-text">위치: ${meet.address }</p>
+							<p class="card-text">👍${meet.recommend}</p>
+							<p class="card-text"><i class="fas fa-eye"></i> ${ meet.views }</p>
+							<a href="/meetup/detail.html?id=${meet.m_id}" class="btn btn-primary btn-sm">자세히 보기</a>
 						</div>
 					</div>
-				</div>
-			</c:forEach>
-		</div>
-		<!-- 오른쪽 화살표 -->
-		<div class="col-auto">
-			<a href="../meetup/search.html?pageNo=${currentPage + 1}&title=${title}"
-				class="btn btn-light"
-				<c:if test="${currentPage >= pageCount}"> style="pointer-events: none; opacity: 0.5;" </c:if>>
-				▶ </a>
-		</div>
+				</c:forEach>
+			</div>
 
+			<!-- 오른쪽 버튼 -->
+			<button class="arrow-btn ms-3"
+				<c:if test="${currentPage >= pageCount}">disabled style="opacity: 0.5;"</c:if>
+				onclick="location.href='../meetup/search.html?pageNo=${currentPage + 1}&title=${title}'">
+				<i class="fas fa-chevron-right"></i>
+			</button>
+		</div>
 	</div>
-	</div>
-
+	
+	
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

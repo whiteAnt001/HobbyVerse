@@ -88,10 +88,10 @@
 
 							<!-- 주소 검색 기능 추가 부분 -->
 							<div class="mb-3">
-								<label for="address" class="form-label">모임 장소</label><br /> <input
-									type="text" id="address" placeholder="장소를 입력하세요"
-									style="width: 300px;">
-								<button type="button" id="search-btn">장소 검색</button><br /> <small class="text-muted">건물이름, 장소로만 검색 가능합니다.</small>
+								<label for="address" class="form-label">모임 장소</label><br />
+								<input type="text" id="address" placeholder="장소를 입력하세요" style="width: 300px;">
+								<button type="button" id="search-btn" class="btn btn-sm btn-outline-secondary me-2">장소 검색</button><br/> 
+								<small class="text-muted">건물이름, 장소로만 검색 가능합니다.</small>
 
 								<!-- 자동완성 결과 표시할 영역 -->
 								<ul id="suggestions" class="list-group position-absolute"
@@ -112,13 +112,16 @@
                                 <a href="/meetup/detail.html?id=${meetup.m_id}" class="btn btn-secondary">취소</a>
                             </div>
 						</form:form>
-                        <script type="text/javascript">
-                        function check(frm){
-                        	if (! confirm("정말로 수정하시겠습니까?")) return false;	
-                        }
-                        </script>
-                        <script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281&libraries=services"></script>
-
+					</div>
+                </div>
+            </div>
+        </div>
+    </div>
+	<script type="text/javascript">
+      function check(frm){
+      	if (! confirm("정말로 수정하시겠습니까?")) return false; }
+    </script>
+	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281&libraries=services"></script>
 	<script type="text/javascript">
     function initMap() {
         var container = document.getElementById('map');
@@ -240,10 +243,5 @@
         }
     };
 </script>
-					</div>
-                </div>
-            </div>
-        </div>
-    </div>
 </body>
 </html>
