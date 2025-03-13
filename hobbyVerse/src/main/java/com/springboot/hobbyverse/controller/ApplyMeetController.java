@@ -112,6 +112,7 @@ public class ApplyMeetController {
 		
 	}
 	
+	//내가 참여신청한 모임
 	@GetMapping("/applyDetail")
 	public ModelAndView applyDetail(Integer m_id, HttpSession session) {
 		ModelAndView mav = new ModelAndView();

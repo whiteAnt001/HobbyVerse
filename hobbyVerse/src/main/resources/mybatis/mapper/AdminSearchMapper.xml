@@ -6,14 +6,14 @@
 	<select id="searchMeet" parameterType="com.springboot.hobbyverse.model.StartEnd" resultType="com.springboot.hobbyverse.model.Meetup">
 		select m_id, title, w_id, m_date
 			from (
-    		select m.*, ROW_NUMBER() OVER (ORDER BY m.m_id DESC) as rank
+    		select m.*, ROW_NUMBER() OVER (ORDER BY m.m_id ASC) as rank
     			from (
        			 select m.m_id, m.title, m.w_id, m.m_date
         			from meetup m
        			 where m.title like '%' || #{title} || '%'
     			) m
 			) 
-			where rank > #{start} AND rank <![CDATA[<]]> #{end}
+			where rank > #{start} and rank <![CDATA[<]]> #{end}
 	</select>
 	
 	
@@ -22,6 +22,7 @@
 		select count(*) from meetup where title like '%' || #{title} || '%'
 	</select>
 	
+	<!-- 관리자 계정 - 이메일, 이름으로 검색 -->
 	<select id="searchUser" parameterType="com.springboot.hobbyverse.model.StartEnd" resultType="com.springboot.hobbyverse.model.User">
 		select id as userId, email, name, role, reg_date as regDate
 			from(
