@@ -1,6 +1,10 @@
 package com.springboot.hobbyverse.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
+import org.springframework.format.annotation.DateTimeFormat;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -42,6 +46,7 @@ public class Board {
     private String name;
 
     @Column(nullable = false)
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regDate;
 
     private int readCount;
@@ -83,6 +88,11 @@ public class Board {
         if (this.version == null) {
             this.version = 0L;
         }
+    }
+    @Transient
+    public String getRegDateString() {
+        if (regDate == null) return "";
+        return regDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
     }
 
     public void incrementLikes() {

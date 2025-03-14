@@ -40,13 +40,13 @@
     }
 
     .arrow-btn {
-        width: 50px;
-        height: 50px;
+        width: 40px;
+        height: 40px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 24px;
+        font-size: 20px;
         background-color: white;
         border: 1px solid #ccc;
         cursor: pointer;
@@ -57,27 +57,27 @@
     }
 
     .card {
-        width: 220px;
+        width: 180px;
         border-radius: 10px;
         overflow: hidden;
     }
 
     .card-body {
-        padding: 1rem;
+        padding: 0.8rem;
     }
 
     .card-title {
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: bold;
     }
 
     .card-text {
-        font-size: 0.875rem;
+        font-size: 0.75rem;
     }
 
     .d-flex {
-        flex-wrap: nowrap;
-        overflow-x: auto;
+        flex-wrap: wrap;
+        gap: 10px;
     }
 
     .container {
@@ -102,6 +102,27 @@
         text-align: center;
         margin-bottom: 30px;
     }
+    /* 섹션 구분선 스타일 */
+	.section-divider {
+    	margin: 30px auto;
+    	border: none;
+    	border-top: 3px solid #ddd;
+    	width: 80%;
+	}
+	/* 섹션 테두리와 그림자 효과 */
+	.border {
+    	border: 2px solid #ddd; /* 테두리 색상 */
+    	border-radius: 10px; /* 모서리 둥글게 */
+    	background-color: white; /* 배경색 */
+	}
+
+	.shadow-sm {
+    	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 살짝 그림자 효과 */
+	}
+
+	.p-4 {
+    	padding: 20px; /* 내용과 테두리 사이 여백 */
+	}
 
 </style>
 </head>
@@ -118,35 +139,14 @@
         <div class="ad" id="ad3">광고 3: 특별 이벤트 3</div>
         <div class="ad" id="ad4">광고 4: 특별 이벤트 4</div>
     </div>
-
-    <div class="ad-controls d-flex justify-content-center align-items-center">
-        <!-- 왼쪽 화살표 -->
-        <button class="arrow-btn" onclick="changeAd(-1)">
-            <i class="fas fa-chevron-left"></i>
-        </button>
-
-        <!-- 작은 원들 -->
-        <div class="dots">
-            <span class="dot" onclick="setCurrentAd(0)"></span>
-            <span class="dot" onclick="setCurrentAd(1)"></span>
-            <span class="dot" onclick="setCurrentAd(2)"></span>
-            <span class="dot" onclick="setCurrentAd(3)"></span>
-        </div>
-
-        <!-- 오른쪽 화살표 -->
-        <button class="arrow-btn" onclick="changeAd(1)">
-            <i class="fas fa-chevron-right"></i>
-        </button>
-    </div>
 </section>
 
-
-	<!-- 인기 있는 이벤트 섹션 -->
+    <!-- 인기 있는 이벤트 섹션 -->
     <section class="section">
         <h3 class="section-header text-center">지금 가장 인기있는 모임 TOP8</h3>
         <div class="d-flex align-items-center justify-content-between">
             <!-- 왼쪽 버튼 -->
-            <button class="arrow-btn me-3"
+            <button class="arrow-btn ms-4"
                 <c:if test="${currentPage <= 1}">disabled style="opacity: 0.5;"</c:if>
                 onclick="location.href='../home?PAGE_NUM=${currentPage - 1}'">
                 <i class="fas fa-chevron-left"></i>
@@ -160,108 +160,85 @@
                             <h5 class="card-title">${meet.title}</h5>
                             <p class="card-text">진행일: ${meet.m_date}</p>
                             <p class="card-text">위치: ${meet.address }</p>
-							<div class="d-flex justify-content-between">
-								<p class="card-text">추천 ${meet.recommend}</p>
-								<p class="card-text">
-									<i class="fas fa-eye"></i> ${meet.views}
-								</p>
-							</div>
-							<a href="/meetup/detail.html?id=${meet.m_id}" class="btn btn-primary btn-sm">자세히 보기</a>
+                     <div class="d-flex justify-content-between">
+                        <p class="card-text">❤️ ${meet.recommend}</p>
+                        <p class="card-text"><i class="fas fa-eye"></i> ${meet.views}</p>
+                     </div>
+                     <a href="/meetup/detail.html?id=${meet.m_id}" class="btn btn-primary btn-sm">자세히 보기</a>
                         </div>
                     </div>
                 </c:forEach>
             </div>
 
             <!-- 오른쪽 버튼 -->
-            <button class="arrow-btn ms-3"
-                <c:if test="${currentPage >= pageCount}">disabled style="opacity: 0.5;"</c:if>
-                onclick="location.href='../home?PAGE_NUM=${currentPage + 1}'">
-                <i class="fas fa-chevron-right"></i>
-            </button>
+           <button class="arrow-btn"
+               <c:if test="${currentPage == 2}">disabled style="opacity: 0.5;"</c:if>
+               onclick="location.href='../home?PAGE_NUM=2'">
+               <i class="fas fa-chevron-right"></i>
+           </button>
         </div>
     </section>
 
-    <!-- 인기 게시글 섹션 -->
-    <section class="section popular-posts">
-        <h3 class="section-header text-center">인기 게시글</h3>
-        <div class="row">
-            <!-- 게시글 목록 예시 -->
-            <div class="col-md-4">
-                <div class="card shadow-sm">
-                    <img src="your-image-url" alt="게시글 이미지" class="image">
-                    <div class="card-body">
-                        <h5 class="card-title">게시글 제목</h5>
-                        <p class="card-text">게시글 간단 설명</p>
-                        <a href="#" class="btn btn-secondary btn-sm">자세히 보기</a>
+
+<!-- 최신 모임 & 인기 게시글 -->
+<section class="section">
+    <h3 class="section-header text-center">최신 모임 & 인기 게시글</h3>
+    
+    <div class="row">
+        <!-- 최신 모임 -->
+        <div class="col-md-6">
+            <div class="p-4 border rounded shadow-sm bg-white">
+                <h3 class="section-header text-center">따끈따끈한 최신 모임</h3>
+                <div class="container mt-4">
+                    <div class="row">
+                        <c:forEach var="newMeet" items="${latestMeetList}">
+                            <div class="col-md-12 mb-4">
+                                <div class="meeting-card d-flex align-items-center p-3 bg-light shadow-sm rounded">
+                                    <!-- 텍스트 내용 -->
+                                    <div class="flex-grow-1">
+                                        <h5 class="card-title">${newMeet.title}</h5>
+                                        <p class="card-text">모임 일정: ${newMeet.m_date}</p>
+                                        <p class="card-text">위치: ${newMeet.address}</p>
+                                        <a href="/meetup/detailCategory.html?id=${newMeet.m_id}" class="btn btn-primary btn-sm">자세히보기</a>
+                                    </div>
+
+                                    <!-- 이미지 -->
+                                    <div style="width: 150px; height: 150px; margin-left: 15px;">
+                                        <img src="${pageContext.request.contextPath}/upload/${newMeet.imagename}" class="image rounded" />
+                                    </div>
+                                </div>
+                            </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
-            <!-- 추가 게시글 카드들 -->
         </div>
-    </section>
+
+        <!-- 인기 게시판 -->
+        <div class="col-md-6">
+            <div class="p-4 border rounded shadow-sm bg-white">
+                <h3 class="section-header text-center">인기 게시글</h3>
+                <div class="container mt-4">
+                    <div class="list-group">
+                        <c:forEach var="post" items="${boardList}">
+                            <div class="list-group-item d-flex justify-content-between align-items-center p-3 border-bottom">
+                                <div>
+                                    <strong><a href="/boards/${post.seq}" class="text-dark text-decoration-none">${post.subject}</a></strong>
+                                    <small class="text-muted d-block">${post.regDate}</small>
+                                </div>
+                                <div class="text-end">
+                                    <span class="text-muted ms-2"><i class="fas fa-eye"></i> ${post.readCount}</span>
+                                    <span class="badge bg-primary">❤️${post.likes }</span>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
     <jsp:include page="/WEB-INF/jsp/footer.jsp" />
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <script>
-    let currentAdIndex = 0;
-    const ads = [
-        '특별 이벤트 1',
-        '특별 이벤트 2',
-        '특별 이벤트 3',
-        // 추가 광고 내용
-    ];
-    const adBanner = document.querySelector('.ad-banner p');
-
-    function changeAd() {
-        currentAdIndex = (currentAdIndex + 1) % ads.length;
-        adBanner.textContent = ads[currentAdIndex];
-    }
-
-    setInterval(changeAd, 5000);  // 5초마다 광고 변경
-    let currentAdIndex = 0;
-    const ads = document.querySelectorAll('.ad');  // 광고 요소들을 가져옵니다.
-    const dots = document.querySelectorAll('.dot');  // 작은 원들
-    const adSlider = document.querySelector('.ad-slider');
-
-    function changeAd(direction) {
-        currentAdIndex += direction;
-
-        if (currentAdIndex < 0) {
-            currentAdIndex = ads.length - 1;  // 마지막 광고로 돌아감
-        } else if (currentAdIndex >= ads.length) {
-            currentAdIndex = 0;  // 첫 번째 광고로 돌아감
-        }
-
-        updateAdDisplay();
-    }
-
-    function setCurrentAd(index) {
-        currentAdIndex = index;
-        updateAdDisplay();
-    }
-
-    function updateAdDisplay() {
-        // 광고 슬라이더의 위치를 변경
-        adSlider.style.transform = `translateX(-${currentAdIndex * 100}%)`;
-
-        // 작은 원의 활성화 상태 변경
-        dots.forEach((dot, index) => {
-            if (index === currentAdIndex) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-    }
-
-    // 초기 광고 표시 설정
-    updateAdDisplay();
-
-    // 5초마다 자동으로 광고 변경
-    setInterval(() => changeAd(1), 5000);
-
-    
-</script>
 </body>
 </html>

@@ -31,4 +31,7 @@ public interface MeetupRepository extends JpaRepository<Meetup, Integer> {
     @Modifying
     @Query("DELETE FROM Meetup m WHERE m.m_date < :now")
     void deleteByMDateBefore(@Param("now") LocalDateTime now);
+    
+    @Query(value = "SELECT * FROM meetup ORDER BY w_date DESC LIMIT 5", nativeQuery = true)
+    List<Meetup> latestMeetList();
 }

@@ -37,4 +37,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
 	List<Board> findByName(String name);
 	void deleteByEmail(String email);
+	
+	@Query(value = "SELECT * FROM board ORDER BY likes DESC LIMIT 20", nativeQuery = true)
+	List<Board> getBoardList();
 }

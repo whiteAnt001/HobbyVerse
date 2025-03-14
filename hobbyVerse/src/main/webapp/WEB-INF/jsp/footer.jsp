@@ -7,11 +7,11 @@
             <div class="col-md-4">
                 <h5>사이트 링크</h5>
                 <ul class="list-unstyled">
-                    <li><a href="/home" class="text-white">홈</a></li>
-                    <li><a href="/about" class="text-white">회사 소개</a></li>
-                    <li><a href="/contact" class="text-white">문의하기</a></li>
-                    <li><a href="/terms" class="text-white">이용 약관</a></li>
-                    <li><a href="/privacy" class="text-white">개인정보 보호</a></li>
+                    <li><a href="#" class="text-white">홈</a></li>
+                    <li><a href="#" class="text-white">사이트 소개</a></li>
+                    <li><a href="#" class="text-white">문의하기</a></li>
+                    <li><a href="#" class="text-white">이용 약관</a></li>
+                    <li><a href="#" class="text-white">개인정보 보호</a></li>
                 </ul>
             </div>
             <div class="col-md-4">

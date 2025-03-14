@@ -18,12 +18,14 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.springboot.hobbyverse.model.Board;
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
 import com.springboot.hobbyverse.model.Recommend;
 import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.User;
+import com.springboot.hobbyverse.repository.BoardRepository;
 import com.springboot.hobbyverse.repository.MeetupRepository;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
@@ -50,6 +52,8 @@ public class MeetingController {
 	private MeetupRepository meetupRepository;
 	@Autowired
 	private ReportService reportService;
+	@Autowired
+	private BoardRepository boardRepository;
 
 	@GetMapping(value = "/home")
 	public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
@@ -72,7 +76,12 @@ public class MeetingController {
 		}
 		List<Meetup> meetList = this.meetingService.getMeetList(PAGE_NUM);
 		ModelAndView mav = new ModelAndView("index");
+		List<Meetup> latestMeetList = this.meetupRepository.latestMeetList();
+		List<Board> boardList = this.boardRepository.getBoardList();
+		
 		mav.addObject("user", user);
+		mav.addObject("latestMeetList", latestMeetList);
+		mav.addObject("boardList", boardList);
 		mav.addObject("START", startRow);
 		mav.addObject("END", endRow);
 		mav.addObject("TOTAL", count);
