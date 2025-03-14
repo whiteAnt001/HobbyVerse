@@ -102,6 +102,8 @@ body {
 	padding: 5px 8px;
 	font-size: 0.8rem;
 }
+#applybtn{width:600px;}
+#button1{margin-top: 10px;}
 </style>
 </head>
 <body>
@@ -163,7 +165,7 @@ body {
 							class="d-flex justify-content-between align-items-center mt-3">
 							<div></div>
 							<div class="text-end">
-								<small class="text-muted">작성일: ${meetup.formattedW_date} | 조회수: ${views} | 추천: </small>
+								<small class="text-muted">작성일: ${meetup.formattedW_date} | 조회수: ${views} | 추천: ${meetup.recommend }</small>
 							</div>
 						</div>
 					</div>
@@ -217,7 +219,6 @@ body {
 								</div>
 							</c:forEach>
 						</div>
-
 						<!-- 수정, 삭제, 이전으로 버튼을 나란히 배치하고 가운데 정렬 -->
 						<div class="d-flex justify-content-center gap-3 mt-3">
 							<!-- 수정 버튼 -->
@@ -248,21 +249,25 @@ body {
 						</script>
 					</c:when>
 					<c:otherwise>
-						<div align="center" class="d-flex gap-2 align-items-stretch">
+						<div align="left" class="d-flex gap-2 align-items-stretch" id="button1">
 							<!-- 참가신청 버튼 -->
 							<form action="/applyMeeting" method="POST" class="flex-grow-1">
 								<input type="hidden" name="m_id" value="${meetup.m_id}">
 								<input type="submit" value="참가신청"
-									class="btn btn-gradient w-100 h-100" onsubmit="return check()">
+									class="btn btn-gradient" id="applybtn" onsubmit="return check()">
 							</form>
 
 							<!-- 신고 버튼 -->
 							<form action="/meetup/report.html" class="d-flex">
 								<input type="hidden" name="m_id" value="${meetup.m_id}" />
-								<button type="submit" class="btn btn-danger btn-sm px-3 h-100">🚨신고</button>
+								<button type="submit" class="btn btn-sm btn-outline-danger">🚨신고</button>
+							</form>
+							<!-- 이전으로 버튼 -->
+							<form action="/home" class="d-flex">
+								<button type="submit" class="btn btn-sm btn-outline-secondary">이전으로</button>
 							</form>
 						</div>
-
+							
 						<c:if test="${not empty alertCancel}">
 							<script type="text/javascript">
 								alert("${alertCancel}");
@@ -271,6 +276,7 @@ body {
 					</c:otherwise>
 				</c:choose>
 			</div>
+		</div>
 		</div>
 		<div>
 			<br />

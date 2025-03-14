@@ -28,7 +28,12 @@
       select * from meetup where m_id = #{id}
    </select>
    
-   <select id="getRecommendCheck" resultType="Integer">
+   <update id="updateRecommendCount" parameterType="Integer">
+      update meetup
+	    set recommend = (select count(*) from recommend where m_id=#{m_id})
+	    where m_id=#{m_id}
+   </update>
+   <select id="getRecommendCheck" resultType="Integer" parameterType="com.springboot.hobbyverse.model.Recommend">
       select count(*) from recommend 
       where m_id=#{m_id} and email=#{email}
    </select><!-- 중복 추천 방지 -->
@@ -92,17 +97,19 @@
    
    <select id="getMeetList" resultType="com.springboot.hobbyverse.model.Meetup" 
       parameterType="com.springboot.hobbyverse.model.StartEnd">
-       select m_id, title, to_char(m_date, 'YYYY-MM-DD') as "m_date", imagename, recommend, views, address
-       from (
-           select rownum rn, a.*
-           from (
-               select m.m_id, m.title, m.m_date, m.imagename, m.views, m.address,
-                      (select count(*) from recommend r where r.m_id = m.m_id) as recommend                      
-               from meetup m
-            order by (select count(*) from recommend r where r.m_id = m.m_id) desc           
-         ) a
-       )
-       where rn > #{start} and rn <![CDATA[<]]> #{end}
+     	select m_id, title, to_char(m_date, 'YYYY-MM-DD') as "m_date", imagename, recommend, views, address, name
+	    from (
+	        select rownum rn, a.*
+		     from (
+		        select m.m_id, m.title, m.m_date, m.imagename, m.views, m.address, c.name,
+		            (select count(*) from recommend r where r.m_id = m.m_id) as recommend                      
+		         from meetup m
+		         left outer join category c on m.c_key = c.c_key
+		         order by (select count(*) from recommend r where r.m_id = m.m_id) desc
+		     ) a
+		    where rownum <![CDATA[<]]> 9 
+		)
+		where rn > #{start} and rn <![CDATA[<]]> #{end}
    </select><!-- 모임목록 -->
    <select id="getTotal" resultType="Integer">
       select count(*) from meetup
@@ -112,10 +119,17 @@
    </select><!-- 모임번호 찾기 -->
    
    <select id="getMeetDetail" resultType="com.springboot.hobbyverse.model.Meetup" parameterType="Integer">
-       select  m_id, title, info, c_key, m_date, price, w_id, imagename,
-              (select c.name from category c where c.c_key = m.c_key) as category_name
-       from meetup m
-       where m.m_id = #{id}
+       SELECT m.m_id, m.title, m.info, m.c_key, m.m_date, m.price, m.w_id, m.imagename,
+           COALESCE(r.recommend, 0) AS recommend,
+           c.name AS category_name
+    FROM meetup m
+    LEFT JOIN (
+        SELECT r.m_id, COUNT(r.m_id) AS recommend
+        FROM recommend r
+        GROUP BY r.m_id
+    ) r ON m.m_id = r.m_id
+    LEFT JOIN category c ON m.c_key = c.c_key
+    WHERE m.m_id = #{id}
    </select><!-- 모임 상세보기 -->
    
    <!-- 모임 삭제,수정-->

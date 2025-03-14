@@ -1,95 +1,116 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HobbyVerse</title>
+    
+    <!-- 추가된 CSS 스타일 -->
+    <style>
+        /* 페이지 전체 여백 없애기 */
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden; /* 수평 스크롤 방지 */
+        }
+    </style>
 
-<nav class="navbar navbar-expand-lg navbar-dark gradient-bg">
-    <div class="container-fluid">
-        <c:if test="${user == null || user.role == 'ROLE_USER'}">
-            <a class="navbar-brand" href="/home">HobbyVerse</a>
-        </c:if>
-        <c:if test="${user.role == 'ROLE_ADMIN'}">
-            <a class="navbar-brand" href="/home">HobbyVerse 관리자</a>
-        </c:if>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark gradient-bg">
+        <div class="container-fluid">
+            <c:if test="${user == null || user.role == 'ROLE_USER'}">
+                <a class="navbar-brand" href="/home">HobbyVerse</a>
+            </c:if>
+            <c:if test="${user.role == 'ROLE_ADMIN'}">
+                <a class="navbar-brand" href="/home">HobbyVerse 관리자</a>
+            </c:if>
 
-        <!-- 검색창 -->
-        <div class="d-flex w-auto justify-content-center mx-3">
-            <form action="/meetup/search.html" method="post" class="w-auto">
-                <div class="input-group">
-                    <input type="text" name="title" class="form-control border-0 rounded-start" placeholder="모임을 검색하세요..." style="font-size: 0.875rem; padding: 0.5rem; height: 30px; width: 250px;">
-                    <button class="btn gradient-btn rounded-end" style="padding: 0.3rem 1rem; font-size: 0.875rem; height: 30px;">검색</button>
-                </div>
-            </form>
-        </div>
+            <!-- 검색창 -->
+            <div class="d-flex w-auto justify-content-center mx-3">
+                <form action="/meetup/search.html" method="post" class="w-auto">
+                    <div class="input-group">
+                        <input type="text" name="title" class="form-control border-0 rounded-start" placeholder="모임을 검색하세요..." style="font-size: 0.875rem; padding: 0.5rem; height: 30px; width: 250px;">
+                        <button class="btn gradient-btn rounded-end" style="padding: 0.3rem 1rem; font-size: 0.875rem; height: 30px;">검색</button>
+                    </div>
+                </form>
+            </div>
 
-        <!-- 토글 버튼 -->
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+            <!-- 토글 버튼 -->
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
 
-        <!-- 네비게이션 메뉴 -->
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ms-auto">
-                <li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
-                <li class="nav-item"><a class="nav-link" href="/boards">게시판</a></li>
-                
-                <!-- 카테고리 드롭다운 -->
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="/category/key" id="categoryDropdown" role="button" aria-expanded="false">카테고리</a>
-                    <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                        <li><a class="dropdown-item" href="/category/moveSport">스포츠</a></li>
-                        <li><a class="dropdown-item" href="/category/moveMusic">음악</a></li>
-                        <li><a class="dropdown-item" href="/category/moveStudy">스터디</a></li>
-                        <li><a class="dropdown-item" href="/category/moveGame">게임</a></li>
-                        <li><a class="dropdown-item" href="/category/moveTravel">여행</a></li>
-                        <li><a class="dropdown-item" href="/category/moveEtc">기타</a></li>
-                    </ul>
-                </li>
-                
-                <li class="nav-item"><a class="nav-link" href="/inquiries">문의사항</a></li>
-                
-                <!-- 로그인된 경우 -->
-                <c:if test="${user != null}">
-                    <li class="nav-item"><a class="nav-link" href="/meetup/createGroup.html">모임 등록하기</a></li>
-                </c:if>
-                
-                <!-- 관리자 메뉴 -->
-                <c:if test="${user.role == 'ROLE_ADMIN'}">
-                    <li class="nav-item"><a class="nav-link" href="/api/admin/dashboard">관리자 페이지</a></li>
-                </c:if>
-                
-                <!-- 마이페이지 드롭다운 -->
-                <c:if test="${user != null}">
+            <!-- 네비게이션 메뉴 -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/boards">게시판</a></li>
+                    
+                    <!-- 카테고리 드롭다운 -->
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" aria-expanded="false">${user.name}님</a>
-                        <ul class="dropdown-menu" aria-labelledby="userDropdown">
-                            <li><a class="dropdown-item" href="/myPage">마이페이지</a></li>
-                            <li>
-                                <form action="/logout" method="post" class="d-inline">
-                                    <button type="submit" class="dropdown-item">로그아웃</button>
-                                </form>
-                            </li>
+                        <a class="nav-link dropdown-toggle" href="/category/key" id="categoryDropdown" role="button" aria-expanded="false">카테고리</a>
+                        <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                            <li><a class="dropdown-item" href="/category/moveSport">스포츠</a></li>
+                            <li><a class="dropdown-item" href="/category/moveMusic">음악</a></li>
+                            <li><a class="dropdown-item" href="/category/moveStudy">스터디</a></li>
+                            <li><a class="dropdown-item" href="/category/moveGame">게임</a></li>
+                            <li><a class="dropdown-item" href="/category/moveTravel">여행</a></li>
+                            <li><a class="dropdown-item" href="/category/moveEtc">기타</a></li>
                         </ul>
                     </li>
-                </c:if>
-                
-                <!-- 로그인되지 않은 경우 -->
-                <c:if test="${user == null}">
-                    <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
-                    <li class="nav-item"><a class="nav-link btn gradient-btn" href="/signup">회원가입</a></li>
-                </c:if>
-            </ul>
+                    
+                    <li class="nav-item"><a class="nav-link" href="/inquiries">문의사항</a></li>
+                    
+                    <!-- 로그인된 경우 -->
+                    <c:if test="${user != null}">
+                        <li class="nav-item"><a class="nav-link" href="/meetup/createGroup.html">모임 등록하기</a></li>
+                    </c:if>
+                    
+                    <!-- 관리자 메뉴 -->
+                    <c:if test="${user.role == 'ROLE_ADMIN'}">
+                        <li class="nav-item"><a class="nav-link" href="/api/admin/dashboard">관리자 페이지</a></li>
+                    </c:if>
+                    
+                    <!-- 마이페이지 드롭다운 -->
+                    <c:if test="${user != null}">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" aria-expanded="false">${user.name}님</a>
+                            <ul class="dropdown-menu" aria-labelledby="userDropdown">
+                                <li><a class="dropdown-item" href="/myPage">마이페이지</a></li>
+                                <li>
+                                    <form action="/logout" method="post" class="d-inline">
+                                        <button type="submit" class="dropdown-item">로그아웃</button>
+                                    </form>
+                                </li>
+                            </ul>
+                        </li>
+                    </c:if>
+                    
+                    <!-- 로그인되지 않은 경우 -->
+                    <c:if test="${user == null}">
+                        <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
+                        <li class="nav-item"><a class="nav-link btn gradient-btn" href="/signup">회원가입</a></li>
+                    </c:if>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script>
-    $(document).ready(function(){
-        $('.dropdown').mouseenter(function() {
-            $(this).addClass('show');
-            $(this).find('.dropdown-menu').addClass('show');
-        }).mouseleave(function() {
-            $(this).removeClass('show');
-            $(this).find('.dropdown-menu').removeClass('show');
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $('.dropdown').mouseenter(function() {
+                $(this).addClass('show');
+                $(this).find('.dropdown-menu').addClass('show');
+            }).mouseleave(function() {
+                $(this).removeClass('show');
+                $(this).find('.dropdown-menu').removeClass('show');
+            });
         });
-    });
-</script>
+    </script>
+</body>
+</html>

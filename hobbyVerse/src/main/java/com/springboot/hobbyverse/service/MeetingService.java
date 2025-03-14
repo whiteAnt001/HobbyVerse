@@ -120,15 +120,16 @@ public class MeetingService {
     public List<Recommend> getRecommend(Recommend recommend) {
         return meetingMapper.getRecommend(recommend);
     }
-
     public void putRecommend(int m_id, String email) {
         meetingMapper.putRecommend(m_id, email);
     }
-
     public Integer getRecommendCheck(Integer m_id, String email) {
         return meetingMapper.getRecommendCheck(m_id, email);
     }
-
+    public void updateRecommendCount(Integer m_id) {
+    	meetingMapper.updateRecommendCount(m_id);
+    }
+    
     public Integer getViews(Integer id) {
         return meetingMapper.getViews(id);
     }

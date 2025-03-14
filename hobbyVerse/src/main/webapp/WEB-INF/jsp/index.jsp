@@ -14,6 +14,15 @@
 
 <style>
     /* 기본 스타일 */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    html, body {
+    	width:100%;
+        height: 100%; /* 전체 화면 높이 설정 */
+    }
     body {
         font-family: Arial, sans-serif;
     }
@@ -50,6 +59,7 @@
         background-color: white;
         border: 1px solid #ccc;
         cursor: pointer;
+        margin-right: 15px;
     }
 
     .arrow-btn:hover {
@@ -81,7 +91,7 @@
     }
 
     .container {
-        max-width: 100%;
+        max-width: 100%; /* 화면 가득 차도록 설정 */
         padding: 0 15px;
     }
 
