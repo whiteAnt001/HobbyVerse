@@ -22,11 +22,13 @@ import com.springboot.hobbyverse.model.Board;
 import com.springboot.hobbyverse.model.Category;
 import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
+import com.springboot.hobbyverse.model.Notice;
 import com.springboot.hobbyverse.model.Recommend;
 import com.springboot.hobbyverse.model.Report;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.BoardRepository;
 import com.springboot.hobbyverse.repository.MeetupRepository;
+import com.springboot.hobbyverse.repository.NoticeRepository;
 import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.ReportService;
@@ -54,6 +56,8 @@ public class MeetingController {
 	private ReportService reportService;
 	@Autowired
 	private BoardRepository boardRepository;
+	@Autowired
+	private NoticeRepository noticeRepository;
 
 	@GetMapping(value = "/home")
 	public ModelAndView index(Integer PAGE_NUM, HttpSession session) {
@@ -78,10 +82,13 @@ public class MeetingController {
 		ModelAndView mav = new ModelAndView("index");
 		List<Meetup> latestMeetList = this.meetupRepository.latestMeetList();
 		List<Board> boardList = this.boardRepository.getBoardList();
+		List<Notice> noticeList = this.noticeRepository.getNoticeList();
+		
 		
 		mav.addObject("user", user);
 		mav.addObject("latestMeetList", latestMeetList);
 		mav.addObject("boardList", boardList);
+		mav.addObject("noticeList", noticeList);
 		mav.addObject("START", startRow);
 		mav.addObject("END", endRow);
 		mav.addObject("TOTAL", count);

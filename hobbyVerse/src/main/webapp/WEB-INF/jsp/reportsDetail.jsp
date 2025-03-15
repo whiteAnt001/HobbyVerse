@@ -47,6 +47,7 @@
                 <div class="mb-3">
                     <label for="title" class="form-label">모임 이름</label>
                     <p class="form-control-plaintext"><strong>${meet.title}</strong></p>
+                    <a href="/meetup/detail.html?id=${meet.m_id}" class="btn btn-sm btn-outline-info ms-2">모임상세</a>
                 </div>
             </c:if>
         </c:forEach>

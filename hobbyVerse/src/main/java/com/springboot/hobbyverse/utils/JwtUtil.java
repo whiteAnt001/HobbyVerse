@@ -2,8 +2,14 @@
 package com.springboot.hobbyverse.utils;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 
 import com.auth0.jwt.JWT;
@@ -12,6 +18,7 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.auth0.jwt.interfaces.JWTVerifier;
+import org.springframework.security.core.userdetails.User;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -89,5 +96,25 @@ public class JwtUtil {
             System.out.println("토큰 디코딩 실패: " + e.getMessage());
             return null;
         }
+    }
+    
+    // Authentication 객체를 생성하는 메서드 추가
+    public Authentication getAuthentication(String token) {
+        DecodedJWT decodedJWT = getDecodedJWT(token);
+        if (decodedJWT == null) {
+            return null;
+        }
+
+        String username = decodedJWT.getSubject(); // JWT의 subject (이메일)
+        String role = decodedJWT.getClaim("role").asString(); // JWT에서 역할 (권한)
+
+        // 권한을 List<GrantedAuthority>로 변환
+        List<SimpleGrantedAuthority> authorities = Arrays.stream(role.split(","))
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
+
+        // UsernamePasswordAuthenticationToken 생성
+        User user = new User(username, "", authorities);
+        return new UsernamePasswordAuthenticationToken(user, "", authorities);
     }
 }

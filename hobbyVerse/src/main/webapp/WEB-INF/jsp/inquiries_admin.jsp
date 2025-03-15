@@ -7,15 +7,28 @@
     <meta charset="UTF-8">
     <title>문의사항 관리</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+      <style>
+        /* 그라데이션 스타일 */
+        .gradient-bg {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        }
+        .gradient-btn {
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            border: none;
+            color: white;
+        }
+        .gradient-btn:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+        }
+    </style>
 </head>
 <body>
     <!-- ✅ 관리자 네비게이션 바 포함 (파일명 adminNavber.jsp) -->
     <jsp:include page="/WEB-INF/jsp/adminNavber.jsp"/>
 
     <div class="container mt-5">
-        <h3 class="text-center mb-4">🔥 문의사항 관리</h3>
-
-        <table class="table table-hover">
+        <h3 class="text-center mb-4">문의사항 관리</h3>
+	<table class="table table-hover">
             <thead class="table-dark">
                 <tr>
                     <th>번호</th>

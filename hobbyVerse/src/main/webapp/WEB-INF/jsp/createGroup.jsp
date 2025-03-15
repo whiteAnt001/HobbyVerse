@@ -151,7 +151,6 @@ body {
 					<!-- 자동완성 결과 표시할 영역 -->
 					<ul id="suggestions" class="list-group position-absolute"
 						style="width: 300px; z-index: 1000;"></ul>
-					<label for="address" class="form-label">모임 장소</label><br /> 
 
 					<!-- 지도 표시 영역 -->
 					<div id="map" style="width: 500px; height: 400px; margin-top: 10px;"></div>
