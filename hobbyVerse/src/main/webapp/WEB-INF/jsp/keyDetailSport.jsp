@@ -129,14 +129,11 @@ to {
 					<div class="meeting-card"
 						style="display: flex; justify-content: space-between; align-items: center;">
 						<div class="p-3" style="flex: 1; padding-right: 10px;">
-							<!-- 모임 아이디 -->
-							${key.m_id}
-
 							<!-- 모임 이름 -->
 							<h5 class="card-title">${key.title}</h5>
 
 							<!-- 작성일 -->
-							<p class="card-text">날짜: ${key.m_date}</p>
+							<p class="card-text">일정: ${key.m_date}</p>
 
 							<!-- 자세히보기 버튼 -->
 							<a href="/meetup/detailCategory.html?id=${key.m_id}"

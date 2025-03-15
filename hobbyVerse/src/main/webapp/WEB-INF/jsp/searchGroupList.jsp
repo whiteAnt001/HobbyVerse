@@ -52,24 +52,34 @@
 	background-color: #f8f9fa;
 }
 
-.card {
-	width: 220px;
-	border-radius: 10px;
-	overflow: hidden; /* 카드가 깔끔하게 보이도록 overflow 숨기기 */
-}
-
-.card-body {
-	padding: 1rem;
-}
-
-.card-title {
-	font-size: 1.1rem;
-	font-weight: bold;
-}
-
-.card-text {
-	font-size: 0.875rem;
-}
+ /* 카드 - 흰색 배경, 연한 테두리와 깔끔한 그림자 */
+        .card {
+            width: 280px;
+            border-radius: 10px;
+            background-color: #ffffff;
+            box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #ddd;
+            margin-bottom: 15px;
+        }
+        .card-body {
+            padding: 0.8rem;
+        }
+        .card-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #333;
+        }
+        .card-text {
+            font-size: 0.75rem;
+            color: #555;
+        }
+        /* 카드 내 이미지 */
+        .image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 10px 10px 0 0;
+        }
 
 .d-flex {
 	flex-wrap: nowrap;
@@ -96,20 +106,24 @@
 			</button>
 
 			<div class="d-flex flex-nowrap overflow-auto" style="gap: 20px;">
-				<c:forEach var="meet" items="${meetList}">
-					<div class="card shadow-sm">
-						<img src="${pageContext.request.contextPath}/upload/${meet.imagename}" alt="" class="image">
-						<div class="card-body text-center">
-							<h5 class="card-title">${meet.title}</h5>
-							<p class="card-text">진행일: ${meet.m_date}</p>
-							<p class="card-text">위치: ${meet.address }</p>
-							<p class="card-text">👍${meet.recommend}</p>
-							<p class="card-text"><i class="fas fa-eye"></i> ${ meet.views }</p>
-							<a href="/meetup/detail.html?id=${meet.m_id}" class="btn btn-primary btn-sm">자세히 보기</a>
-						</div>
-					</div>
-				</c:forEach>
-			</div>
+                    <c:forEach var="meet" items="${meetList}">
+                        <div class="card shadow-sm">
+                            <img src="${pageContext.request.contextPath}/upload/${meet.imagename}" alt="" class="image">
+                            <div class="card-body text-center">
+                                <h5 class="card-title">${meet.title}</h5>
+                                <p class="card-text">일정: ${meet.m_date}</p>
+                                <p class="card-text">위치: ${meet.address}</p>
+                                <div class="d-flex justify-content-between">
+                                    <p class="card-text">❤️ ${meet.recommend}</p>
+                                    <p class="card-text">
+                                        <i class="fas fa-eye"></i> ${meet.views}
+                                    </p>
+                                </div>
+                                <a href="/meetup/detail.html?id=${meet.m_id}" class="btn btn-primary btn-sm">자세히 보기</a>
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
 
 			<!-- 오른쪽 버튼 -->
 			<button class="arrow-btn ms-3"

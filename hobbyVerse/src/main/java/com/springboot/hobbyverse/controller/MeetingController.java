@@ -184,7 +184,8 @@ public class MeetingController {
 		}
         meetup.setW_date(LocalDateTime.now());
 		this.meetingService.putMeeting(meetup);
-		meetupRepository.save(meetup);
+		this.meetupRepository.save(meetup);
+		System.out.println(meetup.getW_date());
 		mav.setViewName("createGroupDone");
 		mav.addObject("message", "모임이 등록되었습니다.");
 		return mav;

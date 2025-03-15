@@ -68,8 +68,8 @@
    </select><!-- 카테고리 목록 -->
    
    <insert id="putMeeting" parameterType="com.springboot.hobbyverse.model.Meetup">
-      insert into meetup(m_id, title, info, c_key, m_date, price, w_id, imagename) 
-         values((select coalesce(max(m_id),0)+1 from meetup), #{title},#{info},#{c_key},#{m_date}, #{price},#{w_id},#{imagename})
+      insert into meetup(m_id, title, info, c_key, m_date, w_date, price, w_id, imagename) 
+         values((select coalesce(max(m_id),0)+1 from meetup), #{title},#{info},#{c_key},#{m_date}, CURRENT_TIMESTAMP, #{price},#{w_id},#{imagename})
    </insert><!-- 모임등록 -->
    
    <select id="getMeetCountByTitle" parameterType="String" resultType="Integer">
@@ -79,13 +79,14 @@
    
    <select id="getMeetByTitle" parameterType="com.springboot.hobbyverse.model.StartEnd" 
          resultType="com.springboot.hobbyverse.model.Meetup">
-      select m_id, title, info, c_key, m_date, price, w_id, imagename, recommend
+      select m_id, title, info, c_key, w_date, m_date, price, w_id, imagename, recommend, address, views
       from (
           select m.*, rownum rn
           from (
               select m.m_id, m.title, m.info, m.c_key, 
+              		 to_char(m.w_date, 'yyyy-mm-dd') as w_date, 
                      to_char(m.m_date, 'yyyy-mm-dd') as m_date, 
-                     m.price, m.w_id, m.imagename, 
+                     m.price, m.w_id, m.imagename, m.address, m.views,
                      (select count(*) from recommend r where r.m_id = m.m_id) as recommend
               from meetup m
               where m.title like '%' || #{title} || '%'
@@ -119,7 +120,7 @@
    </select><!-- 모임번호 찾기 -->
    
    <select id="getMeetDetail" resultType="com.springboot.hobbyverse.model.Meetup" parameterType="Integer">
-       SELECT m.m_id, m.title, m.info, m.c_key, m.m_date, m.price, m.w_id, m.imagename,
+       SELECT m.m_id, m.title, m.info, m.c_key, m.m_date, m.w_date m.price, m.w_id, m.imagename, m.recommend,
            COALESCE(r.recommend, 0) AS recommend,
            c.name AS category_name
     FROM meetup m
