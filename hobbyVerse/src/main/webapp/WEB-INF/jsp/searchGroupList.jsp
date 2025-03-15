@@ -53,7 +53,7 @@
 }
 
  /* 카드 - 흰색 배경, 연한 테두리와 깔끔한 그림자 */
-        .card {
+       .card {
             width: 280px;
             border-radius: 10px;
             background-color: #ffffff;
