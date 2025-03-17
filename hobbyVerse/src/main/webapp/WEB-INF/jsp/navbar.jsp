@@ -77,7 +77,7 @@ body, html {
 
 				<!-- 카테고리 드롭다운 -->
 				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="/category/meet"
+					class="nav-link dropdown-toggle" href="/category/meetList"
 					id="categoryDropdown" role="button" aria-expanded="false">모임 한눈에</a>
 					<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
 						<li><a class="dropdown-item" href="/category/moveSport">스포츠</a></li>

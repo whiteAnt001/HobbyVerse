@@ -11,7 +11,7 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-<style>
+<style type="text/css">
 /* 기본 Reset & 글꼴 */
 * {
 	margin: 0;
@@ -37,11 +37,13 @@ body {
 	margin: 0 auto;
 	padding: 20px;
 }
+
 /* 왼쪽 추가 여백을 주는 커스텀 컨테이너 */
 .custom-container {
 	padding-left: 60px;
 	padding-right: 60px;
 }
+
 /* 섹션 (Section) - 밝은 순백 배경과 고급스러운 그림자 */
 .section {
 	background-color: #ffffff;
@@ -51,6 +53,7 @@ body {
 	padding: 20px;
 	width: 100%;
 }
+
 /* 섹션 헤더 - 깔끔한 다크 그레이 텍스트 */
 .section-header {
 	font-size: 1.5rem;
@@ -58,6 +61,7 @@ body {
 	margin-bottom: 20px;
 	color: #333;
 }
+
 /* 광고 배너 - 부드러운 밝은 파스텔 블루 그라데이션 */
 .ad-banner {
 	max-width: 1200px;
@@ -68,6 +72,7 @@ body {
 	padding: 20px;
 	color: #333;
 }
+
 /* 카드 - 흰색 배경, 연한 테두리와 깔끔한 그림자 */
 .card {
 	width: 280px;
@@ -92,6 +97,7 @@ body {
 	font-size: 0.75rem;
 	color: #555;
 }
+
 /* 카드 내 이미지 */
 .image {
 	width: 100%;
@@ -99,6 +105,7 @@ body {
 	object-fit: cover;
 	border-radius: 10px 10px 0 0;
 }
+
 /* 화살표 버튼 - 밝은 배경과 연한 회색 테두리 */
 .arrow-btn {
 	width: 40px;
@@ -124,6 +131,7 @@ body {
 	opacity: 0.5;
 	cursor: default;
 }
+
 /* 박스 내부 스타일 (최신 모임, 공지사항, 인기 게시글) */
 .border {
 	border: 1px solid #ddd;
@@ -138,6 +146,7 @@ body {
 .p-4 {
 	padding: 20px;
 }
+
 /* 리스트 그룹 아이템 - 밝은 배경과 깔끔한 테두리 */
 .list-group-item {
 	background-color: #ffffff;
@@ -154,6 +163,7 @@ body {
 .list-group-item a:hover {
 	text-decoration: underline;
 }
+
 /* “최신 모임” 섹션 내 카드 */
 .meeting-card {
 	background-color: #ffffff;
@@ -190,6 +200,7 @@ body {
 	background-color: #f0f0f0; /* 메뉴 항목에 마우스를 올렸을 때 배경을 연한 회색으로 설정 */
 	color: #333; /* 텍스트 색을 어두운 색으로 설정 */
 }
+
 /* 카테고리 링크 스타일 */
 a.text-decoration-none {
 	color: #000000; /* 글씨 색을 검정색으로 설정 */
@@ -207,6 +218,32 @@ a.text-decoration-none:hover i {
 	color: #007bff; /* 아이콘 색상 마우스 오버 시 변경 */
 }
 
+/* 버튼 (자세히 보기 등) - 고급스러운 파스텔 블루 */
+.btn-primary {
+	background-color: #4a90e2;
+	border: none;
+	color: #fff;
+}
+
+.btn-primary:hover {
+	background-color: #357ABD;
+}
+
+/* 카드에 마우스 올렸을 때 반응 (그림자 변화 및 배경색 변경) */
+.card:hover, .list-group-item:hover {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	background-color: #f8f9fa;
+	transition: all 0.3s ease;
+}
+
+/* 인기 모임 카드에 마우스 올렸을 때 반응 (그림자 변화 및 배경색 변경) */
+.card:hover {
+	box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+	background-color: #f8f9fa;
+	transition: all 0.3s ease;
+}
+
+/* 버튼 토글 (그리드 / 리스트 보기) */
 .btn-toggle {
 	width: 50px;
 	height: 50px;
@@ -235,6 +272,80 @@ a.text-decoration-none:hover i {
 
 .icon-list {
 	background-image: url('https://img.icons8.com/ios/50/000000/list.png');
+}
+/* 기본 스타일 및 레이아웃 */
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {
+	background-color: #f8f9fa;
+	font-family: Arial, sans-serif;
+}
+
+/* 모임 목록 카드 스타일 */
+.meeting-card {
+	background-color: #ffffff;
+	border: 1px solid #ddd;
+	border-radius: 10px;
+	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+	margin-bottom: 20px;
+	padding: 20px;
+	width: 100%;
+	/* 일정한 높이 설정 */
+	min-height: 380px; /* 카드 높이를 일정하게 설정 */
+}
+
+/* 카드 내 이미지 */
+.meeting-card img {
+	width: 100%;
+	height: 200px; /* 일정한 이미지 높이 */
+	object-fit: cover; /* 이미지를 잘라서 채우기 */
+	border-radius: 10px;
+	margin-top: 15px;
+}
+
+.meeting-card h5 {
+	font-size: 1.25rem;
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.meeting-card p {
+	font-size: 1rem;
+	margin: 5px 0;
+}
+
+.meeting-card .btn-primary {
+	margin-top: 10px;
+}
+
+/* 카드 간 간격 및 스타일 */
+.card-list {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 20px;
+	justify-content: space-between;
+}
+
+.card-item {
+	width: calc(33.333% - 20px); /* 3개의 카드가 한 줄에 나옴 */
+	box-sizing: border-box;
+}
+
+/* 반응형 디자인 */
+@media ( max-width : 768px) {
+	.card-item {
+		width: calc(50% - 20px); /* 화면이 작을 때 2개씩 나옴 */
+	}
+}
+
+@media ( max-width : 480px) {
+	.card-item {
+		width: 100%; /* 화면이 더 작을 때는 한 줄에 1개 */
+	}
 }
 </style>
 </head>
@@ -281,77 +392,76 @@ a.text-decoration-none:hover i {
 								<c:when
 									test="${param.option == 'korean' || param.option == null}">가나다 순</c:when>
 								<c:when test="${param.option == 'popular'}">인기 순</c:when>
-								<c:when test="${param.option == 'recent'}">최근 순</c:when>
-								<c:otherwise>정렬 기준 선택</c:otherwise>
+								<c:when test="${param.option == 'recent'}">최신 순</c:when>
+								<c:otherwise>가나다 순</c:otherwise>
 							</c:choose>
 						</button>
 						<ul class="dropdown-menu option-dropdown-menu"
 							aria-labelledby="dropdownMenuButton">
 							<li><a class="dropdown-item option-dropdown-item"
-								href="/category/meetList?option=korean">가나다 순</a></li>
+								href="/category/meetGrid?option=korean">가나다 순</a></li>
 							<li><a class="dropdown-item option-dropdown-item"
-								href="/category/meetList?option=popular">인기 순</a></li>
+								href="/category/meetGrid?option=popular">인기 순</a></li>
 							<li><a class="dropdown-item option-dropdown-item"
-								href="/category/meetList?option=recent">최신 순</a></li>
+								href="/category/meetGrid?option=recent">최근 순</a></li>
 						</ul>
 					</div>
 				</div>
-				<div class="row">
-					<c:forEach var="meet" items="${meetListOption }">
-						<div class="col-md-12 mb-4">
-							<div class="meeting-card d-flex align-items-center p-3 rounded">
-								<!-- 텍스트 내용 -->
-								<div class="flex-grow-1">
+
+				<div class="d-flex align-items-center justify-content-between">
+
+
+					<!-- 가운데 카드 리스트 (가로 스크롤) -->
+					<div class="card-list">
+						<c:forEach var="meet" items="${meetListOption}">
+							<div class="card-item">
+								<div class="meeting-card">
+									<img
+										src="${pageContext.request.contextPath}/upload/${meet.imagename}"
+										alt="${meet.title}" />
 									<h5 class="card-title">${meet.title}</h5>
 									<p class="card-text">일정: ${meet.m_date}</p>
 									<p class="card-text">위치: ${meet.address}</p>
-									<p class="card-text">❤️${meet.recommend }</p>
+									<p class="card-text">❤️${meet.recommend}</p>
 									<a href="/meetup/detailCategory.html?id=${meet.m_id}"
 										class="btn btn-primary btn-sm">자세히보기</a>
 								</div>
-								<!-- 이미지 -->
-								<div style="width: 120px; height: 120px; margin-left: 15px;">
-									<img
-										src="${pageContext.request.contextPath}/upload/${meet.imagename}"
-										class="image rounded" />
-								</div>
 							</div>
-						</div>
-					</c:forEach>
+						</c:forEach>
+					</div>
 				</div>
+
 			</div>
-		</div>
+			<div align="center">
+				<c:set var="pageCount" value="${pageCount}" />
+				<c:set var="currentPage" value="${currentPage}" />
 
-	</div>
-	<div align="center">
-		<c:set var="pageCount" value="${pageCount}" />
-		<c:set var="currentPage" value="${currentPage}" />
+				<c:set var="startPage"
+					value="${currentPage - (currentPage % 10 == 0 ? 10 : (currentPage % 10)) + 1}" />
+				<c:set var="endPage" value="${startPage + 9}" />
+				<c:if test="${endPage > pageCount}">
+					<c:set var="endPage" value="${pageCount}" />
+				</c:if>
 
-		<c:set var="startPage"
-			value="${currentPage - (currentPage % 10 == 0 ? 10 : (currentPage % 10)) + 1}" />
-		<c:set var="endPage" value="${startPage + 9}" />
-		<c:if test="${endPage > pageCount}">
-			<c:set var="endPage" value="${pageCount}" />
-		</c:if>
+				<c:if test="${startPage > 1}">
+					<a
+						href="/category/meetGrid?pageNo=${startPage - 1}&option=${param.option}">[이전]</a>
+				</c:if>
 
-		<c:if test="${startPage > 1}">
-			<a
-				href="/category/meetList?pageNo=${startPage - 1}&option=${param.option}">[이전]</a>
-		</c:if>
+				<c:forEach begin="${startPage }" end="${endPage}" var="i">
+					<c:if test="${currentPage == i}">
+						<font size="6">
+					</c:if>
+					<a href="/category/meetGrid?pageNo=${i}&option=${param.option}">${i}</a>
+					<c:if test="${currentPage == i}">
+						</font>
+					</c:if>
+				</c:forEach>
 
-		<c:forEach begin="${startPage }" end="${endPage}" var="i">
-			<c:if test="${currentPage == i}">
-				<font size="6">
-			</c:if>
-			<a href="/category/meetList?pageNo=${i}&option=${param.option}">${i}</a>
-			<c:if test="${currentPage == i}">
-				</font>
-			</c:if>
-		</c:forEach>
-
-		<c:if test="${endPage < pageCount}">
-			<a href="/category/meetList?pageNo=${endPage + 1}&option=${param.option}">[다음]</a>
-		</c:if>
-	</div>
+				<c:if test="${endPage < pageCount}">
+					<a
+						href="/category/meetGrid?pageNo=${endPage + 1}&option=${param.option}">[다음]</a>
+				</c:if>
+			</div>
 </body>
 </html>

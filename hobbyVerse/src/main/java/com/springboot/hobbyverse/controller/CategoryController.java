@@ -27,28 +27,37 @@ public class CategoryController {
 	@Autowired
 	private MeetingService meetingService;
 
-	@GetMapping("/category/meet") 
-	public ModelAndView key(HttpSession session, Integer pageNo, String option) {
+	// 리스트 형식
+	@GetMapping("/category/meetList")
+	public ModelAndView meetList(HttpSession session, Integer pageNo, String option, String design) {
 		ModelAndView mav = new ModelAndView();
 		User user = (User) session.getAttribute("loginUser");
 		int currentPage = 1;
 		if (pageNo != null)
 			currentPage = pageNo;
-		int start = (currentPage - 1) * 5;
-		int end = start + 6;
+		int start = (currentPage - 1) * 6;
+		int end = start + 7;
 		int totalCount = this.meetingService.getMaxId();
-		int pageCount = totalCount / 5;
-		
-		List<Meetup> meetList;
+		int pageCount = totalCount / 6;
+
+		if (option == null) {
+			option = "korean";
+		}
+
+		// 정렬 기준 선택
+		List<Meetup> meetListOption;
 		if (option == null || option.equals("korean")) {
-			meetList = meetingService.meetListKorean(pageNo);
-			mav.addObject("meetList", meetList);
+			meetListOption = meetingService.meetListKorean(pageNo);
+			mav.addObject("meetListOption", meetListOption);
 		} else if (option.equals("popular")) {
-			meetList = meetingService.meetListRecommend(pageNo);
-			mav.addObject("meetList", meetList);
+			meetListOption = meetingService.meetListRecommend(pageNo);
+			mav.addObject("meetListOption", meetListOption);
 		} else if (option.equals("recent")) {
-			meetList = meetingService.meetListRegist(pageNo);
-			mav.addObject("meetList", meetList);
+			meetListOption = meetingService.meetListRegist(pageNo);
+			mav.addObject("meetListOption", meetListOption);
+		} else {
+			meetListOption = meetingService.meetListKorean(pageNo);
+			mav.addObject("meetListOption", meetListOption);
 		}
 
 		mav.addObject("user", user);
@@ -58,6 +67,49 @@ public class CategoryController {
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("currentPage", currentPage);
 		mav.setViewName("meetList");
+		return mav;
+	}
+
+	// 그리드 형식
+	@GetMapping("/category/meetGrid")
+	public ModelAndView meetGrid(HttpSession session, Integer pageNo, String option, String design) {
+		ModelAndView mav = new ModelAndView();
+		User user = (User) session.getAttribute("loginUser");
+		int currentPage = 1;
+		if (pageNo != null)
+			currentPage = pageNo;
+		int start = (currentPage - 1) * 6;
+		int end = start + 7;
+		int totalCount = this.meetingService.getMaxId();
+		int pageCount = totalCount / 6;
+
+		if (option == null) {
+			option = "korean";
+		}
+
+		// 정렬 기준 선택
+		List<Meetup> meetListOption;
+		if (option.equals("korean")) {
+			meetListOption = meetingService.meetListKorean(pageNo);
+			mav.addObject("meetListOption", meetListOption);
+		} else if (option.equals("popular")) {
+			meetListOption = meetingService.meetListRecommend(pageNo);
+			mav.addObject("meetListOption", meetListOption);
+		} else if (option.equals("recent")) {
+			meetListOption = meetingService.meetListRegist(pageNo);
+			mav.addObject("meetListOption", meetListOption);
+		} else {
+			meetListOption = meetingService.meetListKorean(pageNo);
+			mav.addObject("meetListOption", meetListOption);
+		}
+
+		mav.addObject("user", user);
+		mav.addObject("start", start);
+		mav.addObject("end", end);
+		mav.addObject("total", totalCount);
+		mav.addObject("pageCount", pageCount);
+		mav.addObject("currentPage", currentPage);
+		mav.setViewName("meetGrid");
 		return mav;
 	}
 

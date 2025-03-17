@@ -198,8 +198,8 @@ public class MeetingService {
 	public List<Meetup> meetListKorean(Integer pageNo) {
 		if (pageNo == null)
 			pageNo = 1;
-		int start = (pageNo - 1) * 5;
-		int end = start + 6;
+		int start = (pageNo - 1) * 6;
+		int end = start + 7;
 		StartEnd se = new StartEnd();
 		se.setStart(start);
 		se.setEnd(end);
@@ -208,8 +208,8 @@ public class MeetingService {
 	
 	public List<Meetup> meetListRegist(Integer pageNo) {
 		if (pageNo == null) pageNo = 1;
-		int start = (pageNo - 1) * 5;
-		int end = start + 6;
+		int start = (pageNo - 1) * 6;
+		int end = start + 7;
 		StartEnd se = new StartEnd();
 		se.setStart(start);
 		se.setEnd(end);
@@ -218,8 +218,8 @@ public class MeetingService {
 	
 	public List<Meetup> meetListRecommend(Integer pageNo) {
 		if (pageNo == null) pageNo = 1;
-		int start = (pageNo - 1) * 5;
-		int end = start + 6;
+		int start = (pageNo - 1) * 6;
+		int end = start + 7;
 		StartEnd se = new StartEnd();
 		se.setStart(start);
 		se.setEnd(end);
