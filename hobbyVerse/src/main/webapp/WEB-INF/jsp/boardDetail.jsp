@@ -201,14 +201,6 @@ textarea {
 		                <button type="submit" class="btn btn-danger">삭제</button>
 		            </form>
 		        </c:if>
-
-		        <c:if test="${empty user or (user.email != board.email and user.role != 'ROLE_ADMIN')}">
-		            <p>${board.content}</p>
-		            <a href="/boards" class="btn btn-secondary">목록으로</a>
-		        </c:if>
-
-
-        <hr>
 		<!-- ✅ 게시글 이미지 표시 -->
 		<c:if test="${not empty board.imagePath}">
 		    <div class="text-center mt-3">
@@ -228,7 +220,7 @@ textarea {
 		        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* ✅ 그림자 효과 */
 		    }
 		</style>
-
+		<p>${board.content}</p>
         <!-- ✅ 추천 버튼 -->
         <c:if test="${not empty user}">
             <button id="recommendButton" class="btn btn-success"
@@ -259,7 +251,7 @@ textarea {
    </div>
        <!-- 댓글 목록 표시 -->
    <div id="commentList">
-      <h3>댓글 목록</h3>
+      <h4>댓글 목록</h4>
 
       <c:forEach var="comment" items="${comments}">
          <c:if test="${empty comment.parentId}">
@@ -341,6 +333,11 @@ textarea {
             </div>
          </c:if>
       </c:forEach>
+      <div align="center">
+      <c:if test="${empty user or (user.email != board.email and user.role != 'ROLE_ADMIN')}">
+		    <a href="/boards" class="btn btn-secondary">목록으로</a>
+	</c:if>
+      </div>
    </div>
    
    <br />
