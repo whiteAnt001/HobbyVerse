@@ -165,6 +165,19 @@
         .btn-primary:hover {
             background-color: #357ABD;
         }
+        /* 카드에 마우스 올렸을 때 반응 (그림자 변화 및 배경색 변경) */
+		.card:hover, .list-group-item:hover {
+    		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    		background-color: #f8f9fa;
+    		transition: all 0.3s ease;
+		}
+		/* 인기 모임 카드에 마우스 올렸을 때 반응 (그림자 변화 및 배경색 변경) */
+		.card:hover {
+    		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    		background-color: #f8f9fa;
+    		transition: all 0.3s ease;
+		}
+        
     </style>
 </head>
 <body>
@@ -182,48 +195,51 @@
             </div>
         </section>
 
-        <!-- 인기 있는 이벤트 섹션 -->
-        <section class="section">
-            <h3 class="section-header text-center">지금 가장 인기있는 모임 TOP8</h3>
-            <div class="d-flex align-items-center justify-content-between">
-                <!-- 왼쪽 버튼 -->
-                <button class="arrow-btn ms-4"
-                        <c:if test="${currentPage <= 1}">disabled</c:if>
-                        onclick="location.href='../home?PAGE_NUM=${currentPage - 1}'">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+        <!-- 인기 있는 모임 섹션 -->
+		<section class="section">
+			<h3 class="section-header text-center">지금 가장 인기있는 모임 TOP8</h3>
+			<div class="d-flex align-items-center justify-content-between">
+				<!-- 왼쪽 버튼 -->
+				<button class="arrow-btn ms-4"
+					<c:if test="${currentPage <= 1}">disabled</c:if>
+					onclick="location.href='../home?PAGE_NUM=${currentPage - 1}'">
+					<i class="fas fa-chevron-left"></i>
+				</button>
 
-                <!-- 가운데 카드 리스트 (가로 스크롤) -->
-                <div class="d-flex flex-nowrap overflow-auto" style="gap: 20px;">
-                    <c:forEach var="meet" items="${meetList}">
-                        <div class="card shadow-sm">
-                            <img src="${pageContext.request.contextPath}/upload/${meet.imagename}" alt="" class="image">
-                            <div class="card-body text-center">
-                                <h5 class="card-title">${meet.title}</h5>
-                                <p class="card-text">일정: ${meet.m_date}</p>
-                                <p class="card-text">위치: ${meet.address}</p>
-                                <div class="d-flex justify-content-between">
-                                    <p class="card-text">❤️ ${meet.recommend}</p>
-                                    <p class="card-text">
-                                        <i class="fas fa-eye"></i> ${meet.views}
-                                    </p>
-                                </div>
-                                <a href="/meetup/detail.html?id=${meet.m_id}" class="btn btn-primary btn-sm">자세히 보기</a>
-                            </div>
-                        </div>
-                    </c:forEach>
-                </div>
+				<!-- 가운데 카드 리스트 (가로 스크롤) -->
+				<div class="d-flex flex-nowrap overflow-auto" style="gap: 20px;">
+					<c:forEach var="meet" items="${meetList}">
+						<a href="/meetup/detail.html?id=${meet.m_id}"
+							class="card shadow-sm text-decoration-none" style="width: 280px;">
+							<img
+							src="${pageContext.request.contextPath}/upload/${meet.imagename}"
+							alt="" class="image">
+							<div class="card-body text-center">
+								<h5 class="card-title">${meet.title}</h5>
+								<p class="card-text">일정: ${meet.m_date}</p>
+								<p class="card-text">위치: ${meet.address}</p>
+								<div class="d-flex justify-content-between">
+									<p class="card-text">❤️ ${meet.recommend}</p>
+									<p class="card-text">
+										<i class="fas fa-eye"></i> ${meet.views}
+									</p>
+								</div>
+							</div>
+						</a>
+					</c:forEach>
+				</div>
 
-                <!-- 오른쪽 버튼 -->
-                <button class="arrow-btn"
-                        <c:if test="${currentPage == 2}">disabled</c:if>
-                        onclick="location.href='../home?PAGE_NUM=2'">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
-            </div>
-        </section>
+				<!-- 오른쪽 버튼 -->
+				<button class="arrow-btn"
+					<c:if test="${currentPage == 2}">disabled</c:if>
+					onclick="location.href='../home?PAGE_NUM=2'">
+					<i class="fas fa-chevron-right"></i>
+				</button>
+			</div>
+		</section>
 
-        <!-- 최신 모임, 공지사항 및 인기 게시글 섹션 -->
+
+		<!-- 최신 모임, 공지사항 및 인기 게시글 섹션 -->
         <section class="section">
             <div class="row">
                 <!-- 최신 모임 -->
@@ -240,7 +256,7 @@
                                                 <h5 class="card-title">${newMeet.title}</h5>
                                                 <p class="card-text">일정: ${newMeet.m_date}</p>
                                                 <p class="card-text">위치: ${newMeet.address}</p>
-                                                <a href="/meetup/detailCategory.html?id=${newMeet.m_id}" class="btn btn-primary btn-sm">자세히보기</a>
+                                                <a href="/meetup/detail.html?id=${newMeet.m_id}" class="btn btn-primary btn-sm">자세히보기</a>
                                             </div>
                                             <!-- 이미지 -->
                                             <div style="width: 120px; height: 120px; margin-left: 15px;">

@@ -62,4 +62,8 @@ public interface MeetingMapper {
    double getLatitudeByMeetingId(Integer m_id);
    // 기존 경도를 가져오는 메서드
    double getLongitudeByMeetingId(Integer m_id);
+   
+   List<Meetup> meetListKorean(StartEnd se);
+   List<Meetup> meetListRegist(StartEnd se);
+   List<Meetup> meetListRecommend(StartEnd se);
 }

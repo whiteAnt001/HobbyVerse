@@ -40,6 +40,9 @@ public class MeetingApply {
 	@Temporal(TemporalType.DATE)
 	private Date apply_date;// 침가 신청일
 	
+	private String imagename;
+	private String address;
+	
     @ManyToOne
     @JoinColumn(name = "user_id") // user_id라는 컬럼으로 Join
     private User user;

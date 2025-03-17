@@ -124,9 +124,10 @@ body {
 			</div>
 
 			<div class="mb-3">
-			    <label for="price" class="form-label">참가비</label>
-			    <form:input path="price" class="form-control" id="price" name="price" type="text" required="true" />
-			    <small class="text-muted">참가비는 0 이상 숫자로 입력하세요.</small>
+				<label for="price" class="form-label">참가비</label>
+				<form:input path="price" class="form-control" id="price"
+					name="price" type="text" required="true" />
+				<small class="text-muted">참가비는 숫자로 입력하세요.(참가비가 없으면 0 입력)</small>
 			</div>
 
 			<div class="mb-3">
@@ -190,7 +191,7 @@ body {
         // 가격이 비어 있거나 숫자가 아닌 경우
         if (price === "" || isNaN(price) || Number(price) < 0) {
             event.preventDefault(); // 폼 제출을 막음
-            alert("참가비는 0 이상 숫자여야 합니다.");
+            alert("참가비는 숫자여야 합니다.");
             return false;
         }
         return true;

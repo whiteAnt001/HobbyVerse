@@ -88,9 +88,6 @@ public class MyPageController {
 		ModelAndView mav = new ModelAndView("myPage_myMeetings");
 		User user = (User)session.getAttribute("loginUser");
 		List<Meetup> createMeetings = myPageService.getCreateMeetings(user.getEmail());
-		
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
-        mav.addObject("formattedW_date", meetup.getW_date().format(formatter));
 		mav.addObject("user", user);
 		mav.addObject("createdMeetings", createMeetings);
 		return mav;
@@ -112,7 +109,7 @@ public class MyPageController {
 	public ModelAndView myPosts(HttpSession session) {
 		ModelAndView mav = new ModelAndView("myPage_myPosts");
 		User user = (User)session.getAttribute("loginUser");
-		List<Board> myPosts = boardRepository.findByName(user.getName());
+		List<Board> myPosts = this.myPageService.getMyPosts(user.getEmail());
 		mav.addObject("user", user);
 		mav.addObject("myPosts", myPosts);
 		return mav;
