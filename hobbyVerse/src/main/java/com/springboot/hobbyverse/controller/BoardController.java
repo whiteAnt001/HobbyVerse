@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
@@ -65,7 +66,7 @@ public class BoardController {
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
         List<Board> formattedBoards = boardPage.getContent().stream().map(board -> {
-            board.setFormattedRegDate(board.getRegDate().format(formatter));
+            board.setRegDateString(board.getRegDate().format(formatter));
             return board;
         }).collect(Collectors.toList());
 
@@ -105,6 +106,7 @@ public class BoardController {
         if (user != null) {
             board.setName(user.getName());  // 작성자 저장
             board.setEmail(user.getEmail()); // 이메일 저장
+            board.setRegDate(LocalDateTime.now()); //작성일 저장
             board.setUser(user);
         } else {
             mav.setViewName("redirect:/login");
@@ -217,6 +219,7 @@ public class BoardController {
                     e.printStackTrace();
                 }
             }
+
             // 게시글 수정된 내용을 DB에 저장
             boardService.saveBoard(board);
 

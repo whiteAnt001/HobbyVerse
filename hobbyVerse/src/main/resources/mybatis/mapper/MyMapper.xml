@@ -4,7 +4,7 @@
 <mapper namespace="com.springboot.hobbyverse.mapper.MyMapper">
 
 	<!-- 내가 쓰 ㄴ게시글 찾기 -->
-	<select id="getMyPost" parameterType="String" resultType="com.springboot.hobbyverse.model.Board">
+	<select id="getMyPosts" parameterType="String" resultType="com.springboot.hobbyverse.model.Board">
 		select * from board where email = #{email}
 	</select>
 	<!-- 총 유저 수 카운트 -->
