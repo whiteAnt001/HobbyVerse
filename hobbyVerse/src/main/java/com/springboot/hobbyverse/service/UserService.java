@@ -80,6 +80,7 @@ import lombok.RequiredArgsConstructor;
 	    	return securityConfig.passwordEncoder().matches(rawPassword, encryptedPassword);
 	    }
 	    
+	    //비밀번호 변경
 	    public boolean changePassword(String email, String currentPassword, String newPassword) {
 	    	//유저 정보 검색
 	    	 User user = userRepository.findByEmail(email); 
@@ -93,6 +94,17 @@ import lombok.RequiredArgsConstructor;
 	        user.setPassword(securityConfig.passwordEncoder().encode(newPassword));
 	        userRepository.save(user);
 	        return true;
+	    }
+	    
+	    //이름 변경
+	    public boolean changeName(String email, String newName) {
+	    	//유저 정보 검색
+	    	User user = userRepository.findByEmail(email);
+	    	
+	    	//이름 변경
+	    	user.setName(newName);
+	    	userRepository.save(user);
+	    	return true;
 	    }
 	    
 	    public boolean authenticate(String email, String password) {

@@ -48,14 +48,14 @@ public class Board {
     @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime regDate;
-
+    
+    private String regDateString;
+    
     private int readCount;
 
     @Version
     private Long version = 0L;
 
-    @Transient
-    private String formattedRegDate;
 
     @Column(nullable = false)
     private int likes = 0;
@@ -64,7 +64,7 @@ public class Board {
     private String email = "unknown@example.com";
 
     // ✅ **이미지 경로 추가**
-    @Column(nullable = true, length = 500)
+    @Column(name = "image_path", nullable = true, length = 500)
     private String imagePath;
 
     @PrePersist
@@ -90,7 +90,7 @@ public class Board {
         }
     }
     @Transient
-    public String getRegDateString() {
+    public String getregDateString() {
         if (regDate == null) return "";
         return regDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }

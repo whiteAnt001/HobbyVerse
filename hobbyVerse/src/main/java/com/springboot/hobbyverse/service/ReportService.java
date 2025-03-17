@@ -28,10 +28,7 @@ public class ReportService {
 	    se.setEnd(end);
 	    return this.reportMapper.getReportList(se);
 	}// 모든 신고 목록 가져오기  
-	
-	public Integer getReportCountById(Integer m_id) {
-	    return this.reportMapper.getReportCountById(m_id);
-	}// 특정 모임 ID에 대한 신고 횟수   
+	 
 	
 	public Integer getReportTotal() {
 	    return this.reportMapper.getReportTotal();

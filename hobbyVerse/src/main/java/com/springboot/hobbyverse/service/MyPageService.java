@@ -35,11 +35,6 @@ public class MyPageService {
 	//내가 만든 모임 조회
 	public List<Meetup> getCreateMeetings(String email){
 		return meetingService.getMeetingByUser(email);
-	}	
-	
-	//내가 쓴 게시글 조회
-	public List<Board> getMyPosts(String email){
-		return myMapper.getMyPost(email);
 	}
 	
 	//참여신청한 모임 아이디로 검색

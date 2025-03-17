@@ -83,7 +83,7 @@ a:hover {
 						<td>${board.seq}</td>
 						<td><a href="/boards/${board.seq}">${board.subject}</a></td>
 						<td>${board.name}</td>
-						<td>${board.formattedRegDate}</td>
+						<td>${board.regDateString}</td>
 						<!-- ✅ 변환된 날짜 출력 -->
 						<td>${board.readCount}</td>
 						<td>${board.likes}</td>

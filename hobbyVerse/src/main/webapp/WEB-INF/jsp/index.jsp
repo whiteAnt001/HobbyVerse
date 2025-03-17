@@ -316,34 +316,38 @@ body {
 						</div>
 					</div>
 
-					<!-- 인기 게시글 -->
-					<div class="p-4 border rounded shadow-sm">
-						<h3 class="section-header text-center">인기 게시글</h3>
-						<div class="container mt-4">
-							<div class="list-group">
-								<c:forEach var="post" items="${boardList}">
-									<div
-										class="list-group-item d-flex justify-content-between align-items-center p-3">
-										<div>
-											<strong> <a href="/boards/${post.seq}"
-												class="text-decoration-none"> ${post.subject} </a>
-											</strong> <small class="text-muted d-block">${post.regDateString}</small>
-										</div>
-										<div class="text-end">
-											<span class="text-muted ms-2"> <i class="fas fa-eye"></i>
-												${post.readCount}
-											</span> <span class="badge bg-primary">❤️${post.likes}</span>
-										</div>
-									</div>
-								</c:forEach>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</section>
-	</div>
-	<!-- // .container-fluid 끝 -->
+                    <!-- 인기 게시글 -->
+                    <div class="p-4 border rounded shadow-sm">
+                        <h3 class="section-header text-center">인기 게시글</h3>
+                        <div class="container mt-4">
+                            <div class="list-group">
+                                <c:forEach var="post" items="${boardList}">
+                                    <div class="list-group-item d-flex justify-content-between align-items-center p-3">
+                                        <div>
+                                            <strong>
+                                                <a href="/boards/${post.seq}" class="text-decoration-none">
+                                                    ${post.subject}
+                                                </a>
+                                            </strong>
+                                            <small class="text-muted d-block">${post.regDateString}</small>
+                                        </div>
+                                        <div class="text-end">
+                                            <span class="text-muted ms-2">
+                                                <i class="fas fa-eye"></i> ${post.readCount}
+                                            </span>
+                                            <span class="badge bg-primary">❤️${post.likes}</span>
+                                        </div>
+                                    </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div> <!-- // .container-fluid 끝 -->
+<!-- 부트스트랩 JS 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 	<!-- 푸터 -->
 	<jsp:include page="/WEB-INF/jsp/footer.jsp" />

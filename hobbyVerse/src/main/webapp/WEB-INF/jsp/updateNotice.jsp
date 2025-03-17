@@ -45,7 +45,6 @@
             const noticeId = document.getElementById("noticeId").value;
             const title = document.getElementById("title").value;
             const content = document.getElementById("content").value;
-
             fetch('/notices/update/' + noticeId, {
                 method: 'PUT',
                 headers: { 'Content-Type': 'application/json' },

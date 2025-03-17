@@ -62,6 +62,7 @@ public class MyPageController {
 	    if (user == null) {
 	        // 로그인되지 않은 경우 로그인 페이지로 리다이렉트
 	        mav.setViewName("/login");
+	        session.setAttribute("loginUser", user);  // 세션에 사용자 정보 유지
 	        return mav;
 	    }
 	    
@@ -106,14 +107,13 @@ public class MyPageController {
 	
 	//내가 쓴 게시글
 	@GetMapping("/myPage/myPosts")
-	public ModelAndView myPosts(HttpSession session) {
+	public ModelAndView myPosts(Board board, HttpSession session) {
 		ModelAndView mav = new ModelAndView("myPage_myPosts");
 		User user = (User)session.getAttribute("loginUser");
-		List<Board> myPosts = this.myPageService.getMyPosts(user.getEmail());
+		List<Board> myPosts = this.boardRepository.findByEmail(user.getEmail());
 		mav.addObject("user", user);
 		mav.addObject("myPosts", myPosts);
 		return mav;
-		
 	}
 	
 	// 비밀번호 변경 폼
@@ -121,19 +121,44 @@ public class MyPageController {
 	public ModelAndView changePasswordForm(HttpSession session) {
 		ModelAndView mav = new ModelAndView("myPage_changePassword");
 		User user = (User)session.getAttribute("loginUser");
+		
+	    // 소셜 로그인 사용자일 경우 접근 차단
+	    if (user.getProvider() != null && user.getProviderId() != null) {
+	        mav.addObject("alertMessage", "소셜 로그인 사용자는 내 정보 변경을 할 수 없습니다.");
+	        mav.addObject("user", user); //사용자 정보를 남김
+	        mav.setViewName("myPage");  // 기존 페이지로 돌아가기
+	        return mav;
+	    }
+	    
 		mav.addObject("user", user);
 		return mav;
 	}
 	
-	// 비밀번호 변경
-	@PostMapping("/api/myPage/changePassword")
-	public ResponseEntity<Map<String, String>> changePassword(@RequestParam String currentPassword,
-	                                                           @RequestParam String newPassword,
-	                                                           @RequestParam String confirmPassword,
-	                                                           HttpSession session) {
+	//내 정보 변경
+	@PostMapping("/api/myPage/edit")
+	public ResponseEntity<Map<String, String>> changePassword(
+	        @RequestParam String currentPassword,
+	        @RequestParam String newPassword,
+	        @RequestParam String confirmPassword,
+	        @RequestParam(required = false) String newName,
+	        HttpSession session) {
+
 	    Map<String, String> response = new HashMap<>();
 	    User user = (User) session.getAttribute("loginUser");
 
+	    // 이름 변경만 처리하는 경우
+	    if (newName != null && !newName.isEmpty()) {
+	        boolean isNameChanged = userService.changeName(user.getEmail(), newName);
+	        if (isNameChanged) {
+	            response.put("message", "이름이 성공적으로 변경되었습니다.");
+	            return ResponseEntity.ok(response);
+	        } else {
+	            response.put("message", "이름 변경에 실패했습니다.");
+	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
+	        }
+	    }
+
+	    // 비밀번호 변경 로직
 	    // 비밀번호 일치 여부 확인
 	    if (!newPassword.equals(confirmPassword)) {
 	        response.put("message", "새 비밀번호와 비밀번호 확인이 일치하지 않습니다.");
@@ -154,6 +179,8 @@ public class MyPageController {
 	        return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
 	    }
 	}
+
+	
 	//회원 탈퇴 폼
 	@GetMapping("/myPage/form/deleteAccount")
 	public ModelAndView deleteAccountForm(HttpSession session) {
@@ -201,6 +228,4 @@ public class MyPageController {
         response.put("message", "유저를 성공적으로 삭제했습니다.");
         return ResponseEntity.status(HttpStatus.OK).body(response);
 	}
-	
-	
 }
