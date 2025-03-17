@@ -127,7 +127,7 @@ body {
 				<label for="price" class="form-label">참가비</label>
 				<form:input path="price" class="form-control" id="price"
 					name="price" type="text" required="true" />
-				<small class="text-muted">참가비는 0 이상 숫자로 입력하세요.</small>
+				<small class="text-muted">참가비는 숫자로 입력하세요.(참가비가 없으면 0 입력)</small>
 			</div>
 
 			<div class="mb-3">

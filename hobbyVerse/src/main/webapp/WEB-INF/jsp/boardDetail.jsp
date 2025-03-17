@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"%>
 <%@ page session="true" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 
 <!DOCTYPE html>
 <html lang="UTF-8">
@@ -29,7 +30,6 @@
                 });
         }
     </script>
-    
     <style type="text/css">
     
     /* 네비게이션 바 */
@@ -152,6 +152,7 @@ textarea {
     width: 100%;
     font-size: 13px;  /* 폰트 크기 약간 줄임 */
 }
+
     
     </style>
 </head>
@@ -179,18 +180,27 @@ textarea {
         <!-- ✅ 게시글 수정 / 삭제 (로그인한 사용자의 이메일이 게시글 이메일과 같을 때만 가능 / 관리자 권한을 가진 사람도 가능) -->
 		<!-- ✅ 게시글 내용 -->
 		        <c:if test="${not empty user and user.email == board.email || user.role == 'ROLE_ADMIN'}">
-		            <form action="/boards/${board.seq}/update" method="post">
+		            <form action="/boards/${board.seq}/update" method="post" enctype="multipart/form-data">
 		                <div class="mb-3">
 		                    <label class="form-label"><strong>제목:</strong></label>
 		                    <input type="text" class="form-control" name="subject" value="${board.subject}" required>
 		                </div>
-
+				<!-- ✅ 게시글 이미지 표시 -->
+				<c:if test="${not empty board.imagePath}">
+					<div class="text-center mt-3">
+						<img src="${board.imagePath}" class="board-image"
+							style="width: 100%; max-width: 800px; height: auto;">
+					</div>
+				</c:if>
 		                <div class="mb-3">
-		                    <label class="form-label"><strong>내용:</strong></label>
+		                    <label class="form-label"></label>
 		                    <textarea class="form-control" name="content" rows="5" required>${board.content}</textarea>
 		                </div>
+						<div class="mb-3">
+							<input type="file" class="form-control" id="file" name="file" accept="image/*"/>
+						</div>
 
-		                <div class="d-flex align-items-center gap-2">
+						<div class="d-flex align-items-center gap-2">
 		                    <button type="submit" class="btn btn-primary">수정 완료</button>
 		                    <a href="/boards" class="btn btn-secondary">목록으로</a>
 		                </div>
@@ -204,18 +214,18 @@ textarea {
 
 		        <c:if test="${empty user or (user.email != board.email and user.role != 'ROLE_ADMIN')}">
 		            <p>${board.content}</p>
+		            		                				<!-- ✅ 게시글 이미지 표시 -->
+				<c:if test="${not empty board.imagePath}">
+					<div class="text-center mt-3">
+						<img src="${board.imagePath}" class="board-image"
+							style="width: 100%; max-width: 800px; height: auto;">
+					</div>
+				</c:if>
 		            <a href="/boards" class="btn btn-secondary">목록으로</a>
 		        </c:if>
 
 
         <hr>
-		<!-- ✅ 게시글 이미지 표시 -->
-		<c:if test="${not empty board.imagePath}">
-		    <div class="text-center mt-3">
-		        <h2>첨부된 이미지</h2>
-		        <img src="${board.imagePath}" class="img-fluid board-image">
-		    </div>
-		</c:if>
 
 		<!-- ✅ 이미지 스타일 추가 -->
 		<style>
@@ -344,6 +354,25 @@ textarea {
    </div>
    
    <br />
+   		                       <!-- ✅ JavaScript: 이미지 미리보기 기능 -->
+    <script>
+        function previewImage(event) {
+            const input = event.target;
+            const previewContainer = document.getElementById("imagePreviewContainer");
+            const previewImage = document.getElementById("imagePreview");
+
+            if (input.files && input.files[0]) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    previewImage.src = e.target.result;
+                    previewContainer.style.display = "block";
+                };
+                reader.readAsDataURL(input.files[0]);
+            } else {
+                previewContainer.style.display = "none";
+            }
+        }
+    </script>
    <script>
    //댓글 작성하기
     function submitComment() {

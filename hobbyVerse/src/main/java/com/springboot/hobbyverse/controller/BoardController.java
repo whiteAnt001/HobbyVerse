@@ -117,9 +117,6 @@ public class BoardController {
                 // 프로젝트 내부의 `boardImg` 폴더에 저장
                 String uploadDir = System.getProperty("user.dir") + "/src/main/webapp/boardImg/";
 
-                // 디버깅 로그
-                System.out.println("Upload Directory: " + uploadDir);
-
                 // 저장할 파일명 설정 (시간 + 원본파일명)
                 String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
 
@@ -127,7 +124,6 @@ public class BoardController {
                 File uploadPath = new File(uploadDir);
                 if (!uploadPath.exists()) {
                     boolean created = uploadPath.mkdirs(); // 디렉토리 생성
-                    System.out.println("Upload directory created: " + created);
                 }
 
                 // 파일 저장 경로 설정
@@ -139,9 +135,6 @@ public class BoardController {
                 // 저장된 이미지 경로를 DB에 저장
                 board.setImagePath("/boardImg/" + fileName);
 
-                // 디버깅 로그
-                System.out.println("Image saved at: " + saveFile.getAbsolutePath());
-
             } catch (IOException e) {
                 e.printStackTrace();
             }
@@ -151,10 +144,6 @@ public class BoardController {
         mav.setViewName("redirect:/boards");
 		return mav;
     }
-
-
-
-
 
     // ✅ 게시글 상세 페이지 (조회 기능)
     @GetMapping("/boards/{seq}")
@@ -174,37 +163,69 @@ public class BoardController {
         return mav;
     }
 
-    // ✅ 게시글 수정 처리 (제목, 내용, 이미지 수정 가능)
+ // ✅ 게시글 수정 처리 (제목, 내용, 이미지 수정 가능)
     @PostMapping("/boards/{seq}/update")
-    public String updateBoard(@PathVariable Long seq,
-                              @RequestParam String subject,
-                              @RequestParam String content,
-                              @RequestParam(value = "image", required = false) MultipartFile imageFile) {
+    public ModelAndView updateBoard(@PathVariable Long seq,
+                                    @RequestParam String subject,
+                                    @RequestParam String content,
+                                    @RequestParam(value = "file", required = false) MultipartFile file) {
 
+        ModelAndView mav = new ModelAndView();
         Board board = boardService.getBoardById(seq);
 
         if (board != null) {
             board.setSubject(subject);
             board.setContent(content);
+            
+            // ✅ 이미지 파일 업로드 처리
+            if (file != null && !file.isEmpty()) {
+                System.out.println("파일이 전달되었습니다: " + file.getOriginalFilename());
 
-            // ✅ 이미지 변경 처리
-            if (imageFile != null && !imageFile.isEmpty()) {
-                String fileName = UUID.randomUUID() + "_" + imageFile.getOriginalFilename();
-                File saveFile = new File(UPLOAD_DIR, fileName);
+                // 기존 이미지 파일 삭제 (존재하는 경우)
+                String existingImagePath = board.getImagePath();  // 기존 이미지 경로 가져오기
+                if (existingImagePath != null && !existingImagePath.isEmpty()) {
+                    // 기존 파일을 서버에서 삭제
+                    String existingFilePath = System.getProperty("user.dir") + "/src/main/webapp" + existingImagePath;
+                    File existingFile = new File(existingFilePath);
+                    if (existingFile.exists()) {
+                        existingFile.delete();  // 파일 삭제
+                        System.out.println("기존 파일 삭제됨: " + existingFilePath);
+                    }
+                }
+
+                // 파일 업로드 경로 설정
+                String uploadDir = System.getProperty("user.dir") + "/src/main/webapp/boardImg/";
+
+                // 새로운 파일명 설정
+                String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+
+                // 파일 저장 경로 설정
+                File uploadPath = new File(uploadDir);
+                if (!uploadPath.exists()) {
+                    uploadPath.mkdirs();  // 디렉토리 생성
+                }
 
                 try {
-                    imageFile.transferTo(saveFile);
-                    board.setImagePath("/uploads/" + fileName);
+                    // 파일을 지정된 경로에 저장
+                    File saveFile = new File(uploadDir, fileName);
+                    file.transferTo(saveFile);
+
+                    // 저장된 이미지 경로를 DB에 저장
+                    board.setImagePath("/boardImg/" + fileName);
+                    System.out.println("새 이미지 파일 저장됨: " + "/boardImg/" + fileName);
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
-
+            // 게시글 수정된 내용을 DB에 저장
             boardService.saveBoard(board);
+
+            mav.setViewName("redirect:/boards");
         }
 
-        return "redirect:/boards"; 
+        return mav;
     }
+
 
     // ✅ 게시글 삭제 처리
     @Transactional

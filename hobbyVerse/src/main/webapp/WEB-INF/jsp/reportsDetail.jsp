@@ -65,7 +65,7 @@
 
             <div class="mb-3">
                 <label for="report_date" class="form-label">신고 날짜</label>
-                <input type="text" id="report_date" name="report_date" class="form-control" readonly="true" value="${report.report_date}"/>
+                <input type="text" id="report_date" name="report_date" class="form-control" readonly="true" value="${report.formattedReport_date}"/>
             </div>
 
             <div class="center-buttons">

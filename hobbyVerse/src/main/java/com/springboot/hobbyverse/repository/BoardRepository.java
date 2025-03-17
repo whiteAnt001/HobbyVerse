@@ -34,8 +34,7 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     // ✅ 번호(SEQ) 기준 내림차순 정렬 (기존 방식 유지)
     Page<Board> findAllByOrderBySeqDesc(Pageable pageable);
-
-	List<Board> findByName(String name);
+	
 	void deleteByEmail(String email);
 	
 	@Query(value = "SELECT * FROM board ORDER BY likes DESC LIMIT 4", nativeQuery = true)

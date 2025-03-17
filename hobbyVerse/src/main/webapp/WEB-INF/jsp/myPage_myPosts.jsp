@@ -44,7 +44,7 @@ body {
             <ul class="list-group">
                 <c:forEach var="post" items="${myPosts}">
                     <li class="list-group-item d-flex justify-content-between align-items-center">
-                        ${post.subject} - ${post.regDate}
+                        ${post.subject} - ${post.formattedRegDate}
                         <a href="/boards/${post.seq}" class="btn btn-info btn-sm">게시글 보기</a>
                     </li>
                 </c:forEach>

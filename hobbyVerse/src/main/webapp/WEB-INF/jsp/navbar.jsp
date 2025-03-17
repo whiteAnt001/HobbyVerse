@@ -93,8 +93,23 @@ body, html {
 
 				<!-- 로그인된 경우 -->
 				<sec:authorize access="isAuthenticated()">
-					<li class="nav-item"><a class="nav-link"
-						href="/meetup/createGroup.html">모임 등록하기</a></li>
+					<li class="nav-item"><a class="nav-link" href="/meetup/createGroup.html">모임 등록하기</a></li>
+					<sec:authorize access="hasRole('ADMIN')">
+					<li class="nav-item dropdown">
+                	<a class="nav-link dropdown-toggle" href="/api/admin/dashboard" id="userDropdown" role="button" aria-expanded="false">관리자페이지</a>
+                    	<ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        	<li><a class="dropdown-item" href="/api/admin/users">회원관리</a></li>
+                            <li><a class="dropdown-item" href="/api/admin/meetings">모임관리</a></li>
+                            <li><a class="dropdown-item" href="/api/admin/inquiries">문의사항 관리</a></li>
+                            <li><a class="dropdown-item" href="/api/admin/reports">신고항목 관리</a></li>
+                            <li>
+                            	<form action="/logout" method="post" class="d-inline">
+                                	<button type="submit" class="dropdown-item">로그아웃</button>
+                                </form>
+                            </li>
+                        </ul>
+               		</li>
+               		</sec:authorize>
 				</sec:authorize>
 				
 				 <!-- 로그인되지 않은 경우 -->

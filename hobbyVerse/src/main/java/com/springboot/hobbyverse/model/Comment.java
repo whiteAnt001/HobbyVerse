@@ -99,6 +99,6 @@ public class Comment {
     @Transient
     public String getCreatedAtString() {
         if (createdAt == null) return "";
-        return createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return createdAt.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 }

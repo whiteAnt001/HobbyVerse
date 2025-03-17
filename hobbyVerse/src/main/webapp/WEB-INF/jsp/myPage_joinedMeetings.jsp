@@ -11,84 +11,84 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
-/* 전체 배경 */
-body {
-	background: #f4f4f4;
-	color: #333;
-	min-height: 100vh;
-	font-family: 'Arial', sans-serif;
-}
+        /* 전체 배경 */
+        body {
+            background: #f4f4f4;
+            color: #333;
+            min-height: 100vh;
+            font-family: 'Arial', sans-serif;
+        }
 
-/* 컨테이너 크기 */
-.container {
-	max-width: 900px;
-	margin-top: 50px;
-}
+        /* 컨테이너 크기 */
+        .container {
+            max-width: 900px;
+            margin-top: 50px;
+        }
 
-/* 타이틀 */
-h3 {
-	font-size: 2rem;
-	color: #2575fc;
-	text-align: center;
-	font-weight: bold;
-	margin-bottom: 30px;
-}
+        /* 타이틀 */
+        h3 {
+            font-size: 2rem;
+            color: #2575fc;
+            text-align: center;
+            font-weight: bold;
+            margin-bottom: 30px;
+        }
 
-/* 카드 디자인 */
-.card {
-	margin-bottom: 20px;
-	border-radius: 8px;
-	box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-	transition: transform 0.2s;
-}
+        /* 신청한 모임 카드 스타일 */
+        .meeting-card {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            display: flex;
+            padding: 20px;
+            transition: transform 0.3s ease;
+        }
 
-.card:hover {
-	transform: translateY(-5px);
-}
+        .meeting-card:hover {
+            transform: translateY(-5px);
+        }
 
-.card-body {
-	padding: 1.5rem;
-}
+        .meeting-card .flex-grow-1 {
+            flex-grow: 1;
+        }
 
-.card-title {
-	font-weight: bold;
-	font-size: 1.1rem;
-	color: #333;
-}
+        .meeting-card .card-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #333;
+        }
 
-.card-subtitle {
-	font-size: 0.9rem;
-	color: #777;
-}
+        .meeting-card .card-text {
+            font-size: 1rem;
+            color: #777;
+        }
 
-.card-text {
-	font-size: 0.95rem;
-}
+        .meeting-card .btn {
+            background-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
 
-/* 신청한 모임 없을 경우 메시지 */
-.alert {
-	font-size: 1.1rem;
-	font-weight: bold;
-	color: #fff;
-}
+        .meeting-card .btn:hover {
+            background-color: #6a11cb;
+        }
 
-/* 그라데이션 버튼 */
-.gradient-btn {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-	border: none;
-	color: white;
-	border-radius: 8px;
-	padding: 10px 20px;
-}
+        /* 이미지 스타일 */
+        .meeting-card .image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
 
-.gradient-btn:hover {
-	background: linear-gradient(135deg, #2575fc, #6a11cb);
-}
-/* 네비게이션 바 */
-.gradient-bg {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-}
-</style>
+        /* 신청한 모임 없을 경우 메시지 */
+        .alert {
+            font-size: 1.1rem;
+            font-weight: bold;
+            color: #fff;
+        }
+    </style>
 </head>
 <body>
 
@@ -105,16 +105,27 @@ h3 {
         </c:if>
 
         <!-- 신청한 모임 목록 -->
-        <c:forEach var="meeting" items="${meetingApply}">
-            <a href="/applyDetail?m_id=${meeting.mid}" style="text-decoration: none;">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h4 class="card-subtitle mb-2 text-muted"><Strong>모임 이름: ${meeting.title}</Strong></h4>
-                        <p class="card-text">신청 날짜: <fmt:formatDate value="${meeting.apply_date}" pattern="yyyy-MM-dd" /></p>
-                    </div>
+        <div class="row">
+            <c:forEach var="meeting" items="${meetingApply}">
+                <div class="col-md-12 mb-4">
+                    <a href="/applyDetail?m_id=${meeting.mid}" style="text-decoration: none;">
+                        <div class="meeting-card">
+                            <!-- 텍스트 내용 -->
+                            <div class="flex-grow-1">
+                                <h5 class="card-title">${meeting.title}</h5><br/>
+                                <p class="card-text">신청 날짜: ${meeting.apply_date}</p>
+                                <p class="card-text">모임 일정: ${meeting.apply_date}</p>
+                                <p class="card-text">모임 위치: ${meeting.address}</p>
+                            </div>
+                            <!-- 이미지 -->
+                            <div style="width: 120px; height: 120px; margin-left: 15px;">
+                                <img src="${pageContext.request.contextPath}/upload/${meeting.imagename}" class="image" />
+                            </div>
+                        </div>
+                    </a>
                 </div>
-            </a>
-        </c:forEach>
+            </c:forEach>
+        </div>
     </div>
 
     <!-- Bootstrap JS -->

@@ -60,7 +60,7 @@
    </select><!-- 관리자용 모임 목록 -->
    
    <select id="getMeetingByUser"  parameterType="String" resultType="com.springboot.hobbyverse.model.Meetup">
-      select * from meetup where email = #{id}
+select * from meetup where email = #{id}
    </select>
    
    <select id="getCategoryList" resultType="com.springboot.hobbyverse.model.Category">

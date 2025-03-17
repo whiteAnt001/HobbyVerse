@@ -332,7 +332,7 @@ public class AdminController {
 
 	// 신고된 모임 확인
 	@GetMapping("/reports")
-	public ModelAndView reports(Integer PAGE_NUM, HttpSession session) {
+	public ModelAndView reports(Integer PAGE_NUM, HttpSession session, Meetup meetup) {
 		ModelAndView mav = new ModelAndView("report_management");
 		User user = (User) session.getAttribute("loginUser");
 		int currentPage = 1;
@@ -341,7 +341,7 @@ public class AdminController {
 		int start = (currentPage - 1) * 10;
 		int end = start + 11;
 		List<Report> reportList = this.reportService.getReportList(PAGE_NUM); // 신고 목록
-		List<Meetup> meetList = this.reportService.getReportedMeeting(); // 모임별 신고 횟수
+		List<Meetup> meetList = this.reportService.getReportedMeeting();
 		Integer totalCount = this.reportService.getReportTotal();
 		int pageCount = totalCount / 10;
 		if (totalCount % 10 != 0)
@@ -398,7 +398,7 @@ public class AdminController {
 		int start = (currentPage - 1) * 10;
 		int end = start + 11;
 		List<Report> reportList = this.reportService.getReportByTitle(title, PAGE_NUM); // 신고 목록
-		List<Meetup> meetList = this.reportService.getReportedMeeting(); // 모임별 신고 횟수
+		List<Meetup> meetList = this.reportService.getReportedMeeting();
 		Integer totalCount = this.reportService.getReportCountByTitle(title);
 		int pageCount = totalCount / 10;
 		if (totalCount % 10 != 0)

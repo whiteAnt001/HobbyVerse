@@ -1,8 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+
 <!DOCTYPE html>
-<html lang="UTF-8">
+<html lang="ko">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>내가 만든 모임</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
@@ -15,14 +19,14 @@
             font-family: 'Arial', sans-serif;
         }
 
-        /* 페이지 컨테이너 */
-        .container-lg {
+        /* 컨테이너 크기 */
+        .container {
             max-width: 900px;
             margin-top: 50px;
         }
 
-        /* 타이틀 스타일 */
-        h2 {
+        /* 타이틀 */
+        h3 {
             font-size: 2rem;
             color: #2575fc;
             text-align: center;
@@ -30,93 +34,101 @@
             margin-bottom: 30px;
         }
 
-        /* 카드 마진 */
-        .card {
-            margin-bottom: 20px;
+        /* 신청한 모임 카드 스타일 */
+        .meeting-card {
+            background-color: #ffffff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             border-radius: 8px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-            transition: transform 0.2s;
+            display: flex;
+            padding: 20px;
+            transition: transform 0.3s ease;
         }
 
-        .card:hover {
+        .meeting-card:hover {
             transform: translateY(-5px);
         }
 
-        /* 모임 리스트 제목 */
-        .card-title {
+        .meeting-card .flex-grow-1 {
+            flex-grow: 1;
+        }
+
+        .meeting-card .card-title {
+            font-size: 1.25rem;
             font-weight: bold;
-            font-size: 1.2rem;
             color: #333;
         }
 
-        /* 모임 날짜 */
-        .card-subtitle {
-            font-size: 0.9rem;
+        .meeting-card .card-text {
+            font-size: 1rem;
             color: #777;
         }
 
-        /* 버튼 스타일 */
-        .btn-primary {
+        .meeting-card .btn {
             background-color: #2575fc;
-            border-color: #2575fc;
+            color: white;
+            border: none;
+            border-radius: 5px;
         }
 
-        /* 네비게이션 바 */
-        .gradient-bg {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
+        .meeting-card .btn:hover {
+            background-color: #6a11cb;
         }
 
-        /* 모임이 없을 때 메시지 */
-        .no-meetup-message {
-            text-align: center;
-            font-size: 1.5rem;
+        /* 이미지 스타일 */
+        .meeting-card .image {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        /* 만든 모임 없을 경우 메시지 */
+        .alert {
+            font-size: 1.1rem;
             font-weight: bold;
-            color: #2575fc;
-            margin-top: 50px;
+            color: #fff;
         }
-
-        /* 링크 밑줄 제거 */
-        .card-title a {
-            text-decoration: none;
-        }
-
     </style>
 </head>
 <body>
 
+    <!-- 네비게이션 바 -->
     <jsp:include page="/WEB-INF/jsp/navbar.jsp" />
 
-    <div class="container mt-5">
-        <h2>내가 만든 모임</h2>
+    <!-- 내가 만든 모임 리스트 -->
+    <div class="container">
+        <h3>내가 만든 모임</h3>
 
-        <!-- 모임이 있을 때 리스트 -->
-        <c:if test="${not empty createdMeetings}">
-            <div class="row">
-                <c:forEach var="meeting" items="${createdMeetings}">
-                    <div class="col-md-4">
-                        <div class="card">
-                        <a href="/meetup/detail.html?id=${meeting.m_id}" style="text-decoration: none;">
-                            <div class="card-body">
-                                <h5 class="card-title">
-                                     <h5 class="text-decoration-none text-dark">모임 제목: ${meeting.title}</h5>
-                                </h5>
-                                <!-- 모임 작성일 -->
-                                <h6 class="card-subtitle mb-2 text-muted">모임 작성일: ${meeting.formattedW_date}</h6>
-                            </div>
-                            </a>
-                        </div>
-                    </div>
-                </c:forEach>
-            </div>
-        </c:if>
-
-        <!-- 모임이 없을 때 -->
+        <!-- 만든 모임이 없을 경우 처리 -->
         <c:if test="${empty createdMeetings}">
-            <div class="no-meetup-message">
-                <p>아직 모임을 만들지 않았습니다.</p>
-            </div>
+            <div class="alert alert-warning text-center" role="alert">아직 만든 모임이 없습니다.</div>
         </c:if>
+
+        <!-- 만든 모임 목록 -->
+        <div class="row">
+            <c:forEach var="meeting" items="${createdMeetings}">
+                <div class="col-md-12 mb-4">
+                    <a href="/meetup/detail.html?id=${meeting.m_id}" style="text-decoration: none;">
+                        <div class="meeting-card">
+                            <!-- 텍스트 내용 -->
+                            <div class="flex-grow-1">
+                                <h5 class="card-title">${meeting.title}</h5><br/>
+                                <p class="card-text">작성일: ${meeting.formattedW_date}</p>
+                                <p class="card-text">모임 일정: ${meeting.m_date}</p>
+                                <p class="card-text">모임 위치: ${meeting.address}</p>
+                            </div>
+                            <!-- 이미지 -->
+                            <div style="width: 120px; height: 120px; margin-left: 15px;">
+                                <img src="${pageContext.request.contextPath}/upload/${meeting.imagename}" class="image" />
+                            </div>
+                        </div>
+                    </a>
+                </div>
+            </c:forEach>
+        </div>
     </div>
 
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
