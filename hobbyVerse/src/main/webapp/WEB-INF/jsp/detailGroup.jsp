@@ -100,10 +100,11 @@ body {
     <div class="container mt-4">
         <div class="row">
             <div class="col-md-10 mx-auto">
+            <div align="center"><h1><strong>${meetup.title}</strong></h1></div>
                 <div class="meeting-detail-card">
                     <img src="${pageContext.request.contextPath}/upload/${meetup.imagename}" alt="">
                     <div class="content">
-                        <h3><strong>${meetup.title}</strong></h3>
+                        <h5><strong>카테고리</strong></h5>
                         <p>
                             <c:choose>
                                 <c:when test="${meetup.c_key == '1'}">운동</c:when>
@@ -114,10 +115,15 @@ body {
                                 <c:otherwise>기타</c:otherwise>
                             </c:choose>
                         </p>
+                        <h6><strong>주최자</strong></h6>
                         <p>${meetup.w_id}</p>
+                        <h6><strong>모임 내용</strong></h6>
                         <p>${meetup.info}</p>
+                        <h6><strong>모임 일정</strong></h6>
                         <p>📅 ${meetup.m_date}</p>
+                        <h6><strong>참가비</strong></h6>
                         <p>💰 ${meetup.price}원</p>
+                        <h6><strong>모임 장소</strong></h6>
                         <p><img alt="" src="../img/location.png"><strong>${meetup.address}</strong></p>
                         <div id="map"></div>
                         <input type="hidden" id="latitude" value="${meetup.latitude}" />

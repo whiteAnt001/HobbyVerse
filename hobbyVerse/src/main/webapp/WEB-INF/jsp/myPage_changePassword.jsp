@@ -135,11 +135,14 @@
         document.getElementById("changeNameForm").addEventListener("submit", function(event) {
             event.preventDefault();  // 폼의 기본 제출 동작을 막음
 
-            const formData = new FormData(this);  // 폼 데이터를 FormData 객체로 추출
+            const newName = document.getElementById("newName").value; // 새 이름 가져오기
 
             fetch("/api/myPage/changeName", {
                 method: "POST",
-                body: formData
+                headers:{
+                	"Content-Type": "application/json"
+                },
+            	body: JSON.stringify({newName})
             })
             .then(response => response.json())
             .then(data => {
@@ -149,7 +152,7 @@
                 }
             })
             .catch(error => {
-                console.error("Error:", error);
+                console.error("Error:", error.message);
                 alert("이름 변경 중 오류가 발생했습니다.");
             });
         });

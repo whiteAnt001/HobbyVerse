@@ -1,22 +1,23 @@
 package com.springboot.hobbyverse.controller;
 
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.springboot.hobbyverse.dto.NameChangeRequest;
 import com.springboot.hobbyverse.model.Board;
 import com.springboot.hobbyverse.model.MeetingApply;
 import com.springboot.hobbyverse.model.Meetup;
@@ -26,10 +27,7 @@ import com.springboot.hobbyverse.repository.BoardRepository;
 import com.springboot.hobbyverse.repository.CommentRepository;
 import com.springboot.hobbyverse.repository.InquiryRepository;
 import com.springboot.hobbyverse.repository.MeetingApplyRepsotory;
-import com.springboot.hobbyverse.repository.MeetupRepository;
 import com.springboot.hobbyverse.repository.UserRepository;
-import com.springboot.hobbyverse.service.CommentService;
-import com.springboot.hobbyverse.service.MeetingApplyService;
 import com.springboot.hobbyverse.service.MeetingService;
 import com.springboot.hobbyverse.service.MyPageService;
 import com.springboot.hobbyverse.service.UserActivityService;
@@ -103,7 +101,7 @@ public class MyPageController {
 		mav.addObject("meetingApply", meetingApply);
 		mav.addObject("user", user);
 		return mav;
-	}      
+	}
 	
 	//내가 쓴 게시글
 	@GetMapping("/myPage/myPosts")
@@ -134,29 +132,41 @@ public class MyPageController {
 		return mav;
 	}
 	
-	//내 정보 변경
-	@PostMapping("/api/myPage/edit")
+	// 이름 변경
+    @PostMapping("api/myPage/changeName")
+    public ResponseEntity<Map<String, String>> changeName(@RequestBody Map<String, String> request, HttpSession session) {
+    	User user = (User)session.getAttribute("loginUser");
+    	Map<String, String> response = new HashMap<>();
+    	String newName = request.get("newName");
+    	
+        if (newName == null || newName.trim().isEmpty()) {
+        	response.put("message", "새 이름을 입력하세요.");
+            return ResponseEntity.badRequest().body(response);
+        }
+        
+        boolean isChange =  userService.changeName(user.getEmail(), newName);
+        
+        if(isChange) {
+        	user.setName(newName);  // 이름 갱신
+            session.setAttribute("loginUser", user);
+            response.put("message", "이름이 성공적으로 변경되었습니다.");
+            return ResponseEntity.ok(response);
+        }else {
+        	response.put("message", "이름 변경에 실패했습니다.");
+        	return ResponseEntity.badRequest().body(response);
+        }
+    }
+	
+	// 비밀번호 변경
+	@PostMapping("/api/myPage/changePassword")
 	public ResponseEntity<Map<String, String>> changePassword(
 	        @RequestParam String currentPassword,
 	        @RequestParam String newPassword,
 	        @RequestParam String confirmPassword,
-	        @RequestParam(required = false) String newName,
 	        HttpSession session) {
 
 	    Map<String, String> response = new HashMap<>();
 	    User user = (User) session.getAttribute("loginUser");
-
-	    // 이름 변경만 처리하는 경우
-	    if (newName != null && !newName.isEmpty()) {
-	        boolean isNameChanged = userService.changeName(user.getEmail(), newName);
-	        if (isNameChanged) {
-	            response.put("message", "이름이 성공적으로 변경되었습니다.");
-	            return ResponseEntity.ok(response);
-	        } else {
-	            response.put("message", "이름 변경에 실패했습니다.");
-	            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(response);
-	        }
-	    }
 
 	    // 비밀번호 변경 로직
 	    // 비밀번호 일치 여부 확인

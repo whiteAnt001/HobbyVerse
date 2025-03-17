@@ -212,7 +212,7 @@ textarea {
 		            </form>
 		        </c:if>
 
-		        <c:if test="${empty user && user.email != board.email}">
+		        <c:if test="${empty user || user.email != board.email}">
 		            <p>${board.content}</p>
 		            		                				<!-- ✅ 게시글 이미지 표시 -->
 				<c:if test="${not empty board.imagePath}">
