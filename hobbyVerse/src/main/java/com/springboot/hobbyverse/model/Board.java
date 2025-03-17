@@ -92,7 +92,7 @@ public class Board {
     @Transient
     public String getRegDateString() {
         if (regDate == null) return "";
-        return regDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+        return regDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm"));
     }
 
     public void incrementLikes() {

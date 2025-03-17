@@ -38,10 +38,11 @@ public class MyPageService {
 	}	
 	
 	//내가 쓴 게시글 조회
-	public List<Board> getMyPosts(String name){
-		return boardRepository.findByName(name);
+	public List<Board> getMyPosts(String email){
+		return myMapper.getMyPost(email);
 	}
 	
+	//참여신청한 모임 아이디로 검색
 	public List<MeetingApply> meetingList(Long user_id) {
 		return this.myMapper.meetingList(user_id);
 	}

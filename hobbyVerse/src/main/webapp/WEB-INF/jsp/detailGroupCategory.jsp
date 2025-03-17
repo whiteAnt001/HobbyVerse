@@ -102,6 +102,12 @@ body {
 	padding: 5px 8px;
 	font-size: 0.8rem;
 }
+.btn-outline-secondary {
+    display: flex;
+    align-items: center;
+  }
+#applybtn{width:600px;}
+#button1{margin-top: 10px;}
 </style>
 </head>
 <body>
@@ -169,9 +175,6 @@ body {
 						</div>
 					</div>
 				</div>
-				
-				
-
 
 				<c:choose>
 					<c:when
@@ -221,52 +224,38 @@ body {
 								</div>
 							</c:forEach>
 						</div>
-
-						<!-- 수정, 삭제, 이전으로 버튼을 가운데 정렬하고 나란히 배치 -->
+						<!-- 수정, 삭제 버튼을 가운데 정렬하고 나란히 배치 -->
 						<div class="d-flex justify-content-center gap-3 mt-3">
 							<!-- 수정 버튼 -->
-							<form action="/meetup/modify.html" class="d-flex">
+							<form action="/meetup/modify.html">
 								<input type="hidden" name="m_id" value="${meetup.m_id}">
-								<input type="submit" value="수정" name="BTN"
-									class="btn btn-sm btn-outline-secondary">
+								<input type="submit" value="수정" name="BTN" class="btn btn-sm btn-outline-secondary">
 							</form>
-
 							<!-- 삭제 버튼 -->
 							<form action="/meetup/modify.html" onsubmit="return check()">
 								<input type="hidden" name="m_id" value="${meetup.m_id}">
-								<input type="submit" value="삭제" name="BTN"
-									class="btn btn-sm btn-outline-danger">
+								<input type="submit" value="삭제" name="BTN" class="btn btn-sm btn-outline-danger">
 							</form>
-
 							<!-- 이전으로 버튼 -->
-							<c:choose>
-								<c:when test="${c_key == 1}">
-									<a href="/category/moveSport"
-										class="btn btn-sm btn-outline-secondary">이전으로</a>
-								</c:when>
-								<c:when test="${c_key == 2}">
-									<a href="/category/moveMusic"
-										class="btn btn-sm btn-outline-secondary">이전으로</a>
-								</c:when>
-								<c:when test="${c_key == 3}">
-									<a href="/category/moveStudy"
-										class="btn btn-sm btn-outline-secondary">이전으로</a>
-								</c:when>
-								<c:when test="${c_key == 4}">
-									<a href="/category/moveGame"
-										class="btn btn-sm btn-outline-secondary">이전으로</a>
-								</c:when>
-								<c:when test="${c_key == 5}">
-									<a href="/category/moveTravel"
-										class="btn btn-sm btn-outline-secondary">이전으로</a>
-								</c:when>
-								<c:when test="${c_key == 6}">
-									<a href="/category/moveEtc"
-										class="btn btn-sm btn-outline-secondary">이전으로</a>
-								</c:when>
-							</c:choose>
+							<c:if test="${c_key == 1}">
+							    <a href="/category/moveSport" class="btn btn-sm btn-outline-secondary">이전으로</a>
+							</c:if>
+							<c:if test="${c_key == 2}">
+							    <a href="/category/moveMusic" class="btn btn-sm btn-outline-secondary">이전으로</a>
+							</c:if>
+							<c:if test="${c_key == 3}">
+							    <a href="/category/moveStudy" class="btn btn-sm btn-outline-secondary">이전으로</a>
+							</c:if>
+							<c:if test="${c_key == 4}">
+							    <a href="/category/moveGame" class="btn btn-sm btn-outline-secondary">이전으로</a>
+							</c:if>
+							<c:if test="${c_key == 5}">
+							    <a href="/category/moveTravel" class="btn btn-sm btn-outline-secondary">이전으로</a>
+							</c:if>
+							<c:if test="${c_key == 6}">
+							    <a href="/category/moveEtc" class="btn btn-sm btn-outline-secondary">이전으로</a>
+							</c:if>
 						</div>
-
 						<script type="text/javascript">
 							function check(frm) {
 								if (!confirm("정말로 삭제하시겠습니까?"))
@@ -275,27 +264,44 @@ body {
 						</script>
 					</c:when>
 					<c:otherwise>
-						<div align="center"
-							class="d-flex justify-content-center gap-2 align-items-stretch">
-							<!-- 참가신청 버튼 (길게) -->
-							<form:form action="/applyMeeting" method="POST">
+						<div align="left" class="d-flex gap-2 align-items-stretch" id="button1">
+							<!-- 참가신청 버튼 -->
+							<form action="/applyMeeting" method="POST" class="flex-grow-1">
 								<input type="hidden" name="m_id" value="${meetup.m_id}">
-								<input type="submit" value="참가신청" class="btn btn-gradient w-100"
-									onsubmit="return check()">
-							</form:form>
-
-							<!-- 추천(좋아요) 버튼 (작게) -->
-							<form action="/meetup/recommend.html"
-								class="d-flex align-items-stretch">
-								<input type="hidden" name="m_id" value="${meetup.m_id}">
-								<button type="submit"
-									class="btn btn-outline-primary btn-sm h-100">👍추천</button>
+								<input type="submit" value="참가신청"
+									class="btn btn-gradient" id="applybtn" onsubmit="return check()">
 							</form>
+
+							<!-- 신고 버튼 -->
+							<form action="/meetup/report.html" class="d-flex">
+								<input type="hidden" name="m_id" value="${meetup.m_id}" />
+								<button type="submit" class="btn btn-sm btn-outline-danger">🚨신고</button>
+							</form>
+							<!-- 이전으로 버튼 -->
+							<div class="d-flex">
+								<c:if test="${c_key == 1}">
+								    <a href="/category/moveSport" class="btn btn-sm btn-outline-secondary">이전으로</a>
+								</c:if>
+								<c:if test="${c_key == 2}">
+								    <a href="/category/moveMusic" class="btn btn-sm btn-outline-secondary">이전으로</a>
+								</c:if>
+								<c:if test="${c_key == 3}">
+								    <a href="/category/moveStudy" class="btn btn-sm btn-outline-secondary">이전으로</a>
+								</c:if>
+								<c:if test="${c_key == 4}">
+								    <a href="/category/moveGame" class="btn btn-sm btn-outline-secondary">이전으로</a>
+								</c:if>
+								<c:if test="${c_key == 5}">
+								    <a href="/category/moveTravel" class="btn btn-sm btn-outline-secondary">이전으로</a>
+								</c:if>
+								<c:if test="${c_key == 6}">
+								    <a href="/category/moveEtc" class="btn btn-sm btn-outline-secondary">이전으로</a>
+								</c:if>
+							</div>
 						</div>
 					</c:otherwise>
 				</c:choose>
-
-
+				</div>			
 			</div>
 		</div>
 	</div>

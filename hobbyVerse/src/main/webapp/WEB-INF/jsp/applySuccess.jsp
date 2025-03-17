@@ -133,14 +133,13 @@ body {
 						<div id="map" style="width: 500px; height: 400px;"></div>
 						<input type="hidden" id="latitude" value="${ meetup.latitude }"/>
     					<input type="hidden" id="longitude" value="${ meetup.longitude }"/>
-
-						<div class="d-flex gap-2 align-items-stretch">
+	
+						<div class="d-flex gap-2 align-items-stretch btn-sm">
 							<!-- 참가 취소 버튼 -->
 							<form:form action="/cancelMeeting" method="POST"
 								class="flex-grow-1">
 								<input type="hidden" name="m_id" value="${meetup.m_id }">
-								<input type="submit" value="참가 취소"
-									class="btn btn-gradient w-100 h-100">
+								<input type="submit" value="참가 취소"	 class="btn btn-gradient w-100 h-100">
 							</form:form>
 							<!-- 추천(좋아요) 버튼 -->
 							<form:form action="/meetup/recommend.html" method="GET"

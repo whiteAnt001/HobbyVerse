@@ -46,7 +46,6 @@
                     <th>ID</th>
                     <th>모임 이름</th>
                     <th>주최자</th>
-                    <th>신고횟수</th>
                     <th></th>
                 </tr>
             </thead>
@@ -62,7 +61,6 @@
                                 <td>${meet.w_id}</td>
                             </c:if>
                         </c:forEach>
-                        <td>${report.report_count}</td>
 
                         <!-- 관리 버튼들 -->
                         <td>

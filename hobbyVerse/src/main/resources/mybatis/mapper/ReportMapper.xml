@@ -61,7 +61,7 @@
          resultType="com.springboot.hobbyverse.model.Report">
      select *
 	    from (
-	        select r.report_id, r.m_id, r.email, r.reason, r.report_date, r.report_count, rownum as rn
+	        select r.report_id, r.m_id, r.name, r.reason, r.report_date, r.report_count, rownum as rn
 	        from report r
 	        join meetup m on r.m_id = m.m_id
 	        where m.title like '%' || #{title} || '%'

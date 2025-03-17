@@ -42,7 +42,6 @@ public class Meetup {
     @Column(name = "w_date", nullable = false, updatable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime w_date;
-    private String w_dateString;
     
     @Transient
     private String formattedW_date;
@@ -52,6 +51,8 @@ public class Meetup {
 
 
     private String category_name;
+    
+    private Integer report_count;
 
     @Transient  // ✅ DB에 저장되지 않음 (파일 업로드 용도)
     private MultipartFile file;

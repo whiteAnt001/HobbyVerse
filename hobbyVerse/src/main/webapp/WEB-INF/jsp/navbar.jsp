@@ -1,8 +1,7 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://www.springframework.org/security/tags"
-	prefix="sec"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <style>
 /* 페이지 전체 여백 없애기 */
 body, html {
@@ -51,7 +50,7 @@ body, html {
 		</sec:authorize>
 
 		<!-- 검색창 -->
-		<div class="d-flex w-auto justify-content-center mx-3">
+		<div class="d-flex w-auto justify-content-center mx-2">
 			<form action="/meetup/search.html" method="post" class="w-auto">
 				<div class="input-group">
 					<input type="text" name="title"
@@ -72,7 +71,7 @@ body, html {
 
 		<!-- 네비게이션 메뉴 -->
 		<div class="collapse navbar-collapse" id="navbarNav">
-			<ul class="navbar-nav ms-auto">
+			<ul class="navbar-nav ms-auto me-2">
 				<li class="nav-item"><a class="nav-link" href="/home">홈</a></li>
 				<li class="nav-item"><a class="nav-link" href="/boards">게시판</a></li>
 
@@ -94,36 +93,37 @@ body, html {
 
 				<!-- 로그인된 경우 -->
 				<sec:authorize access="isAuthenticated()">
-					<li class="nav-item"><a class="nav-link"
-						href="/meetup/createGroup.html">모임 등록하기</a></li>
+					<li class="nav-item"><a class="nav-link" href="/meetup/createGroup.html">모임 등록하기</a></li>
+					<sec:authorize access="hasRole('ADMIN')">
+					<li class="nav-item dropdown">
+                	<a class="nav-link dropdown-toggle" href="/api/admin/dashboard" id="userDropdown" role="button" aria-expanded="false">관리자페이지</a>
+                    	<ul class="dropdown-menu" aria-labelledby="userDropdown">
+                        	<li><a class="dropdown-item" href="/api/admin/users">회원관리</a></li>
+                            <li><a class="dropdown-item" href="/api/admin/meetings">모임관리</a></li>
+                            <li><a class="dropdown-item" href="/api/admin/inquiries">문의사항 관리</a></li>
+                            <li><a class="dropdown-item" href="/api/admin/reports">신고항목 관리</a></li>
+                            <li>
+                            	<form action="/logout" method="post" class="d-inline">
+                                	<button type="submit" class="dropdown-item">로그아웃</button>
+                                </form>
+                            </li>
+                        </ul>
+               		</li>
+               		</sec:authorize>
 				</sec:authorize>
-
-				<!-- 관리자 메뉴 -->
-				<sec:authorize access="hasRole('ROLE_ADMIN')">
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="/api/admin/dashboard"
-						id="userDropdown" role="button" aria-expanded="false">관리자페이지</a>
-						<ul class="dropdown-menu" aria-labelledby="userDropdown">
-							<li><a class="dropdown-item" href="/api/admin/users">회원관리</a></li>
-							<li><a class="dropdown-item" href="/api/admin/meetings">모임관리</a></li>
-							<li><a class="dropdown-item" href="/api/admin/inquiries">문의사항
-									관리</a></li>
-							<li><a class="dropdown-item" href="/api/admin/reports">신고항목
-									관리</a></li>
-							<li>
-								<form action="/logout" method="post" class="d-inline">
-									<button type="submit" class="dropdown-item">로그아웃</button>
-								</form>
-							</li>
-						</ul></li>
-				</sec:authorize>
+				
+				 <!-- 로그인되지 않은 경우 -->
+                 <sec:authorize access="isAnonymous()">
+                     <li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
+                     <li class="nav-item"><a class="nav-link btn gradient-btn" href="/signup">회원가입</a></li>
+                 </sec:authorize>
 
 				<!-- 마이페이지 드롭다운 -->
 				<sec:authorize access="hasRole('ROLE_USER')">
 					<li class="nav-item dropdown"><a
 						class="nav-link dropdown-toggle" href="#" id="userDropdown"
 						role="button" aria-expanded="false">${user.name}님</a>
-						<ul class="dropdown-menu" aria-labelledby="userDropdown">
+						<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
 							<li><a class="dropdown-item" href="/myPage">마이페이지</a></li>
 							<li>
 								<form action="/logout" method="post" class="d-inline">
@@ -132,17 +132,11 @@ body, html {
 							</li>
 						</ul></li>
 				</sec:authorize>
-
-				<!-- 로그인되지 않은 경우 -->
-				<sec:authorize access="!isAuthenticated()">
-					<li class="nav-item"><a class="nav-link" href="/login">로그인</a></li>
-					<li class="nav-item"><a class="nav-link btn gradient-btn"
-						href="/signup">회원가입</a></li>
-				</sec:authorize>
 			</ul>
 		</div>
 	</div>
 </nav>
+
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
@@ -155,4 +149,4 @@ body, html {
                 $(this).find('.dropdown-menu').removeClass('show');
             });
         });
-    </script>
+</script>

@@ -390,7 +390,7 @@ public class MeetingController {
         ModelAndView mav = new ModelAndView();
         User user = (User) session.getAttribute("loginUser");      
         report.setM_id(m_id);
-        report.setName(user.getName());
+        report.setName(user.getEmail());
         this.reportService.putReport(report);      
         mav.setViewName("reportGroupDone");
         mav.addObject("message", "신고가 접수되었습니다.");

@@ -5,8 +5,10 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.springboot.hobbyverse.mapper.NoticeMapper;
+import com.springboot.hobbyverse.model.Board;
 import com.springboot.hobbyverse.model.Notice;
 import com.springboot.hobbyverse.model.User;
 import com.springboot.hobbyverse.repository.NoticeRepository;
@@ -42,6 +44,21 @@ public class NoticeService {
 		notice.setRegDate(LocalDateTime.now());
 		return noticeRepository.save(notice);
 	}
+	// 조회수 증가
+    @Transactional
+    public Notice getNoticeById(Long id) {
+        incrementViews(id); // 조회수 증가
+        return noticeRepository.findById(id).orElse(null);
+    }
+    // 조회수 기능
+    @Transactional
+    public void incrementViews(Long id) {
+        Notice notice = noticeRepository.findById(id).orElse(null);
+        if (notice != null) {
+        	notice.setView(notice.getView() + 1);
+            noticeRepository.save(notice);
+        }
+    }
 	
 	//공지사항 삭제
 	public void deleteNotice(Long id) {
