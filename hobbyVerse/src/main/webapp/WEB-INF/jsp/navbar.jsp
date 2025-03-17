@@ -78,8 +78,8 @@ body, html {
 
 				<!-- 카테고리 드롭다운 -->
 				<li class="nav-item dropdown"><a
-					class="nav-link dropdown-toggle" href="/category/key"
-					id="categoryDropdown" role="button" aria-expanded="false">카테고리</a>
+					class="nav-link dropdown-toggle" href="/category/meet"
+					id="categoryDropdown" role="button" aria-expanded="false">모임 한눈에</a>
 					<ul class="dropdown-menu" aria-labelledby="categoryDropdown">
 						<li><a class="dropdown-item" href="/category/moveSport">스포츠</a></li>
 						<li><a class="dropdown-item" href="/category/moveMusic">음악</a></li>
