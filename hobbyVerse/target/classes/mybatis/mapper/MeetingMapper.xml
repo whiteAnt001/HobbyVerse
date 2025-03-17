@@ -155,7 +155,7 @@ select * from meetup where email = #{id}
 	</select>
 	
 	<!-- 모임 리스트 한글순(가나다) -->
-	<select id="meetListKorean" parameterType="com.springboot.hobbyverse.model.StartEnd" resultType="com.springboot.hobbyverse.model.Meetup">
+	<select id="meetListKorean" parameterType="Integer" resultType="com.springboot.hobbyverse.model.Meetup">
 		select title, m_date, address, m_id, imagename, w_date, recommend
 		from (select ROW_NUMBER() OVER(order by title) as rank, a.*
 		from (select * from meetup) a) where rank > #{start} and rank <![CDATA[<]]> #{end}
@@ -163,14 +163,14 @@ select * from meetup where email = #{id}
 	</select>
 	
 	<!-- 모임 리스트 등록순(최신) -->
-	<select id="meetListRegist" parameterType="com.springboot.hobbyverse.model.StartEnd" resultType="com.springboot.hobbyverse.model.Meetup">
+	<select id="meetListRegist" parameterType="Integer" resultType="com.springboot.hobbyverse.model.Meetup">
 		select title, m_date, address, m_id, imagename, w_date, recommend
 		from (select ROW_NUMBER() OVER(order by w_date desc) as rank, a.*
 		from (select * from meetup order by w_date desc) a) where rank > #{start} and rank <![CDATA[<]]> #{end}
 	</select>
 	
 	<!-- 모임 리스트 추천순 (인기) -->
-	<select id="meetListRecommend" parameterType="com.springboot.hobbyverse.model.StartEnd" resultType="com.springboot.hobbyverse.model.Meetup">
+	<select id="meetListRecommend" parameterType="Integer" resultType="com.springboot.hobbyverse.model.Meetup">
 		select title, m_date, address, m_id, imagename, w_date, recommend
 		from (select ROW_NUMBER() OVER(order by recommend desc) as rank, a.*
 		from (select * from meetup order by recommend desc) a) where rank > #{start} and rank <![CDATA[<]]> #{end}

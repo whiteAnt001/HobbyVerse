@@ -63,7 +63,7 @@ public interface MeetingMapper {
    // 기존 경도를 가져오는 메서드
    double getLongitudeByMeetingId(Integer m_id);
    
-   List<Meetup> meetListKorean(StartEnd se);
-   List<Meetup> meetListRegist(StartEnd se);
-   List<Meetup> meetListRecommend(StartEnd se);
+   List<Meetup> meetListKorean(Integer start, Integer end);
+   List<Meetup> meetListRegist(Integer start, Integer end);
+   List<Meetup> meetListRecommend(Integer start, Integer end);
 }
