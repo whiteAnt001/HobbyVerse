@@ -1,8 +1,9 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 
+<!-- 푸터 내용 -->
 <footer class="footer bg-dark text-white py-2">
-    <div class="container">
+    <div class="footer-container">
         <div class="row">
             <div class="col-md-3">
                 <h5>사이트 링크</h5>
@@ -31,15 +32,36 @@
 
 <!-- 푸터 CSS 스타일 -->
 <style>
-footer {margin: 0; padding: 0;}
-	.container{margin-left: 20px; margin-top: 15px; }
-    .footer a {
-        text-decoration: none;
-    }
+/* 푸터 스타일 */
+footer {
+    padding: 0;
+    background-color: #343a40;
+    color: white;
+}
 
-    .footer a:hover {
-        text-decoration: underline;
-    }
-    .list-unstyled {font-size: 13px;}
-    #copywrite{ font-size: 13px;}
+.footer-container {
+    max-width: 1200px; /* 푸터가 너무 넓게 퍼지지 않도록 최대 너비 설정 */
+    margin: 0 auto; /* 중앙 정렬 */
+    padding: 15px 0; /* 푸터 안쪽 여백 */
+}
+
+.footer a {
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.list-unstyled {
+    font-size: 13px;
+}
+
+#copywrite {
+    font-size: 13px;
+}
+
+footer .container {
+    width: 100%;
+}
 </style>

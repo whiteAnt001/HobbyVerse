@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
@@ -8,8 +7,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>모임 상세 | HobbyMatch</title>
-<link rel="stylesheet"
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <style>
 body {
 	background: #f4f4f4;
@@ -21,38 +19,26 @@ body {
 	background: linear-gradient(135deg, #6a11cb, #2575fc);
 }
 
-.meeting-header {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-	color: white;
-	padding: 20px 10px;
-	text-align: center;
-	border-radius: 0 0 15px 15px;
-}
-
-.meeting-header h1 {
-	font-size: 1.5rem;
-}
-
-.meeting-header h4 {
-	font-size: 1rem;
-}
-
 .meeting-detail-card {
-	background: white;
-	border-radius: 8px;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	margin-top: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    display: flex; /* 가로 정렬 */
+    align-items: center;
+    padding: 20px;
 }
 
 .meeting-detail-card img {
-	width: 100%;
-	height: 300px;
-	object-fit: cover;
-	border-radius: 8px 8px 0 0;
+    width: 40%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-right: 20px;
 }
 
 .meeting-detail-card .content {
-	padding: 20px;
+    flex-grow: 1;
 }
 
 .meeting-detail-card h3 {
@@ -79,16 +65,15 @@ body {
 
 .participant {
 	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	margin-bottom: 8px;
+    align-items: center;
+    margin-bottom: 8px;
 }
-
+.participant p {margin-bottom: -1px;}
 .participant img {
 	width: 30px;
 	height: 30px;
 	border-radius: 50%;
-	margin-right: 8px;
+	margin-right: 15px;
 }
 
 .btn-gradient {
@@ -98,57 +83,52 @@ body {
 	font-size: 0.9rem;
 }
 
-.btn-sm {
-	padding: 5px 8px;
-	font-size: 0.8rem;
+#map {
+    width: 550px;
+    height: 250px;
+    margin-top: 10px;
 }
+.text-end{margin-right: 15px;}
+.meeting-detail-card .content img{width: 15px; height: 15px; margin-right: 2px; margin-left:1px; margin-top: -5px;}
+.meeting-detail-card img{width:450px; height: 500px; margin-left: 8px;}
 </style>
 </head>
 <body>
 
-	<jsp:include page="/WEB-INF/jsp/navbar.jsp" />
+    <jsp:include page="/WEB-INF/jsp/navbar.jsp" />
 
-	<div class="meeting-header">
-		<h1>${meetup.title }</h1>
-	</div>
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+            <div align="center"><h1><strong>${meetup.title}</strong></h1></div>
+                <div class="meeting-detail-card">
+                    <img src="${pageContext.request.contextPath}/upload/${meetup.imagename}" alt="">
+                    <div class="content">
+                        <h5><strong>카테고리</strong></h5>
+                        <p>
+                            <c:choose>
+                                <c:when test="${meetup.c_key == '1'}">운동</c:when>
+                                <c:when test="${meetup.c_key == '2'}">음악</c:when>
+                                <c:when test="${meetup.c_key == '3'}">스터디</c:when>
+                                <c:when test="${meetup.c_key == '4'}">게임</c:when>
+                                <c:when test="${meetup.c_key == '5'}">여행</c:when>
+                                <c:otherwise>기타</c:otherwise>
+                            </c:choose>
+                        </p>
+                        <h6><strong>주최자</strong></h6>
+                        <p>${meetup.w_id}</p>
+                        <h6><strong>모임 내용</strong></h6>
+                        <p>${meetup.info}</p>
+                        <h6><strong>모임 일정</strong></h6>
+                        <p>📅 ${meetup.m_date}</p>
+                        <h6><strong>참가비</strong></h6>
+                        <p>💰 ${meetup.price}원</p>
+                        <h6><strong>모임 장소</strong></h6>
+                        <p><img alt="" src="../img/location.png"><strong>${meetup.address}</strong></p>
+                        <div id="map"></div>
+                        <input type="hidden" id="latitude" value="${meetup.latitude}" />
+                        <input type="hidden" id="longitude" value="${meetup.longitude}" />
 
-	<div class="container mt-4">
-		<div class="row">
-			<div class="col-md-8 mx-auto">
-				<div class="meeting-detail-card">
-					<img
-						src="${pageContext.request.contextPath}/upload/${meetup.imagename }"
-						alt="">
-					<div class="content">
-						<h5>모임 설명</h5>
-						<p>${meetup.info }</p>
-						<h5>작성자</h5>
-						<p>${meetup.w_id }</p>
-						<h5>모임 일정</h5>
-						<p>📅 ${meetup.m_date }</p>
-						<h5>참가비</h5>
-						<p>💰 ${meetup.price }원</p>
-						<h5>모임위치</h5>
-						<p><strong>${ meetup.address }</strong></p>
-						<div id="map" style="width: 500px; height: 400px;"></div>
-						<input type="hidden" id="latitude" value="${ meetup.latitude }"/>
-    					<input type="hidden" id="longitude" value="${ meetup.longitude }"/>
-	
-						<div class="d-flex gap-2 align-items-stretch btn-sm">
-							<!-- 참가 취소 버튼 -->
-							<form:form action="/cancelMeeting" method="POST"
-								class="flex-grow-1">
-								<input type="hidden" name="m_id" value="${meetup.m_id }">
-								<input type="submit" value="참가 취소"	 class="btn btn-gradient w-100 h-100">
-							</form:form>
-							<!-- 추천(좋아요) 버튼 -->
-							<form:form action="/meetup/recommend.html" method="GET"
-								modelAttribute="meetup" class="d-flex">
-								<form:input type="hidden" path="m_id" value="${meetup.m_id}" />
-								<button type="submit"
-									class="btn btn-outline-primary btn-sm px-3 h-100">👍추천</button>
-							</form:form>
-						</div>
 					</div>
 				</div>
 				<c:if test="${not empty alertSuccess }">
@@ -208,8 +188,23 @@ body {
 						</div>
 					</c:forEach>
 				</div>
-				<div class="text-center mt-3">
-					<a href="/home" class="btn btn-secondary btn-sm">이전으로</a>
+				<div class="d-flex gap-2 align-items-stretch btn-sm">
+					<!-- 참가 취소 버튼 -->
+					<form:form action="/cancelMeeting" method="POST"
+						class="flex-grow-1">
+						<input type="hidden" name="m_id" value="${meetup.m_id }">
+						<input type="submit" value="참가 취소"
+							class="btn btn-gradient w-100 h-100">
+					</form:form>
+					<!-- 추천(좋아요) 버튼 -->
+					<form:form action="/meetup/recommend.html" method="GET"
+						modelAttribute="meetup" class="d-flex">
+						<form:input type="hidden" path="m_id" value="${meetup.m_id}" />
+						<button type="submit"
+							class="btn btn-outline-primary btn-sm px-3 h-100">👍추천</button>
+					</form:form>
+					<button onclick="window.location.href='/home';"
+						class="btn btn-secondary btn-sm">이전으로</button>
 				</div>
 			</div>
 		</div>

@@ -10,7 +10,8 @@
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-
+	    <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 <style>
 /* 기본 Reset & 글꼴 */
 * {
@@ -359,5 +360,9 @@ a.text-decoration-none:hover i {
 			<a href="/category/meetList?pageNo=${endPage + 1}&option=${param.option}">[다음]</a>
 		</c:if>
 	</div>
+	    	<!-- 푸터 -->
+   	<footer>
+	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
+	</footer>
 </body>
 </html>

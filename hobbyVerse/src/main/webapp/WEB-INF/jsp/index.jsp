@@ -16,6 +16,8 @@
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+    <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 <style>
 /* 기본 Reset & 글꼴 */
 * {

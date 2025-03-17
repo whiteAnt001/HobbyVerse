@@ -7,6 +7,8 @@
     <meta charset="UTF-8">
     <title>문의사항</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+        <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
         /* 그라데이션 스타일 */
@@ -77,5 +79,7 @@
             </c:if>
         </div>
     </div>
+    	<!-- 푸터 -->
+	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
 </body>
 </html>
