@@ -26,30 +26,57 @@ public class CategoryController {
 	private UserService userService;
 	@Autowired
 	private MeetingService meetingService;
-	
-	@GetMapping("/category/key")//카테고리 버튼 선택
-	public ModelAndView key(HttpSession session) {
+
+	@GetMapping("/category/meet") 
+	public ModelAndView key(HttpSession session, Integer pageNo, String option) {
 		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("loginUser");
+		User user = (User) session.getAttribute("loginUser");
+		int currentPage = 1;
+		if (pageNo != null)
+			currentPage = pageNo;
+		int start = (currentPage - 1) * 5;
+		int end = start + 6;
+		int totalCount = this.meetingService.getMaxId();
+		int pageCount = totalCount / 5;
+		
+		List<Meetup> meetList;
+		if (option == null || option.equals("korean")) {
+			meetList = meetingService.meetListKorean(pageNo);
+			mav.addObject("meetList", meetList);
+		} else if (option.equals("popular")) {
+			meetList = meetingService.meetListRecommend(pageNo);
+			mav.addObject("meetList", meetList);
+		} else if (option.equals("recent")) {
+			meetList = meetingService.meetListRegist(pageNo);
+			mav.addObject("meetList", meetList);
+		}
+
 		mav.addObject("user", user);
-		mav.setViewName("keySelect");
+		mav.addObject("start", start);
+		mav.addObject("end", end);
+		mav.addObject("total", totalCount);
+		mav.addObject("pageCount", pageCount);
+		mav.addObject("currentPage", currentPage);
+		mav.setViewName("meetList");
 		return mav;
 	}
-	
-	//스포츠 모임
-	@GetMapping("/category/moveSport")//카테고리 필터 선택
+
+	// 스포츠 모임
+	@GetMapping("/category/moveSport") // 카테고리 필터 선택
 	public ModelAndView getSport(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("loginUser");
+		User user = (User) session.getAttribute("loginUser");
 		int currentPage = 1;
-		if(pageNo != null) currentPage = pageNo;
+		if (pageNo != null)
+			currentPage = pageNo;
 		int start = (currentPage - 1) * 3;
 		int end = start + 4;
 		c_key = 1;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
 		int pageCount = totalCount / 3;
-		if(totalCount % 3 != 0) pageCount++;
+		if (totalCount % 3 != 0)
+			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
@@ -62,20 +89,22 @@ public class CategoryController {
 		return mav;
 	}
 
-	//음악 모임
-	@GetMapping("/category/moveMusic")//카테고리 필터 선택
+	// 음악 모임
+	@GetMapping("/category/moveMusic") // 카테고리 필터 선택
 	public ModelAndView getMusic(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("loginUser");
+		User user = (User) session.getAttribute("loginUser");
 		int currentPage = 1;
-		if(pageNo != null) currentPage = pageNo;
+		if (pageNo != null)
+			currentPage = pageNo;
 		int start = (currentPage - 1) * 3;
 		int end = start + 4;
 		c_key = 2;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
 		int pageCount = totalCount / 3;
-		if(totalCount % 3 != 0) pageCount++;
+		if (totalCount % 3 != 0)
+			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
@@ -90,21 +119,23 @@ public class CategoryController {
 		mav.setViewName("keyDetailMusic");
 		return mav;
 	}
-	
-	//스터디 모임
-	@GetMapping("/category/moveStudy")//카테고리 필터 선택
+
+	// 스터디 모임
+	@GetMapping("/category/moveStudy") // 카테고리 필터 선택
 	public ModelAndView getStudy(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("loginUser");
+		User user = (User) session.getAttribute("loginUser");
 		int currentPage = 1;
-		if(pageNo != null) currentPage = pageNo;
+		if (pageNo != null)
+			currentPage = pageNo;
 		int start = (currentPage - 1) * 3;
 		int end = start + 4;
 		c_key = 3;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
 		int pageCount = totalCount / 3;
-		if(totalCount % 3 != 0) pageCount++;
+		if (totalCount % 3 != 0)
+			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
@@ -116,21 +147,23 @@ public class CategoryController {
 		mav.setViewName("keyDetailStudy");
 		return mav;
 	}
-	
-	//게임 모임
-	@GetMapping("/category/moveGame")//카테고리 필터 선택
+
+	// 게임 모임
+	@GetMapping("/category/moveGame") // 카테고리 필터 선택
 	public ModelAndView getGame(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("loginUser");
+		User user = (User) session.getAttribute("loginUser");
 		int currentPage = 1;
-		if(pageNo != null) currentPage = pageNo;
+		if (pageNo != null)
+			currentPage = pageNo;
 		int start = (currentPage - 1) * 3;
 		int end = start + 4;
 		c_key = 4;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
 		int pageCount = totalCount / 3;
-		if(totalCount % 3 != 0) pageCount++;
+		if (totalCount % 3 != 0)
+			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
@@ -142,21 +175,23 @@ public class CategoryController {
 		mav.setViewName("keyDetailGame");
 		return mav;
 	}
-	
-	//여행 모임
-	@GetMapping("/category/moveTravel")//카테고리 필터 선택
+
+	// 여행 모임
+	@GetMapping("/category/moveTravel") // 카테고리 필터 선택
 	public ModelAndView getTravel(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("loginUser");
+		User user = (User) session.getAttribute("loginUser");
 		int currentPage = 1;
-		if(pageNo != null) currentPage = pageNo;
+		if (pageNo != null)
+			currentPage = pageNo;
 		int start = (currentPage - 1) * 3;
 		int end = start + 4;
 		c_key = 5;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
 		int pageCount = totalCount / 3;
-		if(totalCount % 3 != 0) pageCount++;
+		if (totalCount % 3 != 0)
+			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
@@ -168,21 +203,23 @@ public class CategoryController {
 		mav.setViewName("keyDetailTravel");
 		return mav;
 	}
-	
-	//기타 
-	@GetMapping("/category/moveEtc")//카테고리 필터 선택
+
+	// 기타
+	@GetMapping("/category/moveEtc") // 카테고리 필터 선택
 	public ModelAndView getEtc(Integer pageNo, Integer c_key, HttpSession session) {
 		ModelAndView mav = new ModelAndView();
-		User user = (User)session.getAttribute("loginUser");
+		User user = (User) session.getAttribute("loginUser");
 		int currentPage = 1;
-		if(pageNo != null) currentPage = pageNo;
+		if (pageNo != null)
+			currentPage = pageNo;
 		int start = (currentPage - 1) * 3;
 		int end = start + 4;
 		c_key = 6;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
 		int pageCount = totalCount / 3;
-		if(totalCount % 3 != 0) pageCount++;
+		if (totalCount % 3 != 0)
+			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
 		mav.addObject("keyCategory", keyCategory);
@@ -194,35 +231,36 @@ public class CategoryController {
 		mav.setViewName("keyDetailEtc");
 		return mav;
 	}
-	
-	
-    @RequestMapping("/category/search") // 모임 이름으로 모임 검색 (검색)
-    public ModelAndView searchPOST(String NAME, Integer pageNo, Integer KEY, HttpSession session) {
-    	ModelAndView mav = new ModelAndView();
-        User user = (User)session.getAttribute("loginUser");
-        int currentPage = 1;
-        if (pageNo != null) currentPage = pageNo;
+
+	@RequestMapping("/category/search") // 모임 이름으로 모임 검색 (검색)
+	public ModelAndView searchPOST(String NAME, Integer pageNo, Integer KEY, HttpSession session) {
+		ModelAndView mav = new ModelAndView();
+		User user = (User) session.getAttribute("loginUser");
+		int currentPage = 1;
+		if (pageNo != null)
+			currentPage = pageNo;
 		int start = (currentPage - 1) * 3;
 		int end = start + 4;
-		//1page : 0 < ? < 4 :123
-		//2page : 3 < ? < 7 : 456
-		
-        session.setAttribute("name", NAME);
-        KEY = (Integer)session.getAttribute("c_key");      
-        List<Meetup> keyList = this.categoryService.getKeyByName(NAME, pageNo, KEY);
-        int totalCount = this.categoryService.getKeyCountByName(NAME, KEY);
-        int pageCount = totalCount / 3;
-        if (totalCount % 3 != 0) pageCount++;
-        mav.addObject("keyList", keyList);
-        mav.addObject("user", user);
-        mav.addObject("NAME", NAME);
-        mav.addObject("KEY", KEY);
+		// 1page : 0 < ? < 4 :123
+		// 2page : 3 < ? < 7 : 456
+
+		session.setAttribute("name", NAME);
+		KEY = (Integer) session.getAttribute("c_key");
+		List<Meetup> keyList = this.categoryService.getKeyByName(NAME, pageNo, KEY);
+		int totalCount = this.categoryService.getKeyCountByName(NAME, KEY);
+		int pageCount = totalCount / 3;
+		if (totalCount % 3 != 0)
+			pageCount++;
+		mav.addObject("keyList", keyList);
+		mav.addObject("user", user);
+		mav.addObject("NAME", NAME);
+		mav.addObject("KEY", KEY);
 		mav.addObject("start", start);
 		mav.addObject("end", end);
 		mav.addObject("total", totalCount);
-        mav.addObject("pageCount", pageCount);
-        mav.addObject("currentPage", currentPage);
-        mav.setViewName("searchMeetingByName");
-        return mav;
-    }
+		mav.addObject("pageCount", pageCount);
+		mav.addObject("currentPage", currentPage);
+		mav.setViewName("searchMeetingByName");
+		return mav;
+	}
 }
