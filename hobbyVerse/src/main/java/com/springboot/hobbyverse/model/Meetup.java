@@ -51,8 +51,6 @@ public class Meetup {
 
 
     private String category_name;
-    
-    private Integer report_count;
 
     @Transient  // ✅ DB에 저장되지 않음 (파일 업로드 용도)
     private MultipartFile file;

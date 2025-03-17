@@ -53,13 +53,17 @@ body {
 
         <!-- 기능 목록 -->
         <div class="list-group">
-            <a href="/myPage/form/changePassword" class="list-group-item list-group-item-action">비밀번호 변경</a>
+            <a href="/myPage/form/changePassword" class="list-group-item list-group-item-action">내 정보 변경</a>
             <a href="/myPage/myMeetings" class="list-group-item list-group-item-action">내가 만든 모임</a>
             <a href="/myPage/joinedMeetings" class="list-group-item list-group-item-action">참여 신청한 모임</a>
             <a href="/myPage/myPosts" class="list-group-item list-group-item-action">내가 쓴 게시글</a>
             <a href="/myPage/form/deleteAccount" class="list-group-item list-group-item-action text-danger">회원 탈퇴</a>
         </div>
     </div>
-
+<script>
+    <c:if test="${not empty alertMessage}">
+        alert("${alertMessage}");
+    </c:if>
+</script>
 </body>
 </html>

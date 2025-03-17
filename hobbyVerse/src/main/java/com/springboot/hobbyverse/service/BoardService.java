@@ -1,6 +1,8 @@
 package com.springboot.hobbyverse.service;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,10 +56,11 @@ public class BoardService {
     @Transactional
     public Board saveBoard(Board board) {
         try {
-            logger.info("게시글 저장 시도: {}", board);
             board.setVersion(0L); // 초기 버전 설정
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm");
+            board.setRegDate(LocalDateTime.now());
+            board.setRegDateString(board.getRegDate().format(formatter));
             Board savedBoard = boardRepository.save(board);
-            logger.info("게시글 저장 성공: {}", savedBoard);
             return savedBoard;
         } catch (ObjectOptimisticLockingFailureException e) {
             logger.error("게시글 저장 중 충돌 발생", e);

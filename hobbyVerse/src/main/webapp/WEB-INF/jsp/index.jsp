@@ -327,6 +327,8 @@
             </div>
         </section>
     </div> <!-- // .container-fluid 끝 -->
+<!-- 부트스트랩 JS 추가 -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- 푸터 -->
     <jsp:include page="/WEB-INF/jsp/footer.jsp" />

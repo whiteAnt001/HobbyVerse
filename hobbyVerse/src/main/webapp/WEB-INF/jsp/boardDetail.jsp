@@ -212,7 +212,7 @@ textarea {
 		            </form>
 		        </c:if>
 
-		        <c:if test="${empty user or (user.email != board.email and user.role != 'ROLE_ADMIN')}">
+		        <c:if test="${empty user && user.email != board.email}">
 		            <p>${board.content}</p>
 		            		                				<!-- ✅ 게시글 이미지 표시 -->
 				<c:if test="${not empty board.imagePath}">
@@ -238,7 +238,6 @@ textarea {
 		        box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1); /* ✅ 그림자 효과 */
 		    }
 		</style>
-		<p>${board.content}</p>
         <!-- ✅ 추천 버튼 -->
         <c:if test="${not empty user}">
             <button id="recommendButton" class="btn btn-success"
@@ -411,7 +410,8 @@ textarea {
                 alert("댓글이 작성되었습니다.");
                 location.reload();
             } else {
-                alert("댓글 작성 실패: " + data.message);
+                alert("댓글이 작성되었습니다.");
+                location.reload();
             }
         })
         .catch(error => {
