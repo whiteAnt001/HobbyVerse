@@ -98,7 +98,7 @@ body {
 
 	<div class="container mt-5">
 		<h2 class="mb-4">모임 등록</h2>
-		<form:form action="/meetup/register.html" method="post" modelAttribute="meetup" enctype="multipart/form-data" id="meetupForm" onsubmit="return validatePrice()">
+		<form:form action="/meetup/register.html" method="post" modelAttribute="meetup" enctype="multipart/form-data" id="meetupForm">
 			<div class="mb-3">
 				<label for="title" class="form-label">모임 이름</label>
 				<form:input path="title" class="form-control" id="title"
@@ -164,7 +164,7 @@ body {
 			</div>
 
 			<div align="center">
-				<button type="submit" class="btn btn-primary" id="createButton">등록하기</button>
+				<button type="submit" class="btn btn-primary" id="createButton" onclick="validateForm(event)">등록하기</button>
 				<a href="/home" class="btn btn-secondary">취소</a>
 			</div>
 		</form:form>
@@ -183,16 +183,20 @@ body {
 		        }
 		   }
 	</script>
-    <script type="text/javascript">
-    function validatePrice() {
-        var price = document.getElementById("price").value;
-        if (isNaN(price) || price < 0) {
-            alert("참가비는 숫자로 입력하세요.");
+    <script>
+    function validateForm(event) {
+        // 참가비 값 가져오기
+        var price = document.getElementById('price').value;
+        
+        // 가격이 비어 있거나 숫자가 아닌 경우
+        if (price === "" || isNaN(price) || Number(price) < 0) {
+            event.preventDefault(); // 폼 제출을 막음
+            alert("참가비는 숫자여야 합니다.");
             return false;
         }
         return true;
     }
-    </script>
+</script>
 	<script type="text/javascript" src="https://dapi.kakao.com/v2/maps/sdk.js?appkey=5552d703b7f4511bcd45a4d521dda281&libraries=services"></script>
 	<script type="text/javascript">
 			    function validatePrice() {
