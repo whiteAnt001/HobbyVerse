@@ -84,7 +84,7 @@ body {
 }
 
 #map {
-    width: 550px;
+    width: 100%;
     height: 250px;
     margin-top: 10px;
 }
@@ -167,11 +167,11 @@ body {
                         <div class="d-flex justify-content-center gap-3 mt-3">
                             <form action="/meetup/modify.html">
                                 <input type="hidden" name="m_id" value="${meetup.m_id}">
-                                <input type="submit" value="수정" class="btn btn-outline-secondary">
+                                <input type="submit" value="수정" name="BTN" class="btn btn-outline-secondary">
                             </form>
                             <form action="/meetup/modify.html" onsubmit="return check();">
                                 <input type="hidden" name="m_id" value="${meetup.m_id}">
-                                <input type="submit" value="삭제" class="btn btn-outline-danger">
+                                <input type="submit" value="삭제" name="BTN" class="btn btn-outline-danger">
                             </form>
                             <a href="/home" class="btn btn-outline-secondary">이전으로</a>
                         </div>

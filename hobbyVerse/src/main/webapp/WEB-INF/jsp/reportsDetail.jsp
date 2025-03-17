@@ -66,49 +66,21 @@
             <div class="mb-3">
                 <label for="report_date" class="form-label">신고 날짜</label>
                 <input type="text" id="report_date" name="report_date" class="form-control" readonly="true" value="${report.formattedReport_date}"/>
-            </div>
-
-            <div class="center-buttons">
-                <a href="/api/admin/reports" class="btn btn-outline-secondary">이전</a>
-                <a class="btn btn-danger" onclick="reportsDelete(${report.report_id})">삭제</a>
-            </div>
+            </div>            
         </form>
+        <div class="center-buttons">
+                <a href="/api/admin/reports" class="btn btn-outline-secondary">이전</a>
+                <form action="/api/admin/reportsDelete/{report_id}" onsubmit="return check();">
+                	<input type="hidden" name="report_id" value="${report.report_id }">
+                	<input type="submit" value="삭제" name="BTN" class="btn btn-danger">
+                </form>
+            </div>
+			<script>
+	            function check() {
+	            	return confirm("정말로 삭제하시겠습니까?");
+	            }
+            </script>
     </div>
-    
-    <script type="text/javascript">
-    function reportsDelete(report_id) {
-        // 사용자에게 삭제 확인 메시지 표시
-        if (confirm('정말로 내역을 삭제하시겠습니까?')) {
-            // 확인 버튼을 클릭하면 DELETE 요청 실행
-            const url = `/api/admin/reportsDelete/${report_id}`;
-
-            fetch(url, {
-                method: 'DELETE',  // DELETE 메서드로 요청
-            })
-            .then(response => {
-                if (response.ok) {
-                    return response.json();
-                } else {
-                    throw new Error('Failed to delete user. Status code: ' + response.status);
-                }
-            })
-            .then(data => {
-                console.log("Response:", data);
-                if (data.message === '신고 내역을 성공적으로 삭제했습니다.') {
-                    alert('신고 내역을 성공적으로 삭제했습니다.');
-                    window.location.href = '/api/admin/reports'; 
-                } else {
-                    alert('Error: ' + data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('Failed to delete user: ' + error.message);
-            });
-        }
-    }
-</script>
-    
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

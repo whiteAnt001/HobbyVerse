@@ -376,16 +376,17 @@ public class AdminController {
 	}
 
 	// 신고된 모임 삭제
-	@DeleteMapping("/reportsDelete/{report_id}")
-	public ResponseEntity<Map<String, String>> reportsDelete(@PathVariable Integer report_id) {
-		Map<String, String> response = new HashMap<>();
-		this.reportService.deleteReports(report_id);
-		if (report_id == null) {
-			response.put("message", "모임을 찾을 수 없습니다.");
-			return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+	@GetMapping("/reportsDelete/{report_id}")
+	public ModelAndView reportsDelete(Integer report_id, String BTN) {
+		ModelAndView mav = new ModelAndView();
+		Report report = this.reportService.getReportDetail(report_id);
+		if("삭제".equals(BTN)) {
+			this.reportService.deleteReports(report_id);
+			mav.setViewName("deleteReportDone");
+			mav.addObject("report", report);
+			mav.addObject("BTN", "삭제");
 		}
-		response.put("message", "모임을 성공적으로 삭제했습니다.");
-		return ResponseEntity.status(HttpStatus.OK).body(response);
+		return mav;
 	}
 
 	@GetMapping("/reportsSearch")
