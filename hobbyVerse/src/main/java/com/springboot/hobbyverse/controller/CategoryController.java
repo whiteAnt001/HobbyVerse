@@ -29,16 +29,18 @@ public class CategoryController {
 
 	// 리스트 형식
 	@GetMapping("/category/meetList")
-	public ModelAndView meetList(HttpSession session, Integer pageNo, String option, String design) {
+	public ModelAndView meetList(HttpSession session, Integer pageNo, Integer start, Integer end, String option, String design) {
 		ModelAndView mav = new ModelAndView();
 		User user = (User) session.getAttribute("loginUser");
 		int currentPage = 1;
 		if (pageNo != null)
 			currentPage = pageNo;
-		int start = (currentPage - 1) * 6;
-		int end = start + 7;
+		start = (currentPage - 1) * 10;
+		end = start + 11;
 		int totalCount = this.meetingService.getMaxId();
-		int pageCount = totalCount / 6;
+		int pageCount = totalCount / 10;
+		if (totalCount % 10 != 0)
+			pageCount++;
 
 		if (option == null) {
 			option = "korean";
@@ -47,16 +49,16 @@ public class CategoryController {
 		// 정렬 기준 선택
 		List<Meetup> meetListOption;
 		if (option == null || option.equals("korean")) {
-			meetListOption = meetingService.meetListKorean(pageNo);
+			meetListOption = meetingService.meetListKorean(start, end);
 			mav.addObject("meetListOption", meetListOption);
 		} else if (option.equals("popular")) {
-			meetListOption = meetingService.meetListRecommend(pageNo);
+			meetListOption = meetingService.meetListRecommend(start, end);
 			mav.addObject("meetListOption", meetListOption);
 		} else if (option.equals("recent")) {
-			meetListOption = meetingService.meetListRegist(pageNo);
+			meetListOption = meetingService.meetListRegist(start, end);
 			mav.addObject("meetListOption", meetListOption);
 		} else {
-			meetListOption = meetingService.meetListKorean(pageNo);
+			meetListOption = meetingService.meetListKorean(start, end);
 			mav.addObject("meetListOption", meetListOption);
 		}
 
@@ -72,16 +74,18 @@ public class CategoryController {
 
 	// 그리드 형식
 	@GetMapping("/category/meetGrid")
-	public ModelAndView meetGrid(HttpSession session, Integer pageNo, String option, String design) {
+	public ModelAndView meetGrid(HttpSession session, Integer pageNo, Integer start, Integer end, String option, String design) {
 		ModelAndView mav = new ModelAndView();
 		User user = (User) session.getAttribute("loginUser");
 		int currentPage = 1;
 		if (pageNo != null)
 			currentPage = pageNo;
-		int start = (currentPage - 1) * 6;
-		int end = start + 7;
+		start = (currentPage - 1) * 16;
+		end = start + 17;
 		int totalCount = this.meetingService.getMaxId();
-		int pageCount = totalCount / 6;
+		int pageCount = totalCount / 16;
+		if (totalCount % 16 != 0)
+			pageCount++;
 
 		if (option == null) {
 			option = "korean";
@@ -90,16 +94,16 @@ public class CategoryController {
 		// 정렬 기준 선택
 		List<Meetup> meetListOption;
 		if (option.equals("korean")) {
-			meetListOption = meetingService.meetListKorean(pageNo);
+			meetListOption = meetingService.meetListKorean(start, end);
 			mav.addObject("meetListOption", meetListOption);
 		} else if (option.equals("popular")) {
-			meetListOption = meetingService.meetListRecommend(pageNo);
+			meetListOption = meetingService.meetListRecommend(start, end);
 			mav.addObject("meetListOption", meetListOption);
 		} else if (option.equals("recent")) {
-			meetListOption = meetingService.meetListRegist(pageNo);
+			meetListOption = meetingService.meetListRegist(start, end);
 			mav.addObject("meetListOption", meetListOption);
 		} else {
-			meetListOption = meetingService.meetListKorean(pageNo);
+			meetListOption = meetingService.meetListKorean(start, end);
 			mav.addObject("meetListOption", meetListOption);
 		}
 

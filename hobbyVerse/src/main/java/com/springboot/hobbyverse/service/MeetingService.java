@@ -195,35 +195,16 @@ public class MeetingService {
 		return meetingMapper.getLongitudeByMeetingId(mId);
 	}
 
-	public List<Meetup> meetListKorean(Integer pageNo) {
-		if (pageNo == null)
-			pageNo = 1;
-		int start = (pageNo - 1) * 6;
-		int end = start + 7;
-		StartEnd se = new StartEnd();
-		se.setStart(start);
-		se.setEnd(end);
-		return meetingMapper.meetListKorean(se);
+	public List<Meetup> meetListKorean(Integer start, Integer end) {
+		return meetingMapper.meetListKorean(start, end);
 	}
 	
-	public List<Meetup> meetListRegist(Integer pageNo) {
-		if (pageNo == null) pageNo = 1;
-		int start = (pageNo - 1) * 6;
-		int end = start + 7;
-		StartEnd se = new StartEnd();
-		se.setStart(start);
-		se.setEnd(end);
-		return meetingMapper.meetListRegist(se);
+	public List<Meetup> meetListRegist(Integer start, Integer end) {
+		return meetingMapper.meetListRegist(start, end);
 	}
 	
-	public List<Meetup> meetListRecommend(Integer pageNo) {
-		if (pageNo == null) pageNo = 1;
-		int start = (pageNo - 1) * 6;
-		int end = start + 7;
-		StartEnd se = new StartEnd();
-		se.setStart(start);
-		se.setEnd(end);
-		return meetingMapper.meetListRecommend(se);
+	public List<Meetup> meetListRecommend(Integer start, Integer end) {
+		return meetingMapper.meetListRecommend(start, end);
 	}
 
 }

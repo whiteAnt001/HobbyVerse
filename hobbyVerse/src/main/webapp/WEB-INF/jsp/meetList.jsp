@@ -228,6 +228,12 @@ a.text-decoration-none:hover i {
 	background-size: contain;
 	background-repeat: no-repeat;
 }
+.list-item {
+    background-color: #fff;  /* 순백색 */
+    padding: 15px;
+    margin-bottom: 10px;
+    border: 1px solid #ddd;  /* 테두리 추가 */
+}
 
 .icon-grid {
 	background-image: url('https://img.icons8.com/ios/50/000000/grid.png');
@@ -282,7 +288,7 @@ a.text-decoration-none:hover i {
 									test="${param.option == 'korean' || param.option == null}">가나다 순</c:when>
 								<c:when test="${param.option == 'popular'}">인기 순</c:when>
 								<c:when test="${param.option == 'recent'}">최근 순</c:when>
-								<c:otherwise>정렬 기준 선택</c:otherwise>
+								<c:otherwise>가나다 순</c:otherwise>
 							</c:choose>
 						</button>
 						<ul class="dropdown-menu option-dropdown-menu"
