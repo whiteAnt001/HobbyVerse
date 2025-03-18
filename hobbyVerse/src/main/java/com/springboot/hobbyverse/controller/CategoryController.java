@@ -125,13 +125,13 @@ public class CategoryController {
 		int currentPage = 1;
 		if (pageNo != null)
 			currentPage = pageNo;
-		int start = (currentPage - 1) * 3;
-		int end = start + 4;
+		int start = (currentPage - 1) * 9;
+		int end = start + 10;
 		c_key = 1;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
-		int pageCount = totalCount / 3;
-		if (totalCount % 3 != 0)
+		int pageCount = totalCount / 9;
+		if (totalCount % 9 != 0)
 			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
@@ -153,13 +153,13 @@ public class CategoryController {
 		int currentPage = 1;
 		if (pageNo != null)
 			currentPage = pageNo;
-		int start = (currentPage - 1) * 3;
-		int end = start + 4;
+		int start = (currentPage - 1) * 9;
+		int end = start + 10;
 		c_key = 2;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
-		int pageCount = totalCount / 3;
-		if (totalCount % 3 != 0)
+		int pageCount = totalCount / 9;
+		if (totalCount % 9 != 0)
 			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
@@ -184,13 +184,13 @@ public class CategoryController {
 		int currentPage = 1;
 		if (pageNo != null)
 			currentPage = pageNo;
-		int start = (currentPage - 1) * 3;
-		int end = start + 4;
+		int start = (currentPage - 1) * 9;
+		int end = start + 10;
 		c_key = 3;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
-		int pageCount = totalCount / 3;
-		if (totalCount % 3 != 0)
+		int pageCount = totalCount / 9;
+		if (totalCount % 9 != 0)
 			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
@@ -212,13 +212,13 @@ public class CategoryController {
 		int currentPage = 1;
 		if (pageNo != null)
 			currentPage = pageNo;
-		int start = (currentPage - 1) * 3;
-		int end = start + 4;
+		int start = (currentPage - 1) * 9;
+		int end = start + 10;
 		c_key = 4;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
-		int pageCount = totalCount / 3;
-		if (totalCount % 3 != 0)
+		int pageCount = totalCount / 9;
+		if (totalCount % 9 != 0)
 			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
@@ -240,13 +240,13 @@ public class CategoryController {
 		int currentPage = 1;
 		if (pageNo != null)
 			currentPage = pageNo;
-		int start = (currentPage - 1) * 3;
-		int end = start + 4;
+		int start = (currentPage - 1) * 9;
+		int end = start + 10;
 		c_key = 5;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
-		int pageCount = totalCount / 3;
-		if (totalCount % 3 != 0)
+		int pageCount = totalCount / 9;
+		if (totalCount % 9 != 0)
 			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
@@ -268,13 +268,13 @@ public class CategoryController {
 		int currentPage = 1;
 		if (pageNo != null)
 			currentPage = pageNo;
-		int start = (currentPage - 1) * 3;
-		int end = start + 4;
+		int start = (currentPage - 1) * 9;
+		int end = start + 10;
 		c_key = 6;
 		List<Meetup> keyCategory = this.categoryService.getMeet(pageNo, c_key);
 		int totalCount = this.categoryService.getMeetCount(c_key);
-		int pageCount = totalCount / 3;
-		if (totalCount % 3 != 0)
+		int pageCount = totalCount / 9;
+		if (totalCount % 9 != 0)
 			pageCount++;
 		session.setAttribute("c_key", c_key);
 		mav.addObject("user", user);
@@ -295,8 +295,8 @@ public class CategoryController {
 		int currentPage = 1;
 		if (pageNo != null)
 			currentPage = pageNo;
-		int start = (currentPage - 1) * 3;
-		int end = start + 4;
+		int start = (currentPage - 1) * 9;
+		int end = start + 10;
 		// 1page : 0 < ? < 4 :123
 		// 2page : 3 < ? < 7 : 456
 
@@ -304,8 +304,8 @@ public class CategoryController {
 		KEY = (Integer) session.getAttribute("c_key");
 		List<Meetup> keyList = this.categoryService.getKeyByName(NAME, pageNo, KEY);
 		int totalCount = this.categoryService.getKeyCountByName(NAME, KEY);
-		int pageCount = totalCount / 3;
-		if (totalCount % 3 != 0)
+		int pageCount = totalCount / 9;
+		if (totalCount % 9 != 0)
 			pageCount++;
 		mav.addObject("keyList", keyList);
 		mav.addObject("user", user);
@@ -316,6 +316,7 @@ public class CategoryController {
 		mav.addObject("total", totalCount);
 		mav.addObject("pageCount", pageCount);
 		mav.addObject("currentPage", currentPage);
+		
 		mav.setViewName("searchMeetingByName");
 		return mav;
 	}
