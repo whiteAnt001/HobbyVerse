@@ -153,7 +153,7 @@ body {
 						style="width: 300px; z-index: 1000;"></ul>
 
 					<!-- 지도 표시 영역 -->
-					<div id="map" style="width: 500px; height: 400px; margin-top: 10px;"></div>
+					<div id="map" style="width: 800px; height: 400px; margin-top: 10px;"></div>
 
 					<!-- 위도, 경도, 주소를 저장하는 숨겨진 입력 필드 -->
 					<input type="hidden" id="latitude" name="latitude"> 

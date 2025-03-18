@@ -9,11 +9,16 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <style>
-/* 전체 배경 */
-body {
-	background: #f4f4f4;
-	color: #333;
-	min-height: 100vh;
+    html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1; /* 컨텐츠가 차지하는 공간을 유동적으로 설정 */
 }
 
 /* 네비게이션 바 */

@@ -307,7 +307,7 @@ public class MeetingController {
 			mav.addObject("BTN", "수정");
 		} else if ("삭제".equals(BTN)) {
 			// 삭제 버튼 클릭 시 삭제 확인 페이지(modifyDone.jsp)로 이동
-			// this.meetingService.deleteById(m_id);
+			this.meetingService.deleteById(m_id);
 			mav.setViewName("deleteGroupDone");
 			mav.addObject("meetup", meetup);
 			mav.addObject("BTN", "삭제");

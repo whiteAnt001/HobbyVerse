@@ -179,7 +179,8 @@ textarea {
 
         <!-- ✅ 게시글 수정 / 삭제 (로그인한 사용자의 이메일이 게시글 이메일과 같을 때만 가능 / 관리자 권한을 가진 사람도 가능) -->
 		<!-- ✅ 게시글 내용 -->
-		        <c:if test="${not empty user and user.email == board.email || user.role == 'ROLE_ADMIN'}">
+		        <c:if test="${not empty user and user.email == board.email}">
+		        	<sec:authorize access="hasRole('ADMIN')">
 		            <form action="/boards/${board.seq}/update" method="post" enctype="multipart/form-data">
 		                <div class="mb-3">
 		                    <label class="form-label"><strong>제목:</strong></label>
@@ -210,8 +211,8 @@ textarea {
 		                  onsubmit="return confirm('정말 삭제하시겠습니까?');">
 		                <button type="submit" class="btn btn-danger">삭제</button>
 		            </form>
+		            </sec:authorize>
 		        </c:if>
-
 		        <c:if test="${empty user || user.email != board.email}">
 		            <p>${board.content}</p>
 		            		                				<!-- ✅ 게시글 이미지 표시 -->
@@ -239,13 +240,13 @@ textarea {
 		    }
 		</style>
         <!-- ✅ 추천 버튼 -->
-        <c:if test="${not empty user}">
+        <sec:authorize access="isAuthenticated()">
             <button id="recommendButton" class="btn btn-success"
                     onclick="recommendPost(${board.seq})"
                     <c:if test="${not empty recommendedToday and recommendedToday}">disabled</c:if> >
                 추천 👍
             </button>
-        </c:if>
+        </sec:authorize>
 
         <!-- ✅ 추천 결과 메시지 -->
         <c:if test="${not empty errorMessage}">
@@ -254,16 +255,16 @@ textarea {
 
         <hr>
         <!-- 댓글 달기 -->
-        <c:if test="${not empty user}">
          <form id="commentForm">
              <input type="hidden" id="boardId" value="${board.seq}"/>
              <input type="hidden" id="userName" value="${user.name}"/>
              <input type="hidden" id="userEmail" value="${user.email}"/>
              <input type="hidden" id="userId" value="${user.userId}"/>
-             <textarea id="content" class="form-control" rows="3"></textarea>
+             <textarea id="content" class="form-control" rows="3"></textarea>     
+        <sec:authorize access="isAuthenticated()">
              <button type="button" id="writebutton" class="btn btn-primary" onclick="submitComment()">댓글 작성</button>
+      	</sec:authorize>
          </form>
-      </c:if>
         <hr>
    </div>
        <!-- 댓글 목록 표시 -->
