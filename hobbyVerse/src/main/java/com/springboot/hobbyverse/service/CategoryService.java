@@ -20,8 +20,8 @@ public class CategoryService {
 	//검색 페이지 처리
 	public List<Meetup> getKeyByName(String title, Integer pageNo, Integer key) {
 		if(pageNo == null) pageNo = 1;
-		int start = (pageNo - 1) * 3;
-		int end = ((pageNo - 1) * 3) + 4;
+		int start = (pageNo - 1) * 9;
+		int end = ((pageNo - 1) * 9) + 10;
 		StartEnd se = new StartEnd();
 		se.setStart(start);
 		se.setEnd(end);
@@ -41,8 +41,8 @@ public class CategoryService {
 	//카테고리 별 모임 페이지 처리
 	public List<Meetup> getMeet(Integer pageNo, Integer c_key) {
 		if(pageNo == null) pageNo = 1;
-		int start = (pageNo - 1) * 3;
-		int end = ((pageNo - 1) * 3) + 4;
+		int start = (pageNo - 1) * 9;
+		int end = ((pageNo - 1) * 9) + 10;
 		StartEnd se = new StartEnd();
 		se.setStart(start);
 		se.setEnd(end);

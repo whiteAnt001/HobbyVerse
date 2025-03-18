@@ -12,7 +12,7 @@
 <style>
 /* 전체 배경 */
 body {
-	background: #f4f4f4;
+	background: #ffffff;
 	color: #333;
 	min-height: 100vh;
 }
@@ -77,10 +77,42 @@ body {
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.section-header {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.section-body {
+	font-size: 1.0rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.card-title {
+	font-size: 1.1rem;
+	font-weight: bold;
+	color: #333;
+}
+
+.card-text {
+	font-size: 0.75rem;
+	color: #555;
+}
+
 .image {
 	margin-left: -10px;
 }
 
+.no-results-message {
+	font-size: 1.1rem;
+	font-weight: bold;
+	color: #333;
+	text-align: center;
+	padding: 20px;
+}
 /* 애니메이션 효과 */
 keyframes fadeIn {from { opacity:0;
 	transform: translateY(-20px);
@@ -97,91 +129,95 @@ to {
 	<jsp:include page="/WEB-INF/jsp/navbar.jsp" />
 
 	<!-- 카테고리 헤더 -->
-	<div class="category-header">
+	<div class="p-4 border rounded shadow-sm">
 		<c:choose>
 			<c:when test="${KEY == 1 }">
-				<h1>🏀 스포츠 모임</h1>
-				<p>다양한 스포츠를 즐기고 함께 운동할 사람들을 찾아보세요!</p>
+				<h3 class="section-header text-center">🏀 스포츠 모임</h3>
+				<h6 class="section-body text-center">다양한 스포츠를 즐기고 함께 운동할 사람들을
+					찾아보세요!</h6>
 			</c:when>
 			<c:when test="${KEY == 2 }">
-				<h1>🎵 음악 모임</h1>
-				<p>다양한 악기를 연주하고 함께 즐길 사람들을 찾아보세요!</p>
+				<h3 class="section-header text-center">🎵 음악 모임</h3>
+				<h6 class="section-body text-center">다양한 악기를 연주하고 함께 즐길 사람들을
+					찾아보세요!</h6>
 			</c:when>
 			<c:when test="${KEY == 3 }">
-				<h1>📚 스터디 모임</h1>
-				<p>함께 열심히 자격증이나 개인 공부합시다. 독서도 환영!</p>
+				<h3 class="section-header text-center">📚 스터디 모임</h3>
+				<h6 class="section-body text-center">함께 열심히 자격증이나 개인 공부합시다. 독서도
+					환영!</h6>
 			</c:when>
 			<c:when test="${KEY == 4 }">
-				<h1>🎮 게임 모임</h1>
-				<p>다양한 게임을 즐기고 함께 놀 사람을 찾아보세요!</p>
+				<h3 class="section-header text-center">🎮 게임 모임</h3>
+				<h6 class="section-body text-center">다양한 게임을 즐기고 함께 놀 사람을
+					찾아보세요!</h6>
 			</c:when>
 			<c:when test="${KEY == 5 }">
-				<h1>✈️ 여행 모임</h1>
-				<p>여럿이 여행을 떠나요!</p>
+				<h3 class="section-header text-center">✈️ 여행 모임</h3>
+				<h6 class="section-body text-center">여럿이 여행을 떠나요!</h6>
 			</c:when>
 			<c:when test="${KEY == 6 }">
-				<h1>🍳 기타</h1>
-				<p>그 외 기타 모임!</p>
+				<h3 class="section-header text-center">🍳 기타</h3>
+				<h6 class="section-body text-center">그 외 기타 모임!</h6>
 			</c:when>
 		</c:choose>
-	</div>
 
-	<div>
 		<!-- 필터 & 정렬 -->
 		<div class="container mt-4">
 			<div class="row">
 				<div class="col-md-8 mx-auto">
 					<form action="/category/search" method="post" class="input-group">
 						<input type="text" class="form-control" name="NAME"
-							value="${NAME }" placeholder="검색어를 입력하세요..." /> 
-							<input type="hidden" name="KEY" value="${KEY }" />
+							value="${NAME }" placeholder="검색어를 입력하세요..." /> <input
+							type="hidden" name="KEY" value="${KEY }" />
 						<button type="submit" class="btn gradient-btn">검색</button>
 					</form>
 				</div>
 			</div>
 		</div>
 
-		<c:if test="${not empty alertSuccess }">
-			<script type="text/javascript">
-				alert("${alertSuccess}");
-			</script>
-		</c:if>
-
 		<div class="container mt-4">
 			<div class="row">
+				<c:if test="${not empty keyCategory}">
+					<!-- 모임 카드 출력 -->
+					<c:forEach var="key" items="${keyCategory }">
+						<div class="col-md-4 mb-4">
+							<div class="meeting-card"
+								style="display: flex; justify-content: space-between; align-items: center;">
+								<div class="p-3" style="flex: 1; padding-right: 10px;">
+									<!-- 모임 이름 -->
+									<h5 class="card-title">${key.title}</h5>
 
-				<c:forEach var="key" items="${keyList}">
-					<div class="col-md-4 mb-4">
+									<!-- 작성일 -->
+									<p class="card-text">일정: ${key.m_date}</p>
+									<!-- 모임 장소 -->
+									<p class="card-text">위치: ${key.address}</p>
+									<!-- 추천(좋아요) -->
+									<p class="card-text">❤️${key.recommend }</p>
+									<!-- 자세히보기 버튼 -->
+									<a href="/meetup/detailCategory.html?id=${key.m_id}"
+										class="btn btn-primary btn-sm">자세히보기</a>
+								</div>
 
-						<div class="meeting-card">
-
-							<div class="p-3">
-
-								<!-- <th>모임 아이디</th> -->
-								${key.m_id }
-
-								<!-- <th>모임 이름</th> -->
-								<h5 class="card-title">${key.title }</h5>
-
-								<!-- <th>작성일</th> -->
-								<p class="card-text">날짜: ${key.m_date }</p>
-
-								<a href="/meetup/detail.html?id=${key.m_id }"
-									class="btn btn-primary">자세히보기</a>
+								<!-- 이미지 오른쪽 정렬 -->
+								<div style="width: 150px; height: 150px; position: relative;">
+									<img
+										src="${pageContext.request.contextPath}/upload/${key.imagename}"
+										alt="" class="image" />
+								</div>
 							</div>
-
-						<!-- 이미지 오른쪽 정렬 -->
-						<div style="width: 150px; height: 150px; position: relative;">
-							<img src="${pageContext.request.contextPath}/upload/${key.imagename}" alt="" class="image" />
 						</div>
+					</c:forEach>
+				</c:if>
 
-						</div>
-
+				<!-- 검색된 모임이 없을 때 -->
+				<c:if test="${empty keyCategory}">
+					<div class="col-12 text-center no-results-message">
+						<h5>검색된 모임이 없습니다.</h5>
 					</div>
-				</c:forEach>
-
+				</c:if>
 			</div>
 		</div>
+
 	</div>
 
 	<div align="center">

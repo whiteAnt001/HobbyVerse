@@ -9,6 +9,11 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <style>
+/* 전체 배경 */
+body {
+	background: #ffffff;
+	color: #333;
+	min-height: 100vh;
     html, body {
     height: 100%;
     margin: 0;
@@ -36,7 +41,6 @@
 	animation: fadeIn 1s ease-in-out;
 }
 
-/* 모임 카드 */
 .meeting-card {
 	background: white;
 	border-radius: 10px;
@@ -82,6 +86,31 @@
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.section-header {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.section-body {
+	font-size: 1.0rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.card-title {
+	font-size: 1.1rem;
+	font-weight: bold;
+	color: #333;
+}
+
+.card-text {
+	font-size: 0.75rem;
+	color: #555;
+}
+
 .image {
 	margin-left: -10px;
 }
@@ -95,6 +124,7 @@ to {
 	opacity: 1;
 	transform: translateY(0);
 }
+}
 </style>
 </head>
 <body>
@@ -103,10 +133,9 @@ to {
 	<jsp:include page="/WEB-INF/jsp/navbar.jsp" />
 
 	<!-- 카테고리 헤더 -->
-	<div class="category-header">
-		<h1>🍳 기타</h1>
-		<p>그 외 기타 모임!</p>
-	</div>
+	<div class="p-4 border rounded shadow-sm">
+		<h3 class="section-header text-center">🍳 기타</h3>
+		<h6 class="section-body text-center">그 외 기타 모임!</h6>
 
 	<!-- 필터 & 정렬 -->
 	<div class="container mt-4">
@@ -135,10 +164,13 @@ to {
 
 							<!-- 작성일 -->
 							<p class="card-text">일정: ${key.m_date}</p>
-
+							<!-- 모임 장소 -->
+							<p class="card-text">위치: ${key.address}</p>
+							<!-- 추천(좋아요) -->
+							<p class="card-text">❤️${key.recommend }</p>
 							<!-- 자세히보기 버튼 -->
 							<a href="/meetup/detailCategory.html?id=${key.m_id}"
-								class="btn btn-primary">자세히보기</a>
+								class="btn btn-primary btn-sm">자세히보기</a>
 						</div>
 
 						<!-- 이미지 오른쪽 정렬 -->
@@ -151,6 +183,7 @@ to {
 				</div>
 			</c:forEach>
 		</div>
+	</div>
 	</div>
 
 	<div align="center">
@@ -186,9 +219,9 @@ to {
 	<!-- Bootstrap JS -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-		    	<!-- 푸터 -->
-   	<footer>
-	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
+	<!-- 푸터 -->
+	<footer>
+		<jsp:include page="/WEB-INF/jsp/footer.jsp" />
 	</footer>
 </body>
 

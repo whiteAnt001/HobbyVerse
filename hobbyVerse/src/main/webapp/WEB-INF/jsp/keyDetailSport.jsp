@@ -10,6 +10,11 @@
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
 <style>
+/* 전체 배경 */
+body {
+	background: #ffffff;
+	color: #333;
+	min-height: 100vh;
     html, body {
     height: 100%;
     margin: 0;
@@ -49,7 +54,6 @@
 	height: 200px; /* 고정된 높이 */
 }
 
-
 .meeting-card:hover {
 	transform: scale(1.05);
 }
@@ -83,12 +87,36 @@
 	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
+.section-header {
+	font-size: 1.5rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.section-body {
+	font-size: 1.0rem;
+	font-weight: bold;
+	margin-bottom: 20px;
+	color: #333;
+}
+
+.card-title {
+	font-size: 1.1rem;
+	font-weight: bold;
+	color: #333;
+}
+
+.card-text {
+	font-size: 0.75rem;
+	color: #555;
+}
+
 .image {
 	margin-left: -10px;
 }
 
 /* 애니메이션 효과 */
-
 keyframes fadeIn {from { opacity:0;
 	transform: translateY(-20px);
 }
@@ -107,53 +135,56 @@ to {
 	<jsp:include page="/WEB-INF/jsp/navbar.jsp" />
 
 	<!-- 카테고리 헤더 -->
-	<div class="category-header">
-		<h1>🏀 스포츠 모임</h1>
-		<p>다양한 스포츠를 즐기고 함께 운동할 사람들을 찾아보세요!</p>
-	</div>
-
-	<!-- 필터 & 정렬 -->
-	<div class="container mt-4">
-		<div class="row">
-			<div class="col-md-8 mx-auto">
-				<form action="/category/search" method="post" class="input-group">
-					<input type="text" class="form-control" name="NAME"
-						placeholder="검색어를 입력하세요..." /> <input type="hidden" name="KEY"
-						value="${KEY }" />
-					<button type="submit" class="btn gradient-btn">검색</button>
-				</form>
+	<div class="p-4 border rounded shadow-sm">
+		<h3 class="section-header text-center">🏀 스포츠 모임</h3>
+		<h6 class="section-body text-center">다양한 스포츠를 즐기고 함께 운동할 사람들을
+			찾아보세요!</h6>
+		<!-- 필터 & 정렬 -->
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-8 mx-auto">
+					<form action="/category/search" method="post" class="input-group">
+						<input type="text" class="form-control" name="NAME"
+							placeholder="검색어를 입력하세요..." /> <input type="hidden" name="KEY"
+							value="${KEY }" />
+						<button type="submit" class="btn gradient-btn">검색</button>
+					</form>
+				</div>
 			</div>
 		</div>
-	</div>
 
-	<!-- 모임 목록 -->
-	<div class="container mt-4">
-		<div class="row">
-			<c:forEach var="key" items="${keyCategory }">
-				<div class="col-md-4 mb-4">
-					<div class="meeting-card"
-						style="display: flex; justify-content: space-between; align-items: center;">
-						<div class="p-3" style="flex: 1; padding-right: 10px;">
-							<!-- 모임 이름 -->
-							<h5 class="card-title">${key.title}</h5>
+		<!-- 모임 목록 -->
+		<div class="container mt-4">
+			<div class="row">
+				<c:forEach var="key" items="${keyCategory }">
+					<div class="col-md-4 mb-4">
+						<div class="meeting-card"
+							style="display: flex; justify-content: space-between; align-items: center;">
+							<div class="p-3" style="flex: 1; padding-right: 10px;">
+								<!-- 모임 이름 -->
+								<h5 class="card-title">${key.title}</h5>
 
-							<!-- 작성일 -->
-							<p class="card-text">일정: ${key.m_date}</p>
+								<!-- 작성일 -->
+								<p class="card-text">일정: ${key.m_date}</p>
+								<!-- 모임 장소 -->
+								<p class="card-text">위치: ${key.address}</p>
+								<!-- 추천(좋아요) -->
+								<p class="card-text">❤️${key.recommend }</p>
+								<!-- 자세히보기 버튼 -->
+								<a href="/meetup/detailCategory.html?id=${key.m_id}"
+									class="btn btn-primary btn-sm">자세히보기</a>
+							</div>
 
-							<!-- 자세히보기 버튼 -->
-							<a href="/meetup/detailCategory.html?id=${key.m_id}"
-								class="btn btn-primary">자세히보기</a>
-						</div>
-
-						<!-- 이미지 오른쪽 정렬 -->
-						<div style="width: 150px; height: 150px; position: relative;">
-							<img
-								src="${pageContext.request.contextPath}/upload/${key.imagename}"
-								alt="" class="image" />
+							<!-- 이미지 오른쪽 정렬 -->
+							<div style="width: 150px; height: 150px; position: relative;">
+								<img
+									src="${pageContext.request.contextPath}/upload/${key.imagename}"
+									alt="" class="image" />
+							</div>
 						</div>
 					</div>
-				</div>
-			</c:forEach>
+				</c:forEach>
+			</div>
 		</div>
 	</div>
 
@@ -190,9 +221,9 @@ to {
 	<!-- Bootstrap JS -->
 	<script
 		src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-		    	<!-- 푸터 -->
-   	<footer>
-	<jsp:include page="/WEB-INF/jsp/footer.jsp" />
+	<!-- 푸터 -->
+	<footer>
+		<jsp:include page="/WEB-INF/jsp/footer.jsp" />
 	</footer>
 </body>
 
