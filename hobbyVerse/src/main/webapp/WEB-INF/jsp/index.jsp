@@ -26,11 +26,25 @@
 	box-sizing: border-box;
 }
 
-body {
-	background-color: #f8f9fa;
-	font-family: Arial, sans-serif;
-	margin: 0;
-	padding: 0;
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.container {
+    flex: 1; /* 컨텐츠가 차지하는 공간을 유동적으로 설정 */
+}
+
+footer {
+    background-color: #212529;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+    margin-top: auto; /* footer가 항상 하단에 위치하도록 설정 */
 }
 
 .full-container {

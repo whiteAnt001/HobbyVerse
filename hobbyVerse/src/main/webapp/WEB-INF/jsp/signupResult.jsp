@@ -27,21 +27,19 @@
             opacity: 0;
             animation: slideUp 1s forwards 0.5s;
         }
-
-        .btn-gradient {
-            background: linear-gradient(135deg, #6a11cb, #2575fc);
-            border: none;
-            color: white;
-            padding: 10px 15px;
-            border-radius: 5px;
-            width: 100%;
-            cursor: pointer;
-            font-size: 1.2rem;
-        }
-
-        .btn-gradient:hover {
-            background: linear-gradient(135deg, #2575fc, #6a11cb);
-        }
+		.btn-gradient {
+    		background: linear-gradient(135deg, #6a11cb, #2575fc);
+    		border: none;
+    		color: white;
+    		padding: 10px 15px;
+    		border-radius: 5px;
+    		width: 100%;
+    		cursor: pointer;
+    		font-size: 1.2rem;
+    		text-decoration: none;
+    		display: inline-block;
+    		text-align: center; 
+		}
 
         @keyframes slideUp {
             from {

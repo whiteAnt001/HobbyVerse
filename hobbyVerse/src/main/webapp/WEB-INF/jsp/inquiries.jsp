@@ -11,6 +11,30 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     <style>
+    html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+}
+/* 호버(마우스 올릴 때) 시에도 밑줄 제거 */
+.navbar a:hover {
+    text-decoration: none !important;
+}
+
+.container {
+    flex: 1; /* 컨텐츠가 차지하는 공간을 유동적으로 설정 */
+}
+
+footer {
+    background-color: #212529;
+    color: white;
+    padding: 20px 0;
+    text-align: center;
+    width: 100%;
+    margin-top: auto; /* footer가 항상 하단에 위치하도록 설정 */
+}
         /* 그라데이션 스타일 */
         .gradient-bg {
             background: linear-gradient(135deg, #6a11cb, #2575fc);

@@ -15,8 +15,17 @@ body {
 	background: #ffffff;
 	color: #333;
 	min-height: 100vh;
+    html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
 }
 
+.container {
+    flex: 1; /* 컨텐츠가 차지하는 공간을 유동적으로 설정 */
+}
 /* 네비게이션 바 */
 .gradient-bg {
 	background: linear-gradient(135deg, #6a11cb, #2575fc);
