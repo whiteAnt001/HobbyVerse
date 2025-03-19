@@ -40,8 +40,6 @@ public class AdminSearchService {
 			pageNo = 1;
 		int start = (pageNo - 1) * 6;
 		int end = ((pageNo - 1) * 6) + 7;
-		System.out.println("start:" + start);
-		System.out.println("end:" + end);
 		StartEnd se = new StartEnd();
 		se.setStart(start);
 		se.setEnd(end);

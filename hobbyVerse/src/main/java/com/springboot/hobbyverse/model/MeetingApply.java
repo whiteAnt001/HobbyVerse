@@ -31,7 +31,7 @@ public class MeetingApply {
 	//@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Id   
 	private Long apply_id;//참가신청 순서
-	private Long id; //계정
+	private Long id; //계정 (참가자)
 	private String name; //닉네임
 	private String email;//이메일
 	@Column(name="m_id")
@@ -43,6 +43,7 @@ public class MeetingApply {
 	private String imagename;
 	private String address;
 	
+	private String w_id;//모임장	
     @ManyToOne
     @JoinColumn(name = "user_id") // user_id라는 컬럼으로 Join
     private User user;

@@ -75,6 +75,7 @@ public class ApplyMeetController {
 		meetingApply.setMid(m_id);
 		meetingApply.setTitle(meet.getTitle());
 		meetingApply.setApply_date(java.sql.Date.valueOf(java.time.LocalDate.now()));
+		meetingApply.setW_id(meet.getW_id());
 			
 		//DB 저장
 		if(! existMeet) {//존재하지 않는 모임일 경우

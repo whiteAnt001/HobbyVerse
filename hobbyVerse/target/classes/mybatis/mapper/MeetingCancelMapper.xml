@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.springboot.hobbyverse.mapper.MeetingCancelMapper">
+<mapper
+	namespace="com.springboot.hobbyverse.mapper.MeetingCancelMapper">
 	<!-- 참가 취소 -->
 	<delete id="MeetingCancel" parameterType="Integer">
-		delete from meeting_apply where m_id = #{m_id}
+		delete from
+		meeting_apply where m_id = #{m_id}
 	</delete>
-</mapper>  
+
+	<select id="getM_id" parameterType="integer" resultType="com.springboot.hobbyverse.model.MeetingApply">
+		select m_id, id, w_id, apply_id from meeting_apply where m_id = #{m_id}
+	</select>
+	
+	
+	<!-- 강퇴 -->
+	<delete id="outUser" parameterType="Integer">
+		delete from meeting_apply where apply_id = #{apply_id}
+	</delete>
+	
+</mapper>  	
