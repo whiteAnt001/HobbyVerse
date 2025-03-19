@@ -215,7 +215,7 @@ body {
 											<input type="hidden" name="m_id" value="${meetup.m_id  }">
 											<input type="hidden" name="id" value="${apply.id }">
 											<input type="hidden" name="apply_id" value="${apply.apply_id }">
-											<input type="submit" value="강퇴" class="kick-button">
+											<input type="submit" value="강퇴" class="btn btn-outline-danger">
 										</div>
 									</form>
 								</div>
