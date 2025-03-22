@@ -26,10 +26,6 @@ body {
     flex: 1; /* 컨텐츠가 차지하는 공간을 유동적으로 설정 */
 }
 
-/* 네비게이션 바 */
-.gradient-bg {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-}
 
 /* 헤더 영역 */
 .category-header {
@@ -51,24 +47,6 @@ body {
 	align-items: center;
 	padding: 10px;
 	height: 200px; /* 고정된 높이 */
-}
-
-.meeting-card:hover {
-	transform: scale(1.05);
-}
-
-.gradient-bg {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-}
-
-.gradient-btn {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-	border: none;
-	color: white;
-}
-
-.gradient-btn:hover {
-	background: linear-gradient(135deg, #2575fc, #6a11cb);
 }
 
 /* 이미지 스타일 */
@@ -123,7 +101,6 @@ keyframes fadeIn {from { opacity:0;
 to {
 	opacity: 1;
 	transform: translateY(0);
-}
 }
 </style>
 </head>
@@ -183,6 +160,11 @@ to {
 				</div>
 			</c:forEach>
 		</div>
+		<c:if test="${empty keyCategory}">
+				<div class="col-12 text-center no-results-message">
+					<h5>현재 개설된 모임이 없습니다.</h5>
+				</div>
+			</c:if>
 	</div>
 	</div>
 

@@ -9,6 +9,7 @@
 <title>카테고리 상세 | HobbyMatch</title>
 <link rel="stylesheet"
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+	<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/style.css">
 <style>
 /* 전체 배경 */
 body {
@@ -25,11 +26,6 @@ body {
 
 .container {
     flex: 1; /* 컨텐츠가 차지하는 공간을 유동적으로 설정 */
-}
-
-/* 네비게이션 바 */
-.gradient-bg {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
 }
 
 /* 헤더 영역 */
@@ -56,20 +52,6 @@ body {
 
 .meeting-card:hover {
 	transform: scale(1.05);
-}
-
-.gradient-bg {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-}
-
-.gradient-btn {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-	border: none;
-	color: white;
-}
-
-.gradient-btn:hover {
-	background: linear-gradient(135deg, #2575fc, #6a11cb);
 }
 
 /* 이미지 스타일 */
@@ -184,6 +166,11 @@ to {
 					</div>
 				</c:forEach>
 			</div>
+			<c:if test="${empty keyCategory}">
+				<div class="col-12 text-center no-results-message">
+					<h5>현재 개설된 모임이 없습니다.</h5>
+				</div>
+			</c:if>
 		</div>
 	</div>
 

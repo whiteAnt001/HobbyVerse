@@ -10,9 +10,9 @@ body, html {
 	width: 100%;
 	overflow-x: hidden; /* 수평 스크롤 방지 */
 }
-/* 네비게이션 바 배경 색상 */
+/* 네비게이션 바 색상 */
 .gradient-bg {
-    background: linear-gradient(to right, #1e3c72, #2a5298); /* 네이비 → 블루 */
+    background: #1e3c72; /* 네이비 단색 */
 }
 
 /* 버튼 스타일 */

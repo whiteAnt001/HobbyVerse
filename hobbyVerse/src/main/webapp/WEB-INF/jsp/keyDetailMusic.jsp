@@ -24,10 +24,6 @@ body {
 .container {
 	flex: 1; /* 컨텐츠가 차지하는 공간을 유동적으로 설정 */
 }
-/* 네비게이션 바 */
-.gradient-bg {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-}
 
 /* 헤더 영역 */
 .category-header {
@@ -53,20 +49,6 @@ body {
 
 .meeting-card:hover {
 	transform: scale(1.05);
-}
-
-.gradient-bg {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-}
-
-.gradient-btn {
-	background: linear-gradient(135deg, #6a11cb, #2575fc);
-	border: none;
-	color: white;
-}
-
-.gradient-btn:hover {
-	background: linear-gradient(135deg, #2575fc, #6a11cb);
 }
 
 /* 이미지 스타일 */
