@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springboot.hobbyverse.mapper.NoticeMapper">
+	<select id="getNoticeList" resultType="com.springboot.hobbyverse.model.Notice">
+		select * from notices
+	</select>
+	<insert id="putNotice" parameterType="com.springboot.hobbyverse.model.Notice">
+    INSERT INTO notices (content, reg_date, title, user_id, view)
+    VALUES (#{content}, #{regDateString}, #{title}, #{user.id}, #{view})
+	</insert>
+</mapper>

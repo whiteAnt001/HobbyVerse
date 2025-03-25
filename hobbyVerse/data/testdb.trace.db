@@ -19005,3 +19005,6 @@ Caused by: org.h2.jdbc.JdbcSQLNonTransientConnectionException: The connection wa
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:690)
 	at org.h2.message.DbException.getJdbcSQLException(DbException.java:489)
 	... 54 more
+2025-03-22 09:56:25.220273+09:00 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "[*]C:/H2/users.sql"; expected "COMMIT, CREATE, CALL, CHECKPOINT, COMMENT"; SQL statement:
+C:/H2/users.sql [42001-232]
