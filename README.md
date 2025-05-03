@@ -11,41 +11,26 @@
 ## 📝 소개
 취미별 모임을 쉽고 간편하게 매칭할 수 있도록 만든 플랫폼입니다.
 
---현재 게시판, 소셜 로그인 보강중입니다.---
+- 소셜 로그인 수정중 입니다. -
 
 <br />
 
 ### 화면 구성
 |Screen #1|Screen #2|
 |:---:|:---:|
-|<img src="" width="400"/>|<img src="" width="400"/>|
-
-### 프로토타입
-<img src="">
-
-<br />
-
-
-
-### Tools
-<div>
-<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/Github.png?raw=true" width="80">
-<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/Notion.png?raw=true" width="80">
-<img src="https://github.com/yewon-Noh/readme-template/blob/main/skills/Postman.png?raw=true" width="80">
-</div>
-
+|<img src="https://github.com/user-attachments/assets/1e3f6495-8be4-4cc2-88ef-3e3409e42514" width="400"/>|<img src="https://github.com/user-attachments/assets/25733698-e85e-405f-816f-4aebd3c864e2" width="400"/>|
+|:---:|:---:|
+|<img src="https://github.com/user-attachments/assets/e523f26b-9759-4a69-a2a5-90312649c3ff" width="400"/>|<img src="https://github.com/user-attachments/assets/a92330d3-508f-48a3-83a1-42653a2aa37a" width="400"/>|
 <br />
 
 ## 🛠️ 프로젝트 아키텍처 & 기술스텍
 ![스크린샷 2025-03-07 165038](https://github.com/user-attachments/assets/9004f67d-d659-45bb-b2f4-20e7ee127923)
 
-
-
 <br />
 
 ## 🤔 기술적 이슈와 해결 과정
 - 보안?
-    - [JWT를 사용하는 이유]([https://velog.io/@yewo2nn16/Java-Stream-API](https://junseoddi.tistory.com/13))
+    - [JWT를 사용하는 이유](https://junseoddi.tistory.com/13)
 
 
 <br />
