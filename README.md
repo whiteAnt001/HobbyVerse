@@ -23,8 +23,6 @@
 |<img src="https://github.com/user-attachments/assets/e523f26b-9759-4a69-a2a5-90312649c3ff" width="400"/>|<img src="https://github.com/user-attachments/assets/a92330d3-508f-48a3-83a1-42653a2aa37a" width="400"/>|
 <br />
 
-## 🛠️ 프로젝트 아키텍처 & 기술스텍
-![스크린샷 2025-03-07 165038](https://github.com/user-attachments/assets/9004f67d-d659-45bb-b2f4-20e7ee127923)
 
 <br />
 
